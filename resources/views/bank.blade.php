@@ -18,7 +18,7 @@
 </head>
 
 <body>
-
+{{-- Navbar --}}
     <nav class="navbar">
         <div class="container-fluid">
             <H2 class="" style="color:#276678">Banking</H2>
@@ -26,9 +26,9 @@
                 style="background-color: #276678; color: #F6F1F1;">เพิ่มข้อมูล</button>
         </div>
     </nav>
-
+{{-- Content --}}
     <div class="container py-3">
-
+{{-- แสดงข้อมูลรายชื่อเจ้าของบัญชี --}}
         @if (count($banks) > 0)
             <h3>รายชื่อเจ้าของบัญชี</h3><br>
             <div class="">
@@ -52,6 +52,7 @@
             <h2>ไม่พบรายชื่อ</h2>
         @endif
     </div>
+    {{-- popup เพิ่มข้อมูล --}}
     <div id="popup" style="display: none;">
         <h3>เพิ่มข้อมูล</h3><br>
         <form id="popupForm" method="POST" action="insert" enctype="multipart/form-data">
@@ -105,7 +106,6 @@
                     <input type="file" name="bank_picture" id="bank_picture" required>
                     <label>รูป</label>
                 </div>
-
                 @error('bank_picture')
                     <div class="my-2">
                         <span class="text text-danger">{{ $message }}</span>
@@ -117,9 +117,9 @@
             </div>
         </form>
     </div>
-
 </body>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+{{-- ฟังก์ชัน script js--}}
 <script>
     function showPopup() {
         document.getElementById('popup').style.display = 'block';

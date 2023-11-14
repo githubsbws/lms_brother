@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
 
-
 class AdminController extends Controller
 {
     // รายชื่อธนาคาร
@@ -19,9 +18,9 @@ class AdminController extends Controller
     // หน้าเพิ่มข้อมูล
     function insertt()
     {
-        // $user = User::find($id);
         return view('bank');
     }
+    // หน้าส่งเพิ่มข้อมูลBank
     function insert(Request $request)
     {
         $request->validate([
@@ -39,27 +38,22 @@ class AdminController extends Controller
             'bank_picture.image' => 'ไฟล์ที่อัปโหลดต้องเป็นรูปภาพ',
             'bank_picture.mimes' => 'รูปภาพต้องมีนามสกุล jpeg, png, jpg, หรือ gif',
         ]);
-
-        // Handle file upload
+        // จัดการการอัพโหลดไฟล์
         $uploadedFile = $request->file('bank_picture');
         $extension = $uploadedFile->getClientOriginalExtension();
-
-        // Generate a unique filename using the current date, a random number, and "_Picture"
+        // ตั้งชื่อไฟล์
         $filename = now()->format('Ymd') . '_' . Str::random(5) . '_Picture.' . $extension;
-
-        // Move the uploaded file to the storage path
+        // บันทึกไฟล์ภาพ
         $imagePath = $uploadedFile->storeAs('images', $filename);
-
+        // รับข้อมูลเก็บไว้ที่ตัวแปร data และส่งไปที่ตาราง tbl_bank
         $data = [
             'bank_user' => $request->input('bank_user'),
             'bank_name' => $request->input('bank_name'),
             'bank_branch' => $request->input('bank_branch'),
             'bank_number' => $request->input('bank_number'),
-            'bank_picture' => $filename, // Save the filename in the database
+            'bank_picture' => $filename, 
         ];
-
         DB::table('bank')->insert($data);
-
         return response()->json(['message' => 'บันทึกข้อมูลสำเร็จ']);
     }
     // ลบข้อมูล
