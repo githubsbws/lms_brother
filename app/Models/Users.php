@@ -10,5 +10,7 @@ class Users extends Model
     use HasFactory;
 
     protected $table = 'users';
+
+    protected $primarykey = 'id';
     
 }
