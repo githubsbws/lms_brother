@@ -64,14 +64,17 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
     <!--    layerslide-->
 
     <!--    jquery   --->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js" integrity="sha512-ju6u+4bPX50JQmgU97YOGAXmRMrD9as4LE05PdC3qycsGQmjGlfm041azyB1VfCXpkpt1i9gqXCT6XuxhBJtKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"
+        integrity="sha512-ju6u+4bPX50JQmgU97YOGAXmRMrD9as4LE05PdC3qycsGQmjGlfm041azyB1VfCXpkpt1i9gqXCT6XuxhBJtKg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!--    jquery   --->
 
 
 </head>
 
 <section class="nav-header">
-    <div class="navbar navbar-default navbar-fixed-top navbar-size-large paper-shadow navbar-size-xlarge" data-z="0" data-animated="" role="navigation">
+    <div class="navbar navbar-default navbar-fixed-top navbar-size-large paper-shadow navbar-size-xlarge" data-z="0"
+        data-animated="" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
@@ -90,7 +93,8 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
             <div class="collapse navbar-collapse" id="main-nav">
                 <ul class="nav navbar-nav navbar-nav-margin-left">
                     <li class="dropdown">
-                        <a href="index.php" style="font-size: 20px; color: #00529D;"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+                        <a href="index.php" style="font-size: 20px; color: #00529D;"><span
+                                class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
                     </li>
                     <li class="dropdown">
                         <a href="news.php">ข่าวสาร</a>
@@ -111,7 +115,8 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                     </li>
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">วิธีการใช้งาน <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">วิธีการใช้งาน <span
+                                class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="usability.php">การติดตามผลการเรียน</a>
@@ -157,14 +162,20 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                     <!--">สมัครสมาชิก</a>-->
                     <!--                    </li>-->
                 </ul>
-                <div class="navbar-right" style="border-left: 1px solid rgb(216, 216, 216); padding-left: 15px; padding-right: 15px; border-right: 1px solid rgb(216, 216, 216);">
+                <div class="navbar-right"
+                    style="border-left: 1px solid rgb(216, 216, 216); padding-left: 15px; padding-right: 15px; border-right: 1px solid rgb(216, 216, 216);">
                     <ul class="nav navbar-nav navbar-nav-bordered">
                         <!-- user -->
                         <li class="dropdown user" style="border-right-color: #fff;">
-                            <a href="#" class="dropdown-toggle ripple" data-toggle="dropdown" aria-expanded="false"><span class="ink animate" style="height: 177px; width: 177px; top: -52.5px; left: -8.07501px;"></span>
-                                <img class="img-circle" style="height:30px;" src="themes/bws/images/default-avatar.png" alt="No Image"> Administrator <span class="caret"></span>
+                            <a href="#" class="dropdown-toggle ripple" data-toggle="dropdown"
+                                aria-expanded="false"><span class="ink animate"
+                                    style="height: 177px; width: 177px; top: -52.5px; left: -8.07501px;"></span>
+                                <img class="img-circle" style="height:30px;"
+                                    src="themes/bws/images/default-avatar.png" alt="No Image"> Administrator <span
+                                    class="caret"></span>
                             </a>
-                            <ul class="dropdown-menu" role="menu" style="height: auto; display: none; overflow: visible; top: 100%; opacity: 0;">
+                            <ul class="dropdown-menu" role="menu"
+                                style="height: auto; display: none; overflow: visible; top: 100%; opacity: 0;">
                                 <li><a href="dashboard.php"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
                                 <li><a href="course.php"><i class="fa fa-mortar-board"></i> หลักสูตรของฉัน</a></li>
                                 <li><a href="user.php"><i class="fa fa-user"></i>
@@ -187,28 +198,32 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title modalhead"><i class="fa fa-sign-in" aria-hidden="true"></i> ยืนยันรหัสผ่าน</h4>
+                            <h4 class="modal-title modalhead"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                ยืนยันรหัสผ่าน</h4>
                         </div>
-                        <form action="/lms_brother_docker/lms/app/index.php/site/chkkey" method="post" enctype="multipart/form-data">
+                        <form action="/lms_brother_docker/lms/app/index.php/site/chkkey" method="post"
+                            enctype="multipart/form-data">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-sm-8 col-sm-offset-2 text-center">
                                         <h3 class="font-weight-bold">กรุณากรอกรหัส key เพื่่อยืนยันตัวตน</h3>
                                         <input type="hidden" name="id" class="form-control" value="new">
-                                        <input type="password" name="check_key" class="form-control" autocomplete="off">
+                                        <input type="password" name="check_key" class="form-control"
+                                            autocomplete="off">
 
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-success">ตกลง</button>
-                                <button class="btn btn-warning" href="#" data-dismiss="modal" aria-hidden="true">ยกเลิก</button>
+                                <button class="btn btn-warning" href="#" data-dismiss="modal"
+                                    aria-hidden="true">ยกเลิก</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
-
+            <a class="btn " id="insertt" href='/logout_t'>ออกจากระบบ</a>
             <!-- /.navbar-collapse -->
         </div>
     </div>

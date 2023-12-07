@@ -8,10 +8,12 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Session;
 
 class IndexController extends Controller
 {
    function index(){
-    return view("index\index");
+        return view('index/index');
    }
 }

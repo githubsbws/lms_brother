@@ -14,4 +14,15 @@ class ForgotController extends Controller
     function forgotPass(){
         return view('forgot\forgot-pass');
     }
+
+    function forgotRecovery(Request $request){
+        $username = $request->input('UserRecoveryForm.login_or_email');
+        // เช็คฐานข้อมูล
+        $users = User::where('username', $username)
+        ->orWhere('email', $username)
+        ->first();
+        $password = $users->password;
+        // dd($password);
+        return redirect()->route('forgot.pass')->with('show', $password);
+    }
 }

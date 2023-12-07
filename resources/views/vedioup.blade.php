@@ -8,8 +8,7 @@
     {{-- popup อัปโหลดวิดีโอ --}}
     <div id="" style="" class="container py-3">
         <h3>อัปโหลดวิดีโอ</h3>
-        <form id="popupForm_edit" method="POST" action="{{ route('up_vedio.up_vedio_in') }}"
-            enctype="multipart/form-data">
+        <form id="popupForm_edit" method="POST" action="{{ route('up_vedio.up_vedio_in') }}" enctype="multipart/form-data">
             @csrf
             {{-- ปุ่ม --}}
             <div class="button-container">
@@ -32,7 +31,6 @@
                         </div>
                     @enderror
                 </div><br>
-                
                 {{-- vdo --}}
                 <div class="group" id="">
                     <label>ชื่อวีดีโอที่เลือก</label>
@@ -49,6 +47,7 @@
             </div>
         </form>
     </div>
+    {{-- footers --}}
     @include('complements.footers')
     {{-- เเจ้งเตือน --}}
     @if (session('message'))

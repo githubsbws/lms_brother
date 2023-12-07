@@ -2,7 +2,8 @@
 <html lang="en">
 
 {{-- <?php include 'include/head.php'; ?> --}}
-@extends('layouts.head')
+@include('layouts.head')
+
 <body>
 
     <div class="container">
@@ -15,37 +16,56 @@
                                 <h1>เข้าสู่ระบบ</h1>
                             </div>
                             <div class="form">
-                                <form class="form-horizontal" action="/lms_brother_docker/lms/app/index.php/user/login" method="post">
+                                <form class="form-horizontal" action="/lms_brother_docker/lms/app/index/user/login"
+                                    method="post">
+                                    @csrf
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-3 control-label"><label for="UserLogin_username" class="required">ชื่อผู้ใช้ <span class="required">*</span></label></label>
+                                        <label for="inputEmail3" class="col-sm-3 control-label"><label
+                                                for="UserLogin_username" class="required">ชื่อผู้ใช้ <span
+                                                    class="required">*</span></label></label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" placeholder="Username" name="UserLogin[username]" id="UserLogin_username" type="text">
+                                            <input class="form-control" placeholder="Username"
+                                                name="UserLogin[username]" id="UserLogin_username" type="text">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label"><label for="UserLogin_password" class="required">รหัสผ่าน <span class="required">*</span></label></label>
+                                        <label class="col-sm-3 control-label"><label for="UserLogin_password"
+                                                class="required">รหัสผ่าน <span
+                                                    class="required">*</span></label></label>
 
                                         <div class="col-sm-9">
-                                            <input class="form-control" placeholder="Password" name="UserLogin[password]" id="UserLogin_password" type="password">
+                                            <input class="form-control" placeholder="Password"
+                                                name="UserLogin[password]" id="UserLogin_password" type="password">
                                         </div>
-                                    </div>
+                                    </div><br>
+                                    {{-- เพิ่ม --}}
+                                    @if (session('error'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error') }}
+                                        </div>
+                                    @endif
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
                                             <p class="hint">
-                                                <a href="forgot-pass.php">ลืมรหัสผ่าน?</a>
+                                                <a href="/forgot-pass">ลืมรหัสผ่าน?</a>
                                             </p>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
                                             <div class="checkbox icheck">
-                                                <input id="ytUserLogin_rememberMe" type="hidden" value="0" name="UserLogin[rememberMe]"><input name="UserLogin[rememberMe]" id="UserLogin_rememberMe" value="1" type="checkbox"> <label for="UserLogin_rememberMe">จำการเข้าระบบ</label>
+                                                <input id="ytUserLogin_rememberMe" type="hidden" value="0"
+                                                    name="UserLogin[rememberMe]">
+                                                <input name="UserLogin[rememberMe]" id="UserLogin_rememberMe"
+                                                    value="1" type="checkbox">
+                                                <label for="UserLogin_rememberMe">จำการเข้าระบบ</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
-                                            <input class="btn btn-primary" type="submit" name="yt0" value="เข้าสู่ระบบ">
+                                            <input class="btn btn-primary" type="submit" name="yt0"
+                                                value="เข้าสู่ระบบ">
                                         </div>
                                     </div>
                                 </form>
@@ -57,7 +77,7 @@
         </div>
     </div>
 </body>
-@extends('layouts.footer')
+@include('layouts.footer')
 {{-- <?php include 'include/footer.php'; ?> --}}
 
 

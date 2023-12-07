@@ -79,20 +79,24 @@ Route::post('login_in',[LoginController::class,'login_in'])->name('login_in');
 Route::get('logout',[LoginController::class,'logout'])->name('logout');
 
 // ------------------------------------------
+// ----- login
+Route::get('/login/login',[LoginLController::class,'loginL'])->name('login.login');
+Route::post('/lms_brother_docker/lms/app/index/user/login',[LoginLController::class,'login_to'])->name('login_to');
+Route::get('logout_t',[LoginLController::class,'logout_t'])->name('logout_t');
+// ----- index
+Route::get('index/my',[IndexController::class,'index'])->name('index');
+// ----- Forgot
+Route::get('forgot-pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
+Route::post('/lms_brother_docker/lms/app/index/user/recovery',[ForgotController::class,'forgotRecovery'])->name('forgot.recovery');
+// ------------------------------------------
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
-Route::get('course/detail',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('course/lession',[CourseController::class,'courseLession'])->name('course.lession');
+Route::get('course-detail',[CourseController::class,'courseDetail'])->name('course.detail');
+Route::get('course-lession',[CourseController::class,'courseLession'])->name('course.lession');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 // ----- faq
 Route::get('faq',[FaqController::class,'faq'])->name('faq');
-// ----- Forgot
-Route::get('forgot/pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
-// ----- index
-Route::get('index',[IndexController::class,'index'])->name('index');
-// ----- login
-Route::get('login/login',[LoginLController::class,'loginL'])->name('login.login');
 // ----- new
 Route::get('new',[NewController::class,'new'])->name('new');
 // ----- usability

@@ -38,8 +38,9 @@
                         @endif
                         {{-- ปุ่ม --}}
                         <a href="{{ route('change', $item->bank_id) }}" name="change_in" id="change_in" class="btn"
-                            style="background-color: #ce0000; color: #F6F1F1;" onclick="return confirm('คุณต้องการเปลี่ยนสถานะ หรือไม่ ?')">เปลี่ยนสถานะ</a><br><br>
-                           
+                            style="background-color: #ce0000; color: #F6F1F1;"
+                            onclick="return confirm('คุณต้องการเปลี่ยนสถานะ หรือไม่ ?')">เปลี่ยนสถานะ</a><br><br>
+
                         {{-- แสดงรูป --}}
                         <div id="picture_show" style="">
                             <img src="{{ asset('storage/images/' . $item->bank_picture) }}" alt="รูปภาพ"
@@ -142,7 +143,7 @@
         <button class="btn" onclick="hidePopup_insert()">Close</button>
     </div>
 
-    {{-- popup แสดงข้อมูล --}}
+    {{-- แสดงข้อมูล --}}
     <div id="popup_user" style="display: none;" class="container py-3">
         <button class="btn" onclick="hidePopup_user()">Close</button>
         <form id="popupForm_user" method="POST" action="insert" enctype="multipart/form-data">
@@ -182,7 +183,7 @@
         </form><br>
     </div>
 
-    {{-- popup แสดงวีดีโอ --}}
+    {{-- แสดงวีดีโอ --}}
     <div id="popup_vdo" style="display: none;" class="container py-3">
         <button class="btn" onclick="hidePopup_vdo()">Close</button>
         <form id="popupForm_vdo" method="POST" action="insert" enctype="multipart/form-data">
@@ -229,7 +230,7 @@
             </div>
         </form><br>
     </div>
-
+    {{-- footers --}}
     @include('complements.footers')
 
     {{-- เเจ้งเตือน --}}

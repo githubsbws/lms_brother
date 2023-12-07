@@ -95,6 +95,7 @@
             </div>
         </form>
     </div>
+    {{-- footers --}}
     @include('complements.footers')
     {{-- เเจ้งเตือน --}}
     @if (session('message'))

@@ -2,7 +2,7 @@
 <html lang="en">
 
 {{-- <?php include 'include/head.php'; ?> --}}
-@extends('layouts.head')
+@include('layouts.head')
 <body>
 
     <div class="page-cover">
@@ -155,7 +155,7 @@
     </div>
 
 </body>
-@extends('layouts.footer')
+@include('layouts.footer')
 {{-- <?php include 'include/footer.php'; ?> --}}
 
 
