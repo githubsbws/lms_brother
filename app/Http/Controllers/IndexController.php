@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Session;
 
 class IndexController extends Controller
 {
-   function index(){
+   function index(Request $request){
         return view('index/index');
    }
 }

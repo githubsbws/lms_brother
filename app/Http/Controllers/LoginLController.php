@@ -9,35 +9,50 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class LoginLController extends Controller
 {
     function loginL()
     {
+        // ตรวจสอบว่าผู้ใช้เคยทำการเข้าสู่ระบบไว้แล้วหรือไม่
+        if (Auth::check()) {
+            // ถ้าเคยเข้าสู่ระบบแล้ว ให้เปลี่ยนไปที่หน้าindex
+            return redirect()->route('index');
+        }
+        // ถ้ายังไม่ได้เข้าสู่ระบบให้แสดงหน้า login
         return view('login.login');
     }
 
     // ตรวจสอบข้อมูล
-    function login_to(Request $request): RedirectResponse
+    function login_to(Request $request)
     {
-        // ดึงค่า
+        // ดึงข้อมูล
         $username = $request->input('UserLogin.username');
         $password = md5($request->input('UserLogin.password'));
         $remember = $request->input('UserLogin.rememberMe');
-        // เช็คฐานข้อมูล
-        $users = User::where('username', $username)
+
+        // ตรวจสอบฐานข้อมูล
+        $user = User::where('username', $username)
             ->orWhere('email', $username)
             ->first();
-        // เงื่อนไข
-        if ($users && $users->password == $password) {
+        // dd($credentials);
+        // ทำการเข้าสู่ระบบ
+        if ($user && $user->password === $password) {
+            // เช็คจดจำ
             if ($remember == 1) {
-                return redirect()->route('index'); 
+                Auth::login($user);
+                return redirect()->route('index');
             }
-            // dd($request->all());
+            // Redirect ไปที่หน้า user
             return redirect()->route('index');
+        } else {
+            // เข้าสู่ระบบไม่สำเร็จ, ให้กลับไปหน้า login พร้อมแจ้งเตือน
+            return redirect()->route('login.login')->with('error', 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')->withInput(['username' => $username, 'remember' => $remember]);
         }
-        return redirect()->route('login.login')->with('error', 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง')->onlyInput('username', 'remember');
     }
+
     //----- ออกจากระบบ
     function logout_t(Request $request): RedirectResponse
     {
