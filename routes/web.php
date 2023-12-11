@@ -34,10 +34,13 @@ use App\Http\Controllers\WebboardController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index/index');
 });
 Route::get('/test', function () {
     return view('test');
+});
+Route::get('/admin', function () {
+    return view('admin/index/index');
 });
 
 //----- ในส่วนของหน้า Bank

@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{{-- <?php include 'include/head.php'; ?> --}}
-@extends('layouts.head')
+@extends('layout/mainlayout')
+@section('content')
 <body>
-
     <div class="page-cover">
         <img src="assets/images/screen1.png" alt="">
     </div>
@@ -153,10 +149,5 @@
             </div>
         </div>
     </div>
-
 </body>
-@extends('layouts.footer')
-{{-- <?php include 'include/footer.php'; ?> --}}
-
-
-</html>
+@endsection
