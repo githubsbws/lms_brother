@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{{-- <?php include 'include/head.php'; ?> --}}
-@extends('layouts.head')
+@extends('layout/mainlayout')
+@section('content')
 <body>
     <div class="parallax bg-white page-section third">
         <div class="container parallax-layer" data-opacity="true" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
@@ -719,8 +716,4 @@
         </div>
     </div>
 </body>
-@extends('layouts.footer')
-{{-- <?php include 'include/footer.php'; ?> --}}
-
-
-</html>
+@endsection

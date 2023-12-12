@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{{-- <?php include 'include/head.php'; ?> --}}
-@extends('layouts.head')
+@extends('layout/mainlayout')
+@section('content')
 <body>
     <div id="content">
         <div class="parallax overflow-hidden page-section bg-blue-300">
@@ -45,7 +42,7 @@
                                     <div class="expandable expandable-indicator-white expandable-trigger">
                                         <div class="expandable-content">
                                             <div class="panel-body">
-                                                <h4 class="text-headline margin-v-0-10" style="font-size: 23px;"><a href="course-detail.php">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ Inkjet Tank System.</a> </h4>
+                                                <h4 class="text-headline margin-v-0-10" style="font-size: 23px;"><a href="{{ url('course/detail') }}">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ Inkjet Tank System.</a> </h4>
                                             </div>
                                             <hr class="margin-none">
                                             <div class="panel-body">
@@ -449,8 +446,4 @@
         </div>
     </div>
 </body>
-@extends('layouts.footer')
-{{-- <?php include 'include/footer.php'; ?> --}}
-
-
-</html>
+@endsection

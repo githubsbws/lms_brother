@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{{-- <?php include 'include/head.php'; ?> --}}
-@extends('layouts.head')
+@extends('layout/mainlayout')
+@section('content')
 <body>
     <div id="content">
         <div class="parallax bg-white page-section">
@@ -70,7 +67,7 @@
                             <hr class="margin-none">
 
                             <div class="panel-body text-center">
-                                <p><a class="btn btn-success btn-lg paper-shadow relative" data-z="1" data-hover-z="2" data-animated="" href="course-lession.php">เริ่มหลักสูตร</a>
+                                <p><a class="btn btn-success btn-lg paper-shadow relative" data-z="1" data-hover-z="2" data-animated="" href="{{ url('course/detail') }}">เริ่มหลักสูตร</a>
                                 </p>
                             </div>
 
@@ -116,8 +113,4 @@
         </div>
     </div>
 </body>
-@extends('layouts.footer')
-{{-- <?php include 'include/footer.php'; ?> --}}
-
-
-</html>
+@endsection

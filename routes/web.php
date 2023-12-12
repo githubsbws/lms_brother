@@ -85,7 +85,7 @@ Route::get('logout',[LoginController::class,'logout'])->name('logout');
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
 Route::get('course/detail',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('course/lession',[CourseController::class,'courseLession'])->name('course.lession');
+Route::get('course/lesson',[CourseController::class,'courseLession'])->name('course.lesson');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 // ----- faq

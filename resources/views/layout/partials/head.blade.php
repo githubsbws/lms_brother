@@ -104,7 +104,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                         </ul>
                     </li> -->
                     <li class="dropdown">
-                        <a href="course.php">หลักสูตร</a>
+                        <a href="{{ url('course') }}">หลักสูตร</a>
                     </li>
                     <li class="dropdown">
                         <a href="webboard.php">เว็บบอร์ด</a>
