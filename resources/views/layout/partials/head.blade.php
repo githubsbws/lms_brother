@@ -157,6 +157,8 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                     <!--">สมัครสมาชิก</a>-->
                     <!--                    </li>-->
                 </ul>
+                <?php
+                if(Auth::user() != NULL){ ?>
                 <div class="navbar-right" style="border-left: 1px solid rgb(216, 216, 216); padding-left: 15px; padding-right: 15px; border-right: 1px solid rgb(216, 216, 216);">
                     <ul class="nav navbar-nav navbar-nav-bordered">
                         <!-- user -->
@@ -175,11 +177,14 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                         </li>
                     </ul>
                 </div>
+                <?php
+                }
+                ?>
 
                 <!-- No login -->
-                <!--  <div class="navbar-right" style="border-left: 1px solid rgb(216, 216, 216); padding-left: 15px; padding-right: 15px; border-right: 1px solid rgb(216, 216, 216);">
-                    <a href="/lms_brother_docker/lms/app/index.php/user/login" class="navbar-btn btn btn-primary"><i class="fa fa-fw fa-user"></i> เข้าสู่ระบบ</a>
-                </div> -->
+                <div class="navbar-right" style="border-left: 1px solid rgb(216, 216, 216); padding-left: 15px; padding-right: 15px; border-right: 1px solid rgb(216, 216, 216);">
+                    <a href="{{ url('login') }}" class="navbar-btn btn btn-primary"><i class="fa fa-fw fa-user"></i> เข้าสู่ระบบ</a>
+                </div> 
             </div>
 
             <div class="modal fade" id="modal-ckeck-key-new">

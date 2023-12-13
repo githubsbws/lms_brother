@@ -67,7 +67,7 @@
                             <hr class="margin-none">
 
                             <div class="panel-body text-center">
-                                <p><a class="btn btn-success btn-lg paper-shadow relative" data-z="1" data-hover-z="2" data-animated="" href="{{ url('course/detail') }}">เริ่มหลักสูตร</a>
+                                <p><a class="btn btn-success btn-lg paper-shadow relative" data-z="1" data-hover-z="2" data-animated="" href="{{ url('lesson') }}">เริ่มหลักสูตร</a>
                                 </p>
                             </div>
 

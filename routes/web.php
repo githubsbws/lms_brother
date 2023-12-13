@@ -12,6 +12,7 @@ use App\Http\Middleware\Authenticate;
 
 // -------
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DetailController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ForgotController;
@@ -42,7 +43,10 @@ Route::get('/test', function () {
 Route::get('/admin', function () {
     return view('admin/index/index');
 });
-
+// Route::group(['middleware' => ['auth']], function () {
+//     Route::get('/admin', 'AdminController@index');
+// });
+// Route::get('admin', [AdminController::class,'admin'])->name('admin')->middleware('auth');
 //----- ในส่วนของหน้า Bank
 // รายชื่อธนาคาร
 Route::get('bank', [AdminController::class,'bank'])->name('bank')->middleware('auth');
@@ -75,17 +79,17 @@ Route::get('change/{bank_id}',[EditController::class,'change'])->name('change');
 
 //----- ในส่วนของหน้า Login
 // หน้า login
-Route::get('login',[LoginController::class,'login'])->name('login');
-// ส่งตรวจสอบ
-Route::post('login_in',[LoginController::class,'login_in'])->name('login_in');
-// ออกจาระบบ
-Route::get('logout',[LoginController::class,'logout'])->name('logout');
+// Route::get('login',[LoginController::class,'login'])->name('login');
+// // ส่งตรวจสอบ
+// Route::post('login_in',[LoginController::class,'login_in'])->name('login_in');
+// // ออกจาระบบ
+// Route::get('logout',[LoginController::class,'logout'])->name('logout');
 
 // ------------------------------------------
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
-Route::get('course/detail',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('course/lesson',[CourseController::class,'courseLession'])->name('course.lesson');
+Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
+Route::get('lesson',[CourseController::class,'courseLession'])->name('course.lesson');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 // ----- faq
@@ -95,7 +99,7 @@ Route::get('forgot/pass',[ForgotController::class,'forgotPass'])->name('forgot.p
 // ----- index
 Route::get('index',[IndexController::class,'index'])->name('index');
 // ----- login
-Route::get('login/login',[LoginLController::class,'loginL'])->name('login.login');
+Route::get('login',[LoginLController::class,'loginL'])->name('login.login');
 // ----- new
 Route::get('new',[NewController::class,'new'])->name('new');
 // ----- usability
