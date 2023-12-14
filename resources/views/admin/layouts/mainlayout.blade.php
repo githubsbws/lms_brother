@@ -14,7 +14,7 @@
 
 
     @include('admin.layouts.partials.headerscript')
-
+    
     @yield('content')
 
     @include('admin.layouts.partials.footer')

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Profiles;
-use App\Http\Controllers\AdminController;
+
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\InsertController;
@@ -21,6 +21,10 @@ use App\Http\Controllers\NewController;
 use App\Http\Controllers\UsabilityController;
 use App\Http\Controllers\VirtualclassroomController;
 use App\Http\Controllers\WebboardController;
+
+//-------
+use App\Http\Controllers\AdminController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -43,35 +47,6 @@ Route::get('/admin', function () {
     return view('admin/index/index');
 });
 
-//----- ในส่วนของหน้า Bank
-// รายชื่อธนาคาร
-Route::get('bank', [AdminController::class,'bank'])->name('bank')->middleware('auth');
-// ข้อมูลผู้ใช้
-Route::get('/user', [AdminController::class,'user'])->name('user');
-// ลบ VDO
-Route::get('del/{id}',[AdminController::class,'del'])->name('del');
-
-//----- ในส่วนของหน้า Insert
-// ส่งเพิ่มข้อมูล
-Route::post('insert',[InsertController::class,'insert'])->name('insert');
-
-//----- ในส่วนของหน้า vdo
-Route::get('vedio/{id}',[VedioController::class,'vedio'])->name('vedio');
-// เพิ่ม vedio
-Route::post('/vedio/vedio_in',[VedioController::class,'vedioIn'])->name('vedio.vedio_in');
-
-//----- ในส่วนของหน้า up_vdo
-Route::get('up_vedio/{id}',[UpvedioController::class,'up_vedio'])->name('up_vedio');
-// เพิ่ม vedio
-Route::post('/up_vedio/up_vedio_in',[UpvedioController::class,'vedioInUp'])->name('up_vedio.up_vedio_in');
-
-//----- ในส่วนของหน้า Edit
-// แก้ไข
-Route::get('edit/{bank_id}',[EditController::class,'edit'])->name('edit');
-// แก้ไขข้อมูล
-Route::post('update/{id}',[EditController::class,'update'])->name('update');
-// เปลี่ยนสถานะ
-Route::get('change/{bank_id}',[EditController::class,'change'])->name('change');
 
 //----- ในส่วนของหน้า Login
 // หน้า login
@@ -104,3 +79,75 @@ Route::get('usability',[UsabilityController::class,'usability'])->name('usabilit
 Route::get('virtualclassroom',[VirtualclassroomController::class,'virtualclassroom'])->name('virtualclassroom');
 // ----- WebboardController
 Route::get('webboard',[WebboardController::class,'webboard'])->name('webboard');
+
+
+
+
+// ----- admin src
+Route::get('/aboutus',[AdminController::class,'aboutus'])->name('aboutus');
+
+Route::get('/condition',[AdminController::class,'condition'])->name('condition');
+
+Route::get('/setting',[AdminController::class,'setting'])->name('setting');
+
+Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus');
+
+Route::get('/video',[AdminController::class,'video'])->name('video');
+
+Route::get('/document',[AdminController::class,'document'])->name('document');
+
+Route::get('/news',[AdminController::class,'news'])->name('news');
+
+Route::get('/category',[AdminController::class,'category'])->name('category');
+
+Route::get('/courseonline',[AdminController::class,'courseonline'])->name('courseonline');
+
+Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
+
+Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
+
+Route::get('/coursegrouptesting',[AdminController::class,'coursegrouptesting'])->name('coursegrouptesting');
+
+Route::get('/questionnaireout',[AdminController::class,'questionnaireout'])->name('questionnaireout');
+
+Route::get('/orgchart',[AdminController::class,'orgchart'])->name('orgchart');
+
+Route::get('/checklecture',[AdminController::class,'checklecture'])->name('checklecture');
+
+Route::get('/coursecheck',[AdminController::class,'coursecheck'])->name('coursecheck');
+
+Route::get('/certificate',[AdminController::class,'certificate'])->name('certificate');
+
+Route::get('/signnature',[AdminController::class,'signnature'])->name('signnature');
+
+Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha');
+
+Route::get('/usability',[AdminController::class,'usability'])->name('usability');
+
+Route::get('/reportproblem',[AdminController::class,'reportproblem'])->name('reportproblem');
+
+Route::get('/faqtype',[AdminController::class,'faqtype'])->name('faqtype');
+
+Route::get('/faq',[AdminController::class,'faq'])->name('faq');
+
+Route::get('/adminuser',[AdminController::class,'adminuser'])->name('adminuser');
+
+Route::get('/pgroup',[AdminController::class,'pgroup'])->name('pgroup');
+
+Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin');
+
+Route::get('/coursefield',[AdminController::class,'coursefield'])->name('coursefield');
+
+Route::get('/imgslide',[AdminController::class,'imgslide'])->name('imgslide');
+
+Route::get('/librarytype',[AdminController::class,'librarytype'])->name('librarytype');
+
+Route::get('/libraryfile',[AdminController::class,'libraryfile'])->name('libraryfile');
+
+Route::get('/coursenotification',[AdminController::class,'coursenotification'])->name('coursenotification');
+
+Route::get('/passcourse',[AdminController::class,'passcourse'])->name('passcourse');
+
+Route::get('/student_photo',[AdminController::class,'student_photo'])->name('student_photo');
+
+Route::get('/capture',[AdminController::class,'capture'])->name('capture');
