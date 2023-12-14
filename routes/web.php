@@ -12,6 +12,7 @@ use App\Http\Middleware\Authenticate;
 
 // -------
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\DetailController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ForgotController;
@@ -47,20 +48,54 @@ Route::get('/admin', function () {
     return view('admin/index/index');
 });
 
+// Route::group(['middleware' => ['auth']], function () {
+//     Route::get('/admin', 'AdminController@index');
+// });
+// Route::get('admin', [AdminController::class,'admin'])->name('admin')->middleware('auth');
+//----- ในส่วนของหน้า Bank
+// รายชื่อธนาคาร
+Route::get('bank', [AdminController::class,'bank'])->name('bank')->middleware('auth');
+// ข้อมูลผู้ใช้
+Route::get('/user', [AdminController::class,'user'])->name('user');
+// ลบ VDO
+Route::get('del/{id}',[AdminController::class,'del'])->name('del');
+
+//----- ในส่วนของหน้า Insert
+// ส่งเพิ่มข้อมูล
+Route::post('insert',[InsertController::class,'insert'])->name('insert');
+
+//----- ในส่วนของหน้า vdo
+Route::get('vedio/{id}',[VedioController::class,'vedio'])->name('vedio');
+// เพิ่ม vedio
+Route::post('/vedio/vedio_in',[VedioController::class,'vedioIn'])->name('vedio.vedio_in');
+
+//----- ในส่วนของหน้า up_vdo
+Route::get('up_vedio/{id}',[UpvedioController::class,'up_vedio'])->name('up_vedio');
+// เพิ่ม vedio
+Route::post('/up_vedio/up_vedio_in',[UpvedioController::class,'vedioInUp'])->name('up_vedio.up_vedio_in');
+
+//----- ในส่วนของหน้า Edit
+// แก้ไข
+Route::get('edit/{bank_id}',[EditController::class,'edit'])->name('edit');
+// แก้ไขข้อมูล
+Route::post('update/{id}',[EditController::class,'update'])->name('update');
+// เปลี่ยนสถานะ
+Route::get('change/{bank_id}',[EditController::class,'change'])->name('change');
+
 
 //----- ในส่วนของหน้า Login
 // หน้า login
-Route::get('login',[LoginController::class,'login'])->name('login');
-// ส่งตรวจสอบ
-Route::post('login_in',[LoginController::class,'login_in'])->name('login_in');
-// ออกจาระบบ
-Route::get('logout',[LoginController::class,'logout'])->name('logout');
+// Route::get('login',[LoginController::class,'login'])->name('login');
+// // ส่งตรวจสอบ
+// Route::post('login_in',[LoginController::class,'login_in'])->name('login_in');
+// // ออกจาระบบ
+// Route::get('logout',[LoginController::class,'logout'])->name('logout');
 
 // ------------------------------------------
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
-Route::get('course/detail',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('course/lesson',[CourseController::class,'courseLession'])->name('course.lesson');
+Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
+Route::get('lesson',[CourseController::class,'courseLession'])->name('course.lesson');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 // ----- faq
@@ -70,7 +105,7 @@ Route::get('forgot/pass',[ForgotController::class,'forgotPass'])->name('forgot.p
 // ----- index
 Route::get('index',[IndexController::class,'index'])->name('index');
 // ----- login
-Route::get('login/login',[LoginLController::class,'loginL'])->name('login.login');
+Route::get('login',[LoginLController::class,'loginL'])->name('login.login');
 // ----- new
 Route::get('new',[NewController::class,'new'])->name('new');
 // ----- usability

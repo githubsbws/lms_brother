@@ -118,6 +118,14 @@ class AdminController extends Controller
         return view("admin\capture\capture");
     }
     //----- หน้ารายชื่อธนาคาร
+    public function index()
+{
+    if(auth()->user()) {
+        return view('admin/index/index');
+    } else {
+        return view('admin/login/login');
+    }
+}
     function bank(Request $request)
     {
         //dd($request->id);

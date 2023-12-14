@@ -1,6 +1,11 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+<?php
+if(Auth::user() != NULL){
+	
+}
+?>
 <body class="">
 
 	<!-- Main Container Fluid -->

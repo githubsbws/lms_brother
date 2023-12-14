@@ -17,7 +17,7 @@ class CourseController extends Controller
     }
     // Lession
     function courseLession(){
-        return view("course\course-lession");
+        return view("course\course-lesson");
     }
     // course
     function course(){
