@@ -88,11 +88,12 @@ Route::get('index/my',[IndexController::class,'index'])->name('index');
 // ----- Forgot
 Route::get('forgot-pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
 Route::post('/lms_brother_docker/lms/app/index/user/recovery',[ForgotController::class,'forgotRecovery'])->name('forgot.recovery');
-// ------------------------------------------
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
 Route::get('course-detail',[CourseController::class,'courseDetail'])->name('course.detail');
 Route::get('course-lession',[CourseController::class,'courseLession'])->name('course.lession');
+// ------------------------------------------
+
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 // ----- faq

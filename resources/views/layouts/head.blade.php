@@ -71,7 +71,6 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
 
 
 </head>
-
 <section class="nav-header">
     <div class="navbar navbar-default navbar-fixed-top navbar-size-large paper-shadow navbar-size-xlarge" data-z="0"
         data-animated="" role="navigation">
