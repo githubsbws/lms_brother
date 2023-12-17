@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Profiles;
 
 use App\Http\Controllers\EditController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\InsertController;
 use App\Http\Controllers\VedioController;
 use App\Http\Controllers\UpvedioController;
@@ -97,17 +97,18 @@ Route::get('course/lesson',[CourseController::class,'courseLession'])->name('cou
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 // ----- faq
-Route::get('faq',[FaqController::class,'faq'])->name('faq');
+Route::get('faq_f',[FaqController::class,'faq_front'])->name('faq_front');
 // ----- Forgot
 Route::get('forgot/pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
 // ----- index
 Route::get('index',[IndexController::class,'index'])->name('index');
 // ----- login
-Route::get('login',[LoginLController::class,'loginL'])->name('login.login');
+Route::get('logins',[LoginLController::class,'loginL'])->name('loginL.login');
 // ----- new
 Route::get('new',[NewController::class,'new'])->name('new');
+Route::get('new_detail/{id}',[NewController::class,'new_detail'])->name('new_detail');
 // ----- usability
-Route::get('usability',[UsabilityController::class,'usability'])->name('usability');
+Route::get('usability_front',[UsabilityController::class,'usability_front'])->name('usability_front');
 // ----- virtualclassroom
 Route::get('virtualclassroom',[VirtualclassroomController::class,'virtualclassroom'])->name('virtualclassroom');
 // ----- WebboardController
@@ -184,3 +185,6 @@ Route::get('/passcourse',[AdminController::class,'passcourse'])->name('passcours
 Route::get('/student_photo',[AdminController::class,'student_photo'])->name('student_photo');
 
 Route::get('/capture',[AdminController::class,'capture'])->name('capture');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -27,11 +27,12 @@
                                         <div class="card-body">
                                             <div class="text-headline">{{ \Illuminate\Support\Str::limit($new->cms_title, $limit = 40, $end = '...') }}</div>
                                             <?php 
-                                            $detail = htmlspecialchars_decode($new->cms_detail);
+                                            $detail =  htmlspecialchars_decode($new->cms_detail);
+                                            $data = \Illuminate\Support\Str::limit($new->cms_short_title, $limit = 100, $end = '...');
                                             ?>
-                                            <p class="detail-news">{{\Illuminate\Support\Str::limit($new->cms_short_title, $limit = 50, $end = '...')}}</p>
+                                            <p class="detail-news">{{ $data }}</p>
                                             <span class="d-block mt-2">
-                                                <a href="{{url('new')}}" class="btn btn-xs btn-light text-1 text-uppercase">เพิ่มเติม
+                                                <a href="{{ route('new_detail', ['id' => $new->cms_id]) }}" class="btn btn-xs btn-light text-1 text-uppercase">เพิ่มเติม
                                                 </a>
                                             </span>
                                         </div>

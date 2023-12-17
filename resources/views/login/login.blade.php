@@ -12,7 +12,7 @@
                                 <h1>เข้าสู่ระบบ</h1>
                             </div>
                             <div class="form">
-                                <form class="form-horizontal" action="/lms_brother_docker/lms/app/index.php/user/login" method="post">
+                                <form class="form-horizontal" action="" method="post">
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-3 control-label"><label for="UserLogin_username" class="required">ชื่อผู้ใช้ <span class="required">*</span></label></label>
                                         <div class="col-sm-9">

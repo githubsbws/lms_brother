@@ -11,6 +11,11 @@ class News extends Model
 
     protected $table = 'news';
 
-    protected $primarykey = 'id';
+    protected $primarykey = 'cmms_id';
+
+    public static function findById($id)
+    {
+        return static::where('cms_id', $id)->first();
+    }
     
 }

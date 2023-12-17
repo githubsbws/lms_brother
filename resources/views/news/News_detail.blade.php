@@ -21,7 +21,6 @@
                 <div class="page-section">
                     <div class="row">
                         <div class="col-md-9">
-                            @foreach($news as $value)
                             <div class="panel panel-default paper-shadow" data-z="0.5" style="margin-bottom: 25px;">
                                 <div class="panel-body">
                                     <div class="media media-clearfix-xs">
@@ -31,14 +30,14 @@
                                             </div>
                                         </div>
                                         <div class="media-body">
-                                            <h4 class="text-headline margin-v-5-0" style="font-size: 28px;"><a href="{{ route('new_detail', ['id' => $value->cms_id]) }}" title="วิธีการใช้งาน TS-Chatbot">{{ $value->cms_title}}</a></h4>
+                                            <h4 class="text-headline margin-v-5-0" style="font-size: 28px;"><a href="/lms_brother_docker/lms/app/index.php/news/index/78" title="วิธีการใช้งาน TS-Chatbot">{{ $news->cms_title}}</a></h4>
 
-                                            <p style="color: rgb(33, 33, 33);">{{ $value->cms_short_title}}</p>
+                                            <p style="color: rgb(33, 33, 33);">{{ $news->cms_short_title }}</p>
                                             <hr class="margin-v-8">
                                             <div class="media v-middle">
                                                 <div class="media-body">
                                                     <h6> posted by
-                                                        <i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> {{ $value->update_by}} &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> {{ $value->update_date}} <br>
+                                                        <i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> BCTL_Kitichai &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> 2021-12-17 08:56:56 <br>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -46,20 +45,17 @@
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
                             <div style="float: right;">
                                 <ul class="pagination margin-top-none" id="yw0">
-                                    <li class="first hidden"><a href="{{url('new')}}">&lt;&lt; หน้าแรก</a></li>
-                                    @if ($news->currentPage() > 1)
-                                    <li class="previous hidden"><a href="{{ $news->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
-                                    @endif
-                                    @for ($i = max(1, $news->currentPage() - 3); $i <= min($news->lastPage(), $news->currentPage() + 3); $i++)
-                                    <li class="page"><a href="{{ $news->url($i) }}" class="pagination-link {{ ($i == $news->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
-                                    @endfor
-                                    @if ($news->currentPage() < $news->lastPage())
-                                    <li class="next"><a href="{{ $news->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
-                                    @endif
-                                    <li class="last"><a href="{{ $news->lastPage() }}">หน้าสุดท้าย &gt;&gt;</a></li>
+                                    <li class="first hidden"><a href="/lms_brother_docker/lms/app/index.php/list_news/index">&lt;&lt; หน้าแรก</a></li>
+                                    <li class="previous hidden"><a href="/lms_brother_docker/lms/app/index.php/list_news/index">&lt; หน้าที่แล้ว</a></li>
+                                    <li class="page active"><a href="">1</a></li>
+                                    <li class="page"><a href="">2</a></li>
+                                    <li class="page"><a href="">3</a></li>
+                                    <li class="page"><a href="">4</a></li>
+                                    <li class="page"><a href="">5</a></li>
+                                    <li class="next"><a href="">หน้าถัดไป &gt;</a></li>
+                                    <li class="last"><a href="">หน้าสุดท้าย &gt;&gt;</a></li>
                                 </ul>
                             </div>
                         </div>

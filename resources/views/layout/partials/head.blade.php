@@ -108,10 +108,10 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
             <div class="collapse navbar-collapse" id="main-nav">
                 <ul class="nav navbar-nav navbar-nav-margin-left">
                     <li class="dropdown">
-                        <a href="index.php" style="font-size: 20px; color: #00529D;"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
+                        <a href="{{url('index')}}" style="font-size: 20px; color: #00529D;"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></a>
                     </li>
                     <li class="dropdown">
-                        <a href="news.php">ข่าวสาร</a>
+                        <a href="{{url('new')}}">ข่าวสาร</a>
                         <!-- <a href="#modal-ckeck-key-new" data-toggle="modal">ข่าวสาร</a> -->
                     </li>
                     <!-- <li class="dropdown">
@@ -125,40 +125,40 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                         <a href="{{ url('course') }}">หลักสูตร</a>
                     </li>
                     <li class="dropdown">
-                        <a href="webboard.php">เว็บบอร์ด</a>
+                        <a href="{{url('webboard')}}">เว็บบอร์ด</a>
                     </li>
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">วิธีการใช้งาน <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="usability.php">การติดตามผลการเรียน</a>
+                                <a href="{{ url('usability_front') }}">การติดตามผลการเรียน</a>
                             </li>
                             <li>
-                                <a href="usability.php">การทำแบบสอบถาม</a>
+                                <a href="{{ url('usability_front') }}">การทำแบบสอบถาม</a>
                             </li>
                             <li>
-                                <a href="usability.php">การสอบและผลการสอบ</a>
+                                <a href="{{ url('usability_front') }}">การสอบและผลการสอบ</a>
                             </li>
                             <li>
-                                <a href="usability.php">การเข้าสู่ห้องเรียนออนไลน์</a>
+                                <a href="{{ url('usability_front') }}">การเข้าสู่ห้องเรียนออนไลน์</a>
                             </li>
                             <li>
-                                <a href="usability.php">การสมัครสมาชิก</a>
+                                <a href="{{ url('usability_front') }}">การสมัครสมาชิก</a>
                             </li>
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a href="faq.php">คำถามที่พบบ่อย</a>
+                        <a href="{{ url('faq_f') }}">คำถามที่พบบ่อย</a>
                     </li>
                     <li class="dropdown">
 
-                        <a href="virtualclassroom.php">ห้องเรียน</a>
+                        <a href="{{url('virtualclassroom')}}">ห้องเรียน</a>
 
                     </li>
                     <li class="dropdown">
 
-                        <a href="dashboard.php">แดชบอร์ด</a>
+                        <a href="{{url('dashboard')}}">แดชบอร์ด</a>
 
                     </li>
 
@@ -201,7 +201,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
 
                 <!-- No login -->
                 <div class="navbar-right" style="border-left: 1px solid rgb(216, 216, 216); padding-left: 15px; padding-right: 15px; border-right: 1px solid rgb(216, 216, 216);">
-                    <a href="{{ url('login') }}" class="navbar-btn btn btn-primary"><i class="fa fa-fw fa-user"></i> เข้าสู่ระบบ</a>
+                    <a href="{{ url('logins') }}" class="navbar-btn btn btn-primary"><i class="fa fa-fw fa-user"></i> เข้าสู่ระบบ</a>
                 </div> 
             </div>
 
