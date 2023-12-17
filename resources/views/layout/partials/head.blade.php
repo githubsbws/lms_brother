@@ -37,7 +37,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery</title>
 
-    <link href="themes/bws/css/vendor.min.css" rel="stylesheet">
+    {{-- <link href="themes/bws/css/vendor.min.css" rel="stylesheet">
     <link href="themes/bws/css/theme-core.css" rel="stylesheet">
     <link href="themes/bws/css/module-essentials.min.css" rel="stylesheet" />
     <link href="themes/bws/css/module-material.min.css" rel="stylesheet" />
@@ -54,7 +54,25 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
     <link href="themes/bws/css/module-colors-buttons.min.css" rel="stylesheet" />
     <link href="themes/bws/css/module-colors-text.min.css" rel="stylesheet" />
     <link href="themes/bws/css/font-style.css" rel="stylesheet" />
-    <link href="themes/bws/css/custom-font.css" rel="stylesheet" />
+    <link href="themes/bws/css/custom-font.css" rel="stylesheet" /> --}}
+    @vite(["resources/themes/bws/css/vendor.min.css" ,
+    "resources/themes/bws/css/theme-core.css" ,
+    "resources/themes/bws/css/module-essentials.min.css" ,
+    "resources/themes/bws/css/module-material.min.css" ,
+    "resources/themes/bws/css/module-layout.min.css" ,
+    "resources/themes/bws/css/module-sidebar.min.css" ,
+    "resources/themes/bws/css/module-sidebar-skins.min.css" ,
+    "resources/themes/bws/css/module-navbar.min.css" ,
+    "resources/themes/bws/css/module-messages.min.css" ,
+    "resources/themes/bws/css/module-carousel-slick.min.css" ,
+    "resources/themes/bws/css/module-charts.min.css" ,
+    "resources/themes/bws/css/module-maps.min.css" ,
+    "resources/themes/bws/css/module-colors-alerts.min.css" ,
+    "resources/themes/bws/css/module-colors-background.min.css" ,
+    "resources/themes/bws/css/module-colors-buttons.min.css" ,
+    "resources/themes/bws/css/module-colors-text.min.css" ,
+    "resources/themes/bws/css/font-style.css" ,
+    "resources/themes/bws/css/custom-font.css" ,])
 
     <!--    layerslide-->
     <link href="themes/bws/layerslider/css/layerslider.css" rel="stylesheet" />
