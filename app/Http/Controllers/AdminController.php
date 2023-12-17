@@ -76,10 +76,10 @@ class AdminController extends Controller
         return view("admin\reportproblem\reportproblem");
     }
     function faqtype(){
-        return view("admin\faq\faqtype");
+        return view("admin\Faq\Faqtype");
     }
     function faq(){
-        return view("admin\faq\faq");
+        return view("admin\Faq\Faq");
     }
     function adminuser(){
         return view("admin\adminuser\adminuser");

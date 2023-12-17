@@ -1,8 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{{-- <?php include 'include/head.php'; ?> --}}
-@extends('layouts.head')
+@extends('layout/mainlayout')
+@section('content')
 <body>
 
     <div class="span-19">
@@ -216,8 +213,4 @@
     </div>
 
 </body>
-@extends('layouts.footer')
-{{-- <?php include 'include/footer.php'; ?> --}}
-
-
-</html>
+@endsection

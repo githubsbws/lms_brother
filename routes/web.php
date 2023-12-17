@@ -37,10 +37,7 @@ use App\Http\Controllers\AdminController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', function () {
-    return view('index/index');
-});
+Route::get('/', [IndexController::class,'index'])->name('index');
 Route::get('/test', function () {
     return view('test');
 });
