@@ -42,7 +42,7 @@
                                     <div class="expandable expandable-indicator-white expandable-trigger">
                                         <div class="expandable-content">
                                             <div class="panel-body">
-                                                <h4 class="text-headline margin-v-0-10" style="font-size: 23px;"><a href="{{ url('detail') }}">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ Inkjet Tank System.</a> </h4>
+                                                <h4 class="text-headline margin-v-0-10" style="font-size: 23px;"><a href="{{ url('course/detail') }}">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ Inkjet Tank System.</a> </h4>
                                             </div>
                                             <hr class="margin-none">
                                             <div class="panel-body">

@@ -94,8 +94,9 @@ Route::get('change/{bank_id}',[EditController::class,'change'])->name('change');
 // ------------------------------------------
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
-Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('lesson',[CourseController::class,'courseLession'])->name('course.lesson');
+// Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
+Route::get('course/detail',[CourseController::class,'courseDetail'])->name('course.detail');
+Route::get('course/lesson',[CourseController::class,'courseLession'])->name('course.lesson');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 // ----- faq
