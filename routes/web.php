@@ -89,6 +89,15 @@ Route::get('change/{bank_id}',[EditController::class,'change'])->name('change');
 // Route::get('logout',[LoginController::class,'logout'])->name('logout');
 
 // ------------------------------------------
+// ----- login
+Route::get('/login/login',[LoginLController::class,'loginL'])->name('login.login');
+Route::post('/lms_brother_docker/lms/app/index/user/login',[LoginLController::class,'login_to'])->name('login_to');
+Route::get('logout_t',[LoginLController::class,'logout_t'])->name('logout_t');
+// ----- index
+Route::get('index/my',[IndexController::class,'index'])->name('index');
+// ----- Forgot
+Route::get('forgot-pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
+Route::post('/lms_brother_docker/lms/app/index/user/recovery',[ForgotController::class,'forgotRecovery'])->name('forgot.recovery');
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
 // Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
