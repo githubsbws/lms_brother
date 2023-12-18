@@ -38,7 +38,7 @@
                                             <div class="media v-middle">
                                                 <div class="media-body">
                                                     <h6> posted by
-                                                        <i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> {{ $value->update_by}} &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> {{ $value->update_date}} <br>
+                                                        <i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> {{ $value->firstname}} &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> {{ $value->update_date}} <br>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -59,7 +59,9 @@
                                     @if ($news->currentPage() < $news->lastPage())
                                     <li class="next"><a href="{{ $news->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
                                     @endif
-                                    <li class="last"><a href="{{ $news->lastPage() }}">หน้าสุดท้าย &gt;&gt;</a></li>
+                                    @if ($news->currentPage() == $news->lastPage())
+                                    <li class="last"><a href="{{ $news->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>

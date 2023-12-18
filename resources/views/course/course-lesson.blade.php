@@ -1,6 +1,7 @@
 @extends('layout/mainlayout')
 @section('content')
 <body>
+    @foreach($course_lesson as $lesson)
     <div class="parallax bg-white page-section third">
         <div class="container parallax-layer" data-opacity="true" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
             <div class="media v-middle media-overflow-visible">
@@ -8,149 +9,14 @@
                     <span class="icon-block s30 bg-default"><img src="/lms_brother_docker/lms/app/themes/bws/images/logo_course2.png" width="30" class="img-responsive"></span>
                 </div>
                 <div class="media-body">
-                    <div class="text-headline" style="font-size: 25px;">การซ่อมบำรุงเครื่องพิมพ์ฉลาก PT-E850TKW</div>
+                    <div class="text-headline" style="font-size: 25px;">{{ $lesson->course_title}}</div>
                 </div>
                 <div class="media-right">
                     <div class="dropdown">
                         <a class="btn btn-white dropdown-toggle" style="font-size: 22px;" data-toggle="dropdown" href="#">หลักสูตร <span class="caret"></span></a>
                         <ul class="dropdown-menu pull-right">
                             <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/236">tee test</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/235">ทีเทส</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/230">Online Marketing Day4 Facebook Live Shopee Lazada</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/229">Online Marketing Day3 Facebook and IG Ads</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/228">Online Marketing Day2 Digital Content Strategy</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/225">การซ่อมบำรุงเครื่องพิมพ์ฉลาก รุ่น TD-4550DNWB</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/224">การซ่อมบำรุงจักรเย็บผ้ารุ่น NV-180</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/219">Ink Tank Mini19HT_BCC</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/218">ธกส. (HiQ)</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/217">Product Overview </a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/215">Strategic Thinking</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/214">เทคนิคการนำเสนอบริการเสริมการรับประกันเครื่อง " Brother Care Pack "</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/213">CRG Project</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/212">การใช้งานโปรแกรม BR-Admin Professional 4</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/211">ความรู้ทั่วไป</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/210">Barcode Utility Program</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/208">การใช้งานโปรแกรม Brother iprint and scan</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/201">การเรียนรู้เครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422 Training For BCC</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/195">TEST_COURSEONLINE</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/190">การใช้ Cap Frame เบี้ยงต้น</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/189">ตำแหน่งการปรับสายพานจักร VR</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/188">การแก้ไขปัญหาจักร VR ปุ่มนิรภัยถูกปิด</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/187">Mobile printing</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/186">การติดตั้งและการใช้งาน Program Brother Meter Read Tool</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/185">ความรู้พื้นฐานของจักร NV950</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/183">Brother Service Excellence ( Module II : Brother นักบริการมืออาชีพ )</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/184">Brother Service Excellence ( Module I : Brother Care ) </a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/171">การใช้งานระบบบริการลูกค้า (New BSIS)</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/179">Sales : อบรมความเข้าใจพื้นฐานเกี่ยวกับการใช้งาน Scanner</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/178">Sales : อัพเดต Laser รุ่นใหม่</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/180">Sales : รู้จักกับ Inkjet tank ของ Brother กัน</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/177">Sales : P-Touch Editor</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/172">การแก้ปัญหาเบื้องตของจักรเย็บผ้า</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/139">การใช้งานโปรแกรมลายปักษ์ (PE-Design Next)</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/226">Online Marketing Day1 Social Media Platform</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/220">หลักสูตรผลิตภัณฑ์ใหม่ BHmini19HT</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/223">การซ่อมบำรุงจักรเย็บผ้ารุ่น GS2700</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/182">การซ่อมบำรุงเครื่องพิมพ์ Brother Mono Laser สำหรับ DL-Series</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/222">การซ่อมบำรุงเครื่องพิมพ์ฉลาก PT-E850TKW</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/209">การซ่อมบำรุงเครื่อง Scanner สำหรับ ADS-Series</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/231">หลักสูตรแนะนำผลิตภัณฑ์ BMB เบื้องต้น</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/232">หลักสูตรแนะนำผลิตภัณฑ์ GTX เบื้องต้น</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/197">การซ่อมบำรุงเครื่องพิมพ์ Brother Color LED สำหรับ ECL-Series</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/191">การซ่อมบำรุงเครื่องพิมพ์ Brother Mono Laser สำหรับ ELL-Series</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/192">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ A3 Inkjet Tank Technology.</a>
-                            </li>
-                            <li>
-                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/176">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ Inkjet Tank System.</a>
+                                <a href="{{ route('course.detail', ['id' => $lesson->course_id]) }}">{{ $lesson->course_title}}</a>
                             </li>
                         </ul>
                     </div>
@@ -173,13 +39,13 @@
                                         <span class="icon-block half bg-default text-white"><img src="/lms_brother_docker/lms/app/themes/bws/images/logo_course2.png" width="50" class="img-responsive"></span>
                                     </div>
                                     <div class="media-body">
-                                        <h1 class="text-display-1 margin-none">บทที่ 1 แนะนำผลิตภัณฑ์ และ บทที่ 2 คุณสมบัติและข้อมูลของตัวเครื่อง</h1>
+                                        <h1 class="text-display-1 margin-none">{{ $lesson->title}}</h1>
                                     </div>
                                     <br>
                                     <p class="text-body-2">
                                     </p>
                                     <p></p>
-                                    <p>บทที่ 1 แนะนำผลิตภัณฑ์ และ บทที่ 2 คุณสมบัติและข้อมูลของตัวเครื่อง</p>
+                                    <p>{{ $lesson->description}}</p>
                                     <p></p>
                                     <h4>ไฟล์ประกอบการเรียน</h4><a href="/lms_brother_docker/lms/app/index.php/course/download/103" target="_blank">PT-E850TKW_Chapter_1_2.pdf</a><br>
                                     <p></p>
@@ -485,54 +351,9 @@
                             <!-- <span class="collapse-status collapse-open">Open</span> -->
                             <!-- <span class="collapse-status collapse-close">Close</span> -->
                         </div>
+                        @foreach($lesson_list  as $list)
                         <div class="list-group collapse in" id="curriculum-1">
-                            <!-- <div class="list-group-item media" data-target="website-take-course.html">
-                                <div class="media-left">
-                                    <div class="text-crt">1.</div>
-                                </div>
-                                <div class="media-body">
-                                    <i class="fa fa-fw fa-circle text-green-300"></i> Introduction
-                                </div>
-                                <div class="media-right">
-                                    <div class="width-100 text-right text-caption">10:00 min</div>
-                                </div>
-                            </div>
-                            <div class="list-group-item media active" data-target="website-take-course.html">
-                                <div class="media-left">
-                                    <div class="text-crt">2.</div>
-                                </div>
-                                <div class="media-body">
-                                    <i class="fa fa-fw fa-circle text-blue-300"></i> Basic Specification and Line-up
-                                </div>
-                                <div class="media-right">
-                                    <div class="width-100 text-right text-caption">20:00 min</div>
-                                </div>
-                            </div>
-                            <div class="list-group-item media" data-target="website-take-course.html">
-                                <div class="media-left">
-                                    <div class="text-crt">3.</div>
-                                </div>
-                                <div class="media-body">
-                                    <i class="fa fa-fw fa-circle text-grey-200"></i> Product features
-                                </div>
-                                <div class="media-right">
-                                    <div class="width-100 text-right text-caption">40:00 min</div>
-                                </div>
-                            </div>
-                            <div class="list-group-item media" data-target="website-take-course.html">
-                                <div class="media-left">
-                                    <div class="text-crt">4.</div>
-                                </div>
-                                <div class="media-body">
-                                    <i class="fa fa-fw fa-circle text-grey-200"></i> Theory of operation
-                                </div>
-                                <div class="media-right">
-                                    <div class="width-100 text-right text-caption">120:00 min</div>
-                                </div>
-                            </div> -->
-
-
-                            <a href="/lms_brother_docker/lms/app/index.php/course/lesson/222?lesson_id=378">
+                            <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
 
                                 <div class="list-group-item media active" data-target="/lms_brother_docker/lms/app/index.php/course/lesson/222?lesson_id=378">
                                     <div class="media-left">
@@ -540,71 +361,7 @@
                                     </div>
                                     <div class="media-body">
                                         <i class="fa fa-fw fa-circle text-orange-300"></i>
-                                        บทที่ 1 แนะนำผลิตภัณฑ์ และ บทที่ 2 คุณสมบัติและข้อมูลของตัวเครื่อง
-                                    </div>
-                                    <!-- <div class="media-right">
-                                        <div class="width-100 text-right text-caption">10:00 min</div>
-                                    </div> -->
-                                </div>
-                            </a>
-
-                            <a href="javascript:void(0);" onclick="alertswal(1);">
-
-                                <div class="list-group-item media " data-target="/lms_brother_docker/lms/app/index.php/course/lesson/222?lesson_id=379">
-                                    <div class="media-left">
-                                        <div class="text-crt">2.</div>
-                                    </div>
-                                    <div class="media-body">
-                                        <i class="fa fa-fw fa-circle text-grey-300"></i>
-                                        บทที่ 3 ทฤษฏีและหลักการทำงาน
-                                    </div>
-                                    <!-- <div class="media-right">
-                                        <div class="width-100 text-right text-caption">10:00 min</div>
-                                    </div> -->
-                                </div>
-                            </a>
-
-                            <a href="javascript:void(0);" onclick="alertswal(2);">
-
-                                <div class="list-group-item media " data-target="/lms_brother_docker/lms/app/index.php/course/lesson/222?lesson_id=380">
-                                    <div class="media-left">
-                                        <div class="text-crt">3.</div>
-                                    </div>
-                                    <div class="media-body">
-                                        <i class="fa fa-fw fa-circle text-grey-300"></i>
-                                        บทที่ 4 ขั้นตอนตรวจเช็คตามระยะเวลา
-                                    </div>
-                                    <!-- <div class="media-right">
-                                        <div class="width-100 text-right text-caption">10:00 min</div>
-                                    </div> -->
-                                </div>
-                            </a>
-
-                            <a href="javascript:void(0);" onclick="alertswal(3);">
-
-                                <div class="list-group-item media " data-target="/lms_brother_docker/lms/app/index.php/course/lesson/222?lesson_id=381">
-                                    <div class="media-left">
-                                        <div class="text-crt">4.</div>
-                                    </div>
-                                    <div class="media-body">
-                                        <i class="fa fa-fw fa-circle text-grey-300"></i>
-                                        บทที่ 5 การแก้ปัญหาเบื้องต้น
-                                    </div>
-                                    <!-- <div class="media-right">
-                                        <div class="width-100 text-right text-caption">10:00 min</div>
-                                    </div> -->
-                                </div>
-                            </a>
-
-                            <a href="javascript:void(0);" onclick="alertswal(4);">
-
-                                <div class="list-group-item media " data-target="/lms_brother_docker/lms/app/index.php/course/lesson/222?lesson_id=382">
-                                    <div class="media-left">
-                                        <div class="text-crt">5.</div>
-                                    </div>
-                                    <div class="media-body">
-                                        <i class="fa fa-fw fa-circle text-orange-300"></i>
-                                        บทที่ 6 การถอดประกอบเครื่องพิมพ์ฉลาก PT-E850TKW
+                                       {{ $list->title }}
                                     </div>
                                     <!-- <div class="media-right">
                                         <div class="width-100 text-right text-caption">10:00 min</div>
@@ -612,6 +369,7 @@
                                 </div>
                             </a>
                         </div>
+                        @endforeach
                     </div>
                     <br>
                     <br>
@@ -715,5 +473,6 @@
             </div>
         </div>
     </div>
+    @endforeach
 </body>
 @endsection

@@ -7,7 +7,7 @@ use App\Models\News;
 class NewController extends Controller
 {
     function new(){
-        $news = News::paginate(5);
+        $news = News::join('profiles','profiles.user_id','=','news.update_by')->where('active','y')->paginate(5);
          return view("news\News",['news' =>$news]); 
     }
 

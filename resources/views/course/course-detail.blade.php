@@ -14,7 +14,7 @@
                             </span>
                         </div>
                         <div class="media-body">
-                            <h1 class="text-display-1 margin-none">{{ $course_detail->course_short_title }}</h1>
+                            <h1 class="text-display-1 margin-none">{{ $course_detail->course_title }}</h1>
                         </div>
                         <div class="media-right">
                             <a class="btn btn-white" style="font-size: 22px;"
@@ -34,7 +34,7 @@
                                             class="img-responsive">
                                     </div>
                                     <p></p>
-                                    <p>{{ $course_detail->course_detail }}</p>
+                                    <p>{{$course_detail->course_short_title}}</p>
                                     <p></p> <!-- <p class="margin-none">
                                                         <span class="label bg-gray-dark">Color</span>
                                                         <span class="label label-grey-200">Technologies</span>
@@ -74,7 +74,7 @@
                                     <hr class="margin-none">
                                     <div class="panel-body text-center">
                                         <p><a class="btn btn-success btn-lg paper-shadow relative" data-z="1"
-                                                data-hover-z="2" data-animated="" href="course-lession">เริ่มหลักสูตร</a>
+                                                data-hover-z="2" data-animated="" href="{{ route('course.lesson', ['course_id' => $course_detail->course_id,'id' => $course_lesson->id]) }}">เริ่มหลักสูตร</a>
                                         </p>
                                     </div>
                                 @else
@@ -88,7 +88,7 @@
                                     <hr class="margin-none">
                                     <div class="panel-body text-center">
                                         <p><a class="btn btn-success btn-lg paper-shadow relative" data-z="1"
-                                                data-hover-z="2" data-animated="" href="course-lession"
+                                                data-hover-z="2" data-animated="" href="{{ route('course.lesson', ['course_id' => $course_detail->course_id,'id' => $course_lesson->id]) }}"
                                                 style="display: none;">เริ่มหลักสูตร</a>
                                         </p>
                                     </div>
