@@ -1,4 +1,5 @@
 @extends('layout/mainlayout')
+@section('title', 'Course')
 @section('content')
 <body>
     @foreach($course_lesson as $lesson)

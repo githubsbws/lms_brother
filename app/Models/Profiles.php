@@ -12,4 +12,9 @@ class Profiles extends Model
     protected $table = 'profiles';
 
     protected $primarykey = 'user_id';
+
+    public function user()
+    {
+        return $this->belongsTo(Users::class);
+    }
 }

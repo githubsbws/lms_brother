@@ -1,4 +1,5 @@
 @extends('layout/mainlayout')
+@section('title', 'Brother e-learning')
 @section('content')
 <body>
     <div class="page-cover">

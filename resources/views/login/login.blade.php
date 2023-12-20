@@ -12,7 +12,8 @@
                                 <h1>เข้าสู่ระบบ</h1>
                             </div>
                             <div class="form">
-                                <form class="form-horizontal" action="" method="post">
+                                <form class="form-horizontal" action="{{ route('login') }}" method="post">
+                                    @csrf
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-3 control-label"><label
                                                 for="UserLogin_username" class="required">ชื่อผู้ใช้ <span

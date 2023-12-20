@@ -35,7 +35,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
+    <title>Brother E-learning System</title>
 
     {{-- <link href="themes/bws/css/vendor.min.css" rel="stylesheet">
     <link href="themes/bws/css/theme-core.css" rel="stylesheet">
@@ -121,13 +121,14 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                             <li><a href="#">หลักสูตร A</a></li>
                         </ul>
                     </li> -->
+                    @if(Auth::check())
                     <li class="dropdown">
                         <a href="{{ url('course') }}">หลักสูตร</a>
                     </li>
                     <li class="dropdown">
                         <a href="{{url('webboard')}}">เว็บบอร์ด</a>
                     </li>
-
+                    @endif
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">วิธีการใช้งาน <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -151,6 +152,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                     <li class="dropdown">
                         <a href="{{ url('faq_f') }}">คำถามที่พบบ่อย</a>
                     </li>
+                    @if(Auth::check())
                     <li class="dropdown">
 
                         <a href="{{url('virtualclassroom')}}">ห้องเรียน</a>
@@ -161,7 +163,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                         <a href="{{url('dashboard')}}">แดชบอร์ด</a>
 
                     </li>
-
+                    @endif
 
                     <!--                    <li class="dropdown--><!--">-->
                     <!--                        <a href="-->
@@ -175,34 +177,39 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                     <!--">สมัครสมาชิก</a>-->
                     <!--                    </li>-->
                 </ul>
-                <?php
-                if(Auth::user() != NULL){ ?>
+                @if(Auth::check())
                 <div class="navbar-right" style="border-left: 1px solid rgb(216, 216, 216); padding-left: 15px; padding-right: 15px; border-right: 1px solid rgb(216, 216, 216);">
                     <ul class="nav navbar-nav navbar-nav-bordered">
                         <!-- user -->
                         <li class="dropdown user" style="border-right-color: #fff;">
                             <a href="#" class="dropdown-toggle ripple" data-toggle="dropdown" aria-expanded="false"><span class="ink animate" style="height: 177px; width: 177px; top: -52.5px; left: -8.07501px;"></span>
-                                <img class="img-circle" style="height:30px;" src="themes/bws/images/default-avatar.png" alt="No Image"> Administrator <span class="caret"></span>
+                                <img class="img-circle" style="height:30px;" src="themes/bws/images/default-avatar.png" alt="No Image"> {{Auth::user()->firstname}} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu" style="height: auto; display: none; overflow: visible; top: 100%; opacity: 0;">
                                 <li><a href="dashboard.php"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
                                 <li><a href="course.php"><i class="fa fa-mortar-board"></i> หลักสูตรของฉัน</a></li>
                                 <li><a href="user.php"><i class="fa fa-user"></i>
                                         โปรไฟล์</a></li>
-                                <li><a href="index.php"><i class="fa fa-sign-out"></i>
-                                        ออกจากระบบ</a></li>
+                                
+                                <li>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+                                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" ><i class="fa fa-sign-out"></i>
+                                        ออกจากระบบ
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
                 </div>
-                <?php
-                }
-                ?>
 
+                @else
                 <!-- No login -->
                 <div class="navbar-right" style="border-left: 1px solid rgb(216, 216, 216); padding-left: 15px; padding-right: 15px; border-right: 1px solid rgb(216, 216, 216);">
                     <a href="{{ url('logins') }}" class="navbar-btn btn btn-primary"><i class="fa fa-fw fa-user"></i> เข้าสู่ระบบ</a>
                 </div> 
+                @endif
             </div>
 
             <div class="modal fade" id="modal-ckeck-key-new">
