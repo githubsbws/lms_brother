@@ -194,6 +194,6 @@ Route::get('/passcourse',[AdminController::class,'passcourse'])->name('passcours
 Route::get('/student_photo',[AdminController::class,'student_photo'])->name('student_photo');
 
 Route::get('/capture',[AdminController::class,'capture'])->name('capture');
-Auth::routes();
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
