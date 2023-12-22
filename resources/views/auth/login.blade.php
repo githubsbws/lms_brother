@@ -65,12 +65,8 @@
                                     </div>
                                 </form>
                                 @if($errors->any())
-                                    <div>
-                                        <ul>
-                                            @foreach($errors->all() as $error)
-                                                <li>{{ $error }}</li>
-                                            @endforeach
-                                        </ul>
+                                    <div class="alert alert-danger">
+                                        {{ session('error') }}
                                     </div>
                                 @endif
                             </div><!-- form -->

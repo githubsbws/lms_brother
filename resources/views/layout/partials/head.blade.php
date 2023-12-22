@@ -72,14 +72,10 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
     "resources/themes/bws/css/module-colors-buttons.min.css" ,
     "resources/themes/bws/css/module-colors-text.min.css" ,
     "resources/themes/bws/css/font-style.css" ,
-    "resources/themes/bws/css/custom-font.css" ,])
-
-    <!--    layerslide-->
-    <link href="themes/bws/layerslider/css/layerslider.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="themes/bws/css/sweetalert.css">
-
-    <link href="themes/bws/css/style.css" rel="stylesheet" />
-    <!--    layerslide-->
+    "resources/themes/bws/css/custom-font.css" ,
+    "resources/themes/bws/layerslider/css/layerslider.css",
+    "resources/themes/bws/css/style.css"
+    ])
 
     <!--    jquery   --->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js" integrity="sha512-ju6u+4bPX50JQmgU97YOGAXmRMrD9as4LE05PdC3qycsGQmjGlfm041azyB1VfCXpkpt1i9gqXCT6XuxhBJtKg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -100,7 +96,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                 </button>
                 <div class="navbar-brand navbar-brand-logo">
                     <a href="index.php">
-                        <img src="themes/bws/images/brotherlogo.png">
+                        <img src="{{ asset('themes/bws/images/brotherlogo.png') }}">
                     </a>
                 </div>
             </div>
@@ -183,11 +179,11 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                         <!-- user -->
                         <li class="dropdown user" style="border-right-color: #fff;">
                             <a href="#" class="dropdown-toggle ripple" data-toggle="dropdown" aria-expanded="false"><span class="ink animate" style="height: 177px; width: 177px; top: -52.5px; left: -8.07501px;"></span>
-                                <img class="img-circle" style="height:30px;" src="themes/bws/images/default-avatar.png" alt="No Image"> {{Auth::user()->firstname}} <span class="caret"></span>
+                                <img class="img-circle" style="height:30px;" src="{{ asset('themes/bws/images/default-avatar.png') }}" alt="No Image"> {{Auth::user()->username}} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu" style="height: auto; display: none; overflow: visible; top: 100%; opacity: 0;">
-                                <li><a href="dashboard.php"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
-                                <li><a href="course.php"><i class="fa fa-mortar-board"></i> หลักสูตรของฉัน</a></li>
+                                <li><a href="{{ url('dashboard') }}"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
+                                <li><a href="{{ url('course') }}"><i class="fa fa-mortar-board"></i> หลักสูตรของฉัน</a></li>
                                 <li><a href="user.php"><i class="fa fa-user"></i>
                                         โปรไฟล์</a></li>
                                 
@@ -243,27 +239,27 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
         </div>
     </div>
 </section>
-<script src="themes/bws/js/vendor-core.min.js"></script>
-<script src="themes/bws/js/vendor-countdown.min.js"></script>
-<script src="themes/bws/js/vendor-tables.min.js"></script>
-<script src="themes/bws/js/vendor-forms.min.js"></script>
-<script src="themes/bws/js/vendor-carousel-slick.min.js"></script>
-<script src="themes/bws/js/vendor-player.min.js"></script>
-<script src="themes/bws/js/vendor-charts-flot.min.js"></script>
-<script src="themes/bws/js/vendor-nestable.min.js"></script>
-<script src="themes/bws/js/module-essentials.min.js"></script>
-<script src="themes/bws/js/module-material.min.js"></script>
-<script src="themes/bws/js/module-layout.min.js"></script>
-<script src="themes/bws/js/module-sidebar.min.js"></script>
-<script src="themes/bws/js/module-carousel-slick.min.js"></script>
-<script src="themes/bws/js/module-player.min.js"></script>
-<script src="themes/bws/js/module-messages.min.js"></script>
-<script src="themes/bws/js/module-maps-google.min.js"></script>
-<script src="themes/bws/js/module-charts-flot.min.js"></script>
-<script src="themes/bws/layerslider/js/greensock.js" type="text/javascript"></script>
-<script src="themes/bws/layerslider/js/layerslider.transitions.js" type="text/javascript"></script>
-<script src="themes/bws/layerslider/js/layerslider.kreaturamedia.jquery.js" rel="stylesheet"></script>
 
+<script src="{{ asset('themes/bws/js/vendor-core.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/vendor-countdown.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/vendor-tables.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/vendor-forms.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/vendor-carousel-slick.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/vendor-player.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/vendor-charts-flot.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/vendor-nestable.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/module-essentials.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/module-material.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/module-layout.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/module-sidebar.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/module-carousel-slick.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/module-player.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/module-messages.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/module-maps-google.min.js')}}"></script>
+<script src="{{ asset('themes/bws/js/module-charts-flot.min.js')}}"></script>
+<script src="{{ asset('themes/bws/layerslider/js/greensock.js')}}" type="text/javascript"></script>
+<script src="{{ asset('themes/bws/layerslider/js/layerslider.transitions.js')}}" type="text/javascript"></script>
+<script src="{{ asset('themes/bws/layerslider/js/layerslider.kreaturamedia.jquery.js')}}" rel="stylesheet"></script>
 
 <script>
     var colors = {

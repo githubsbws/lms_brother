@@ -27,11 +27,11 @@
                                     <div class="media media-clearfix-xs">
                                         <div class="media-left text-center">
                                             <div class="cover width-150 width-100pc-xs overlay cover-image-full hover">
-                                                <img src="https://cdn.pixabay.com/photo/2014/05/21/22/28/old-newspaper-350376_640.jpg">
+                                                <img src="{{ asset('storage/News/'.$value->cms_picture)}}">
                                             </div>
                                         </div>
                                         <div class="media-body">
-                                            <h4 class="text-headline margin-v-5-0" style="font-size: 28px;"><a href="{{ route('new_detail', ['id' => $value->cms_id]) }}" title="วิธีการใช้งาน TS-Chatbot">{{ $value->cms_title}}</a></h4>
+                                            <h4 class="text-headline margin-v-5-0" style="font-size: 28px;"><a href="{{ route('new_detail', ['id' => $value->cms_id]) }}" title="{{ $value->cms_title}}">{{ $value->cms_title}}</a></h4>
 
                                             <p style="color: rgb(33, 33, 33);">{{ $value->cms_short_title}}</p>
                                             <hr class="margin-v-8">
@@ -92,23 +92,13 @@
                                 <div class="panel-heading">
                                     <h4 class="panel-title" style="font-weight: bold;">ข่าวล่าสุด</h4>
                                 </div>
+                                @foreach($news as $new)
                                 <ul class="list-group list-group-menu">
                                     <li class="list-group-item">
-                                        <a href="/lms_brother_docker/lms/app/index.php/news/index/78"><i class="fa fa-chevron-right fa-fw"></i> วิธีการใช้งาน TS-Chatbot</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="/lms_brother_docker/lms/app/index.php/news/index/77"><i class="fa fa-chevron-right fa-fw"></i> Technical Clip EP 3</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="/lms_brother_docker/lms/app/index.php/news/index/74"><i class="fa fa-chevron-right fa-fw"></i> Brother Care Pack</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="/lms_brother_docker/lms/app/index.php/news/index/72"><i class="fa fa-chevron-right fa-fw"></i> Cloud77 App</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <a href="/lms_brother_docker/lms/app/index.php/news/index/71"><i class="fa fa-chevron-right fa-fw"></i> แนะนำโปรแกรม BR-Admin Professional 4</a>
+                                        <a href="{{ route('new_detail', ['id' => $new->cms_id]) }}"><i class="fa fa-chevron-right fa-fw"></i> {{ $new->cms_title }}</a>
                                     </li>
                                 </ul>
+                                @endforeach
                             </div>
                         </div>
                     </div>

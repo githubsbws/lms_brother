@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\File;
+use App\Models\News;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -25,13 +27,41 @@ class AdminController extends Controller
         return view("admin\contactus\contactus");
     }
     function video(){
-        return view("admin\video\video");
+        return view("admin\Video\Video");
     }
     function document(){
         return view("admin\document\document");
     }
     function news(){
-        return view("admin\news\news");
+        return view("admin\News\News");
+    }
+    function news_create(){
+        return view("admin\News\News-create");
+    }
+    function news_insert(Request $request){
+        $request->validate([
+            'cms_title' => 'required',
+            'cms_short_title' => 'required',
+            'cms_picture' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+        ]);
+        if($request->file()) {
+            $imageName = time().'.'.$request->cms_picture->extension();
+            News::create([
+                'cms_title' => $request->cms_title,
+                'cms_short_title' => $request->cms_short_title,
+                'cms_picture' => $imageName,
+                'create_by' => '1',
+                'update_by' => '1',
+                'active' => 'y'
+            ]);
+            
+
+            $request->cms_picture->move(public_path('storage/News'), $imageName);
+            return redirect()->intended('news');
+        }else{
+            return back()->withErrors(['cms_picture' => 'รูปไม่ถูกต้อง'])->withInput($request->only('cms_picture'));
+        }
+        
     }
     function category(){
         return view("admin\category\category");

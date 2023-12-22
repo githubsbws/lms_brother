@@ -25,30 +25,10 @@
             <div class="container">
                 <div class="panel panel-default paper-shadow" data-z="0.5" style="margin-top: 25px;">
                     <div class="panel-body">
-                        <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: x-large;"><strong>แดชบอร์ด &nbsp;</strong> &nbsp;</span></p>
-                        <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: large;">&nbsp; &nbsp; &nbsp; เมื่อต้องการติดตามผลการเรียน ให้ทำการคลิกที่เมนู “แดชบอร์ด” ระบบจะทำการแสดงผลสถานะการเรียนของแต่ละหลักสูตร และความเคลื่อนไหวของเว็บบอร์ด</span></p>
-                        <p><img src="https://cdn.pixabay.com/photo/2017/12/14/09/41/new-zealand-3018634_640.jpg" alt="" width="663" height="411"></p>
-                        <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: large;">&nbsp;</span><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: large;"><span style="font-family: tahoma, arial, helvetica, sans-serif;">1.<strong>การแสดงผลเว็บบอร์ด</strong></span></span></p>
-                        <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: large;">&nbsp; &nbsp; &nbsp; ในส่วนของการแสดงผลของเว็บบอร์ดในบทเรียนจะแสดงรายละเอียดหัวข้อการสนทนาของหลักสูตรนั้นๆ</span></p>
-                        <p><img src="https://cdn.pixabay.com/photo/2017/12/14/09/41/new-zealand-3018634_640.jpg" alt="" width="424" height="292"></p>
-                        <p>&nbsp;</p>
-                        <p>&nbsp;</p>
-                        <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: large;"><strong>2.การแสดงผลหลักสูตร</strong></span></p>
-                        <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: large;">&nbsp; &nbsp; &nbsp; ในส่วนของการแสดงผลการเรียนของแต่ละหลักสูตรจะแสดงหลักสูตรทั้งหมดที่ต้องเรียน และแสดงจำนวนหลักสูตรที่กำลังเรียน และที่ยังไม่เรียนภายใต้หลักสูตรนั้นๆ</span></p>
-                        <p><img src="https://cdn.pixabay.com/photo/2017/12/14/09/41/new-zealand-3018634_640.jpg" alt="" width="422" height="324"></p>
-                        <p>&nbsp;</p>
-                        <p>&nbsp;</p>
-                        <p><span style="font-size: large; font-family: tahoma, arial, helvetica, sans-serif;"><strong>3.การแสดงผลการเรียน</strong></span></p>
-                        <p><span style="font-size: large; font-family: tahoma, arial, helvetica, sans-serif;">&nbsp; &nbsp; &nbsp; ในส่วนผลการเรียน จะแสดงรายละเอียดผลการเรียนแต่ละสูตร ประกอบด้วย สถานะการเรียน สิทธิการทำแบบทดสอบ และผลคะแนนที่ได้ทำการสอบ&nbsp;</span></p>
-                        <p><img src="https://cdn.pixabay.com/photo/2017/12/14/09/41/new-zealand-3018634_640.jpg" alt="" width="545" height="456"></p>
-                        <p>&nbsp;</p>
-                        <p>&nbsp;</p>
-                        <p>&nbsp;</p>
-                        <p>&nbsp;</p>
-                        <div style="position: absolute; left: 8px; top: 130px; width: 100px; height: 100px;">&nbsp;</div>
-                        <div style="position: absolute; left: 8px; top: 130px; width: 100px; height: 100px;">&nbsp;</div>
-                        <div style="position: absolute; left: 8px; top: 130px; width: 100px; height: 100px;">&nbsp;</div>
-                        <div style="position: absolute; left: 8px; top: 130px; width: 100px; height: 100px;">&nbsp;&nbsp;</div>
+                        @foreach ($usa as $us)
+                        <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: x-large;"><strong>{{ $us->usa_title}} &nbsp;</strong> &nbsp;</span></p>
+                        <p><span style="font-family: tahoma, arial, helvetica, sans-serif; font-size: large;">{!! htmlspecialchars_decode($us->usa_detail) !!}</span></p>
+                        @endforeach
                     </div>
                 </div>
             </div>

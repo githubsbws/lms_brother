@@ -56,7 +56,7 @@
 				</li>
 				<li class="hasSubmenu glyphicons folder_new"><a data-toggle="collapse" href="#News"><i></i><span>ระบบจัดการเนื้อหาเว็บไซต์ (ข่าวสาร)</span></a>
 					<ul class=" collapse " id="News">
-						<li><a href="news-create.php">เพิ่มข่าวสารและกิจกรรม (ภาษา EN )</a></li>
+						<li><a href="{{url('/news_create')}}">เพิ่มข่าวสารและกิจกรรม (ภาษา EN )</a></li>
 						<li><a href="{{ url('/news') }}">จัดการข่าวสารและกิจกรรม</a></li>
 					</ul>
 				</li>
