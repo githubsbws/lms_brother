@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{{-- <?php include 'include/head.php'; ?> --}}
-@include('layouts.head')
-
+@extends('layout/mainlayout')
+@section('content')
 <body>
 
     <div class="container">
@@ -16,9 +12,7 @@
                                 <h1>เข้าสู่ระบบ</h1>
                             </div>
                             <div class="form">
-                                <form class="form-horizontal" action="/lms_brother_docker/lms/app/index/user/login"
-                                    method="post">
-                                    @csrf
+                                <form class="form-horizontal" action="" method="post">
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-3 control-label"><label
                                                 for="UserLogin_username" class="required">ชื่อผู้ใช้ <span
@@ -77,8 +71,4 @@
         </div>
     </div>
 </body>
-@include('layouts.footer')
-{{-- <?php include 'include/footer.php'; ?> --}}
-
-
-</html>
+@endsection

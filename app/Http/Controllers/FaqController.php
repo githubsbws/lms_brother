@@ -11,7 +11,7 @@ use Illuminate\Http\RedirectResponse;
 
 class FaqController extends Controller
 {
-    function faq(){
-        return view('faq\faq');
+    function faq_front(){
+        return view('faq_front\Faq');
     }
 }

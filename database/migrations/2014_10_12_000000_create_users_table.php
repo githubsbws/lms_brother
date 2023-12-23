@@ -20,6 +20,13 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        Schema::create('course_online', function (Blueprint $table) {
+            $table->id();
+            $table->timestamp('create_date')->useCurrent();
+            $table->timestamp('update_date')->useCurrentOnUpdate();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -28,5 +35,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('course_online');
     }
 };

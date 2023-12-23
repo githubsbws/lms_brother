@@ -8,11 +8,165 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use App\Models\Course;
+use App\Models\Lesson;
 
 
 class AdminController extends Controller
 {
+    function aboutus()
+    {
+        return view("admin\aboutus\aboutus");
+    }
+    function condition()
+    {
+        return view("admin\condition\condition");
+    }
+    function setting()
+    {
+        return view("admin\setting\setting");
+    }
+    function contactus()
+    {
+        return view("admin\contactus\contactus");
+    }
+    function video()
+    {
+        return view("admin\video\video");
+    }
+    function document()
+    {
+        return view("admin\document\document");
+    }
+    function news()
+    {
+        return view("admin\news\news");
+    }
+    function category()
+    {
+        $category_on = DB::table('category')->where('category.active', 'y')->orderBy('cate_id', 'desc')->paginate(6);
+        return view("admin\category\category" ,compact('category_on'));
+    }
+
+    function courseonline()
+    {
+        $course_online = Course::join('category', 'category.cate_id', '=', 'course_online.cate_id')->where('course_online.active', 'y')->orderBy('course_id', 'desc')->paginate(6);
+        return view("admin\courseonline\courseonline", compact('course_online'));
+    }
+
+    function lesson()
+    {
+        return view("admin\lesson\lesson");
+    }
+    function grouptesting()
+    {
+        return view("admin\grouptesting\grouptesting");
+    }
+    function coursegrouptesting()
+    {
+        return view("admin\coursegrouptesting\coursegrouptesting");
+    }
+    function questionnaireout()
+    {
+        return view("admin\questionnaireout\questionnaireout");
+    }
+    function orgchart()
+    {
+        return view("admin\orgchart\orgchart");
+    }
+    function checklecture()
+    {
+        return view("admin\checklecture\checklecture");
+    }
+    function coursecheck()
+    {
+        return view("admin\checklecture\checklecture-coursecheck");
+    }
+    function certificate()
+    {
+        return view("admin\certificate\certificate");
+    }
+    function signnature()
+    {
+        return view("admin\signnature\signnature");
+    }
+    function captcha()
+    {
+        return view("admin\captcha\captcha");
+    }
+    function usability()
+    {
+        return view("admin\usability\usability");
+    }
+    function reportproblem()
+    {
+        return view("admin\reportproblem\reportproblem");
+    }
+    function faqtype()
+    {
+        return view("admin\Faq\Faqtype");
+    }
+    function faq()
+    {
+        return view("admin\Faq\Faq");
+    }
+    function adminuser()
+    {
+        return view("admin\adminuser\adminuser");
+    }
+    function pgroup()
+    {
+        return view("admin\pgroup\pgroup");
+    }
+    function user_admin()
+    {
+        return view("admin\user_admin\user-admin");
+    }
+    function coursefield()
+    {
+        return view("admin\coursefield\coursefield");
+    }
+    function imgslide()
+    {
+        return view("admin\imgslide\imgslide");
+    }
+    function librarytype()
+    {
+        return view("admin\libraryfile\librarytype");
+    }
+    function libraryfile()
+    {
+        return view("admin\libraryfile\libraryfile");
+    }
+    function coursenotification()
+    {
+        return view("admin\coursenotification\coursenotification");
+    }
+    function passcourse()
+    {
+        return view("admin\passcourse\passcourse");
+    }
+    function logadmin()
+    {
+        return view("admin\logadmin\logadmin");
+    }
+    function student_photo()
+    {
+        return view("admin\student-photo\student-photo");
+    }
+    function capture()
+    {
+        return view("admin\capture\capture");
+    }
     //----- หน้ารายชื่อธนาคาร
+    public function index()
+    {
+        if (auth()->user()) {
+            return view('admin/index/index');
+        } else {
+            return view('admin/login/login');
+        }
+    }
     function bank(Request $request)
     {
         //dd($request->id);
@@ -45,7 +199,7 @@ class AdminController extends Controller
     {
         return view('bank');
     }
-    
+
     //----- ลบ VDO
     function del(Request $request, $id)
     {
