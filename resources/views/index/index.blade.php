@@ -13,7 +13,11 @@
                     <!-- start con 8 -->
                     <h2 class="title-layout">
                         <span>ข่าวสาร</span> <small>รวมข่าวสารของ Brother </small>
+                        @if(Auth::check())
                         <a href="{{url('new')}}" class="pull-right btn btn-xs btn-light text-1 text-uppercase">ดูทั้งหมด <i class="fa fa-" aria-hidden="true"></i>
+                        @else
+                        <a href="{{url('logins')}}" class="pull-right btn btn-xs btn-light text-1 text-uppercase">ดูทั้งหมด <i class="fa fa-" aria-hidden="true"></i>
+                        @endif
                         </a>
                     </h2>
                     <div class="row">
@@ -1119,7 +1123,7 @@
                               <li class="list-group-item">
                                 <div class="media v-middle">
                                   <div class="media-body">
-                                    <h4 class="text-headline margin-none" style="font-size: 26px;">กรุณาเข้าสู่ระบบ</h4>
+                                    <h4 class="text-headline margin-none" style="font-size: 26px;">กรุณาเข้าสู่ระบบเพื่อดาวน์โหลดไฟล์เอกสาร</h4>
                                   </div>
                                   <div class="media-right">
                                   </div>

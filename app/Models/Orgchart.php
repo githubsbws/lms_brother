@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Lesson extends Model
+class Orgchart extends Model
 {
     use HasFactory;
 
-    protected $table = 'lesson';
+    protected $table = 'orgchart';
 
     protected $primarykey = 'id';
 
