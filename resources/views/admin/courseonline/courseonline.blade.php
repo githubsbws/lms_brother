@@ -19,7 +19,6 @@
                 @include('admin.layouts.partials.menu-left')
                 <!-- // Sidebar Menu END -->
 
-
                 <!-- Content -->
                 <!-- <div class="span-19"> -->
                 <div id="content">

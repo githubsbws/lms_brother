@@ -651,7 +651,7 @@
                                                     style="display:none"></div>
                                             </div>
                                         </div>
-
+                                        
                                         <!-- <div class="row">
                                                          <label for="CourseOnline_course_price">ราคา</label>					<input class="span8" name="CourseOnline[course_price]" id="CourseOnline_course_price" type="text" value="0" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_price_em_" style="display:none"></div></div>				</div> -->
 

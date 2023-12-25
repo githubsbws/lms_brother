@@ -46,7 +46,7 @@ class CourseController extends Controller
     // course create
     function courseonlinecreate()
     {
-        $category = DB::table('category')->pluck('cate_title', 'cate_id');
+        $category = DB::table('category')->where('category.active', 'y')->pluck('cate_title', 'cate_id');
         return view("admin\courseonline\courseonline-create", compact('category'));
     }
 
