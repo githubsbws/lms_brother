@@ -17,13 +17,13 @@ use Illuminate\Support\Facades\Cache;
 class DashboardController extends Controller
 {
     function dashboard(){
-        $minutes = 60;
+        $minutes = 3;
 
         $course = Cache::remember('course', $minutes, function () {
             $org_chart_ids = Orgchart::where('active', 'y')->pluck('id');
 
             $orgcourse = Orgcourse::whereIn('orgchart_id', $org_chart_ids)->where('active', 'y')->pluck('course_id');
-            return Course::where('active','y')->whereIn('course_id',$orgcourse)->get();
+            return Course::where('active','y')->whereIn('course_id',$orgcourse)->paginate(6);
         });
         if(Auth::check()){
             return view('dashboard/dashboard',['course' => $course]);

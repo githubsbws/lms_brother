@@ -55,7 +55,7 @@ use App\Models\Learn;
                                         <li class="list-group-item paper-shadow">
                                             <div class="media v-middle">
                                                 <div class="media-left">
-                                                    <img src="/lms_brother_docker/lms/app/themes/bws/images/logo_course2.png" alt="person" class="img-circle width-40">
+                                                    <img src="{{asset('themes/bws/images/logo_course2.png')}}" alt="person" class="img-circle width-40">
                                                 </div>
                                                 <div class="media-body">
                                                     <a href="/lms_brother_docker/lms/app/index.php/forum/forum/forum/id/2/class/link-text-color">Engine: New Mono Laser</a>
@@ -222,7 +222,6 @@ use App\Models\Learn;
                                             </div>
                                         </li>
                                         @endforeach
-                                        
                                     </ul>
                                 </div>
                             </div>
@@ -238,22 +237,23 @@ use App\Models\Learn;
                             </div>
                         </div>
                         <div class="panel-group" id="accordion" style="margin-top: 10px;">
+                            @foreach($course as $cos)
+                            @php
+                            $lessons =  Lesson::where('course_id',$cos->course_id)->where('active','y')->get();
+                            @endphp
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <div class="col-md-10" style="padding-top: 12px;">
-                                        <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapse10">
+                                        <a class="" data-toggle="collapse" data-parent="#accordion" href="#collapse{{$cos->course_id}}">
                                             <h4 class="panel-title panel-title-adjust">
                                                 <!-- หลักสูตร: หลักสูตรการทำงานเป็นทีม -->
-                                                หลักสูตร: การซ่อมบำรุงจักรเย็บผ้ารุ่น GS2700
+                                                หลักสูตร: {{$cos->course_title}}
                                             </h4>
                                         </a>
                                     </div>
-                                    <!--    <div class="col-md-2" style="text-align: right;" id="btn_">
-                        <a href="survey.php" class="btn btn-success">ทำแบบประเมิน</a>
-                    </div> -->
                                     <div class="clearfix"></div>
                                 </div>
-                                <div style="height: auto;" id="collapse10" class="panel-collapse collapse ">
+                                <div style="height: auto;" id="collapse{{$cos->course_id}}" class="panel-collapse collapse ">
                                     <div class="panel-body">
                                         <div class="table-responsive">
                                             <table class="table v-middle table-bordered">
@@ -268,11 +268,13 @@ use App\Models\Learn;
                                                     </tr>
                                                 </thead>
                                                 <tbody id="responsive-table-body">
+                                                    @foreach($lessons as $les)
                                                     <tr>
+                                                        
                                                         <td>
-                                                            <a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=383">บทที่ 1. แนะนำผลิตภัณฑ์ จักรเย็บผ้า GS2700</a>
+                                                            <a href="{{ route('course.lesson', ['course_id' => $cos->course_id,'id' => $les->id]) }}">{{ $les->title}}</a>
                                                         </td>
-                                                        <td class="text-center"><a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=383"><span style="color:green;">เรียนผ่าน</span></a></td>
+                                                        <td class="text-center"><a href="{{ route('course.lesson', ['course_id' => $cos->course_id,'id' => $les->id]) }}"><span style="color:green;">เรียนผ่าน</span></a></td>
                                                         <td class="text-center">
                                                             - </td>
                                                         <td class="text-center">
@@ -287,105 +289,9 @@ use App\Models\Learn;
                                                         </td>
 
                                                         <td class="text-center">0 / 0</td>
+                                                        
                                                     </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=384">บทที่ 2. การใช้งานเบื้องต้น </a>
-                                                        </td>
-                                                        <td class="text-center"><a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=384"><span style="color:green;">เรียนผ่าน</span></a></td>
-                                                        <td class="text-center">
-                                                            - </td>
-                                                        <td class="text-center">
-                                                            -
-                                                        </td>
-
-
-                                                        <td class="text-center">
-                                                            <p style="font-weight: normal;color: #045BAB;"><label class="label label-warning" style="font-size: medium; letter-spacing: 2px !important;">ไม่มีแบบสอบถาม</label></p>
-
-
-                                                        </td>
-
-                                                        <td class="text-center">0 / 0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=385">บทที่ 2.(ต่อเนื่อง) ส่วนประกอบของเครื่อง </a>
-                                                        </td>
-                                                        <td class="text-center"><a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=385"><span style="color:blue;">กำลังเรียน</span></a></td>
-                                                        <td class="text-center">
-                                                            - </td>
-                                                        <td class="text-center">
-                                                            -
-                                                        </td>
-
-
-                                                        <td class="text-center">
-                                                            <p style="font-weight: normal;color: #045BAB;"><label class="label label-warning" style="font-size: medium; letter-spacing: 2px !important;">ไม่มีแบบสอบถาม</label></p>
-
-                                                        </td>
-
-                                                        <td class="text-center">0 / 0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=386">บทที่ 3.การถอด/ประกอบ เครื่อง GS2700</a>
-                                                        </td>
-                                                        <td class="text-center"><a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=386"><span style="color:red;">ยังไม่ได้เรียน</span></a></td>
-                                                        <td class="text-center">
-                                                            - </td>
-                                                        <td class="text-center">
-                                                            -
-                                                        </td>
-
-
-                                                        <td class="text-center">
-                                                            <p style="font-weight: normal;color: #045BAB;"><label class="label label-warning" style="font-size: medium; letter-spacing: 2px !important;">ไม่มีแบบสอบถาม</label></p>
-
-                                                        </td>
-
-                                                        <td class="text-center">0 / 0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=388">บทที่ 4.การปรับตั้งค่า ใช้งาน (Adjustment)</a>
-                                                        </td>
-                                                        <td class="text-center"><a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=388"><span style="color:red;">ยังไม่ได้เรียน</span></a></td>
-                                                        <td class="text-center">
-                                                            - </td>
-                                                        <td class="text-center">
-                                                            -
-                                                        </td>
-
-
-                                                        <td class="text-center">
-                                                            <p style="font-weight: normal;color: #045BAB;"><label class="label label-warning" style="font-size: medium; letter-spacing: 2px !important;">ไม่มีแบบสอบถาม</label></p>
-
-                                                        </td>
-
-                                                        <td class="text-center">0 / 0</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=389">บทที่ 5 แบบทดสอบ GS2700 ภาคทฏษฎี 10 ข้อ</a>
-                                                        </td>
-                                                        <td class="text-center"><a href="/lms_brother_docker/lms/app/index.php/course/lesson/223?lesson_id=389"><span style="color:red;">ยังไม่ได้เรียน</span></a></td>
-                                                        <td class="text-center">
-                                                            - </td>
-                                                        <td class="text-center">
-                                                            -
-                                                        </td>
-
-
-                                                        <td class="text-center">
-                                                            <p style="font-weight: normal;color: #045BAB;"><label class="label label-warning" style="font-size: medium; letter-spacing: 2px !important;">ไม่มีแบบสอบถาม</label></p>
-
-                                                        </td>
-
-                                                        <td class="text-center">0 / 0</td>
-                                                    </tr>
-
-
+                                                    @endforeach
                                                 </tbody>
                                             </table>
 
@@ -394,109 +300,8 @@ use App\Models\Learn;
                                     </div>
                                 </div>
                             </div>
-
-                            <!--    <div class="panel panel-warning">
-                                   <div class="panel-heading">
-                                       <div class="col-md-10" style="padding-top: 12px;">
-                                           <a class="" data-toggle="collapse" data-parent="#accordion"
-                                              href="#collapse2">
-                                               <h4 class="panel-title panel-title-adjust">
-                                                   หลักสูตร: หลักสูตรการทำงานเป็นทีม
-                                               </h4>
-                                           </a>
-                                       </div>
-                                       <div class="col-md-2" style="text-align: right;">
-                                           <button type="button" class="btn btn-danger" disabled="disabled">
-                                               ทำแบบประเมิน
-                                           </button>
-                                       </div>
-                                       <div class="clearfix"></div>
-                                   </div>
-                                   <div style="height: auto;" id="collapse2" class="panel-collapse collapse">
-                                       <div class="panel-body">
-                                           <div class="table-responsive">
-                                               <table class="table v-middle table-bordered">
-                                                   <thead>
-                                                   <tr>
-                                                       <th class="text-center" width="60%">บทเรียน</th>
-                                                       <th class="text-center" width="20%">สถานะการเรียน</th>
-                                                       <th class="text-center" width="20%">ผลการสอบ</th>
-                                                   </tr>
-                                                   </thead>
-                                                   <tbody id="responsive-table-body">
-                                                   <tr>
-                                                       <td>บทที่ 1 แนะนำบทเรียน</td>
-                                                       <td class="text-center"><span style="color: rgb(255, 180, 0);">กำลังเรียน</span>
-                                                       </td>
-                                                       <td class="text-center">-</td>
-                                                   </tr>
-                                                   <tr>
-                                                       <td>บทที่ 2 บทที่หนึ่ง</td>
-                                                       <td class="text-center">-</td>
-                                                       <td class="text-center">-</td>
-                                                   </tr>
-                                                   <tr>
-                                                       <td>บทที่ 2 บทที่สอง</td>
-                                                       <td class="text-center">-</td>
-                                                       <td class="text-center">-</td>
-                                                   </tr>
-                                                   </tbody>
-                                               </table>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div>
-
-                               <div class="panel panel-danger">
-                                   <div class="panel-heading">
-                                       <div class="col-md-10" style="padding-top: 12px;">
-                                           <a class="" data-toggle="collapse" data-parent="#accordion"
-                                              href="#collapse3">
-                                               <h4 class="panel-title panel-title-adjust">
-                                                   หลักสูตร: หลักสูตรการทำงานเป็นทีม
-                                               </h4>
-                                           </a>
-                                       </div>
-                                       <div class="col-md-2" style="text-align: right;">
-                                           <button type="button" class="btn btn-danger" disabled="disabled">
-                                               ทำแบบประเมิน
-                                           </button>
-                                       </div>
-                                       <div class="clearfix"></div>
-                                   </div>
-                                   <div style="height: auto;" id="collapse3" class="panel-collapse collapse">
-                                       <div class="panel-body">
-                                           <div class="table-responsive">
-                                               <table class="table v-middle table-bordered">
-                                                   <thead>
-                                                   <tr>
-                                                       <th class="text-center" width="60%">บทเรียน</th>
-                                                       <th class="text-center" width="20%">สถานะการเรียน</th>
-                                                       <th class="text-center" width="20%">ผลการสอบ</th>
-                                                   </tr>
-                                                   </thead>
-                                                   <tbody id="responsive-table-body">
-                                                   <tr>
-                                                       <td>บทที่ 1 แนะนำบทเรียน</td>
-                                                       <td class="text-center">-</td>
-                                                       <td class="text-center">-</td>
-                                                   </tr>
-                                                   <tr>
-                                                       <td>บทที่ 2 บทที่หนึ่ง</td>
-                                                       <td class="text-center">-</td>
-                                                       <td class="text-center">-</td>
-                                                   </tr>
-                                                   <tr>
-                                                       <td>บทที่ 2 บทที่สอง</td>
-                                                       <td class="text-center">-</td>
-                                                       <td class="text-center">-</td>
-                                                   </tr>
-                                                   </tbody>
-                                               </table>
-                                           </div>
-                                       </div>
-                                   </div>
-                               </div> -->
+                                
+                            @endforeach
                         </div>
                     </div>
                 </div>

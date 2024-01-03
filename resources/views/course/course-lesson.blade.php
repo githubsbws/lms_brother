@@ -7,7 +7,7 @@
         <div class="container parallax-layer" data-opacity="true" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
             <div class="media v-middle media-overflow-visible">
                 <div class="media-left">
-                    <span class="icon-block s30 bg-default"><img src="/lms_brother_docker/lms/app/themes/bws/images/logo_course2.png" width="30" class="img-responsive"></span>
+                    <span class="icon-block s30 bg-default"><img src="{{asset('themes/bws/images/logo_course2.png')}}" width="30" class="img-responsive"></span>
                 </div>
                 <div class="media-body">
                     <div class="text-headline" style="font-size: 25px;">{{ $lesson->course_title}}</div>
@@ -37,7 +37,7 @@
                                 <div class="panel-body" style="padding: 10px;">
                                     <div class="media-left">
                                         <!-- <span class="icon-block half bg-blue-300 text-white">2</span> -->
-                                        <span class="icon-block half bg-default text-white"><img src="/lms_brother_docker/lms/app/themes/bws/images/logo_course2.png" width="50" class="img-responsive"></span>
+                                        <span class="icon-block half bg-default text-white"><img src="{{asset('themes/bws/images/logo_course2.png')}}" width="50" class="img-responsive"></span>
                                     </div>
                                     <div class="media-body">
                                         <h1 class="text-display-1 margin-none">{{ $lesson->title}}</h1>
@@ -62,7 +62,7 @@
                                     <div class="panel-heading" role="tab" id="heading830">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion2" href="#collapse830" aria-expanded="true" aria-controls="collapse830">
-                                                <div style="float: left;" id="imageCheck830"><img title="ยังไม่ได้เรียน" style="margin-bottom: 8px;" src="/images/icon_checkbox.png" alt="ยังไม่ได้เรียน"></div> test : view 821
+                                                <div style="float: left;" id="imageCheck830"><img title="ยังไม่ได้เรียน" style="margin-bottom: 8px;" src="{{asset('images/icon_checkbox.png')}}" alt="ยังไม่ได้เรียน"></div> test : view 821
                                             </a>
                                         </h4>
                                     </div>
@@ -356,9 +356,9 @@
                         <div class="list-group collapse in" id="curriculum-1">
                             <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
 
-                                <div class="list-group-item media active" data-target="/lms_brother_docker/lms/app/index.php/course/lesson/222?lesson_id=378">
+                                <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
                                     <div class="media-left">
-                                        <div class="text-crt">1.</div>
+                                                <li class="text-crt"></li>
                                     </div>
                                     <div class="media-body">
                                         <i class="fa fa-fw fa-circle text-orange-300"></i>
