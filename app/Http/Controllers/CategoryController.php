@@ -77,9 +77,9 @@ class CategoryController extends Controller
     // category change to id
     function categorychange($id)
     {
-        $course_detail = DB::table('category')->where('cate_id', $id)->first();
+        $category = DB::table('category')->where('cate_id', $id)->first();
         // ตรวจสอบค่าปัจจุบันของ 'active' และกำหนดค่าใหม่
-        $newActive = ($course_detail->active == 'y') ? 'n' : 'y';
+        $newActive = ($category->active == 'y') ? 'n' : 'y';
         $data = [
             'active' => $newActive,
         ];

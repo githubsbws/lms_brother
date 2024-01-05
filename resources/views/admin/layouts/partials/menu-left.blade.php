@@ -74,7 +74,7 @@
 				</li>
 				<li class="hasSubmenu glyphicons imac"><a data-toggle="collapse" href="#Lesson"><span class="label label-primary">3</span> <i></i><span>ระบบจัดการเนื้อหาบทเรียน</span></a>
 					<ul class=" collapse " id="Lesson">
-						<li><a href="lession-create.php">เพิ่มบทเรียน (ภาษา EN )</a></li>
+						<li><a href="lession-create">เพิ่มบทเรียน (ภาษา EN )</a></li>
 						<li><a href="{{ url('/lesson') }}">จัดการบทเรียน</a></li>
 					</ul>
 				</li>

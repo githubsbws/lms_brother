@@ -56,7 +56,9 @@ class AdminController extends Controller
 
     function lesson()
     {
-        return view("admin\lesson\lesson");
+        $course_online = Course::where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
+        $lesson = Lesson::join('course_online','course_online.course_id','=','lesson.course_id')->where('lesson.active', 'y')->get();
+        return view("admin\lesson\lesson",compact('course_online','lesson'));
     }
     function grouptesting()
     {

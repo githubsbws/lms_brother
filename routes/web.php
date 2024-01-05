@@ -13,6 +13,8 @@ use App\Http\Middleware\Authenticate;
 // -------
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\LessonController;
+// -------
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FaqController;
@@ -163,7 +165,15 @@ Route::get('/admin/index.php/courseOnline/change/{id}',[CourseController::class,
 Route::get('/admin/index.php/courseOnline/{id}',[CourseController::class,'courseonlinedet'])->name('courseonline-det');
 //---- end courseoline
 
+//---- lesson
 Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
+Route::get('/lession-create',[LessonController::class,'lessioncreate'])->name('lession-create');
+Route::post('/admin/index.php/Lesson/create',[LessonController::class,'lessioncreateto'])->name('lession-create-to');
+Route::get('/admin/index.php/lesson/update/{id}',[LessonController::class,'lessionedit'])->name('lession-edit');
+Route::post('/admin/index.php/lesson/edit/{id}',[LessonController::class,'lessioneditto'])->name('lession-edit-to');
+Route::get('/admin/index.php/lesson/change/{id}',[LessonController::class,'lessionchange'])->name('lession-change');
+Route::get('/admin/index.php/lesson/{id}',[LessonController::class,'lessiondet'])->name('lession-det');
+//----end lesson
 
 Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
 

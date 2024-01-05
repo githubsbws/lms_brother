@@ -1,12 +1,13 @@
-<?php include 'head.php' ?>
-
+@extends('admin/layouts/mainlayout')
+@section('title', 'Admin')
+@section('content')
 <body class="">
 
 	<!-- Main Container Fluid -->
 	<div class="container-fluid fluid menu-left">
 
 		<!-- Top navbar -->
-		<?php include 'top-nav.php' ?>
+		@include('admin.layouts.partials.top-nav')
 		<!-- Top navbar END -->
 
 
@@ -14,7 +15,7 @@
 		<div id="wrapper">
 
 			<!-- Sidebar Menu -->
-			<?php include 'menu-left.php' ?>
+			@include('admin.layouts.partials.menu-left')
 			<!-- // Sidebar Menu END -->
 
 
@@ -197,72 +198,33 @@
 						<div class="widget-body">
 							<div class="form">
 
-								<form enctype="multipart/form-data" id="lesson-form" action="/admin/index.php/Lesson/create" method="post">
+								<form enctype="multipart/form-data" id="lesson-form" action="{{ route('lession-edit-to', $lesson->id) }}" method="post">
+									{{-- แก้ไข --}}
+									@csrf
 									<p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
 									<div class="row">
 										<label for="Lesson_course_id" class="required">หลักสูตรอบรมออนไลน์ <span class="required">*</span></label> <select class="span8" name="Lesson[course_id]" id="Lesson_course_id">
 											<option value="">-- กรุณาเลือกหลักสูตร --</option>
-											<option value="236">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; tee test</option>
-											<option value="235">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; ทีเทส</option>
-											<option value="232">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; หลักสูตรแนะนำผลิตภัณฑ์ GTX เบื้องต้น</option>
-											<option value="231">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; หลักสูตรแนะนำผลิตภัณฑ์ BMB เบื้องต้น</option>
-											<option value="230">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Online Marketing Day4 Facebook Live Shopee Lazada</option>
-											<option value="229">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Online Marketing Day3 Facebook and IG Ads</option>
-											<option value="228">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Online Marketing Day2 Digital Content Strategy</option>
-											<option value="226">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Online Marketing Day1 Social Media Platform</option>
-											<option value="225">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การซ่อมบำรุงเครื่องพิมพ์ฉลาก รุ่น TD-4550DNWB</option>
-											<option value="224">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การซ่อมบำรุงจักรเย็บผ้ารุ่น NV-180</option>
-											<option value="223">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การซ่อมบำรุงจักรเย็บผ้ารุ่น GS2700</option>
-											<option value="222">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การซ่อมบำรุงเครื่องพิมพ์ฉลาก PT-E850TKW</option>
-											<option value="220">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; หลักสูตรผลิตภัณฑ์ใหม่ BHmini19HT</option>
-											<option value="219">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Ink Tank Mini19HT_BCC</option>
-											<option value="218">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; ธกส. (HiQ)</option>
-											<option value="217">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Product Overview </option>
-											<option value="215">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Strategic Thinking</option>
-											<option value="214">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; เทคนิคการนำเสนอบริการเสริมการรับประกันเครื่อง " Brother Care Pack "</option>
-											<option value="213">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; CRG Project</option>
-											<option value="212">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การใช้งานโปรแกรม BR-Admin Professional 4</option>
-											<option value="211">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; ความรู้ทั่วไป</option>
-											<option value="210">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Barcode Utility Program</option>
-											<option value="209">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การซ่อมบำรุงเครื่อง Scanner สำหรับ ADS-Series</option>
-											<option value="208">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การใช้งานโปรแกรม Brother iprint and scan</option>
-											<option value="201">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การเรียนรู้เครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422 Training For BCC</option>
-											<option value="197">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การซ่อมบำรุงเครื่องพิมพ์ Brother Color LED สำหรับ ECL-Series</option>
-											<option value="195">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; TEST_COURSEONLINE</option>
-											<option value="192">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ A3 Inkjet Tank Technology.</option>
-											<option value="191">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การซ่อมบำรุงเครื่องพิมพ์ Brother Mono Laser สำหรับ ELL-Series</option>
-											<option value="190">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การใช้ Cap Frame เบี้ยงต้น</option>
-											<option value="189">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; ตำแหน่งการปรับสายพานจักร VR</option>
-											<option value="188">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การแก้ไขปัญหาจักร VR ปุ่มนิรภัยถูกปิด</option>
-											<option value="187">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Mobile printing</option>
-											<option value="186">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การติดตั้งและการใช้งาน Program Brother Meter Read Tool</option>
-											<option value="185">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; ความรู้พื้นฐานของจักร NV950</option>
-											<option value="184">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Brother Service Excellence ( Module I : Brother Care ) </option>
-											<option value="183">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Brother Service Excellence ( Module II : Brother นักบริการมืออาชีพ )</option>
-											<option value="182">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การซ่อมบำรุงเครื่องพิมพ์ Brother Mono Laser สำหรับ DL-Series</option>
-											<option value="180">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Sales : รู้จักกับ Inkjet tank ของ Brother กัน</option>
-											<option value="179">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Sales : อบรมความเข้าใจพื้นฐานเกี่ยวกับการใช้งาน Scanner</option>
-											<option value="178">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Sales : อัพเดต Laser รุ่นใหม่</option>
-											<option value="177">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; Sales : P-Touch Editor</option>
-											<option value="176">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ Inkjet Tank System.</option>
-											<option value="172">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การแก้ปัญหาเบื้องตของจักรเย็บผ้า</option>
-											<option value="171">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การใช้งานระบบบริการลูกค้า (New BSIS)</option>
-											<option value="139">หลักสูตรนิสิต/นักศึกษา &gt;&gt; Brother E-learning System &gt;&gt; การใช้งานโปรแกรมลายปักษ์ (PE-Design Next)</option>
-										</select> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+											@foreach ($course_online as $course)
+        										<option value="{{ $course->course_id }}" {{ $selectedCourseId == $course->course_id ? 'selected' : '' }}>
+            										หลักสูตรนิสิต/นักศึกษา &gt;&gt; {{ $course->cate_title }} &gt;&gt;{{ $course->course_title }}
+        										</option>
+    										@endforeach
+									</select> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_course_id_em_" style="display:none"></div>
 										</div>
 									</div>
 
 									<div class="row">
-										<label for="Lesson_title" class="required">ชื่อบทเรียน <span class="required">*</span></label> <input size="60" maxlength="80" class="span8" name="Lesson[title]" id="Lesson_title" type="text"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="Lesson_title" class="required">ชื่อบทเรียน <span class="required">*</span></label> <input size="60" maxlength="80" class="span8" name="Lesson[title]" id="Lesson_title" type="text" value="{{ $lesson->title }}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_title_em_" style="display:none"></div>
 										</div>
 									</div>
 
 									<div class="row">
-										<label for="Lesson_description" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea size="60" maxlength="255" class="span8" name="Lesson[description]" id="Lesson_description"></textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="Lesson_description" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea size="60" maxlength="255" class="span8" name="Lesson[description]" id="Lesson_description">{{ $lesson->description }}</textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_description_em_" style="display:none"></div>
 										</div>
@@ -277,14 +239,14 @@
 										</div>
 									</div>
 									<div class="row">
-										<label for="Lesson_cate_amount" class="required">จำนวนครั้งที่สามารถทำข้อสอบได้ <span class="required">*</span></label> <input size="60" maxlength="255" class="span8" name="Lesson[cate_amount]" id="Lesson_cate_amount" type="text" value="2"> ครั้ง
+										<label for="Lesson_cate_amount" class="required">จำนวนครั้งที่สามารถทำข้อสอบได้ <span class="required">*</span></label> <input size="60" maxlength="255" class="span8" name="Lesson[cate_amount]" id="Lesson_cate_amount" type="text" value="{{ $lesson->cate_amount }}"> ครั้ง
 										<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_cate_amount_em_" style="display:none"></div>
 										</div>
 									</div>
 									<div class="row">
-										<label for="Lesson_time_test">เวลาในการทำข้อสอบ</label> <input size="60" maxlength="255" class="span8" name="Lesson[time_test]" id="Lesson_time_test" type="text" value="60"> นาที
+										<label for="Lesson_time_test">เวลาในการทำข้อสอบ</label> <input size="60" maxlength="255" class="span8" name="Lesson[time_test]" id="Lesson_time_test" type="text" value="{{ $lesson->time_test }}"> นาที
 										<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_time_test_em_" style="display:none"></div>
@@ -392,7 +354,7 @@
 													</div>
 												</div>
 											</div>
-										</div><textarea class="tinymce" name="Lesson[content]" id="Lesson_content" aria-hidden="true" style="display: none;"></textarea>
+										</div><textarea class="tinymce" name="Lesson[content]" id="Lesson_content" aria-hidden="true" style="display: none;">{{$lesson->content}}</textarea>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_content_em_" style="display:none"></div>
 										</div>
@@ -466,6 +428,13 @@
 									<br>
 
 									<div class="row">
+										<div id="picture_show" style="">
+											รูปเดิม : <br>
+											<img src="{{ asset('../storage/images/uploads/lesson/' . $lesson->image) }}"
+												alt="รูปภาพ" style="width: 300px; " id="selected_picture"
+												value="{{ $lesson->image }}"
+												name="lesson_picture_o"><br><br>
+										</div>
 									</div>
 									<br>
 									<div class="row">
@@ -488,7 +457,7 @@
 									<br><br>
 
 									<div class="row buttons">
-										<button class="btn btn-primary btn-icon glyphicons ok_2" onclick="return upload();"><i></i>บันทึกข้อมูล</button>
+										<button class="btn btn-primary btn-icon glyphicons ok_2" onclick="return upload();"><i></i>อัปเดตข้อมูล</button>
 									</div>
 
 								</form>
@@ -524,4 +493,4 @@
 
 </body>
 
-<?php include 'footer.php' ?>
+@endsection
