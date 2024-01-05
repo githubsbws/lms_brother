@@ -38,9 +38,11 @@ use App\Http\Controllers\AdminController;
 |
 */
 Route::get('/', [IndexController::class,'index'])->name('index');
-Route::get('/test', function () {
-    return view('test');
-});
+
+Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
+Route::post('logins', [LoginController::class,'login'])->name('logins');
+Route::post('logout', [LoginController::class,'logout'])->name('logout');
+
 Route::get('/admin', function () {
     return view('admin/index/index');
 });
@@ -113,9 +115,7 @@ Route::get('forgot/pass',[ForgotController::class,'forgotPass'])->name('forgot.p
 Route::get('index',[IndexController::class,'index'])->name('index');
 // ----- login
 // Route::get('logins',[LoginLController::class,'loginL'])->name('loginL.login');
-Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
-Route::post('logins', [LoginController::class,'login'])->name('logins');
-Route::post('logout', [LoginController::class,'logout'])->name('logout');
+
 // ----- new
 Route::get('new',[NewController::class,'new'])->name('new');
 Route::get('new_detail/{id}',[NewController::class,'new_detail'])->name('new_detail');

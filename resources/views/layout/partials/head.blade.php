@@ -183,11 +183,11 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                         <!-- user -->
                         <li class="dropdown user" style="border-right-color: #fff;">
                             <a href="#" class="dropdown-toggle ripple" data-toggle="dropdown" aria-expanded="false"><span class="ink animate" style="height: 177px; width: 177px; top: -52.5px; left: -8.07501px;"></span>
-                                <img class="img-circle" style="height:30px;" src="themes/bws/images/default-avatar.png" alt="No Image"> {{Auth::user()->firstname}} <span class="caret"></span>
+                                <img class="img-circle" style="height:30px;" src="themes/bws/images/default-avatar.png" alt="No Image"> {{Auth::user()->username}} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu" style="height: auto; display: none; overflow: visible; top: 100%; opacity: 0;">
-                                <li><a href="dashboard.php"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
-                                <li><a href="course.php"><i class="fa fa-mortar-board"></i> หลักสูตรของฉัน</a></li>
+                                <li><a href="{{ url('dashboard') }}"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
+                                <li><a href="{{ url('course') }}"><i class="fa fa-mortar-board"></i> หลักสูตรของฉัน</a></li>
                                 <li><a href="user.php"><i class="fa fa-user"></i>
                                         โปรไฟล์</a></li>
                                 
