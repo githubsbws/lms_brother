@@ -17,9 +17,4 @@ class Lesson extends Model
     {
         return static::where('id', $id)->first();
     }
-
-    public static function findBycourseId($id)
-    {
-        return static::where('course_id', $id)->first();
-    }
 }

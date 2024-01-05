@@ -11,7 +11,12 @@ class News extends Model
 
     protected $table = 'news';
 
-    protected $primarykey = 'cmms_id';
+    protected $primarykey = 'cms_id';
+
+    protected $fillable = [ 'cms_title','cms_short_title','cms_picture','create_date','create_by','update_date','update_by','active'];
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
 
     public static function findById($id)
     {

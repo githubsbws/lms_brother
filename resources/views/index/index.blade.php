@@ -3,7 +3,7 @@
 @section('content')
 <body>
     <div class="page-cover">
-        <img src="assets/images/screen1.png" alt="">
+        <img src="{{asset('assets/images/screen1.png')}}" alt="">
     </div>
 
     <div class="container">
@@ -13,7 +13,11 @@
                     <!-- start con 8 -->
                     <h2 class="title-layout">
                         <span>ข่าวสาร</span> <small>รวมข่าวสารของ Brother </small>
+                        @if(Auth::check())
                         <a href="{{url('new')}}" class="pull-right btn btn-xs btn-light text-1 text-uppercase">ดูทั้งหมด <i class="fa fa-" aria-hidden="true"></i>
+                        @else
+                        <a href="{{url('logins')}}" class="pull-right btn btn-xs btn-light text-1 text-uppercase">ดูทั้งหมด <i class="fa fa-" aria-hidden="true"></i>
+                        @endif
                         </a>
                     </h2>
                     <div class="row">
@@ -56,7 +60,7 @@
               
                                <button href="#modal-ckeck-key-file" data-toggle="modal" class="pull-right btn btn-xs btn-light text-1 text-uppercase " fdprocessedid="fyzyev">ดูทั้งหมด <i class="fa fa-" aria-hidden="true"></i>
                               </button> </h2>
-              
+
                             
                                                              <br>
                                               <!-- <button type="button" class="accordion mg-0 download-dc" data-toggle="modal" data-target="#exampleModal"><img src="/themes/bws/images/icons8-pdf-48.png">                 </button>
@@ -68,7 +72,7 @@
                                                     <li class="list-group-item"><a href="/index.php/site/download?file_id=1129">
                                       SM_PJ673.pdf <span class="pull-right"><i class="fa fa-download"></i> ดาวน์โหลด </span></a></li>
                                                 </div> -->
-              
+                              @if(Auth::check())
                               <div class="panel panel-default paper-shadow download-group" data-z="0.5" style="margin-bottom: 5px;">
                                 <ul class=" list-group">
                                 <li class="list-group-item">
@@ -1115,7 +1119,17 @@
               
                                 </ul>
                               </div>
-              
+                              @else
+                              <li class="list-group-item">
+                                <div class="media v-middle">
+                                  <div class="media-body">
+                                    <h4 class="text-headline margin-none" style="font-size: 26px;">กรุณาเข้าสู่ระบบเพื่อดาวน์โหลดไฟล์เอกสาร</h4>
+                                  </div>
+                                  <div class="media-right">
+                                  </div>
+                                </div>
+                              </li>
+                              @endif
               
                             
               

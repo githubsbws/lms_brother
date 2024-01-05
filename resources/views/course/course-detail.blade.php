@@ -19,7 +19,7 @@
                         </div>
                         <div class="media-right">
                             <a class="btn btn-white" style="font-size: 22px;"
-                                href="/lms_brother_docker/lms/app/index.php/course/index">รวมหลักสูตร</a>
+                                href="{{ url('course') }}">รวมหลักสูตร</a>
                         </div>
                     </div>
                 </div>

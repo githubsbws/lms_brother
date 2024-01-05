@@ -143,6 +143,8 @@ Route::get('/video',[AdminController::class,'video'])->name('video');
 Route::get('/document',[AdminController::class,'document'])->name('document');
 
 Route::get('/news',[AdminController::class,'news'])->name('news');
+Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
+Route::post('/news_create',[AdminController::class,'news_insert'])->name('news_insert');
 
 Route::get('/category',[AdminController::class,'category'])->name('category');
 

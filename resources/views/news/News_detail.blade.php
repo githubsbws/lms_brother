@@ -45,19 +45,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="float: right;">
-                                <ul class="pagination margin-top-none" id="yw0">
-                                    <li class="first hidden"><a href="/lms_brother_docker/lms/app/index.php/list_news/index">&lt;&lt; หน้าแรก</a></li>
-                                    <li class="previous hidden"><a href="/lms_brother_docker/lms/app/index.php/list_news/index">&lt; หน้าที่แล้ว</a></li>
-                                    <li class="page active"><a href="">1</a></li>
-                                    <li class="page"><a href="">2</a></li>
-                                    <li class="page"><a href="">3</a></li>
-                                    <li class="page"><a href="">4</a></li>
-                                    <li class="page"><a href="">5</a></li>
-                                    <li class="next"><a href="">หน้าถัดไป &gt;</a></li>
-                                    <li class="last"><a href="">หน้าสุดท้าย &gt;&gt;</a></li>
-                                </ul>
-                            </div>
                         </div>
                         <div class="col-md-3">
                             <form action="/lms_brother_docker/lms/app/index.php/list_news" method="post">
