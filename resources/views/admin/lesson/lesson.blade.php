@@ -148,52 +148,6 @@
 														@foreach ($course_online as $course)
             												<option value="{{ $course->course_id }}">{{ $course->course_title }}</option>
         												@endforeach
-														{{-- <option value="236">tee test</option>
-														<option value="235">ทีเทส</option>
-														<option value="232">หลักสูตรแนะนำผลิตภัณฑ์ GTX เบื้องต้น</option>
-														<option value="231">หลักสูตรแนะนำผลิตภัณฑ์ BMB เบื้องต้น</option>
-														<option value="230">Online Marketing Day4 Facebook Live Shopee Lazada</option>
-														<option value="229">Online Marketing Day3 Facebook and IG Ads</option>
-														<option value="228">Online Marketing Day2 Digital Content Strategy</option>
-														<option value="226">Online Marketing Day1 Social Media Platform</option>
-														<option value="225">การซ่อมบำรุงเครื่องพิมพ์ฉลาก รุ่น TD-4550DNWB</option>
-														<option value="224">การซ่อมบำรุงจักรเย็บผ้ารุ่น NV-180</option>
-														<option value="223">การซ่อมบำรุงจักรเย็บผ้ารุ่น GS2700</option>
-														<option value="222">การซ่อมบำรุงเครื่องพิมพ์ฉลาก PT-E850TKW</option>
-														<option value="220">หลักสูตรผลิตภัณฑ์ใหม่ BHmini19HT</option>
-														<option value="219">Ink Tank Mini19HT_BCC</option>
-														<option value="218">ธกส. (HiQ)</option>
-														<option value="217">Product Overview </option>
-														<option value="215">Strategic Thinking</option>
-														<option value="214">เทคนิคการนำเสนอบริการเสริมการรับประกันเครื่อง " Brother Care Pack "</option>
-														<option value="213">CRG Project</option>
-														<option value="212">การใช้งานโปรแกรม BR-Admin Professional 4</option>
-														<option value="211">ความรู้ทั่วไป</option>
-														<option value="210">Barcode Utility Program</option>
-														<option value="209">การซ่อมบำรุงเครื่อง Scanner สำหรับ ADS-Series</option>
-														<option value="208">การใช้งานโปรแกรม Brother iprint and scan</option>
-														<option value="201">การเรียนรู้เครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422 Training For BCC</option>
-														<option value="197">การซ่อมบำรุงเครื่องพิมพ์ Brother Color LED สำหรับ ECL-Series</option>
-														<option value="195">TEST_COURSEONLINE</option>
-														<option value="192">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ A3 Inkjet Tank Technology.</option>
-														<option value="191">การซ่อมบำรุงเครื่องพิมพ์ Brother Mono Laser สำหรับ ELL-Series</option>
-														<option value="190">การใช้ Cap Frame เบี้ยงต้น</option>
-														<option value="189">ตำแหน่งการปรับสายพานจักร VR</option>
-														<option value="188">การแก้ไขปัญหาจักร VR ปุ่มนิรภัยถูกปิด</option>
-														<option value="187">Mobile printing</option>
-														<option value="186">การติดตั้งและการใช้งาน Program Brother Meter Read Tool</option>
-														<option value="185">ความรู้พื้นฐานของจักร NV950</option>
-														<option value="184">Brother Service Excellence ( Module I : Brother Care ) </option>
-														<option value="183">Brother Service Excellence ( Module II : Brother นักบริการมืออาชีพ )</option>
-														<option value="182">การซ่อมบำรุงเครื่องพิมพ์ Brother Mono Laser สำหรับ DL-Series</option>
-														<option value="180">Sales : รู้จักกับ Inkjet tank ของ Brother กัน</option>
-														<option value="179">Sales : อบรมความเข้าใจพื้นฐานเกี่ยวกับการใช้งาน Scanner</option>
-														<option value="178">Sales : อัพเดต Laser รุ่นใหม่</option>
-														<option value="177">Sales : P-Touch Editor</option>
-														<option value="176">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ Inkjet Tank System.</option>
-														<option value="172">การแก้ปัญหาเบื้องตของจักรเย็บผ้า</option>
-														<option value="171">การใช้งานระบบบริการลูกค้า (New BSIS)</option>
-														<option value="139">การใช้งานโปรแกรมลายปักษ์ (PE-Design Next)</option> --}}
 													</select></td>
 												<td><input name="Lesson[title]" type="text" maxlength="80"></td>
 												<td>&nbsp;</td>

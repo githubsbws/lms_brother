@@ -203,10 +203,10 @@
 									@csrf
 									<p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
 									<div class="row">
-										<label for="Lesson_course_id" class="required">หลักสูตรอบรมออนไลน์ <span class="required">*</span></label> <select class="span8" name="Lesson[course_id]" id="Lesson_course_id">
+										<label for="Lesson_course_id" class="required">หลักสูตรอบรมออนไลน์ <span class="required">*</span></label> <select class="span8" name="Lesson[course_id]" id="Lesson_course_id" required>
 											<option value="">-- กรุณาเลือกหลักสูตร --</option>
 											@foreach ($course_online as $course)
-											<option value="{{ $course->course_id }}">หลักสูตรนิสิต/นักศึกษา &gt;&gt; {{ $course->cate_title }} &gt;&gt;{{ $course->course_title }}</option>
+											<option value="{{ $course->course_id }}">{{$course->course_title}} &gt;&gt; {{ $course->cate_title }} &gt;&gt;{{ $course->course_title }}</option>
 											@endforeach
 											{{-- แก้ไข --}}						
 										</select> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
@@ -216,14 +216,14 @@
 									</div>
 
 									<div class="row">
-										<label for="Lesson_title" class="required">ชื่อบทเรียน <span class="required">*</span></label> <input size="60" maxlength="80" class="span8" name="Lesson[title]" id="Lesson_title" type="text"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="Lesson_title" class="required">ชื่อบทเรียน <span class="required">*</span></label> <input size="60" maxlength="80" class="span8" name="Lesson[title]" id="Lesson_title" type="text" required> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_title_em_" style="display:none"></div>
 										</div>
 									</div>
 
 									<div class="row">
-										<label for="Lesson_description" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea size="60" maxlength="255" class="span8" name="Lesson[description]" id="Lesson_description"></textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="Lesson_description" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea size="60" maxlength="255" class="span8" name="Lesson[description]" id="Lesson_description" required></textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_description_em_" style="display:none"></div>
 										</div>
@@ -238,14 +238,14 @@
 										</div>
 									</div>
 									<div class="row">
-										<label for="Lesson_cate_amount" class="required">จำนวนครั้งที่สามารถทำข้อสอบได้ <span class="required">*</span></label> <input size="60" maxlength="255" class="span8" name="Lesson[cate_amount]" id="Lesson_cate_amount" type="text" value="2"> ครั้ง
+										<label for="Lesson_cate_amount" class="required">จำนวนครั้งที่สามารถทำข้อสอบได้ <span class="required">*</span></label> <input size="60" maxlength="255" class="span8" name="Lesson[cate_amount]" id="Lesson_cate_amount" type="text" value="2" required> ครั้ง
 										<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_cate_amount_em_" style="display:none"></div>
 										</div>
 									</div>
 									<div class="row">
-										<label for="Lesson_time_test">เวลาในการทำข้อสอบ</label> <input size="60" maxlength="255" class="span8" name="Lesson[time_test]" id="Lesson_time_test" type="text" value="60"> นาที
+										<label for="Lesson_time_test">เวลาในการทำข้อสอบ</label> <input size="60" maxlength="255" class="span8" name="Lesson[time_test]" id="Lesson_time_test" type="text" value="60" required> นาที
 										<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_time_test_em_" style="display:none"></div>
@@ -353,7 +353,7 @@
 													</div>
 												</div>
 											</div>
-										</div><textarea class="tinymce" name="Lesson[content]" id="Lesson_content" aria-hidden="true" style="display: none;"></textarea>
+										</div><textarea class="tinymce" name="Lesson[content]" id="Lesson_content" aria-hidden="true" style="" required></textarea>
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_content_em_" style="display:none"></div>
 										</div>
@@ -362,8 +362,8 @@
 									<div class="row">
 										<label for="File_filename">ไฟล์บทเรียน (mp3,mp4)</label>
 										<div id="queue"></div>
-										<input id="ytfilename" type="hidden" value="" name="File[filename]">
-										<div id="uploadifive-filename" class="uploadifive-button" style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 100px;">Select Files<input id="filename" multiple="multiple" name="File[filename]" type="file" style="display: none;"><input type="file" style="opacity: 0; position: absolute; z-index: 999;" multiple="multiple"></div> <!-- <input id="file_upload" name="file_upload" type="file" multiple="true" > -->
+										<input id="ytfilename" type="file" value="" name="File[filename]">
+										{{-- <div id="uploadifive-filename" class="uploadifive-button" style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 100px;">Select Files<input id="filename" multiple="multiple" name="File[filename]" type="file" style="display: none;"><input type="file" style="opacity: 0; position: absolute; z-index: 999;" multiple="multiple"></div> <!-- <input id="file_upload" name="file_upload" type="file" multiple="true" > -->
 										<!-- <a style="position: relative; top: 8px;" href="javascript:$('#file_upload').uploadifive('upload')">Upload Files</a> -->
 										<script type="text/javascript">
 											$(function() {
@@ -387,7 +387,7 @@
 													}
 												});
 											});
-										</script>
+										</script> --}}
 										<div class="error help-block">
 											<div class="label label-important" id="File_filename_em_" style="display:none"></div>
 										</div>
@@ -396,8 +396,8 @@
 									<div class="row">
 										<label for="FileDoc_doc">ไฟล์ประกอบบทเรียน (pdf,docx,pptx)</label>
 										<div id="docqueue"></div>
-										<input id="ytdoc" type="hidden" value="" name="FileDoc[doc]">
-										<div id="uploadifive-doc" class="uploadifive-button" style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 100px;">Select Files<input id="doc" multiple="multiple" name="FileDoc[doc]" type="file" style="display: none;"><input type="file" style="opacity: 0; position: absolute; z-index: 999;" multiple="multiple"></div> <!-- <input id="file_upload" name="file_upload" type="file" multiple="true" > -->
+										<input id="ytdoc" type="file" value="" name="FileDoc[doc]">
+										{{-- <div id="uploadifive-doc" class="uploadifive-button" style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 100px;">Select Files<input id="doc" multiple="multiple" name="FileDoc[doc]" type="file" style="display: none;"><input type="file" style="opacity: 0; position: absolute; z-index: 999;" multiple="multiple"></div> <!-- <input id="file_upload" name="file_upload" type="file" multiple="true" > -->
 										<!-- <a style="position: relative; top: 8px;" href="javascript:$('#file_upload').uploadifive('upload')">Upload Files</a> -->
 										<script type="text/javascript">
 											$(function() {
@@ -417,7 +417,7 @@
 													}
 												});
 											});
-										</script>
+										</script> --}}
 										<div class="error help-block">
 											<div class="label label-important" id="FileDoc_doc_em_" style="display:none"></div>
 										</div>

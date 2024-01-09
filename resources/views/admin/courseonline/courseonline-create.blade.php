@@ -78,7 +78,7 @@
                                         <div class="row">
                                             <label for="CourseOnline_cate_id" class="required">หมวดอบรมออนไลน์ <span
                                                     class="required">*</span></label> <select class="span8"
-                                                name="CourseOnline[cate_id]" id="CourseOnline_cate_id">
+                                                name="CourseOnline[cate_id]" id="CourseOnline_cate_id" required>
                                                 <option value="">ทั้งหมด</option>
                                                 @foreach ($category as $cate_id => $cate_title)
                                                     <option value="{{ $cate_id }}">{{ $cate_title }}</option>
@@ -101,7 +101,7 @@
                                         <div class="row">
                                             <label for="CourseOnline_course_lecturer">ชื่อวิยากร</label> <select
                                                 class="span8" name="CourseOnline[course_lecturer]"
-                                                id="CourseOnline_course_lecturer">
+                                                id="CourseOnline_course_lecturer" required>
                                                 <option value="">ทั้งหมด</option>
                                                 <option value="56">อาจารย์ นภัทร สุขศิริภูริภัทร</option>
                                                 <option value="55">Prakaikoon Thomma (Noon)</option>
@@ -138,7 +138,7 @@
                                                 class="required">ชื่อหลักสูตรอบรมออนไลน์ <span
                                                     class="required">*</span></label> <input size="60"
                                                 maxlength="255" class="span8" name="CourseOnline[course_title]"
-                                                id="CourseOnline_course_title" type="text"> <span style="margin:0;"
+                                                id="CourseOnline_course_title" type="text" required> <span style="margin:0;"
                                                 class="btn-action single glyphicons circle_question_mark"><i></i></span>
                                             <div class="error help-block">
                                                 <div class="label label-important" id="CourseOnline_course_title_em_"
@@ -150,7 +150,7 @@
                                             <label for="CourseOnline_course_short_title" class="required">รายละเอียดย่อ
                                                 <span class="required">*</span></label>
                                             <textarea rows="6" cols="50" class="span8" name="CourseOnline[course_short_title]"
-                                                id="CourseOnline_course_short_title"></textarea> <span style="margin:0;"
+                                                id="CourseOnline_course_short_title" required></textarea> <span style="margin:0;"
                                                 class="btn-action single glyphicons circle_question_mark"><i></i></span>
                                             <div class="error help-block">
                                                 <div class="label label-important"
@@ -555,7 +555,7 @@
                                                 </div>
                                             </div>
                                             <textarea rows="6" cols="50" class="span8 tinymce" name="CourseOnline[course_detail]"
-                                                id="CourseOnline_course_detail" aria-hidden="true" style=""></textarea>
+                                                id="CourseOnline_course_detail" aria-hidden="true" style="" required></textarea>
                                             <div class="error help-block">
                                                 <div class="label label-important" id="CourseOnline_course_detail_em_"
                                                     style="display:none"></div>

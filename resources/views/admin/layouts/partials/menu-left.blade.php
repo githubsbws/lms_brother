@@ -62,19 +62,19 @@
 				</li>
 				<li class="hasSubmenu glyphicons folder_open"><a data-toggle="collapse" href="#Category"><span class="label label-primary">1</span> <i></i><span>ระบบหมวดหลักสูตร</span></a>
 					<ul class=" collapse " id="Category">
-						<li><a href="category-create">เพิ่มหมวดหลักสูตร (ภาษา EN )</a></li>
+						<li><a href="/category-create">เพิ่มหมวดหลักสูตร (ภาษา EN )</a></li>
 						<li><a href="{{ url('/category') }}">จัดการหมวดหลักสูตร</a></li>
 					</ul>
 				</li>
 				<li class="hasSubmenu glyphicons imac"><a data-toggle="collapse" href="#CourseOnline"><span class="label label-primary">2</span> <i></i><span>ระบบจัดการหลักสูตร</span></a>
 					<ul class=" collapse " id="CourseOnline">
-						<li><a href="courseonline-create">เพิ่ม (ภาษา EN )</a></li>
+						<li><a href="/courseonline-create">เพิ่ม (ภาษา EN )</a></li>
 						<li><a href="{{ url('/courseonline') }}">จัดการ</a></li>
 					</ul>
 				</li>
 				<li class="hasSubmenu glyphicons imac"><a data-toggle="collapse" href="#Lesson"><span class="label label-primary">3</span> <i></i><span>ระบบจัดการเนื้อหาบทเรียน</span></a>
 					<ul class=" collapse " id="Lesson">
-						<li><a href="lession-create">เพิ่มบทเรียน (ภาษา EN )</a></li>
+						<li><a href="/lession-create">เพิ่มบทเรียน (ภาษา EN )</a></li>
 						<li><a href="{{ url('/lesson') }}">จัดการบทเรียน</a></li>
 					</ul>
 				</li>

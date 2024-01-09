@@ -103,10 +103,10 @@
                                         </div>
 
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_number">รหัสหลักสูตร</label>					<input class="span8" name="CourseOnline[course_number]" id="CourseOnline_course_number" type="text" maxlength="255" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_number_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_number">รหัสหลักสูตร</label>					<input class="span8" name="CourseOnline[course_number]" id="CourseOnline_course_number" type="text" maxlength="255" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_number_em_" style="display:none"></div></div>				</div> -->
 
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_rector_date">หลักสูตรได้รับความเห็นชอบเมื่อวันที่</label>					<input class="span8" readonly="readonly" id="CourseOnline_course_rector_date" name="CourseOnline[course_rector_date]" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_rector_date_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_rector_date">หลักสูตรได้รับความเห็นชอบเมื่อวันที่</label>					<input class="span8" readonly="readonly" id="CourseOnline_course_rector_date" name="CourseOnline[course_rector_date]" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_rector_date_em_" style="display:none"></div></div>				</div> -->
 
                                         <div class="row">
                                             <label for="CourseOnline_course_lecturer">ชื่อวิยากร</label>
@@ -613,33 +613,33 @@
 
 
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_refer">กำหนดอ้างถึงหนังสือ</label>					<input size="60" maxlength="255" class="span8" name="CourseOnline[course_refer]" id="CourseOnline_course_refer" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_refer_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_refer">กำหนดอ้างถึงหนังสือ</label>					<input size="60" maxlength="255" class="span8" name="CourseOnline[course_refer]" id="CourseOnline_course_refer" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_refer_em_" style="display:none"></div></div>				</div> -->
 
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_book_number">หนังสือกรมพัฒนาธุรกิจการค้าเลขที่</label>					<input class="span8" name="CourseOnline[course_book_number]" id="CourseOnline_course_book_number" type="text" maxlength="255" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_book_number_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_book_number">หนังสือกรมพัฒนาธุรกิจการค้าเลขที่</label>					<input class="span8" name="CourseOnline[course_book_number]" id="CourseOnline_course_book_number" type="text" maxlength="255" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_book_number_em_" style="display:none"></div></div>				</div> -->
 
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_book_date">วันที่พัฒนาธุรกิจการค้า</label>					<input class="span8" readonly="readonly" id="CourseOnline_course_book_date" name="CourseOnline[course_book_date]" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_book_date_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_book_date">วันที่พัฒนาธุรกิจการค้า</label>					<input class="span8" readonly="readonly" id="CourseOnline_course_book_date" name="CourseOnline[course_book_date]" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_book_date_em_" style="display:none"></div></div>				</div> -->
 
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_type">ประเภทการเก็บชั่วโมง</label>					<select class="span8" name="CourseOnline[course_type]" id="CourseOnline_course_type">
-                                                    <option value="">เลือกประเภทการเก็บชั่วโมง</option>
-                                                    <option value="1">CPD</option>
-                                                    <option value="2">CPA</option>
-                                                    </select>					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_type_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_type">ประเภทการเก็บชั่วโมง</label>					<select class="span8" name="CourseOnline[course_type]" id="CourseOnline_course_type">
+                                                        <option value="">เลือกประเภทการเก็บชั่วโมง</option>
+                                                        <option value="1">CPD</option>
+                                                        <option value="2">CPA</option>
+                                                        </select>					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_type_em_" style="display:none"></div></div>				</div> -->
 
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_hour">การเก็บชั่วโมง (บัญชี)</label>					<input size="60" maxlength="255" class="span8" name="CourseOnline[course_hour]" id="CourseOnline_course_hour" type="text" />					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_hour_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_hour">การเก็บชั่วโมง (บัญชี)</label>					<input size="60" maxlength="255" class="span8" name="CourseOnline[course_hour]" id="CourseOnline_course_hour" type="text" />					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_hour_em_" style="display:none"></div></div>				</div> -->
 
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_other">การเก็บชั่วโมง (อื่นๆ)</label>					<input size="60" maxlength="255" class="span8" name="CourseOnline[course_other]" id="CourseOnline_course_other" type="text" />					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_other_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_other">การเก็บชั่วโมง (อื่นๆ)</label>					<input size="60" maxlength="255" class="span8" name="CourseOnline[course_other]" id="CourseOnline_course_other" type="text" />					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_other_em_" style="display:none"></div></div>				</div> -->
 
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_tax">ประเภทการเสียภาษีหรือไม่</label>					<select class="span8" name="CourseOnline[course_tax]" id="CourseOnline_course_tax">
-                                                    <option value="">กรุณาเลือกประเภท</option>
-                                                    <option value="0" selected="selected">ไม่เสียภาษี (n.v.)</option>
-                                                    <option value="1">เสียภาษี</option>
-                                                    </select>					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_tax_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_tax">ประเภทการเสียภาษีหรือไม่</label>					<select class="span8" name="CourseOnline[course_tax]" id="CourseOnline_course_tax">
+                                                        <option value="">กรุณาเลือกประเภท</option>
+                                                        <option value="0" selected="selected">ไม่เสียภาษี (n.v.)</option>
+                                                        <option value="1">เสียภาษี</option>
+                                                        </select>					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_tax_em_" style="display:none"></div></div>				</div> -->
 
                                         <div class="row">
                                             <label for="CourseOnline_course_note">หมายเหตุ</label> <input size="60"
@@ -651,9 +651,9 @@
                                                     style="display:none"></div>
                                             </div>
                                         </div>
-                                        
+
                                         <!-- <div class="row">
-                                                         <label for="CourseOnline_course_price">ราคา</label>					<input class="span8" name="CourseOnline[course_price]" id="CourseOnline_course_price" type="text" value="0" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_price_em_" style="display:none"></div></div>				</div> -->
+                                                             <label for="CourseOnline_course_price">ราคา</label>					<input class="span8" name="CourseOnline[course_price]" id="CourseOnline_course_price" type="text" value="0" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_price_em_" style="display:none"></div></div>				</div> -->
 
                                         <div class="row">
                                         </div>
@@ -661,7 +661,7 @@
                                         <br>
                                         <div class="row">
                                             <div id="picture_show" style="">
-                                                รูปเดิม : <br>
+                                                ภาพประกอบ <br>
                                                 <img src="{{ asset('../storage/images/uploads/' . $course_detail->course_picture) }}"
                                                     alt="รูปภาพ" style="width: 300px; " id="selected_picture"
                                                     value="{{ $course_detail->course_picture }}"
@@ -670,19 +670,19 @@
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <label for="CourseOnline_course_picture">รูปภาพใหม่</label>
+                                            <label for="CourseOnline_course_picture">รูปภาพ</label>
                                             <div class="fileupload fileupload-new" data-provides="fileupload">
                                                 <div class="input-append">
                                                     <div class="uneditable-input span3"><i
-                                                            class="icon-file fileupload-exists"></i>
-                                                        <span class="fileupload-preview"></span>
-                                                    </div><span class="btn btn-default btn-file"></span>
-                                                    <span class="fileupload-new">Select file</span><span
-                                                        class="fileupload-exists">Change</span><input
-                                                        id="ytCourseOnline_course_picture" type="hidden" value=""
-                                                        name="CourseOnline[course_picture]"><input
-                                                        name="CourseOnline[course_picture]"
-                                                        id="CourseOnline_course_picture" type="file"></span><a
+                                                            class="icon-file fileupload-exists"></i> <span
+                                                            class="fileupload-preview"></span></div><span
+                                                        class="btn btn-default btn-file"><span
+                                                            class="fileupload-new">Select file</span><span
+                                                            class="fileupload-exists">Change</span><input
+                                                            id="ytCourseOnline_course_picture" type="hidden"
+                                                            value="" name="CourseOnline[course_picture]"><input
+                                                            name="CourseOnline[course_picture]"
+                                                            id="CourseOnline_course_picture" type="file"></span><a
                                                         href="#" class="btn fileupload-exists"
                                                         data-dismiss="fileupload">Remove</a>
                                                 </div>

@@ -26,8 +26,20 @@ class LessonController extends Controller
         $extension = $uploadedFile->getClientOriginalExtension();
         $filename = now()->format('Ymd') . rand(10000, 99999) . '_Picture.' . $extension;
         $uploadedFile->storeAs('public/images/uploads/lesson/', $filename);
+        // video
+        $videoFileNames = $request->file('File.filename');
+        $extension_vdo = $videoFileNames->getClientOriginalExtension();
+        $filename_vdo = rand(10000000, 99999999) . '-1.' . $extension_vdo;
+        $filename_name_vdo = $videoFileNames->getClientOriginalName();
+        $videoFileNames->storeAs('public/vdo/uploads/lesson/', $filename_vdo);
+        // doc
+        $docFileNames = $request->file('FileDoc.doc');
+        $extension_doc = $docFileNames->getClientOriginalExtension();
+        $filename_doc = rand(100000000, 999999999) . '-1.' . $extension_doc;
+        $filename_name_doc = $docFileNames->getClientOriginalName();
+        $docFileNames->storeAs('public/doc/uploads/lesson/', $filename_name_doc);
         // ข้อมูล
-        $data = [
+        $data = Lesson::create([
             'course_id' => $request->input('Lesson.course_id'),
             'title' => $request->input('Lesson.title'),
             'description' => $request->input('Lesson.description'),
@@ -36,8 +48,18 @@ class LessonController extends Controller
             'time_test' => $request->input('Lesson.time_test'),
             'content' => $request->input('Lesson.content'),
             'image' => $filename,
-        ];
-        DB::table('lesson')->insert($data);
+        ]);
+        $vdo = $data->file()->create([
+            'filename' => $filename_vdo,
+            'file_name' => $filename_name_vdo,
+
+        ]);
+        $doc = $data->filedoc()->create([
+            'filename' => $filename_doc,
+            'file_name' => $filename_name_doc,
+
+        ]);
+        // DB::table('lesson')->insert($data);
         $redirectUrl = route('lesson');
         return redirect($redirectUrl);
     }
@@ -52,28 +74,61 @@ class LessonController extends Controller
             ->select('course_title', 'course_id', 'cate_title')
             ->get();
         $selectedCourseId = $lesson->course_id;
-        return view("admin\lesson\lesson-edit", compact('lesson', 'course_online', 'selectedCourseId'));
+        $vdo = DB::table('file')->where('lesson_id', $id)->get();
+        $doc = DB::table('file_doc')->where('lesson_id', $id)->get();
+        return view("admin\lesson\lesson-edit", compact('lesson', 'course_online', 'selectedCourseId', 'vdo', 'doc'));
     }
 
     // lession edit to
     function lessioneditto(Request $request, $id)
     {
         // img
-        $filename = DB::table('lesson')->where('id', $id)->value('image');
-        $uploadedFile = $request->file('Lesson.image');
-        if ($uploadedFile) {
-            $extension = $uploadedFile->getClientOriginalExtension();
+        $filename_image =  DB::table('lesson')->where('id', $id)->value('image');
+        $uploadedFile_imag = $request->file('Lesson.image');
+        if ($uploadedFile_imag) {
+            $extension = $uploadedFile_imag->getClientOriginalExtension();
             // ตั้งชื่อไฟล์
-            $filename = now()->format('Ymd') . rand(10000, 99999) . '_Picture.' . $extension;
+            $filename_image = now()->format('Ymd') . rand(10000, 99999) . '_Picture.' . $extension;
             // บันทึกไฟล์
-            $uploadedFile->storeAs('public/images/uploads/lesson/', $filename);
+            $uploadedFile_imag->storeAs('public/images/uploads/lesson/', $filename_image);
             // อัปเดตไฟล์ลงฐานข้อมูล
             DB::table('lesson')->where('id', $id)->update([
-                'image' => $filename,
+                'image' => $filename_image,
+            ]);
+        }
+        // vdo
+        $filename_vdo = DB::table('file')->where('lesson_id', $id)->value('filename');
+        $filename_name_vdo = DB::table('file')->where('lesson_id', $id)->value('file_name');
+        $uploadedFile_vdo = $request->file('File.filename');
+        if ($uploadedFile_vdo) {
+            $extension_vdo = $uploadedFile_vdo->getClientOriginalExtension();
+            $filename_vdo = rand(10000000, 99999999) . '-1.' . $extension_vdo;
+            $filename_name_vdo = $uploadedFile_vdo->getClientOriginalName();
+            $uploadedFile_vdo->storeAs('public/vdo/uploads/lesson/', $filename_vdo);
+            // อัปเดตไฟล์ลงฐานข้อมูล
+            DB::table('file')->where('lesson_id', $id)->update([
+                'filename' => $filename_vdo,
+                'file_name' => $filename_name_vdo,
+            ]);
+        }
+        // doc
+        $filename_doc = DB::table('file_doc')->where('lesson_id', $id)->value('filename');
+        $filename_name_doc = DB::table('file_doc')->where('lesson_id', $id)->value('file_name');
+        $uploadedFile_doc = $request->file('FileDoc.doc');
+        if ($uploadedFile_doc) {
+            $extension_doc = $uploadedFile_doc->getClientOriginalExtension();
+            $filename_doc = rand(100000000, 999999999) . '-1.' . $extension_doc;
+            $filename_name_doc = $uploadedFile_doc->getClientOriginalName();
+            $uploadedFile_doc->storeAs('public/doc/uploads/lesson/', $filename_name_doc);
+            // อัปเดตไฟล์ลงฐานข้อมูล
+            DB::table('file_doc')->where('lesson_id', $id)->update([
+                'filename' => $filename_doc,
+                'file_name' => $filename_name_doc,
             ]);
         }
         // ข้อมูล
-        $data = [
+        $lesson = Lesson::find($id);
+        $lesson->update([
             'course_id' => $request->input('Lesson.course_id'),
             'title' => $request->input('Lesson.title'),
             'description' => $request->input('Lesson.description'),
@@ -81,19 +136,27 @@ class LessonController extends Controller
             'cate_amount' => $request->input('Lesson.cate_amount'),
             'time_test' => $request->input('Lesson.time_test'),
             'content' => $request->input('Lesson.content'),
-            'image' => $filename,
+            'image' => $filename_image,
             'update_date' => now(),
-        ];
-        // บันทึก
-        DB::table('lesson')->where('id', $id)->update($data);
+        ]);
+        $lesson->file()->update([
+            'filename' => $filename_vdo,
+            'file_name' => $filename_name_vdo,
+            'update_date' => now(),
+        ]);
+        $lesson->filedoc()->update([
+            'filename' => $filename_doc,
+            'file_name' => $filename_name_doc,
+            'update_date' => now(),
+        ]);
         $redirectUrl = route('lesson');
         return redirect($redirectUrl);
     }
+
     // lession change to id
     function lessionchange($id)
     {
         $lesson = DB::table('lesson')->where('id', $id)->first();
-        // dd($id);
         // ตรวจสอบค่าปัจจุบันของ 'active' และกำหนดค่าใหม่
         $newActive = ($lesson->active == 'y') ? 'n' : 'y';
         $data = [
@@ -107,6 +170,5 @@ class LessonController extends Controller
     // lession det show
     function lessiondet(Request $request, $id)
     {
-     
     }
 }

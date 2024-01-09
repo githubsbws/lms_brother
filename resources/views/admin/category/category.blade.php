@@ -119,8 +119,8 @@
 													src="{{ asset('../storage/images/uploads/category/' . $item->cate_image) }}"
 													alt="{{ $item->cate_image }}"></td>
 												<td>{{$item->cate_title}}</td>
-												<td style="width: 90px; text-align:center;">0</td>
 												<td style="text-align:center;width:100px;"><a class="cate_show_toggle" title="Uncheck" href="/admin/index.php/category/toggle/35?attribute=cate_show&amp;check="><img src="/admin/images/check.png" alt="Uncheck"></a></td>
+												<td style="width: 90px; text-align:center;">0</td>
 												<td style="width: 90px;" class="center">
 													<a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('category-det', $item->cate_id) }}"><i></i></a> 
 													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('category-edit', $item->cate_id) }}"><i></i></a> 

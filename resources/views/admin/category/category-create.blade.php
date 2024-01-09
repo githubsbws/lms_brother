@@ -155,14 +155,14 @@
 
 									<div class="row">
 										<label for="Category_cate_title" class="required">ชื่อหมวดหลักสูตร <span class="required">*</span></label> 
-										<input size="60" maxlength="250" class="span8" name="Category[cate_title]" id="Category_cate_title" type="text"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<input size="60" maxlength="250" class="span8" name="Category[cate_title]" id="Category_cate_title" type="text" required> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Category_cate_title_em_" style="display:none"></div>
 										</div>
 									</div>
 
 									<div class="row">
-										<label for="Category_cate_short_detail" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea rows="4" cols="40" class="span8" maxlength="255" name="Category[cate_short_detail]" id="Category_cate_short_detail"></textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="Category_cate_short_detail" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea rows="4" cols="40" class="span8" maxlength="255" name="Category[cate_short_detail]" id="Category_cate_short_detail" required></textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Category_cate_short_detail_em_" style="display:none"></div>
 										</div>
@@ -270,7 +270,7 @@
 													</div>
 												</div>
 											</div>
-										</div><textarea rows="6" cols="50" class="span8 tinymce" name="Category[cate_detail]" id="Category_cate_detail" aria-hidden="true" style="display: none;"></textarea>
+										</div><textarea rows="6" cols="50" class="span8 tinymce" name="Category[cate_detail]" id="Category_cate_detail" aria-hidden="true" style="" required></textarea>
 										<div class="error help-block">
 											<div class="label label-important" id="Category_cate_detail_em_" style="display:none"></div>
 										</div>
@@ -279,10 +279,10 @@
 									<div class="row">
 										<label for="Filecategory_filename" class="required">ไฟล์บทเรียน (mp3,mp4) <span class="required">*</span></label>
 										<div id="queue"></div>
-										<input id="ytfilename" type="hidden" value="" name="Filecategory[filename]">
-										<div id="uploadifive-filename" class="uploadifive-button" style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 100px;">Select Files<input id="filename" multiple="multiple" name="Filecategory[filename]" type="file" style="display: none;"><input type="file" style="opacity: 0; position: absolute; z-index: 999;" multiple="multiple"></div> <!-- <input id="file_upload" name="file_upload" type="file" multiple="true" > -->
+										<input id="ytfilename" type="file" value="" name="Filecategory[filename]" required>
+										{{-- <div id="uploadifive-filename" class="uploadifive-button" style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 100px;">Select Files<input id="filename" multiple="multiple" name="Filecategory[filename]" type="file" style="display: none;"><input type="file" style="opacity: 0; position: absolute; z-index: 999;" multiple="multiple"></div> <!-- <input id="file_upload" name="file_upload" type="file" multiple="true" > --> --}}
 										<!-- <a style="position: relative; top: 8px;" href="javascript:$('#file_upload').uploadifive('upload')">Upload Files</a> -->
-										<script type="text/javascript">
+										{{-- <script type="text/javascript">
 											$(function() {
 												$('#filename').uploadifive({
 													'auto': false,
@@ -300,7 +300,7 @@
 													}
 												});
 											});
-										</script>
+										</script> --}}
 										<div class="error help-block">
 											<div class="label label-important" id="Filecategory_filename_em_" style="display:none"></div>
 										</div>

@@ -44,13 +44,13 @@ class AdminController extends Controller
     }
     function category()
     {
-        $category_on = DB::table('category')->where('category.active', 'y')->orderBy('cate_id', 'desc')->paginate(6);
+        $category_on = DB::table('category')->where('category.active', 'y')->orderBy('cate_id', 'desc')->get();
         return view("admin\category\category" ,compact('category_on'));
     }
 
     function courseonline()
     {
-        $course_online = Course::join('category', 'category.cate_id', '=', 'course_online.cate_id')->where('course_online.active', 'y')->orderBy('course_id', 'desc')->paginate(6);
+        $course_online = Course::join('category', 'category.cate_id', '=', 'course_online.cate_id')->where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
         return view("admin\courseonline\courseonline", compact('course_online'));
     }
 
