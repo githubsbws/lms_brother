@@ -75,7 +75,7 @@
                                                             <img src="/../images/storage/uploads/teacher/24/thumb/12012016115549_Picture.JPG" style="width: 150px" class="img-circle">
                                                         </div>
                                                         <div class="media-body">
-                                                            <h4><a href="">อาจารย์ฐิติวัชร์ ปาตัก</a>
+                                                            <h4><a href="">{{ $item->teacher_name }}</a>
                                                                 <br>
                                                             </h4>
                                                             <span style="font-size: 19px;">ชื่อวิทยากร</span>
@@ -125,6 +125,7 @@
 
                                 <div class="slick-list draggable" tabindex="0">
                                     <div class="slick-track" style="opacity: 1; ">
+                                        @foreach($course_detail as $cs)
                                         <div class="item slick-slide slick-cloned" index="-1" style="width: 264px;">
                                             <div class="panel panel-default paper-shadow box-course" data-z="0.5"
                                                 data-hover-z="1" data-animated="">
@@ -142,7 +143,7 @@
                                                                             class="img-responsive">
                                                                     </span>
                                                                 </span>
-                                                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/223"
+                                                                <a href="{{ route('course.detail', ['id' => $cs->course_id]) }}"
                                                                     class="overlay overlay-full overlay-hover overlay-bg-white">
                                                                     <span class="v-center">
                                                                         <span class="btn btn-circle btn-white btn-lg"><i
@@ -153,301 +154,14 @@
                                                         </div>
                                                         <div class="media-body">
                                                             <h6 class="media-heading margin-v-5-3"><a
-                                                                    href="/lms_brother_docker/lms/app/index.php/course/detail/223">การซ่อมบำรุงจักรเย็บผ้ารุ่น
-                                                                    GS2700</a>
+                                                                    href="{{ route('course.detail', ['id' => $cs->course_id]) }}">{{ $cs->course_title }}</a>
                                                             </h6>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="item slick-slide slick-active" index="0" style="width: 264px;">
-                                            <div class="panel panel-default paper-shadow box-course" data-z="0.5"
-                                                data-hover-z="1" data-animated="">
-                                                <div class="panel-body">
-                                                    <div class="media media-clearfix-xs">
-                                                        <div class="media-left">
-                                                            <div
-                                                                class="cover width-90 width-100pc-xs overlay cover-image-full hover">
-                                                                <span class="img icon-block s90 bg-default"></span>
-                                                                <span
-                                                                    class="overlay overlay-full padding-none icon-block s90 bg-default">
-                                                                    <span class="v-center">
-                                                                        <img src="/../images/storage/uploads/courseonline/176/small/26092017214417_Picture.jpg"
-                                                                            style="height: 90px; width: 90px;"
-                                                                            class="img-responsive">
-                                                                    </span>
-                                                                </span>
-                                                                <a href="course-detail.php"
-                                                                    class="overlay overlay-full overlay-hover overlay-bg-white">
-                                                                    <span class="v-center">
-                                                                        <span class="btn btn-circle btn-white btn-lg"><i
-                                                                                class="fa fa-graduation-cap"></i></span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="media-heading margin-v-5-3"><a
-                                                                    href="course-detail.php">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์
-                                                                    Inkjet Tank System.</a>
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item slick-slide" index="1" style="width: 264px;">
-                                            <div class="panel panel-default paper-shadow box-course" data-z="0.5"
-                                                data-hover-z="1" data-animated="">
-                                                <div class="panel-body">
-                                                    <div class="media media-clearfix-xs">
-                                                        <div class="media-left">
-                                                            <div
-                                                                class="cover width-90 width-100pc-xs overlay cover-image-full hover">
-                                                                <span class="img icon-block s90 bg-default"></span>
-                                                                <span
-                                                                    class="overlay overlay-full padding-none icon-block s90 bg-default">
-                                                                    <span class="v-center">
-                                                                        <img src="/../images/storage/uploads/courseonline/192/small/17102018082943_Picture.jpg"
-                                                                            style="height: 90px; width: 90px;"
-                                                                            class="img-responsive">
-                                                                    </span>
-                                                                </span>
-                                                                <a href="course-detail.php"
-                                                                    class="overlay overlay-full overlay-hover overlay-bg-white">
-                                                                    <span class="v-center">
-                                                                        <span class="btn btn-circle btn-white btn-lg"><i
-                                                                                class="fa fa-graduation-cap"></i></span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="media-heading margin-v-5-3"><a
-                                                                    href="course-detail.php">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์
-                                                                    A3 Inkjet Tank Technology.</a>
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item slick-slide" index="2" style="width: 264px;">
-                                            <div class="panel panel-default paper-shadow box-course" data-z="0.5"
-                                                data-hover-z="1" data-animated="">
-                                                <div class="panel-body">
-                                                    <div class="media media-clearfix-xs">
-                                                        <div class="media-left">
-                                                            <div
-                                                                class="cover width-90 width-100pc-xs overlay cover-image-full hover">
-                                                                <span class="img icon-block s90 bg-default"></span>
-                                                                <span
-                                                                    class="overlay overlay-full padding-none icon-block s90 bg-default">
-                                                                    <span class="v-center">
-                                                                        <img src="/../images/storage/uploads/courseonline/232/small/30032022155057_Picture.jpg"
-                                                                            style="height: 90px; width: 90px;"
-                                                                            class="img-responsive">
-                                                                    </span>
-                                                                </span>
-                                                                <a href="s"
-                                                                    class="overlay overlay-full overlay-hover overlay-bg-white">
-                                                                    <span class="v-center">
-                                                                        <span class="btn btn-circle btn-white btn-lg"><i
-                                                                                class="fa fa-graduation-cap"></i></span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="media-heading margin-v-5-3"><a
-                                                                    href="s">หลักสูตรแนะนำผลิตภัณฑ์ GTX เบื้องต้น</a>
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item slick-slide" index="3" style="width: 264px;">
-                                            <div class="panel panel-default paper-shadow box-course" data-z="0.5"
-                                                data-hover-z="1" data-animated="">
-                                                <div class="panel-body">
-                                                    <div class="media media-clearfix-xs">
-                                                        <div class="media-left">
-                                                            <div
-                                                                class="cover width-90 width-100pc-xs overlay cover-image-full hover">
-                                                                <span class="img icon-block s90 bg-default"></span>
-                                                                <span
-                                                                    class="overlay overlay-full padding-none icon-block s90 bg-default">
-                                                                    <span class="v-center">
-                                                                        <img src="/../images/storage/uploads/courseonline/231/small/30032022082430_Picture.jpg"
-                                                                            style="height: 90px; width: 90px;"
-                                                                            class="img-responsive">
-                                                                    </span>
-                                                                </span>
-                                                                <a href="course-detail.php"
-                                                                    class="overlay overlay-full overlay-hover overlay-bg-white">
-                                                                    <span class="v-center">
-                                                                        <span class="btn btn-circle btn-white btn-lg"><i
-                                                                                class="fa fa-graduation-cap"></i></span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="media-heading margin-v-5-3"><a
-                                                                    href="course-detail.php">หลักสูตรแนะนำผลิตภัณฑ์ BMB
-                                                                    เบื้องต้น</a>
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item slick-slide" index="4" style="width: 264px;">
-                                            <div class="panel panel-default paper-shadow box-course" data-z="0.5"
-                                                data-hover-z="1" data-animated="">
-                                                <div class="panel-body">
-                                                    <div class="media media-clearfix-xs">
-                                                        <div class="media-left">
-                                                            <div
-                                                                class="cover width-90 width-100pc-xs overlay cover-image-full hover">
-                                                                <span class="img icon-block s90 bg-default"></span>
-                                                                <span
-                                                                    class="overlay overlay-full padding-none icon-block s90 bg-default">
-                                                                    <span class="v-center">
-                                                                        <img src="/../images/storage/uploads/courseonline/209/small/08022020212313_Picture.jpg"
-                                                                            style="height: 90px; width: 90px;"
-                                                                            class="img-responsive">
-                                                                    </span>
-                                                                </span>
-                                                                <a href="course-detail.php"
-                                                                    class="overlay overlay-full overlay-hover overlay-bg-white">
-                                                                    <span class="v-center">
-                                                                        <span class="btn btn-circle btn-white btn-lg"><i
-                                                                                class="fa fa-graduation-cap"></i></span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="media-heading margin-v-5-3"><a
-                                                                    href="course-detail.php">การซ่อมบำรุงเครื่อง Scanner
-                                                                    สำหรับ ADS-Series</a>
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item slick-slide" index="5" style="width: 264px;">
-                                            <div class="panel panel-default paper-shadow box-course" data-z="0.5"
-                                                data-hover-z="1" data-animated="">
-                                                <div class="panel-body">
-                                                    <div class="media media-clearfix-xs">
-                                                        <div class="media-left">
-                                                            <div
-                                                                class="cover width-90 width-100pc-xs overlay cover-image-full hover">
-                                                                <span class="img icon-block s90 bg-default"></span>
-                                                                <span
-                                                                    class="overlay overlay-full padding-none icon-block s90 bg-default">
-                                                                    <span class="v-center">
-                                                                        <img src="/../images/storage/uploads/courseonline/222/small/30082021112832_Picture.jpg"
-                                                                            style="height: 90px; width: 90px;"
-                                                                            class="img-responsive">
-                                                                    </span>
-                                                                </span>
-                                                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/222"
-                                                                    class="overlay overlay-full overlay-hover overlay-bg-white">
-                                                                    <span class="v-center">
-                                                                        <span class="btn btn-circle btn-white btn-lg"><i
-                                                                                class="fa fa-graduation-cap"></i></span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="media-heading margin-v-5-3"><a
-                                                                    href="/lms_brother_docker/lms/app/index.php/course/detail/222">การซ่อมบำรุงเครื่องพิมพ์ฉลาก
-                                                                    PT-E850TKW</a>
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item slick-slide" index="6" style="width: 264px;">
-                                            <div class="panel panel-default paper-shadow box-course" data-z="0.5"
-                                                data-hover-z="1" data-animated="">
-                                                <div class="panel-body">
-                                                    <div class="media media-clearfix-xs">
-                                                        <div class="media-left">
-                                                            <div
-                                                                class="cover width-90 width-100pc-xs overlay cover-image-full hover">
-                                                                <span class="img icon-block s90 bg-default"></span>
-                                                                <span
-                                                                    class="overlay overlay-full padding-none icon-block s90 bg-default">
-                                                                    <span class="v-center">
-                                                                        <img src="/../images/storage/uploads/courseonline/223/small/01112021171608_Picture.jpg"
-                                                                            style="height: 90px; width: 90px;"
-                                                                            class="img-responsive">
-                                                                    </span>
-                                                                </span>
-                                                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/223"
-                                                                    class="overlay overlay-full overlay-hover overlay-bg-white">
-                                                                    <span class="v-center">
-                                                                        <span class="btn btn-circle btn-white btn-lg"><i
-                                                                                class="fa fa-graduation-cap"></i></span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="media-heading margin-v-5-3"><a
-                                                                    href="/lms_brother_docker/lms/app/index.php/course/detail/223">การซ่อมบำรุงจักรเย็บผ้ารุ่น
-                                                                    GS2700</a>
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="item slick-slide slick-cloned" index="7" style="width: 264px;">
-                                            <div class="panel panel-default paper-shadow box-course" data-z="0.5"
-                                                data-hover-z="1" data-animated="">
-                                                <div class="panel-body">
-                                                    <div class="media media-clearfix-xs">
-                                                        <div class="media-left">
-                                                            <div
-                                                                class="cover width-90 width-100pc-xs overlay cover-image-full hover">
-                                                                <span class="img icon-block s90 bg-default"></span>
-                                                                <span
-                                                                    class="overlay overlay-full padding-none icon-block s90 bg-default">
-                                                                    <span class="v-center">
-                                                                        <img src="/../images/storage/uploads/courseonline/176/small/26092017214417_Picture.jpg"
-                                                                            style="height: 90px; width: 90px;"
-                                                                            class="img-responsive">
-                                                                    </span>
-                                                                </span>
-                                                                <a href="/lms_brother_docker/lms/app/index.php/course/detail/176"
-                                                                    class="overlay overlay-full overlay-hover overlay-bg-white">
-                                                                    <span class="v-center">
-                                                                        <span class="btn btn-circle btn-white btn-lg"><i
-                                                                                class="fa fa-graduation-cap"></i></span>
-                                                                    </span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-body">
-                                                            <h6 class="media-heading margin-v-5-3"><a
-                                                                    href="/lms_brother_docker/lms/app/index.php/course/detail/176">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์
-                                                                    Inkjet Tank System.</a>
-                                                            </h6>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                                 <button type="button" data-role="none" class="slick-prev"

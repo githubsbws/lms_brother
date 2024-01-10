@@ -5,21 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Model
+class Ques_ans extends Model
 {
     use HasFactory;
 
-    protected $table = 'file';
+    protected $connection = 'mysql_noprefix';
+
+    protected $table = 'q_quest_ans';
+
+    protected $prefix = '';
 
     protected $primarykey = 'id';
-
-    protected $fillable = [
-        'views'
-    ];
 
     public static function findById($id)
     {
         return static::where('id', $id)->first();
     }
-    
 }

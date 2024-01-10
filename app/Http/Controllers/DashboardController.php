@@ -23,7 +23,7 @@ class DashboardController extends Controller
             $org_chart_ids = Orgchart::where('active', 'y')->pluck('id');
 
             $orgcourse = Orgcourse::whereIn('orgchart_id', $org_chart_ids)->where('active', 'y')->pluck('course_id');
-            return Course::where('active','y')->whereIn('course_id',$orgcourse)->paginate(6);
+            return Course::where('active','y')->whereIn('course_id',$orgcourse)->orderBy('course_id','DESC')->get();
         });
         if(Auth::check()){
             return view('dashboard/dashboard',['course' => $course]);

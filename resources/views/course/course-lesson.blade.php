@@ -1,6 +1,9 @@
 @extends('layout/mainlayout')
 @section('title', 'Course')
 @section('content')
+@php
+use App\Models\Learn;
+@endphp
 <body>
     @foreach($course_lesson as $lesson)
     <div class="parallax bg-white page-section third">
@@ -48,7 +51,11 @@
                                     <p></p>
                                     <p>{{ $lesson->description}}</p>
                                     <p></p>
-                                    <h4>ไฟล์ประกอบการเรียน</h4><a href="/lms_brother_docker/lms/app/index.php/course/download/103" target="_blank">PT-E850TKW_Chapter_1_2.pdf</a><br>
+                                    <h4>ไฟล์ประกอบการเรียน</h4>
+                                    @foreach($file as $fs)
+                                    <a href="/lms_brother_docker/lms/app/index.php/course/download/103" target="_blank">{{ $fs->file_name}}</a>
+                                    <br>
+                                    @endforeach
                                     <p></p>
 
                                 </div>
@@ -57,22 +64,44 @@
                         <div class="lessonContent">
 
                             <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
-
+                                @php
+                                if($learn_id){
+                                    $learn_sta = Learn::findById($learn_id);
+                                    // dd($learn_sta->toArray());
+                                    if($learn_sta->lesson_status == "pass"){
+                                        $statusValue = '<img src="' . asset('images/icon_checkpast.png') . '" alt="ผ่าน" title="ผ่าน" style="margin-bottom: 8px;">';
+                                    }elseif($learn_sta->lesson_status == "learning"){
+                                        $statusValue = '<img src="' . asset('images/icon_checklost.png') . '" alt="เรียนยังไม่ผ่าน" title="เรียนยังไม่ผ่าน" style="margin-bottom: 8px;">';
+                                    }else{
+                                        $statusValue = '<img src="' . asset('images/icon_checkbox.png') . '" alt="ยังไม่ได้เรียน" title="ยังไม่ได้เรียน" style="margin-bottom: 8px;">';
+                                    }
+                                }
+                                @endphp
                                 <div class="panel panel-default">
-                                    <div class="panel-heading" role="tab" id="heading830">
+                                    <div class="panel-heading" role="tab" id="heading{{$file_id->id}}">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion2" href="#collapse830" aria-expanded="true" aria-controls="collapse830">
-                                                <div style="float: left;" id="imageCheck830"><img title="ยังไม่ได้เรียน" style="margin-bottom: 8px;" src="{{asset('images/icon_checkbox.png')}}" alt="ยังไม่ได้เรียน"></div> test : view 821
+                                            <a data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$file_id->id}}" aria-expanded="true" aria-controls="collapse{{$file_id->id}}">
+                                                <div style="float: left;" id="imageCheck{{$file_id->id}}">
+                                                <?php
+                                                    if ($file_id->file_name == '') {
+                                                        $fileNameCheck = '-';
+                                                    } else {
+                                                        $fileNameCheck = $file_id->file_name;
+                                                    }
+                                                    ?>
+                                                    <?php echo '<div style="float: left;" id="imageCheck' . $file_id->id . '">' . $statusValue . '</div> ' . $fileNameCheck; ?>
+                                                    : view <?= $file_id->views; ?>
                                             </a>
                                         </h4>
                                     </div>
-                                    <div id="collapse830" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading830">
+                                    <div id="collapse{{$file_id->id}}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{$file_id->id}}">
                                         <div class="panel-body" style="background-color: #666;">
                                             <div>
                                                 <div class="split-me" id="split-me1">
                                                     <div class="col-md-6">
                                                         <video id="example_video_1" class="video-js vjs-default-skin" controls="" preload="none" data-setup="{}">
-                                                            <source src="/../images/storage/uploads/lesson/1098386216-1.mp4" type="video/mp4">
+                                                            {{-- <source src="/../images/storage/uploads/lesson/{{$lesson->filename}}" type="video/mp4"> --}}
+                                                            <source src="{{asset('vdo/test.mp4')}}" type="video/mp4">
                                                             <!-- <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
                                                                         <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' /> -->
                                                             <!-- <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track> -->
@@ -95,7 +124,7 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-12 showslidethumb" id="showslidethumb1" style="overflow-x:auto; padding:0;">
+                                                    {{-- <div class="col-md-12 showslidethumb" id="showslidethumb1" style="overflow-x:auto; padding:0;">
                                                         <ul>
                                                             <li><img src="/../images/storage/uploads/ppt/830/slide-0.JPG" id="slide1_0" class="slidehide1 img-responsive" style="" data-time="1">
                                                             </li>
@@ -116,50 +145,42 @@
                                                             <li><img src="/../images/storage/uploads/ppt/830/slide-8.JPG" id="slide1_8" class="slidehide1 img-responsive" style="display:none;" data-time="139">
                                                             </li>
                                                         </ul>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
 
                                                 <script type="text/javascript">
                                                     console.log('first')
 
-                                                    function clearAllRun1() {
-                                                        window.run1_0 = false;
-                                                        window.run1_1 = false;
-                                                        window.run1_2 = false;
-                                                        window.run1_3 = false;
-                                                        window.run1_4 = false;
-                                                        window.run1_5 = false;
-                                                        window.run1_6 = false;
-                                                        window.run1_7 = false;
-                                                        window.run1_8 = false;
-                                                    }
+                                                    
                                                     var myPlayer1 = videojs('example_video_1');
-                                                    var link = '/lms_brother_docker/lms/app/index.php/Course/LearnVdo';
-                                                    var id = '830';
-                                                    var learn_id = '14592';
-                                                    console.log('con_vdo')
-
-                                                    console.log('s')
+                                                    var link = '{{ url('course.LearnVdo')}}';
+                                                    var id = '{{$file_id->id}}';
+                                                    var learn_id = '{{$learn_id}}';
+                                                    
+                                                    console.log(id)
+                                                    console.log(learn_id)
                                                     myPlayer1.on('play', function() {
                                                         console.log('play')
-                                                        $.getJSON('/lms_brother_docker/lms/app/index.php/Course/LearnVdo', {
-                                                            id: id,
-                                                            learn_id: learn_id,
-                                                            counter: "counter"
-                                                        }, function(data) {
-                                                            // console.log(id);
-                                                            // console.log(learn_id);
-                                                            $('#imageCheck' + data.no).html(data.image);
+                                                        var counter = 'counter';
+                                                        $.getJSON('{{ route('course.LearnVdo', ['id' => ':id', 'learn_id' => ':learn_id', 'counter' => ':counter']) }}'
+                                                            .replace(':id', id)
+                                                            .replace(':learn_id', learn_id)
+                                                            .replace(':counter', counter), function(data) {
+                                                                console.log(data);
+                                                                // console.log(learn_id);
+                                                                // $('#imageCheck' + data.no).html(data.image);
                                                         });
                                                     });
                                                     myPlayer1.on('ended', function() {
                                                         console.log('ended')
-                                                        $.getJSON('/lms_brother_docker/lms/app/index.php/Course/LearnVdo', {
-                                                            id: id,
-                                                            learn_id: learn_id,
-                                                            status: "success"
-                                                        }, function(data) {
-                                                            $('#imageCheck' + data.no).html(data.image);
+                                                        var counter = 'success';
+                                                        $.getJSON('{{ route('course.LearnVdo', ['id' => ':id', 'learn_id' => ':learn_id', 'counter' => ':counter']) }}'
+                                                            .replace(':id', id)
+                                                            .replace(':learn_id', learn_id)
+                                                            .replace(':counter', counter), function(data) {
+                                                                console.log(data);
+                                                                // console.log(learn_id);
+                                                                // $('#imageCheck' + data.no).html(data.image);
                                                         });
                                                     });
                                                 </script>
@@ -353,6 +374,9 @@
                             <!-- <span class="collapse-status collapse-close">Close</span> -->
                         </div>
                         @foreach($lesson_list  as $list)
+                        @php
+                        $sta = Learn::where(['lesson_id' => $list->id,'user_id' =>Auth::user()->id,'lesson_active' =>'y'])->get();
+                        @endphp
                         <div class="list-group collapse in" id="curriculum-1">
                             <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
 
@@ -361,7 +385,19 @@
                                                 <li class="text-crt"></li>
                                     </div>
                                     <div class="media-body">
-                                        <i class="fa fa-fw fa-circle text-orange-300"></i>
+                                        @php
+                                        if($sta->isEmpty()){
+                                            echo "<i class='fa fa-fw fa-circle text-grey-300'></i>";
+                                        }else{
+                                            foreach($sta as $status){
+                                                if($status->lesson_status == "pass"){
+                                                    echo "<i class='fa fa-fw fa-circle text-green-300'></i>";
+                                                }else{
+                                                    echo "<i class='fa fa-fw fa-circle text-orange-300'></i>";
+                                                }
+                                            }
+                                        }
+                                        @endphp
                                        {{ $list->title }}
                                     </div>
                                     <!-- <div class="media-right">
@@ -385,9 +421,9 @@
                         <div id="b4ae6923-e10f-aefb-6fa1-189cbe03d8f5" class="collapse in">
                             <div class="panel-body list-group">
                                 <ul class="list-group list-group-menu">
-                                    <li class="list-group-item active"><a class="link-text-color" href="/lms_brother_docker/lms/app/index.php/course/lesson/222">บทเรียน</a>
+                                    <li class="list-group-item active"><a class="link-text-color" href="{{ route('course.lesson', ['course_id' => $course_id,'id' => $lesson_id]) }}">บทเรียน</a>
                                     </li>
-                                    <li class="list-group-item"><a class="link-text-color" href="/lms_brother_docker/lms/app/index.php/forum">เว็บบอร์ดของหลักสูตร</a>
+                                    <li class="list-group-item"><a class="link-text-color" href="{{url('webboard')}}">เว็บบอร์ดของหลักสูตร</a>
                                     </li>
                                 </ul>
                             </div>
@@ -408,13 +444,30 @@
 
 
                                     <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">ผลการเรียน<br>
-
-                                        <p style="font-weight: normal;color: #045BAB;"><span style="color:blue;">เรียนยังไม่ผ่าน</span></p>
+                                        @php
+                                        foreach ($course_lesson as $less) {
+                                            $learns = Learn::where('lesson_id',$less->id)->where('user_id',Auth::user()->id)->get();
+                                            if($learns->isEmpty()){
+                                                echo "<p style='font-weight: normal;color: #045BAB;''><span style='color:blue;''>เรียนยังไม่ผ่าน</span></p>";
+                                            }else{
+                                                foreach ($learns as $lea) {
+                                                    if ($lea->lesson_status == "pass") {
+                                                        echo "<p style='font-weight: normal;color: #045BAB;''><span style='color:blue;''>เรียนผ่าน</span></p>";
+                                                    }
+                                                    elseif ($lea->lesson_status == "learning" || $lea->lesson_status == null) {
+                                                        echo "<p style='font-weight: normal;color: #045BAB;''><span style='color:blue;''>กำลังเรียน</span></p>";
+                                                    }
+                                                    
+                                                }
+                                            }
+                                            
+                                        }
+                                        @endphp
+                                        
                                     </li>
                                     <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
                                         ผลการสอบกอ่นเรียน,ผลการสอบหลังเรียน<br>
                                         <p style="font-weight: normal;color: #045BAB;">- </p>
-
                                     </li>
                                     <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">สิทธิการทำแบบทดสอบ<br>
 
@@ -449,10 +502,10 @@
                             <div class="panel-body">
                                 <div class="media v-middle">
                                     <div class="media-left">
-                                        <img class="img-circle width-40" src="/lms_brother_docker/lms/app/themes/bws/images/default-avatar.png" alt="No Image">
+                                        <img class="img-circle width-40" src="{{asset('themes/bws/images/default-avatar.png')}}" alt="No Image">
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="text-title margin-none"><a href="#">อาจารย์ นภัทร สุขศิริภูริภัทร</a>
+                                        <h4 class="text-title margin-none"><a href="#">{{ $course_detail->teacher_name}}</a>
                                         </h4>
                                         <span class="caption text-light">ชื่อวิทยากร</span>
                                     </div>

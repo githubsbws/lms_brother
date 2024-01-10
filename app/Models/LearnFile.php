@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Learn extends Model
+class LearnFile extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
-    protected $table = 'learn';
+    protected $table = 'learn_file';
 
-    protected $primaryKey = 'learn_id';
+    protected $primaryKey = 'learn_file_id';
 
     protected $fillable = [
-        'learn_date',
-        'lesson_status'
+        'learn_file_date',
+        'learn_file_status' 
     ];
 
     public static function findById($id)
     {
-        return static::where('learn_id', $id)->first();
+        return static::where('learn_file_id', $id)->first();
     }
 }

@@ -4,6 +4,8 @@
 <?php
 use App\Models\Lesson;
 use App\Models\Learn;
+use App\Models\Score;
+use App\Models\Ques_ans;
 ?>
 <body>
 
@@ -180,25 +182,30 @@ use App\Models\Learn;
                                     <ul class="list-group">
                                         
                                         @foreach ($course as $cs)
-                                        @php $lesson = Lesson::where('course_id',$cs->course_id)->count();
+                                        @php 
+                                        
+                                        $lesson = Lesson::where('course_id',$cs->course_id)->count();
                                         $lesson_c = Lesson::where('course_id',$cs->course_id)->get(); 
                                         $i = 1;
                                         $pass = 0;
                                         $learning = 0;
                                         $notlearn = 0;
                                         foreach ($lesson_c as $key ) {
-                                            $status = Learn::where('lesson_id',$key->id)->get();
-
-                                            if ($status == "pass") {
-                                            $pass = $pass + 1;
+                                           
+                                            $status =  Learn::where('lesson_id',$key->id)->where('user_id',Auth::user()->id)->where('lesson_active','y')->get();
+                                            foreach ($status as  $counts) {
+                                                if ($counts->lesson_status == "pass") {
+                                                    $pass = $pass + 1;
+                                                }
+                                                if ($counts->lesson_status == "learning") {
+                                                    $learning = $learning + 1;
+                                                }
+                                                if ($counts->lesson_status == "notLearn") {
+                                                    $notlearn = $notlearn + 1;
+                                                }
+                                                $i++;
                                             }
-                                            if ($status == "learning") {
-                                                $learning = $learning + 1;
-                                            }
-                                            if ($status == "notLearn") {
-                                                $notlearn = $notlearn + 1;
-                                            }
-                                            $i++;
+                                            
                                         }
                                         $per = ($pass / $lesson) * 100;
                                         @endphp
@@ -269,28 +276,102 @@ use App\Models\Learn;
                                                 </thead>
                                                 <tbody id="responsive-table-body">
                                                     @foreach($lessons as $les)
+                                                    @php
+                                                    $learn = Learn::where('lesson_id',$les->id)->where('user_id',Auth::user()->id)->where('lesson_active','y')->get();
+                                                    
+                                                    $score = Score::where('lesson_id',$les->id)->where('user_id',Auth::user()->id)->where('score_past','y')->where('active','y')->orderBy('update_date','DESC')->get();
+                                                    
+                                                    $quest = Ques_ans::where('lesson_id',$les->id)->where('user_id',Auth::user()->id)->first();
+                                                    @endphp
+                                                    
                                                     <tr>
                                                         
                                                         <td>
                                                             <a href="{{ route('course.lesson', ['course_id' => $cos->course_id,'id' => $les->id]) }}">{{ $les->title}}</a>
                                                         </td>
-                                                        <td class="text-center"><a href="{{ route('course.lesson', ['course_id' => $cos->course_id,'id' => $les->id]) }}"><span style="color:green;">เรียนผ่าน</span></a></td>
                                                         <td class="text-center">
-                                                            - </td>
+                                                            @php
+                                                            
+                                                             if ($learn->isEmpty()) {
+                                                                echo "<a href='" . route('course.lesson', ['course_id' => $cos->course_id, 'id' => $les->id]) . "'><span style='color:red;''>ยังไม่เรียน</span></a>";
+                                                            } else {
+                                                                
+                                                                foreach ($learn as $lea) {
+                                                                    if($lea->lesson_status == 'pass'){
+                                                                        echo "<a href='" . route('course.lesson', ['course_id' => $cos->course_id, 'id' => $les->id]) . "'><span style='color:green;''>เรียนผ่าน</span></a>";
+                                                                    }elseif($lea->lesson_status == 'learning'){
+                                                                        echo "<a href='" . route('course.lesson', ['course_id' => $cos->course_id, 'id' => $les->id]) . "'><span style='color:orange;''>กำลังเรียน</span></a>";
+                                                                    }else{
+                                                                        echo "<a href='" . route('course.lesson', ['course_id' => $cos->course_id, 'id' => $les->id]) . "'><span style='color:red;''>ยังไม่เรียน</span></a>";
+                                                                    }
+                                                                }
+                                                            }
+                                                            @endphp
+                                                        </td>
+                                                        
+                                                        <td class="text-center">
+                                                            @php
+                                                            if ($score->isEmpty()) {
+                                                                // กรณี $score เป็น null หรือ array เปล่า
+                                                                echo "ยังไม่ทำแบบทดสอบ";
+                                                                
+                                                            } else {
+                                                                foreach ($score as $sco) {
+                                                                    if($sco->score_past == 'y'){
+                                                                        echo "ทำแบบทดสอบผ่าน";
+                                                                    }
+                                                                    elseif($sco->score_past == 'n'){
+                                                                        echo "ทำแบบทดสอบไม่ผ่าน";
+                                                                    }
+                                                                    else{
+                                                                        echo "ยังไม่ทำแบบทดสอบ";
+                                                                    }  
+                                                                }
+                                                            }
+                                                            @endphp
+                                                        </td>
                                                         <td class="text-center">
                                                             -
                                                         </td>
 
-
                                                         <td class="text-center">
-                                                            <p style="font-weight: normal;color: #045BAB;"><label class="label label-warning" style="font-size: medium; letter-spacing: 2px !important;">ไม่มีแบบสอบถาม</label></p>
+                                                            @php
+                                                            if ($quest == null) {
+                                                                 // กรณี $score เป็น null หรือ array เปล่า
+                                                                 echo "<p style='font-weight: normal;color: #045BAB;''><label class='label label-warning' style='font-size: medium; letter-spacing: 2px !important;'>ไม่มีแบบสอบถาม</label></p>";
+                                                                
+                                                            } else {
+                                                                
+                                                                        echo "<p style='font-weight: normal;color: #045BAB;''><label class='label label-primary' style='font-size: medium; letter-spacing: 2px !important;'>ทำแบบสอบถามแล้ว</label></p>";
+                                                                   
+                                                            }
+                                                            @endphp
 
 
                                                         </td>
 
-                                                        <td class="text-center">0 / 0</td>
+                                                        <td class="text-center">
+                                                            @php
+                                                            
+                                                            if ($score->isEmpty()) {
+                                                                echo "0 / 0";
+                                                            } else {
+
+                                                                foreach ($score as $sco) {
+                                                                    if($sco->score_number !== null){
+                                                                        echo $sco->score_number."/".$sco->score_total;
+                                                                    }else{
+                                                                        echo "0/0";
+                                                                    }
+                                                                    
+                                                                     
+                                                                }
+                                                            }
+                                                            @endphp
+                                                        </td>
                                                         
                                                     </tr>
+                                                        
                                                     @endforeach
                                                 </tbody>
                                             </table>

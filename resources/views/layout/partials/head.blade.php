@@ -36,7 +36,9 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Brother E-learning System</title>
-
+    <link href="{{asset('themes/bws/js/vender/video-js/video-js.css')}}" rel="stylesheet">
+    <link href="{{asset('themes/bws/js/vender/video-js/video-js.min.css')}}" rel="stylesheet">
+    
     {{-- <link href="themes/bws/css/vendor.min.css" rel="stylesheet">
     <link href="themes/bws/css/theme-core.css" rel="stylesheet">
     <link href="themes/bws/css/module-essentials.min.css" rel="stylesheet" />
@@ -242,6 +244,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
     </div>
 </section>
 
+<script src="{{ asset('themes/bws/js/vender/video-js/video.js')}}"></script>
 <script src="{{ asset('themes/bws/js/vendor-core.min.js')}}"></script>
 <script src="{{ asset('themes/bws/js/vendor-countdown.min.js')}}"></script>
 <script src="{{ asset('themes/bws/js/vendor-tables.min.js')}}"></script>

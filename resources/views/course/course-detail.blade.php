@@ -58,7 +58,7 @@
                                         <!-- <i class="fa fa-clock-o fa-fw"></i> 4 ชั่วโมง &nbsp; -->
                                         <i class="fa fa-calendar fa-fw"></i> {{ $course_detail->update_date }} <br><br>
                                         <i class="fa fa-user fa-fw"></i> วิทยากร
-                                        : อาจารย์ นภัทร สุขศิริภูริภัทร <!-- <br/>
+                                        : {{ $course_detail->teacher_name}} <!-- <br/>
                                                         <i class="fa fa-mortar-board fa-fw"></i> จำนวนผู้เข้าเรียน : 50
                                                         <br/>
                                                         <i class="fa fa-check fa-fw"></i> จำนวนผู้เรียนผ่าน : 30 -->

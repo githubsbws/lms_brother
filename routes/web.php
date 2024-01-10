@@ -105,6 +105,7 @@ Route::get('course',[CourseController::class,'course'])->name('course');
 // Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
 Route::get('course/detail/{id}',[CourseController::class,'courseDetail'])->name('course.detail');
 Route::get('course/detail/{course_id}/lesson/{id}',[CourseController::class,'courseLesson'])->name('course.lesson');
+Route::get('course/LearnVdo/{id}/{learn_id}/{counter}',[CourseController::class,'LearnVdo'])->name('course.LearnVdo');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 // ----- faq

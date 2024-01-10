@@ -5,21 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Model
+class Teacher extends Model
 {
     use HasFactory;
 
-    protected $table = 'file';
+    protected $table = 'teacher';
 
-    protected $primarykey = 'id';
-
-    protected $fillable = [
-        'views'
-    ];
+    protected $primarykey = 'teacher_id';
 
     public static function findById($id)
     {
-        return static::where('id', $id)->first();
+        return static::where('teacher_id', $id)->first();
     }
-    
 }
