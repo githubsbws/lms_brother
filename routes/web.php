@@ -14,6 +14,7 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ForgotController;
 use App\Http\Controllers\IndexController;
@@ -108,6 +109,8 @@ Route::get('course/detail/{course_id}/lesson/{id}',[CourseController::class,'cou
 Route::get('course/LearnVdo/{id}/{learn_id}/{counter}',[CourseController::class,'LearnVdo'])->name('course.LearnVdo');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+
+Route::get('download',[DownloadController::class,'download'])->name('download');
 // ----- faq
 Route::get('faq_f',[FaqController::class,'faq_front'])->name('faq_front');
 // ----- Forgot

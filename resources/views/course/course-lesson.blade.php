@@ -81,7 +81,6 @@ use App\Models\Learn;
                                     <div class="panel-heading" role="tab" id="heading{{$file_id->id}}">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$file_id->id}}" aria-expanded="true" aria-controls="collapse{{$file_id->id}}">
-                                                <div style="float: left;" id="imageCheck{{$file_id->id}}">
                                                 <?php
                                                     if ($file_id->file_name == '') {
                                                         $fileNameCheck = '-';

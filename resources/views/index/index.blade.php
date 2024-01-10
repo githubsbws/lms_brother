@@ -58,8 +58,8 @@
                       <!--         <button href="/index.php/document/index" class="pull-right btn btn-xs btn-light text-1 text-uppercase ">ดูทั้งหมด <i class="fa fa-" aria-hidden="true"></i>
                               </button> </h2> -->
               
-                               <button href="#modal-ckeck-key-file" data-toggle="modal" class="pull-right btn btn-xs btn-light text-1 text-uppercase " fdprocessedid="fyzyev">ดูทั้งหมด <i class="fa fa-" aria-hidden="true"></i>
-                              </button> </h2>
+                               <a href="{{url('download')}}" data-toggle="modal" class="pull-right btn btn-xs btn-light text-1 text-uppercase " fdprocessedid="fyzyev">ดูทั้งหมด <i class="fa fa-" aria-hidden="true"></i>
+                              </a> </h2>
 
                             
                                                              <br>
@@ -1147,7 +1147,7 @@
 
                     <h2 class="title-layout"><span>วีดีโอแนะนำ</span> </h2>
                     <video width="100%" controls="">
-                        <source src=" /lms_brother_docker/lms/app/themes/bws/video/brother-video-1.mp4" type="video/mp4">
+                        <source src=" {{asset('themes/bws/video/brother-video-1.mp4')}}" type="video/mp4">
                         <source src="mov_bbb.ogg" type="video/ogg">
                         Your browser does not support HTML5 video.
                     </video>
