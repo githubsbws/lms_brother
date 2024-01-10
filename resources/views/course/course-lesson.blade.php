@@ -53,7 +53,7 @@ use App\Models\Learn;
                                     <p></p>
                                     <h4>ไฟล์ประกอบการเรียน</h4>
                                     @foreach($file as $fs)
-                                    <a href="/lms_brother_docker/lms/app/index.php/course/download/103" target="_blank">{{ $fs->file_name}}</a>
+                                    <a href="{{ route('course.downloadfile', ['id' => $fs->id]) }}" target="_blank" >{{ $fs->file_name}}</a>
                                     <br>
                                     @endforeach
                                     <p></p>

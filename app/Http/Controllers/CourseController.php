@@ -149,4 +149,23 @@ class CourseController extends Controller
             echo json_encode($att);
         }
     }
+
+    public function downloadfile($id,  Request $request)
+{
+     // Retrieve the file information from the database
+     $file = FileDoc::where('id',$id)->first();
+     // Check if the file exists
+ 
+     // Construct the full file path
+     $file_path = storage_path('filedoc'.DIRECTORY_SEPARATOR. $file->filename);
+
+
+     // Check if the file actually exists on the server
+     if (!file_exists($file_path)) {
+         return response()->json(['error' => 'File not found on the server'], 404);
+     }
+ 
+     // Generate the response for downloading the file
+     return response()->download($file_path, $file->original_filename);
+}
 }
