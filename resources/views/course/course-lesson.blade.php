@@ -165,9 +165,9 @@ use App\Models\Learn;
                                                             .replace(':id', id)
                                                             .replace(':learn_id', learn_id)
                                                             .replace(':counter', counter), function(data) {
-                                                                console.log(data);
+                                                                // console.log(data);
                                                                 // console.log(learn_id);
-                                                                // $('#imageCheck' + data.no).html(data.image);
+                                                                $('#imageCheck' + data.no).html(data.image);
                                                         });
                                                     });
                                                     myPlayer1.on('ended', function() {
@@ -177,9 +177,9 @@ use App\Models\Learn;
                                                             .replace(':id', id)
                                                             .replace(':learn_id', learn_id)
                                                             .replace(':counter', counter), function(data) {
-                                                                console.log(data);
+                                                                // console.log(data);
                                                                 // console.log(learn_id);
-                                                                // $('#imageCheck' + data.no).html(data.image);
+                                                                $('#imageCheck' + data.no).html(data.image);
                                                         });
                                                     });
                                                 </script>
@@ -360,7 +360,7 @@ use App\Models\Learn;
 
                     <!-- <h5 class="text-subhead-2 text-light">บทเรียน</h5> -->
                     <div class="panel panel-default curriculum open paper-shadow" data-z="0.5">
-                        <div class="panel-heading panel-heading-gray" data-toggle="collapse" data-target="#curriculum-1">
+                        <div class="panel-heading panel-heading-gray" data-toggle="collapse" data-target="#curriculum-2">
                             <div class="media">
                                 <div class="media-left">
                                     <span class="icon-block img-circle bg-orange-300 half text-white"><i class="fa fa-graduation-cap"></i></span>
@@ -376,9 +376,9 @@ use App\Models\Learn;
                         @php
                         $sta = Learn::where(['lesson_id' => $list->id,'user_id' =>Auth::user()->id,'lesson_active' =>'y'])->get();
                         @endphp
-                        <div class="list-group collapse in" id="curriculum-1">
+                        <div class="list-group collapse in" id="curriculum-2">
                             <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
-
+                                
                                 <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
                                     <div class="media-left">
                                                 <li class="text-crt"></li>
