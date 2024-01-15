@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Manage;
 use App\Models\FileDoc;
 use App\Models\Learn;
 use App\Models\LearnFile;
@@ -27,7 +28,7 @@ class CourseController extends Controller
         $course_detail = Course::findById($id);
         $course_lesson = Lesson::where(['course_id' => $course_detail->course_id,'active' => 'y'])->first();
         if($course_lesson != null){
-            return view("course/course-detail",['course_detail' =>$course_detail],['course_lesson' =>$course_lesson]);  
+            return view("course.course-detail",['course_detail' =>$course_detail],['course_lesson' =>$course_lesson]);  
         }else{
             return redirect()->route('index');
         }
@@ -41,6 +42,10 @@ class CourseController extends Controller
     function courseLesson($course_id,$id, Request $request){
         $domain = '15';
         if(Auth::check()){
+        $ptest = Manage::where(['type' => 'pre','id' => $id,'active' =>'y'])->first();
+        if($ptest){
+            return view("course.question",['ptest' =>$ptest]);
+        }
         $learnModel = Learn::where(['lesson_id' => $id,'user_id' => Auth::user()->id])->first();
         if(!$learnModel){
             $learnLog = new Learn;
@@ -73,8 +78,9 @@ class CourseController extends Controller
         if(isset($id)){
             $course_lesson = Lesson::join('course_online','course_online.course_id','=','lesson.course_id')->where('lesson.id',$id)->get();
             $file_id = File::where('lesson_id',$id)->first();
+            
         }
-        return view("course/course-lesson",['course_lesson' =>$course_lesson,'course_detail' =>$course_detail,'lesson_list' =>$lesson_list,'file' =>$file,'course_id' =>$course_id,'lesson_id' =>$id,'learn_id' =>$learn_id,'file_id' =>$file_id]);
+        return view("course.course-lesson",['course_lesson' =>$course_lesson,'course_detail' =>$course_detail,'lesson_list' =>$lesson_list,'file' =>$file,'course_id' =>$course_id,'lesson_id' =>$id,'learn_id' =>$learn_id,'file_id' =>$file_id]);
     }else{
         return redirect()->route('index');
     }
@@ -89,7 +95,7 @@ class CourseController extends Controller
         $orgcourse = Orgcourse::whereIn('orgchart_id', $org_chart_ids)->where('active', 'y')->pluck('course_id');
 
         $course_detail = Course::join('category','category.cate_id','=','course_online.cate_id')->whereIn('course_id',$orgcourse)->where('course_online.active','y')->orderBy('course_id', 'desc')->paginate(6);
-        return view("course/course",['course_detail' =>$course_detail]);
+        return view("course.course",['course_detail' =>$course_detail]);
     }else{
         return redirect()->route('index');
     }

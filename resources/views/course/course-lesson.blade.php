@@ -3,6 +3,7 @@
 @section('content')
 @php
 use App\Models\Learn;
+use App\Models\Score;
 @endphp
 <body>
     @foreach($course_lesson as $lesson)
@@ -466,22 +467,47 @@ use App\Models\Learn;
                                     </li>
                                     <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
                                         ผลการสอบกอ่นเรียน,ผลการสอบหลังเรียน<br>
-                                        <p style="font-weight: normal;color: #045BAB;">- </p>
+                                        @php
+                                        $score = Score::where('lesson_id',$lesson_id)->where('user_id',Auth::user()->id)->where('score_past','y')->where('active','y')->orderBy('update_date','DESC')->first();
+                                        if(!$score){
+                                            echo "<p style='font-weight: normal;color: #045BAB;'>- </p>";
+                                        }else{
+                                            if($score->score_past == 'y'){
+                                                echo "<p style='font-weight: normal;color: #045BAB;'>ผ่านแบบทดสอบ</p>";
+                                            }else{
+                                                echo "<p style='font-weight: normal;color: #045BAB;'>ไม่ผ่านแบบทดสอบ</p>";
+                                            }
+                                        }
+                                        @endphp
                                     </li>
                                     <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">สิทธิการทำแบบทดสอบ<br>
 
                                         <p style="font-weight: normal;color: #045BAB;">-</p>
                                     </li>
                                     <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">คะแนนที่ดีที่สุด<br>
-
-                                        <p style="font-weight: normal;color: #045BAB;">0 / 0</p>
+                                        @php
+                                         if(!$score){
+                                            echo "<p style='font-weight: normal;color: #045BAB;'>0/0</p>";
+                                        }else{
+                                            echo "<p style='font-weight: normal;color: #045BAB;'>".$score->score_number."/".$score->score_total."</p>";
+                                        }
+                                        @endphp
                                     </li>
                                     <li class="list-group-item menu_li_padding">แบบสอบถาม<br>
 
                                         <p style="font-weight: normal;color: #045BAB;">-</p>
                                     </li>
                                     <li class="list-group-item menu_li_padding">
-                                        <b>คะแนนผลการสอบ</b> <span style="color: #045BAB;">0.00 %</span>
+                                        <b>คะแนนผลการสอบ</b> <span style="color: #045BAB;">
+                                            @php
+                                            if(!$score){
+                                            echo "0.00%";
+                                            }else{
+                                                $s = ($score->score_number / $score->score_total) * 100;
+                                                echo $s;
+                                            }
+                                            @endphp
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
