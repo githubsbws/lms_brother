@@ -9,7 +9,7 @@ class UsabilityController extends Controller
 {
     function usability_front(){
         $usability = Usability::where('active','y')->get();
-        return view("usability_f\usability",['usa'=> $usability]);
+        return view("usability_f.usability",['usa'=> $usability]);
     }
     
 }

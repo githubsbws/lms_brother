@@ -26,7 +26,7 @@ class DashboardController extends Controller
             return Course::where('active','y')->whereIn('course_id',$orgcourse)->orderBy('course_id','DESC')->get();
         });
         if(Auth::check()){
-            return view('dashboard/dashboard',['course' => $course]);
+            return view('dashboard.dashboard',['course' => $course]);
         }
         return view('auth.login');
     }

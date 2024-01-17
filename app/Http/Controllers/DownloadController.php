@@ -20,7 +20,7 @@ class DownloadController extends Controller
 
             $download_title = Downloadtitle::where('active','y')->get();
             
-            return view('download/download',['download_title' =>$download_title]);
+            return view('download.download',['download_title' =>$download_title]);
         }
         return view('auth.login');
     }

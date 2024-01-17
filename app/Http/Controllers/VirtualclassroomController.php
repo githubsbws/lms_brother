@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class VirtualclassroomController extends Controller
 {
     function virtualclassroom(){
-        return view("virtualclassroom\svirtualclassroom");
+        return view("virtualclassroom.svirtualclassroom");
     }
 }
