@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Downloadtitle;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\News;
@@ -15,8 +16,10 @@ class IndexController extends Controller
 {
    function index(){
       $news = News::where('active','y')->limit(4)->get();
+      $download = Downloadtitle::where('active','y')->get();
       return view("index.index",[
-        'news' => $news
+        'news' => $news,   
+        'download' => $download
       ]);
    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Lesson;
+use App\Models\Manage;
 use App\Models\FileDoc;
 use App\Models\Learn;
 use App\Models\LearnFile;
@@ -41,6 +42,10 @@ class CourseController extends Controller
     function courseLesson($course_id,$id, Request $request){
         $domain = '15';
         if(Auth::check()){
+        $ptest = Manage::where(['type' => 'pre','id' => $id,'active' =>'y'])->first();
+        if($ptest){
+            return view("course.question",['ptest' =>$ptest]);
+        }
         $learnModel = Learn::where(['lesson_id' => $id,'user_id' => Auth::user()->id])->first();
         if(!$learnModel){
             $learnLog = new Learn;
@@ -73,6 +78,7 @@ class CourseController extends Controller
         if(isset($id)){
             $course_lesson = Lesson::join('course_online','course_online.course_id','=','lesson.course_id')->where('lesson.id',$id)->get();
             $file_id = File::where('lesson_id',$id)->first();
+            
         }
         return view("course.course-lesson",['course_lesson' =>$course_lesson,'course_detail' =>$course_detail,'lesson_list' =>$lesson_list,'file' =>$file,'course_id' =>$course_id,'lesson_id' =>$id,'learn_id' =>$learn_id,'file_id' =>$file_id]);
     }else{
