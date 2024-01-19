@@ -13,11 +13,13 @@ use App\Models\LearnFile;
 use App\Models\Orgchart;
 use App\Models\Orgcourse;
 use App\Models\File;
+use App\Models\Grouptesting;
 use Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log as FacadesLog;
+use Illuminate\Support\Facades\Session;
 
 class CourseController extends Controller
 {
@@ -174,4 +176,17 @@ class CourseController extends Controller
      // Generate the response for downloading the file
      return response()->download($file_path, $file->original_filename);
 }
+    public function coursequestion($course_id,$id,  Request $request){
+        $post_test = Manage::where(['id' => $id, 'active' =>'y'])->first();
+        if($post_test == null){
+            Session::flash('sweetAlert', [
+                'title' => 'ไม่มีแบบทดสอบ',
+                'text' => 'ไม่มีแบบทดสอบจากบทเรียน',
+                'icon' => 'warning'
+            ]);
+            return redirect()->route('course.lesson',['course_id' => $course_id,'id' =>$id]);
+        }
+        $group = Grouptesting::where(['group_id' => $post_test->group_id,'active' =>'y'])->get();
+        return view("course.question",['group'=> $group]);
+    }
 }

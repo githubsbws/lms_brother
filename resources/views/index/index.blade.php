@@ -123,7 +123,7 @@ use App\Models\DownloadFile;
                                              <li class="list-group-item">
                                               <!-- 
                                                 <a href="/index.php/site/download?file_id=1127"> -->
-                                                    <a href="#modal-ckeck-key-filedow1127" data-toggle="modal">
+                                                    <a href="{{ route('download.downloadfiles', ['id' => $f->filedoc_id]) }}">
                                                       {{-- <a href="{{ route('index.downloadfile', ['id' => $f->filedoc_id]) }}" data-toggle="modal"> --}}
               
                                                   <img src="{{asset('themes/bws/images/icons8-pdf-48.png')}}" alt="person" style="width: 22px;">

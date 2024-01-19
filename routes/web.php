@@ -107,11 +107,14 @@ Route::get('course',[CourseController::class,'course'])->name('course');
 Route::get('course/detail/{id}',[CourseController::class,'courseDetail'])->name('course.detail');
 Route::get('course/detail/{course_id}/lesson/{id}',[CourseController::class,'courseLesson'])->name('course.lesson');
 Route::get('course/LearnVdo/{id}/{learn_id}/{counter}',[CourseController::class,'LearnVdo'])->name('course.LearnVdo');
+Route::get('course/question/{course_id}/{id}',[CourseController::class,'coursequestion'])->name('course.coursequestion');
+Route::get('course/question/{group}',[CourseController::class,'coursequestion'])->name('course.coursequestion');
 Route::get('download/{id}',[CourseController::class,'downloadfile'])->name('course.downloadfile');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
 
 Route::get('download',[DownloadController::class,'download'])->name('download');
+Route::get('downloads/{id}',[DownloadController::class,'downloadfiles'])->name('download.downloadfiles');
 // ----- faq
 Route::get('faq_f',[FaqController::class,'faq_front'])->name('faq_front');
 // ----- Forgot

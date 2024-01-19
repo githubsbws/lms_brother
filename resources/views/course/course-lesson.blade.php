@@ -157,8 +157,6 @@ use App\Models\Score;
                                                     var id = '{{$file_id->id}}';
                                                     var learn_id = '{{$learn_id}}';
                                                     
-                                                    console.log(id)
-                                                    console.log(learn_id)
                                                     myPlayer1.on('play', function() {
                                                         console.log('play')
                                                         var counter = 'counter';
@@ -494,8 +492,52 @@ use App\Models\Score;
                                         @endphp
                                     </li>
                                     <li class="list-group-item menu_li_padding">แบบสอบถาม<br>
-
+                                        @php
+                                        $learn_chk = Learn::where(['course_id' => $course_id,'user_id'=>Auth::user()->id, 'lesson_status' => 'pass', 'lesson_active' =>'y'])->get();
+                                        $count_learn = $learn_chk->count();
+                                        $count_lesson = $lesson_list->count();
+                                        @endphp
+                                        @if($count_learn == $count_lesson)
+                                        <script>
+                                            document.addEventListener('DOMContentLoaded', function() {
+                                                @if(Session::has('sweetAlert'))
+                                                var sweetAlertData = @json(Session::get('sweetAlert'));
+                                                swal({
+                                                        title: sweetAlertData.title,
+                                                        text: sweetAlertData.text,
+                                                        icon: sweetAlertData.icon,
+                                                        closeOnClickOutside: true,
+                                                        closeOnEsc: true,
+                                                        buttons: {
+                                                            confirm: {
+                                                                text: "ตกลง",
+                                                                value: true,
+                                                                visible: true,
+                                                                className: "btn-primary",
+                                                                closeModal: true
+                                                            }
+                                                        }
+                                                    });
+                                                @else
+                                                swal({
+                                                    title: "บทเรียนผ่าน",
+                                                    text: "แบบทดสอบหลังเรียน",
+                                                    icon: "info",
+                                                    closeOnClickOutside: true,
+                                                    closeOnEsc: true,
+                                                    buttons: true // ไม่แสดงปุ่ม
+                                                }).then(() => {
+                                                    // Redirect to your link when the SweetAlert is closed
+                                                    window.location.href = "{{ route('course.coursequestion', ['course_id' => $course_id ,'id' => $lesson_id]) }}";
+                                                });
+                                                @endif
+                                                
+                                            });
+                                        </script>
+                                        <p style="font-weight: normal;color: #045BAB;">ทำแบบทดสอบ</p>
+                                        @else
                                         <p style="font-weight: normal;color: #045BAB;">-</p>
+                                        @endif
                                     </li>
                                     <li class="list-group-item menu_li_padding">
                                         <b>คะแนนผลการสอบ</b> <span style="color: #045BAB;">
