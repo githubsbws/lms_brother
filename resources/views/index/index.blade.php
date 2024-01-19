@@ -32,7 +32,7 @@ use App\Models\DownloadFile;
                                 <div class="galcolumn" id="item02grJH" style="width: 95.7983%; padding-left: 15px; padding-bottom: 15px; float: left; box-sizing: border-box;">
                                     <div class="card" style="margin-bottom: 15px; zoom: 1; opacity: 1;">
 
-                                        <div class="img-news" style="background: url('/../images/storage/uploads/news/78/thumb/17122021085656_Picture.JPG');"></div>
+                                        <div class="img-news" style="background: {{asset('images/uploads/news/'.$new->cms_id.'/thumb/'.$new->cms_picture)}};"></div>
                                         <div class="card-body">
                                             <div class="text-headline">{{ \Illuminate\Support\Str::limit($new->cms_title, $limit = 40, $end = '...') }}</div>
                                             <?php 
