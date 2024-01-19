@@ -101,7 +101,7 @@ use App\Models\Score;
                                                     <div class="col-md-6">
                                                         <video id="example_video_1" class="video-js vjs-default-skin" controls="" preload="none" data-setup="{}">
                                                             {{-- <source src="/../images/storage/uploads/lesson/{{$lesson->filename}}" type="video/mp4"> --}}
-                                                            <source src="{{asset('vdo/test.mp4')}}" type="video/mp4">
+                                                            <source src="{{asset('images/uploads/lesson/'.$file_id->filename)}}" type="video/mp4">
                                                             <!-- <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
                                                                         <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' /> -->
                                                             <!-- <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track> -->

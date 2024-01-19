@@ -10,7 +10,7 @@
                     <div class="media v-middle">
                         <div class="media-left">
                             <span class="icon-block s60 bg-default">
-                                <img src="/../images/storage/uploads/courseonline/222/small/30082021112832_Picture.jpg"
+                                <img src="{{asset('images/uploads/courseonline'.$course_detail->course_id.'/small/'.$course_detail->course_picture)}}"
                                     style="height: 60px;" class="img-responsive">
                             </span>
                         </div>
@@ -31,7 +31,7 @@
                             <div class="panel panel-default paper-shadow" data-z="0.5" data-hover-z="1" data-animated="">
                                 <div class="panel-body">
                                     <div class="width-300 width-250-md width-50pc-xs paragraph-inline">
-                                        <img src="{{ asset('/../images/storage/uploads/courseonline/222/thumb/' . $course_detail->course_picture) }}"
+                                        <img src="{{ asset('images/uploads/courseonline/'.$course_detail->course_id.'/thumb/' . $course_detail->course_picture) }}"
                                             class="img-responsive">
                                     </div>
                                     <p></p>

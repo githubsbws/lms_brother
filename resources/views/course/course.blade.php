@@ -51,7 +51,7 @@
                                             <span class="img icon-block height-150 bg-primary"></span>
                                             <a href="course-detail.php" class="padding-none overlay overlay-full icon-block bg-primary">
                                                 <span class="v-center">
-                                                    <img src="/../images/storage/uploads/courseonline/176/thumb/26092017214417_Picture.jpg" style="height: 150px">
+                                                    <img src="{{asset('images/uploads/courseonline/'.$item->course_id.'/thumb/'.$item->course_picture)}}" style="height: 150px">
                                                     <i class="fa fa-css3"></i>
                                                 </span>
                                             </a>
@@ -72,7 +72,7 @@
     
                                                     <div class="media v-middle">
                                                         <div class="media-left">
-                                                            <img src="/../images/storage/uploads/teacher/24/thumb/12012016115549_Picture.JPG" style="width: 150px" class="img-circle">
+                                                            <img src="{{asset('images/uploads/teacher/24/thumb/12012016115549_Picture.JPG')}}" style="width: 150px" class="img-circle">
                                                         </div>
                                                         <div class="media-body">
                                                             <h4><a href="">{{ $item->teacher_name }}</a>
@@ -138,7 +138,7 @@
                                                                 <span
                                                                     class="overlay overlay-full padding-none icon-block s90 bg-default">
                                                                     <span class="v-center">
-                                                                        <img src="/../images/storage/uploads/courseonline/223/small/01112021171608_Picture.jpg"
+                                                                        <img src="{{asset('images/uploads/courseonline/'.$cs->course_id.'/small/'.$cs->course_picture)}}"
                                                                             style="height: 90px; width: 90px;"
                                                                             class="img-responsive">
                                                                     </span>
