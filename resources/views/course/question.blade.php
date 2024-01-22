@@ -1,33 +1,20 @@
 @extends('layout/mainlayout')
 @section('title', 'Course')
 @section('content')
-<?php
-$cateOnlineModel = CateOnline::model()->findByPk($lesson->CourseOnlines->cate_id);
-$this->breadcrumbs = array(
-    'หลักสูตร' => array('//cateOnline/index'),
-    $cateOnlineModel->cate_title => array('//courseOnline/index', 'id' => $lesson->CourseOnlines->cate_id),
-    $lesson->title => array('//courseOnline/learn', 'id' => $lesson->id),
-    'แบบทดสอบ',
-);
-?>
+
     <style type="text/css">
         #question-form p {
             display: inline;
         }
     </style>
     <script type='text/javascript'
-            src='<?php echo Yii::app()->request->baseUrl; ?>/js/jquery.countdown.min.js'></script>
+            src='{{asset('themes/bws/js/jquery.countdown.min.js')}}'></script>
     <script type="text/javascript">
         window.timeEnd = false;
     </script>
     <div class="bs-example">
 
-        <?php //echo CHtml::image(Yii::app()->request->baseUrl.'/images/icon_test.png'); // Image ?>
-
-        <?php $form = $this->beginWidget('AActiveForm', array(
-            'id' => 'question-form',
-            'errorMessageCssClass' => 'label label-important',
-        )); ?>
+        
 
 
         <style>
@@ -81,6 +68,7 @@ $this->breadcrumbs = array(
                 font-weight: normal;
             }
         </style>
+        
         <div class="parallax bg-white page-section">
             <div class="container parallax-layer" data-opacity="true">
                 <div class="media v-middle">
@@ -101,7 +89,7 @@ $this->breadcrumbs = array(
                     <div class="row">
                         <div class="col-md-12 col-sm-12"
                              style="margin-top: 20px;margin-bottom: 30px;text-align: center;"><img
-                                src="<?php echo Yii::app()->theme->baseUrl; ?>/images/head-subject/quiz.png"
+                                src="{{asset('Adminkit/theme/images/head-subject/quiz.png')}}"
                                 alt="person" style="margin-top: -15px;"/><span
                                 style="font-size: 50px;color: rgb(0, 183, 243);">แบบทดสอบ</span>
 

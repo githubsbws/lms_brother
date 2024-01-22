@@ -4,6 +4,7 @@
 @php
 use App\Models\Learn;
 use App\Models\Score;
+use App\Models\Grouptesting;
 @endphp
 <body>
     @foreach($course_lesson as $lesson)
@@ -57,6 +58,14 @@ use App\Models\Score;
                                     <a href="{{ route('course.downloadfile', ['id' => $fs->id]) }}" target="_blank" >{{ $fs->file_name}}</a>
                                     <br>
                                     @endforeach
+                                    @php
+                                    $tests = Grouptesting::where('lesson_id',$lesson_id)->where('active','y')->first();
+                                    if($tests != null){
+                                        echo "<a herf='{{ route('course.coursequestion', ['course_id' => $course_id ,'id' => $lesson_id]) }}'>มีแบบทดสอบ</a>";
+                                    }else{
+                                        echo "ไม่มีแบบทดสอบ";
+                                    }
+                                    @endphp
                                     <p></p>
 
                                 </div>
