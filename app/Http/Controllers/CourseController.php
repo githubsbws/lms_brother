@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Manage;
+use App\Models\Question;
 use App\Models\FileDoc;
 use App\Models\Learn;
 use App\Models\LearnFile;
@@ -191,14 +192,23 @@ class CourseController extends Controller
         $lesson = Lesson::where('id',$id)->first();
         $course = Course::where('course_id',$course_id)->first();
         $cate = Category::where('cate_id',$course->cate_id)->first();
-
-        $breadcrumbs = [
-            ['name' => 'หลักสูตร', 'url' => url('/cateOnline/index')],
-            ['name' => $cate->cate_title, 'url' => url('//courseOnline/index/' . $cate->id)],
-            ['name' => $lesson->title, 'url' => url('//courseOnline/learn/' . $lesson->id)],
-            ['name' => 'แบบทดสอบ', 'url' => null], // You can set the URL to null for the current page
-        ];
+        $model = Question::where(['group_id'=> $post_test->group_id,'active' =>'y'])->get();
+        if($post_test->type == 'pre'){
+            $breadcrumbs = [
+                ['name' => 'หลักสูตร', 'url' => url('/cateOnline/index')],
+                ['name' => $cate->cate_title, 'url' => url('//courseOnline/index/' . $cate->id)],
+                ['name' => $lesson->title, 'url' => url('//courseOnline/learn/' . $lesson->id)],
+                ['name' => 'แบบทดสอบก่อนเรียน', 'url' => null], // You can set the URL to null for the current page
+            ];
+        }else{
+            $breadcrumbs = [
+                ['name' => 'หลักสูตร', 'url' => url('/cateOnline/index')],
+                ['name' => $cate->cate_title, 'url' => url('//courseOnline/index/' . $cate->id)],
+                ['name' => $lesson->title, 'url' => url('//courseOnline/learn/' . $lesson->id)],
+                ['name' => 'แบบทดสอบหลังเรียน', 'url' => null], // You can set the URL to null for the current page
+            ];
+        }
         
-        return view("course.question",['group'=> $group,'lesson'=>$lesson,'course'=>$course,'cate'=>$cate,'breadcrumbs'=>$breadcrumbs]);
+        return view("course.question",['group'=> $group,'lesson'=>$lesson,'course'=>$course,'cate'=>$cate,'breadcrumbs'=>$breadcrumbs,'model'=>$model]);
     }
 }

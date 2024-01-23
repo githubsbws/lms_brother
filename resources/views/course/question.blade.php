@@ -1,7 +1,16 @@
 @extends('layout/mainlayout')
 @section('title', 'Course')
 @section('content')
-
+@php
+use App\Models\Choice;
+@endphp
+@foreach($breadcrumbs as $breadcrumb)
+    @if($breadcrumb['url'])
+        <a href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['name'] }}</a> /
+    @else
+        {{ $breadcrumb['name'] }} /
+    @endif
+@endforeach
     <style type="text/css">
         #question-form p {
             display: inline;
@@ -110,83 +119,67 @@ color: rgb(30, 30, 30);">
                         </div>
 
 
-                        <?php
-                        $strTotal = 0;
-                        $questionTypeArray = array(1 => 'checkbox', 2 => 'radio', 3 => 'textarea');
-                        ?>
+                        @php
+                            $strTotal = 0;
+                            $questionTypeArray = ['1' => 'checkbox', '2' => 'radio', '3' => 'textarea'];
+                        @endphp
+                        @foreach ($model as $z => $m)
+                        
+                            @php ++$strTotal; 
+                            $choice = Choice::where(['ques_id'=>$m->ques_id,'active'=>'y'])->get();
+                            @endphp
 
-                        <?php foreach ($model as $z => $m): ?>
-
-                            <?php foreach ($m as $i => $result): ++$strTotal; ?>
-
-                                <div class="question" style="margin:10px 0;font-weight: bold;font-size: 22px;">
-
-                                    <div class="col-md-12 col-sm-12">
-
-                                        <?php $imageS = CHtml::image(Yii::app()->request->baseUrl . '/images/knewstuff.png', '', array(
-                                            'width' => '20px',
-                                            'valign' => 'top',
-                                            'style' => 'margin-right:10px;'
-                                        )); ?>
-                                        <?php echo $imageS . ' ' . $strTotal . '. ' . CHtml::decode($result->ques_title); ?>
-
-                                    </div>
-
-                                    <div id="div-choice<?php echo $i; ?>"
-                                         class="col-md-12 col-sm-12 ml-15 pull-left question-group" style="margin-top: 5px;">
-
-                                        <?php
-                                        //========== Check Count Chioce ==========//
-
-                                        if ($result->ques_type == 1) {
-                                            echo CHtml::hiddenField("Question_type[" . $result->ques_id . "]", $questionTypeArray[$result->ques_type]);
-                                            if ($result->chioce) {
-                                                foreach ($result->chioce as $choice) {
-                                                    echo "<div class='col-md-12 col-sm-12 mb-quiz'><label>";
-                                                    echo CHtml::checkBox("Choice[" . $result->ques_id . "][]", false,
-                                                            array(
-                                                                'value' => $choice->choice_id,
-                                                                'style' => 'margin-top:0px;'
-                                                            )
-                                                        ) . " " . CHtml::decode($choice->choice_detail) . "<br>";
-                                                    echo "</label></div>";
-                                                }
-                                            }
-                                        } else if ($result->ques_type == 2) {
-                                            echo CHtml::hiddenField("Question_type[" . $result->ques_id . "]", $questionTypeArray[$result->ques_type]);
-                                            if ($result->chioce) {
-                                                foreach ($result->chioce as $choice) {
-                                                    echo "<div class='col-md-12 col-sm-12 mb-quiz'><label>";
-                                                    echo CHtml::radioButton("Choice[" . $result->ques_id . "][]", false,
-                                                            array(
-                                                                'value' => $choice->choice_id,
-                                                                'style' => 'margin-top:0px;'
-                                                            )
-                                                        ) . " " . CHtml::decode($choice->choice_detail);
-                                                    echo "</label></div>";
-                                                }
-                                            }
-                                        } else if ($result->ques_type == 3) {
-                                            echo CHtml::hiddenField("Question_type[" . $result->ques_id . "]", $questionTypeArray[$result->ques_type]);
-                                            echo "<div class='col-md-12 col-sm-12 mb-quiz'>";
-                                            echo CHtml::textarea("ChoiceText[" . $result->ques_id . "]", '', array('class' => 'form-control'));
-                                            echo "</div>";
-                                        }
-
-                                        ?>
-
-                                    </div>
+                            <div class="question" style="margin: 10px 0; font-weight: bold; font-size: 22px;">
+                                <div class="col-md-12 col-sm-12">
+                                    @php
+                                        $imageS = asset('/images/knewstuff.png');
+                                    @endphp
+                                    <img src="{{ $imageS }}" width="20px" valign="top" style="margin-right:10px;" alt="">
+                                    {{ $strTotal }}.{!! html_entity_decode($m->ques_title) !!}
                                 </div>
-                                <?php //echo $form->error($result,"[$z][$i]choiceAnswer"); ?>
-                                <div class="col-md-12 col-sm-12 mb-assessment" style="margin-bottom: 40px;">
-                                    <?php echo CHtml::image(Yii::app()->request->baseUrl . '/images/bordertop.png', '', array('class' => 'img-responsive')); ?>
+                    
+                                <div id="div-choice" class="col-md-12 col-sm-12 ml-15 pull-left question-group" style="margin-top: 5px;">
+                                    @if ($m->ques_type == '1')
+                                        {{ Form::hidden("Question_type[{$m->ques_id}]", $questionTypeArray[$m->ques_type]) }}
+                                        @if ($choice)
+                                            @foreach ($choice as $choices)
+                                                <div class="col-md-12 col-sm-12 mb-quiz">
+                                                    <label>
+                                                        {{ Form::checkbox("Choice[{$m->ques_id}][]", $choices->choice_id, false, ['style' => 'margin-top:0px;']) }}
+                                                        {{ html_entity_decode($choices->choice_detail) }}<br>
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    @elseif ($m->ques_type == '2')
+                                        {{ Form::hidden("Question_type[{$m->ques_id}]", $questionTypeArray[$m->ques_type]) }}
+                                        @if ($choice)
+                                            @foreach ($choice as $choices)
+                                                <div class="col-md-12 col-sm-12 mb-quiz">
+                                                    <label>
+                                                        {{ Form::radio("Choice[{$m->ques_id}][]", $choices->choice_id, false, ['style' => 'margin-top:0px;']) }}
+                                                        {{ html_entity_decode($choices->choice_detail) }}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    @elseif ($m->ques_type == '3')
+                                        {{ Form::hidden("Question_type[{$m->ques_id}]", $questionTypeArray[$m->ques_type]) }}
+                                        <div class="col-md-12 col-sm-12 mb-quiz">
+                                            {{ Form::textarea("ChoiceText[{$m->ques_id}]", '', ['class' => 'form-control']) }}
+                                        </div>
+                                    @endif
                                 </div>
+                            </div>
+                    
+                            <div class="col-md-12 col-sm-12 mb-assessment" style="margin-bottom: 40px;">
+                                <img src="{{ asset('/images/bordertop.png') }}" class="img-responsive" alt="">
+                            </div>
 
-                            <?php endforeach; ?>
-
-                        <?php endforeach; ?>
+                    
+                        @endforeach
                         <div class="col-md-12 col-sm-12 mb-assessment text-right" style="margin-bottom: 40px;">
-                            <?php echo CHtml::tag('button', array('class' => 'btn btn-icon btn-primary'), 'บันทึกข้อมูล'); ?>
+                            <button class="btn btn-icon btn-primary">บันทึกข้อมูล</button>
                         </div>
                     </div>
                 </div>
@@ -196,7 +189,7 @@ color: rgb(30, 30, 30);">
 
 
 
-        <?php $this->endWidget(); ?>
+        
     </div>
     <script type="text/javascript">
         $(function () { // document ready
