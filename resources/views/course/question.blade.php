@@ -16,6 +16,7 @@ use App\Models\Choice;
             display: inline;
         }
     </style>
+    
     <script type='text/javascript'
             src='{{asset('themes/bws/js/jquery.countdown.min.js')}}'></script>
     <script type="text/javascript">
@@ -135,7 +136,7 @@ color: rgb(30, 30, 30);">
                                         $imageS = asset('/images/knewstuff.png');
                                     @endphp
                                     <img src="{{ $imageS }}" width="20px" valign="top" style="margin-right:10px;" alt="">
-                                    {{ $strTotal }}.{!! html_entity_decode($m->ques_title) !!}
+                                    {{ $strTotal }}.{!! htmlspecialchars_decode($m->ques_title) !!}
                                 </div>
                     
                                 <div id="div-choice" class="col-md-12 col-sm-12 ml-15 pull-left question-group" style="margin-top: 5px;">
@@ -146,7 +147,7 @@ color: rgb(30, 30, 30);">
                                                 <div class="col-md-12 col-sm-12 mb-quiz">
                                                     <label>
                                                         {{ Form::checkbox("Choice[{$m->ques_id}][]", $choices->choice_id, false, ['style' => 'margin-top:0px;']) }}
-                                                        {{ html_entity_decode($choices->choice_detail) }}<br>
+                                                        {{ htmlspecialchars_decode($choices->choice_detail) }}<br>
                                                     </label>
                                                 </div>
                                             @endforeach
@@ -253,15 +254,11 @@ if ($lesson->time_test != '' && $lesson->time_test != 0) {
     ?>
     <script type="text/javascript">
         $("#timeTest")
-            .countdown('<?php echo date('Y/m/d H:i:s',strtotime('+'.$lesson->time_test.' minutes')); ?>', function (event) {
-                //console.log(event);
-                $(this).text(
-                    event.strftime('%H:%M:%S')
-                );
-            })
-            .on('finish.countdown', function (event) {
+            .countdown({until: {{$lesson->time_test}}}, function (event) {
+                $(this).text(event.strftime('%H:%M:%S'));
+            }).on('finish.countdown', function (event) {
                 window.timeEnd = true;
-                jQuery('#question-form').submit();
+                $('#question-form').submit();
             });
     </script>
 <?php
