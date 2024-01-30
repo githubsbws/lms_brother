@@ -95,7 +95,17 @@
 											</tr>
 										</thead>
 										<tbody>
+											@foreach ($vdo as $item)
+											@if($item->active === 'y')
 											<tr class="odd selectable">
+												<td class="checkbox-column"><input class="select-on-check" value={{$item->vdo_id}} id="chk_0" type="checkbox" name="chk[]"></td>
+												<td>{{$item->vdo_title}}</td>
+												<td><a href="{{$item->vdo_path}}">{{$item->vdo_path}}</a></td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด {{$item->vdo_id}}" href="{{$item->vdo_id}}"><i></i></a> 
+													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข {{$item->vdo_id}}" href="{{url('video_edit',$item->vdo_id)}}"><i></i></a> 
+													<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ {{$item->vdo_id}}" href="{{route('video_delete',$item->vdo_id)}}" onclick="return confirm('Are you Delete {{$item->vdo_title}}?')"><i></i></a>
+												</td>
+											{{-- <tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="9" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td> Microsoft เปิดตัว Office สำหรับ iPad มาครบทั้ง Word, Excel, PowerPoint</td>
 												<td>https://www.youtube.com/watch?v=frpsGFQ4AIY</td>
@@ -124,7 +134,9 @@
 												<td>รู้จัก "หลักปรัชญาของเศรษฐกิจพอเพียง" ใน 3 นาที</td>
 												<td>http://www.youtube.com/watch?v=G1arbHJVuEw</td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/vdo/5"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/vdo/update/5"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/vdo/delete/5"><i></i></a></td>
-											</tr>
+											</tr> --}}
+											@endif
+											@endforeach
 										</tbody>
 									</table>
 									<div class="keys" style="display:none" title="/admin/index.php/vdo/index"><span>9</span><span>8</span><span>7</span><span>6</span><span>5</span></div>
