@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Profiles;
 
 use App\Http\Controllers\EditController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\InsertController;
 use App\Http\Controllers\VedioController;
 use App\Http\Controllers\UpvedioController;
@@ -14,7 +14,6 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ForgotController;
 use App\Http\Controllers\IndexController;
@@ -23,10 +22,11 @@ use App\Http\Controllers\NewController;
 use App\Http\Controllers\UsabilityController;
 use App\Http\Controllers\VirtualclassroomController;
 use App\Http\Controllers\WebboardController;
+use App\Http\Controllers\ImageController;
 
 //-------
 use App\Http\Controllers\AdminController;
-
+use App\Http\Middleware\Admin;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,12 +38,13 @@ use App\Http\Controllers\AdminController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [IndexController::class,'index'])->name('index');
 
-Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
-Route::post('logins', [LoginController::class,'login'])->name('logins');
-Route::post('logout', [LoginController::class,'logout'])->name('logout');
-
+Route::get('/', function () {
+    return view('index/index');
+});
+Route::get('/test', function () {
+     return view('test');
+});
 Route::get('/admin', function () {
     return view('admin/index/index');
 });
@@ -92,43 +93,24 @@ Route::get('change/{bank_id}',[EditController::class,'change'])->name('change');
 // Route::get('logout',[LoginController::class,'logout'])->name('logout');
 
 // ------------------------------------------
-// ----- login
-Route::get('/login/login',[LoginLController::class,'loginL'])->name('login.login');
-Route::post('/lms_brother_docker/lms/app/index/user/login',[LoginLController::class,'login_to'])->name('login_to');
-Route::get('logout_t',[LoginLController::class,'logout_t'])->name('logout_t');
-// ----- index
-Route::get('index/my',[IndexController::class,'index'])->name('index');
-// ----- Forgot
-Route::get('forgot-pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
-Route::post('/lms_brother_docker/lms/app/index/user/recovery',[ForgotController::class,'forgotRecovery'])->name('forgot.recovery');
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
-// Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('course/detail/{id}',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('course/detail/{course_id}/lesson/{id}',[CourseController::class,'courseLesson'])->name('course.lesson');
-Route::get('course/LearnVdo/{id}/{learn_id}/{counter}',[CourseController::class,'LearnVdo'])->name('course.LearnVdo');
-Route::get('course/question/{course_id}/{id}',[CourseController::class,'coursequestion'])->name('course.coursequestion');
-Route::get('course/question/{group}',[CourseController::class,'coursequestion'])->name('course.question');
-Route::get('download/{id}',[CourseController::class,'downloadfile'])->name('course.downloadfile');
+Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
+Route::get('lesson',[CourseController::class,'courseLession'])->name('course.lesson');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
-
-Route::get('download',[DownloadController::class,'download'])->name('download');
-Route::get('downloads/{id}',[DownloadController::class,'downloadfiles'])->name('download.downloadfiles');
 // ----- faq
-Route::get('faq_f',[FaqController::class,'faq_front'])->name('faq_front');
+Route::get('faq',[FaqController::class,'faq'])->name('faq');
 // ----- Forgot
 Route::get('forgot/pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
 // ----- index
 Route::get('index',[IndexController::class,'index'])->name('index');
 // ----- login
-// Route::get('logins',[LoginLController::class,'loginL'])->name('loginL.login');
-
+Route::get('login',[LoginLController::class,'loginL'])->name('login.login');
 // ----- new
 Route::get('new',[NewController::class,'new'])->name('new');
-Route::get('new_detail/{id}',[NewController::class,'new_detail'])->name('new_detail');
 // ----- usability
-Route::get('usability_front',[UsabilityController::class,'usability_front'])->name('usability_front');
+Route::get('usability',[UsabilityController::class,'usability'])->name('usability');
 // ----- virtualclassroom
 Route::get('virtualclassroom',[VirtualclassroomController::class,'virtualclassroom'])->name('virtualclassroom');
 // ----- WebboardController
@@ -145,14 +127,21 @@ Route::get('/condition',[AdminController::class,'condition'])->name('condition')
 Route::get('/setting',[AdminController::class,'setting'])->name('setting');
 
 Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus');
-
+//  new p
+Route::get('/video_create',[AdminController::class,'video_create'])->name('video_create');
 Route::get('/video',[AdminController::class,'video'])->name('video');
+Route::post('/video_insert',[AdminController::class,'video_insert'])->name('video_insert');
+Route::get('/video_edit/{vdo_id}',[AdminController::class,'video_edit'])->name('video_edit');
+Route::post('/video_update/{vdo_id}',[AdminController::class,'video_update'])->name('video_update');
+Route::get('/video_delete/{vdo_id}',[AdminController::class,'video_delete'])->name('video_delete');
+//
 
 Route::get('/document',[AdminController::class,'document'])->name('document');
 
-Route::get('/news',[AdminController::class,'news'])->name('news');
+// new p
 Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
-Route::post('/news_create',[AdminController::class,'news_insert'])->name('news_insert');
+Route::get('/news',[AdminController::class,'news'])->name('news');
+//
 
 Route::get('/category',[AdminController::class,'category'])->name('category');
 
@@ -160,14 +149,33 @@ Route::get('/courseonline',[AdminController::class,'courseonline'])->name('cours
 
 Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
 
+//new p
 Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
+Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
+//
 
+//new p
 Route::get('/coursegrouptesting',[AdminController::class,'coursegrouptesting'])->name('coursegrouptesting');
+Route::get('/coursegrouptesting_create',[AdminController::class,'coursegrouptesting_create'])->name('coursegrouptesting_create');
+//
 
+//new p
 Route::get('/questionnaireout',[AdminController::class,'questionnaireout'])->name('questionnaireout');
+Route::get('/questionnaireout_create',[AdminController::class,'questionnaireout_create'])->name('questionnaireout_create');
+Route::post('/questionnaireout_insert',[AdminController::class,'questionnaireout_insert'])->name('questionnaireout_insert');
+Route::get('/questionnaireout_edit/{survey_header_id}',[AdminController::class,'questionnaireout_edit'])->name('questionnaireout_edit');
+Route::post('/questionnaireout_update/{survey_header_id}',[AdminController::class,'questionnaireout_update'])->name('questionnaireout_update');
+Route::get('/questionnaireout_delete/{survey_header_id}',[AdminController::class,'questionnaireout_delete'])->name('questionnaireout_delete');
+//
 
+//new p
 Route::get('/orgchart',[AdminController::class,'orgchart'])->name('orgchart');
-
+Route::get('/orgchart_create',[AdminController::class,'orgchart_create'])->name('orgchart_create');
+Route::post('/orgchart_insert',[AdminController::class,'orgchart_insert'])->name('orgchart_insert');
+Route::get('/orgchart_edit/{orgchart_id}',[AdminController::class,'orgchart_edit'])->name('orgchart_edit');
+Route::post('/orgchart_update/{orgchart_id}',[AdminController::class,'orgchart_update'])->name('orgchart_update');
+Route::get('/orgchart_delete/{orgchart_id}',[AdminController::class,'orgchart_delete'])->name('orgchart_delete');
+//
 Route::get('/checklecture',[AdminController::class,'checklecture'])->name('checklecture');
 
 Route::get('/coursecheck',[AdminController::class,'coursecheck'])->name('coursecheck');
@@ -194,7 +202,15 @@ Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admi
 
 Route::get('/coursefield',[AdminController::class,'coursefield'])->name('coursefield');
 
+// new p
 Route::get('/imgslide',[AdminController::class,'imgslide'])->name('imgslide');
+Route::get('/imgslide_create',[AdminController::class,'imgslide_create'])->name('imgslide_create');
+Route::post('/imgslide_insert',[AdminController::class,'imgslide_insert'])->name('imgslide_insert');
+Route::post('/imgslide_update/{imgslide_id}',[AdminController::class,'imgslide_update'])->name('imgslide_update');
+Route::get('/imgslide_delete/{imgslide_id}',[AdminController::class,'imgslide_delete'])->name('imgslide_delete');
+Route::get('/imgslide_edit/{imgslide_id}',[AdminController::class,'imgslide_edit'])->name('imgslide_edit');
+//
+
 
 Route::get('/librarytype',[AdminController::class,'librarytype'])->name('librarytype');
 
@@ -207,6 +223,3 @@ Route::get('/passcourse',[AdminController::class,'passcourse'])->name('passcours
 Route::get('/student_photo',[AdminController::class,'student_photo'])->name('student_photo');
 
 Route::get('/capture',[AdminController::class,'capture'])->name('capture');
-
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
