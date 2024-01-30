@@ -136,23 +136,12 @@ Route::post('/video_update/{vdo_id}',[AdminController::class,'video_update'])->n
 Route::get('/video_delete/{vdo_id}',[AdminController::class,'video_delete'])->name('video_delete');
 //
 
-Route::get('/document',[AdminController::class,'document'])->name('document');
-
-// new p
-Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
-Route::get('/news',[AdminController::class,'news'])->name('news');
-//
-
 Route::get('/category',[AdminController::class,'category'])->name('category');
 
 Route::get('/courseonline',[AdminController::class,'courseonline'])->name('courseonline');
 
 Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
 
-//new p
-Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
-Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
-//
 
 //new p
 Route::get('/coursegrouptesting',[AdminController::class,'coursegrouptesting'])->name('coursegrouptesting');
@@ -223,3 +212,39 @@ Route::get('/passcourse',[AdminController::class,'passcourse'])->name('passcours
 Route::get('/student_photo',[AdminController::class,'student_photo'])->name('student_photo');
 
 Route::get('/capture',[AdminController::class,'capture'])->name('capture');
+
+Route::get('/document',[AdminController::class,'document'])->name('document');
+
+Route::get('/document_create',[AdminController::class,'document_create'])->name('document_create');
+
+Route::get('/document_index_type',[AdminController::class,'document_index_type'])->name('document_index_type');
+
+Route::post('/document_insert',[AdminController::class,'document_insert'])->name('document_insert');
+
+Route::get('/document_delete/{usa_id}',[AdminController::class,'document_delete'])->name('document_delete');
+
+Route::get('/document_edit/{usa_id}',[AdminController::class,'document_edit'])->name('document_edit');
+
+Route::post('/document_update/{usa_id}',[AdminController::class,'document_update'])->name('document_update');
+
+Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
+
+Route::post('/news_insert',[AdminController::class,'news_insert'])->name('news_insert');
+
+Route::get('/news_edit/{cms_id}',[AdminController::class,'news_edit'])->name('news_edit');
+
+Route::get('/news_delete/{cms_id}',[AdminController::class,'news_delete'])->name('news_delete');
+
+Route::post('/news_update/{cms_id}',[AdminController::class,'news_update'])->name('news_update');
+
+Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
+
+Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
+
+Route::post('/grouptesting_insert',[AdminController::class,'grouptesting_insert'])->name('grouptesting_insert');
+
+Route::get('/grouptesting_delete/{group_id}',[AdminController::class,'grouptesting_delete'])->name('grouptesting_delete');
+
+Route::get('/grouptesting_edit/{group_id}',[AdminController::class,'grouptesting_edit'])->name('grouptesting_edit');
+
+Route::post('/grouptesting_update/{group_id}',[AdminController::class,'grouptesting_update'])->name('grouptesting_update');
