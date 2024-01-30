@@ -11,7 +11,8 @@ use Illuminate\Http\RedirectResponse;
 use DateTime;
 use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
-
+use Carbon\Carbon;
+use App\Models\Image;
 
 
 class AdminController extends Controller
@@ -93,7 +94,7 @@ class AdminController extends Controller
     }
     function news(){
         return view("admin\News\News");
-    }
+    }   
     function category(){
         return view("admin\category\category");
     }
@@ -227,7 +228,7 @@ class AdminController extends Controller
         return redirect()->route('orgchart');
     }
     
-    //
+    //  
     function checklecture(){
         return view("admin\checklecture\checklecture");
     }
@@ -328,7 +329,7 @@ class AdminController extends Controller
         DB::table('imgslide')->where('imgslide_id',$imgslide_id)->update($imgslide_delete);
         return redirect()->route('imgslide');
     }
-    //
+    //  
     function librarytype(){
         return view("admin\libraryfile\librarytype");
     }
