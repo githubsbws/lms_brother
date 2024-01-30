@@ -2,6 +2,7 @@
 @section('title', 'Course')
 @section('content')
 @php
+use App\Models\Lesson;
 use App\Models\Learn;
 use App\Models\Score;
 use App\Models\Grouptesting;
@@ -385,6 +386,9 @@ use App\Models\Grouptesting;
                         $sta = Learn::where(['lesson_id' => $list->id,'user_id' =>Auth::user()->id,'lesson_active' =>'y'])->get();
                         @endphp
                         <div class="list-group collapse in" id="curriculum-2">
+                            @php
+                                
+                            @endphp
                             <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
                                 
                                 <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
