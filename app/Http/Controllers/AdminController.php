@@ -27,7 +27,87 @@ class AdminController extends Controller
         return view("admin\setting\setting");
     }
     function contactus(){
-        return view("admin\contactus\contactus");
+        $contactus= DB::table('contactus')->get();
+
+        return view("admin\Contactus\Contactus",compact('contactus'));
+    }
+    function contactus_create(){
+        $contactus_create= DB::table('contactus')->get();
+        return view("admin\Contactus\Contactus_create",compact('contactus_create'));
+    }
+    function contactus_insert(Request $request){
+        $request->validate([
+            'contac_by_name'=>'required',
+            'contac_by_surname'=>'required',
+            'contac_by_email'=>'required|email',
+            'contac_by_tel'=>'required|numeric',
+            'contac_subject'=>'required',
+            'contac_detail'=>'required',
+            'contac_ans_subject'=>'required',
+            'contac_ans_detail'=>'required',
+
+        ]);
+        $date=new DateTime('Asia/Bangkok'); 
+        $contact_data=[
+            'contac_by_name'=>$request->contac_by_name,
+            'contac_by_surname'=>$request->contac_by_surname,
+            'contac_by_email'=>$request->contac_by_email,
+            'contac_by_tel'=>$request->contac_by_tel,
+            'contac_subject'=>$request->contac_subject,
+            'contac_detail'=>$request->contac_detail,
+            'contac_ans_subject'=>$request->contac_ans_subject,
+            'contac_ans_detail'=>$request->contac_ans_detail,
+            'contac_answer'=>'y',
+            'create_date'=>$date,
+            'create_by'=>'1',
+            'update_date'=>$date,
+            'update_by'=>'1',
+            'active'=>'y',
+        ];
+        DB::table('contactus')->insert($contact_data);
+        return redirect('/contactus');
+    }
+    function contactus_edit_page($id){
+        $contactus_edit_page= DB::table('contactus')
+        ->where('contac_id',$id)
+        ->first();
+        // dd($contactus_edit_page);
+        return view("admin\Contactus\Contactus_edit_page",compact('contactus_edit_page'));
+    }
+    function contactus_edit(Request $request,$id){
+        $request->validate([
+            'contac_by_name'=>'required',
+            'contac_by_surname'=>'required',
+            'contac_by_email'=>'required|email',
+            'contac_by_tel'=>'required|numeric',
+            'contac_subject'=>'required',
+            'contac_detail'=>'required',
+            'contac_ans_subject'=>'required',
+            'contac_ans_detail'=>'required',
+        ]);
+        $date=new DateTime('Asia/Bangkok'); 
+        $contactus_edit  =[
+            'contac_by_name'=>$request->contac_by_name,
+            'contac_by_surname'=>$request->contac_by_surname,
+            'contac_by_email'=>$request->contac_by_email,
+            'contac_by_tel'=>$request->contac_by_tel,
+            'contac_subject'=>$request->contac_subject,
+            'contac_detail'=>$request->contac_detail,
+            'contac_ans_subject'=>$request->contac_ans_subject,
+            'contac_ans_detail'=>$request->contac_ans_detail,
+            'update_date'=>$date,
+            'update_by'=>'1'
+        ]; 
+        DB::table('contactus')->where('contac_id',$id)->update($contactus_edit);
+        return redirect("/contactus");
+    }
+    function contactus_delete($id){
+ 
+        $contactus_delete=[ 
+            'active'=>'n',
+        ];
+        DB::table('contactus')->where('contac_id',$id)->update($contactus_delete);
+        return redirect("/contactus");
     }
     // new p
     function video_create(){
