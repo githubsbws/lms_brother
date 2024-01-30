@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Carbon\Carbon;
+use App\Models\Image;
+
 use Datetime;
 
 
@@ -107,11 +110,29 @@ class AdminController extends Controller
     }
     function video(){
         return view("admin\video\video");
+        return view("admin\video\video");
     }
     function document(){
-        return view("admin\document\document");
+        $usability =DB::table('usability')->get();
+        return view("admin\Document\document",compact('usability'));
+    }
+    function grouptesting(){
+        $grouptesting =DB::table('grouptesting')->get();
+        return view("admin\grouptesting\grouptesting",compact('grouptesting'));
+    }
+    function grouptesting_create(){
+        return view("admin\grouptesting\grouptesting-create");
+    }
+    function document_index_type(){
+        return view("admin\Document\Document-index-type");
     }
     function news(){
+        $news =DB::table('news')->get();
+        return view("admin\News\News",compact('news'));
+    }
+    function news_create(){
+        return view("admin\News\News-create");
+    }
         return view("admin\news\news");
     }
     function category(){
@@ -123,9 +144,7 @@ class AdminController extends Controller
     function lesson(){
         return view("admin\lesson\lesson");
     }
-    function grouptesting(){
-        return view("admin\grouptesting\grouptesting");
-    }
+    
     function coursegrouptesting(){
         return view("admin\coursegrouptesting\coursegrouptesting");
     }
@@ -241,6 +260,7 @@ class AdminController extends Controller
         return view("admin\reportproblem\reportproblem");
     }
     function faqtype(){
+        return view("admin\faq\faqtype");
         $faqtype= DB::table('cms_faq_type')->get();
         return view("admin\Faq\Faqtype",compact('faqtype'));
     }
@@ -293,6 +313,7 @@ class AdminController extends Controller
         return redirect("/faqtype");
     }
     function faq(){
+        return view("admin\faq\faq");
         $faq= DB::table('cms_faq')
         ->join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
         ->select('cms_faq.*', 'cms_faq_type.faq_type_title_TH')
@@ -456,4 +477,219 @@ class AdminController extends Controller
         $redirectUrl = route('bank', ['id' => $request->id]);
         return redirect($redirectUrl)->with('success', 'ลบข้อมูลสำเร็จ');
     }
+
+
+    function upload(Request $request){
+
+        $image = $request->file('cms_picture');
+        $imageName = time().'.'.$image->extension();
+        $image->move(public_path('storage/News'));           //$imageName
+
+        $resizedImage = DB::make(public_path('uploads').'/')->resize(300, 200);     //.$imageName
+        $resizedImage->save();
+
+        return redirect()->route('imgslide');
+    }
+
+    
+    function news_insert(Request $request){
+        $request->validate(
+            [
+                'cms_title'=>'required|max:50',
+                'cms_short_title'=>'required'
+            ]
+            );
+            $dir = "uploads/";
+            $currentTime = Carbon::now()->toDateTimeString(); // รูปแบบเวลาเป็น 'YYYY-MM-DD HH:MM:SS'
+            // $cms = new Cms;
+            
+            $imageName = time().'.'.$request->cms_picture->extension();
+
+            $data = [
+                'cms_title'=>$request->cms_title,
+                'cms_short_title'=>$request->cms_short_title,
+                'cms_detail'=>$request->cms_detail,
+                'cms_picture' =>$imageName,
+                'create_date' => $currentTime,
+                'create_by'=>'1',
+                'update_date' => $currentTime,
+                'update_by'=>'1',
+                'active' => 'y'
+                
+                // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+            ];
+            
+            DB::table('news')->insert($data);
+            $request->cms_picture->move(public_path('storage/News'),$imageName); 
+            return redirect('/news');
+            // dd($data);
+    }
+    // function change($id){
+    //     dd($id);
+    // }
+    function news_delete($cms_id){
+            $news_delete=[ 
+                'active'=>'n',
+            ];
+            DB::table('news')->where('cms_id',$cms_id)->update($news_delete);
+            return redirect("/news");
+        }
+
+
+        function news_edit($cms_id){
+            // $news =DB::table('news')->get();
+            $news=DB::table('news')->where('cms_id',$cms_id)->first();
+            // dd($news);
+            return view("admin\News\News-edit",compact('news'));
+        }
+
+
+        function news_update(Request $request){
+            $request->validate(
+                [
+                    'cms_title'=>'required|max:50',
+                    'cms_short_title'=>'required'
+                ]
+                );
+                $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString(); // รูปแบบเวลาเป็น 'YYYY-MM-DD HH:MM:SS'
+                
+                $imageName = time().'.'.$request->cms_picture->extension();
+    
+                $data = [
+                    'cms_title'=>$request->cms_title,
+                    'cms_short_title'=>$request->cms_short_title,
+                    'cms_detail'=>$request->cms_detail,
+                    'cms_picture' =>$imageName,
+                    'create_date' => $currentTime,
+                    'create_by'=>'1',
+                    'update_date' => $currentTime,
+                    'update_by'=>'1',
+                    'active' => 'y'
+                    
+                    // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+                ];
+                // dd($data);
+                DB::table('news')->where('cms_id',$cms_id)->update($data);
+                // DB::table('news')->where('cms_id',$cms_id)->first($data);
+                $request->cms_picture->move(public_path('storage/News'),$imageName); 
+                return redirect('/news');
+            }
+
+            function document_insert(Request $request){
+                $request->validate(
+                    [
+                        'usa_title'=>'required|max:50',
+                        'usa_short_title'=>'required'
+                    ]
+                    );
+                    $dir = "uploads/";
+                    $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+        
+                    $data = [
+                        'usa_title'=>$request->usa_title,
+                        'usa_detail'=>$request->usa_detail,
+                        'create_date' => $currentTime,
+                        'create_by'=>'1',
+                        'update_date' => $currentTime,
+                        'update_by'=>'1',
+                        'active' => 'y'
+                        
+                        // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+                    ];
+                    
+                    DB::table('usability')->insert($data);
+                    // $request->cms_picture->move(public_path('storage/News'),$imageName); 
+                    // return redirect('/document');
+                    // dd($data);
+                }
+                function document_delete($usa_id){
+                    $document_delete=[ 
+                        'active'=>'n',
+                    ];
+                    DB::table('news')->where('usa_id',$usa_id)->update($document_delete);
+                    return redirect("/document");
+                }
+                function document_update(Request $request){
+                        $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString(); // รูปแบบเวลาเป็น 'YYYY-MM-DD HH:MM:SS'
+            
+                        $data = [
+                                'usa_title'=>$request->usa_title,
+                                'usa_detail'=>$request->usa_detail,
+                                'create_date' => $currentTime,
+                                'create_by'=>'1',
+                                'update_date' => $currentTime,
+                                'update_by'=>'1',
+                                'active' => 'y'
+                            
+                            // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+                        ];
+                        // dd($data);
+                        DB::table('usability')->where('usa_id',$usa_id)->update($data);
+                        // DB::table('news')->where('cms_id',$cms_id)->first($data);
+                        return redirect('/document');
+                    }
+
+                function document_edit($usa_id){
+                    // $news =DB::table('news')->get();
+                    $usability=DB::table('usability')->where('usa_id',$usa_id)->first();
+                    // dd($news);
+                    return view("admin\Document\document-edit",compact('usability'));
+                }
+                
+            function grouptesting_insert(Request $request){
+                    $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+                    $data = [
+                        'lesson_id'=>$request->Grouptesting["lesson_id"],
+                        'group_title'=>$request->Grouptesting["group_title"],
+                        'step_id'=>'1',
+                        'create_date' => $currentTime,
+                        'create_by'=>'1',
+                        'update_date' => $currentTime,
+                        'update_by'=>'1',
+                        'active' => 'y'
+                        
+                        // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+                    ];
+                    
+                    DB::table('grouptesting')->insert($data);
+                    // dd($data);
+                    return redirect('/grouptesting');
+                }
+                function grouptesting_delete($group_id){
+                    $grouptesting_delete=[ 
+                        'active'=>'n',
+                    ];
+                    DB::table('grouptesting')->where('group_id',$group_id)->update($grouptesting_delete);
+                    return redirect("/grouptesting");
+                }
+                function grouptesting_edit($group_id){
+                    // $news =DB::table('news')->get();
+                    $grouptesting=DB::table('grouptesting')->where('group_id',$group_id)->first();
+                    // dd($news);
+                    return view("admin\grouptesting\grouptesting-edit",compact('grouptesting'));
+                }
+                function grouptesting_update(Request $request){
+                    $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString(); // รูปแบบเวลาเป็น 'YYYY-MM-DD HH:MM:SS'
+                    $data = [
+                        'lesson_id'=>$request->Grouptesting["lesson_id"],
+                        'group_title'=>$request->Grouptesting["group_title"],
+                        'step_id'=>'1',
+                        'create_date' => $currentTime,
+                        'create_by'=>'1',
+                        'update_date' => $currentTime,
+                        'update_by'=>'1',
+                        'active' => 'y'
+                        
+                        // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+                    ];
+                    // dd($data);
+                     DB::table('grouptesting')->where('group_id',$group_id)->update($data);
+                    // DB::table('news')->where('cms_id',$cms_id)->first($data);
+                    return redirect('/grouptesting');
+                }
+
+
+               
+
 }
+
