@@ -41,15 +41,15 @@
                         <div class="summary"></div>
 
                         <div class="items">
-
+                            @foreach($web as $wb)
                             <div class="panel panel-default paper-shadow" data-z="0.5">
                                 <div class="forum-category" onclick="BBii.toggleForumGroup(1,'http://localhost/lms_brother_docker/lms/app/index.php/forum/forum/setCollapsed');">
                                     <ul class="list-group" style="margin-bottom: 10px;">
                                         <li class="list-group-item" style="border:none;">
                                             <div class="media v-middle">
                                                 <div class="media-body">
-                                                    <h3 class="text-headline margin-none" style="font-size: 28px;">Brother Forum</h3>
-                                                    <p class="text-subhead text-light" style="font-size: 1.7rem;">แสดงความคิดเนเกี่ยวกับ หลักสูตรการเรียนต่าง ๆ ของบราเดอร์</p>
+                                                    <h3 class="text-headline margin-none" style="font-size: 28px;">{{ $wb->name }}</h3>
+                                                    <p class="text-subhead text-light" style="font-size: 1.7rem;">{{ $wb->subtitle }}</p>
                                                 </div>
                                             </div>
                                         </li>
@@ -156,91 +156,7 @@
 
                                 </ul>
                             </div>
-                            <div class="panel panel-default paper-shadow" data-z="0.5">
-                                <div class="forum-category" onclick="BBii.toggleForumGroup(3,'http://localhost/lms_brother_docker/lms/app/index.php/forum/forum/setCollapsed');">
-                                    <ul class="list-group" style="margin-bottom: 10px;">
-                                        <li class="list-group-item" style="border:none;">
-                                            <div class="media v-middle">
-                                                <div class="media-body">
-                                                    <h3 class="text-headline margin-none" style="font-size: 28px;">กฏกติกา</h3>
-                                                    <p class="text-subhead text-light" style="font-size: 1.7rem;">กฏกติกา ของเว็บบอร์ด</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <ul class="list-group">
-
-
-
-                                    <li class="list-group-item media v-middle">
-                                        <div class="media-left">
-                                            <div class="icon-block half img-circle bg-grey-300">
-                                                <i class="fa fa-file-text text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="text-subhead margin-none" style="font-size: 22px;">
-                                                <a href="/lms_brother_docker/lms/app/index.php/forum/forum/forum/id/4/class/link-text-color">กติการของเว็บบอร์ด</a> <small>กติการของเว็บบอร์ด ในเรื่องต่าง ๆ</small>
-                                            </h4>
-                                            No posts
-                                        </div>
-                                        <div class="media-right">
-                                            <a class="btn btn-white text-light" href="/lms_brother_docker/lms/app/index.php/forum/forum/forum/id/4/class/link-text-color">1</a><!--            <a href="#" class="btn btn-white text-light"><i class="fa fa-comments fa-fw"></i> --><!--</a href="#">-->
-                                        </div>
-                                        <div class="media-right">
-                                            <a class="btn btn-white text-light" href="/lms_brother_docker/lms/app/index.php/forum/forum/forum/id/4/class/link-text-color">1</a><!--            <a href="#" class="btn btn-white text-light"><i class="fa fa-comments fa-fw"></i> --><!--</a>-->
-                                        </div>
-                                    </li>
-
-
-
-                                </ul>
-                            </div>
-                            <div class="panel panel-default paper-shadow" data-z="0.5">
-                                <div class="forum-category" onclick="BBii.toggleForumGroup(8,'http://localhost/lms_brother_docker/lms/app/index.php/forum/forum/setCollapsed');">
-                                    <ul class="list-group" style="margin-bottom: 10px;">
-                                        <li class="list-group-item" style="border:none;">
-                                            <div class="media v-middle">
-                                                <div class="media-body">
-                                                    <h3 class="text-headline margin-none" style="font-size: 28px;">พูดคุยเรื่องอื่น ๆ</h3>
-                                                    <p class="text-subhead text-light" style="font-size: 1.7rem;">พูดคุยเรื่องทั่วไป</p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <ul class="list-group">
-
-
-
-                                    <li class="list-group-item media v-middle">
-                                        <div class="media-left">
-                                            <div class="icon-block half img-circle bg-grey-300">
-                                                <i class="fa fa-file-text text-white"></i>
-                                            </div>
-                                        </div>
-                                        <div class="media-body">
-                                            <h4 class="text-subhead margin-none" style="font-size: 22px;">
-                                                <a href="/lms_brother_docker/lms/app/index.php/forum/forum/forum/id/9/class/link-text-color">ข่าวสารและกิจกรรม</a> <small>ข่าวสารและกิจกรรมต่าง ๆ ของบราเดอร์</small>
-                                            </h4>
-                                            <div class="text-light text-caption" style="font-size: 1.4rem;">
-                                                posted by
-                                                <img src="/lms_brother_docker/lms/app/themes/bws/images/logo_course2.png" alt="person" class="img-circle width-20"> ForTest<a href="/lms_brother_docker/lms/app/index.php/forum/forum/topic/id/26/nav/last"><img style="margin-left:5px;" src="/lms_brother_docker/lms/app/assets/6a25eee3/images/next.png" alt="next"></a> &nbsp; | <i class="fa fa-calendar fa-fw"></i> 5 พฤศจิกายน 2018, 14:39
-                                            </div>
-
-                                        </div>
-                                        <div class="media-right">
-                                            <a class="btn btn-white text-light" href="/lms_brother_docker/lms/app/index.php/forum/forum/forum/id/9/class/link-text-color">4</a><!--            <a href="#" class="btn btn-white text-light"><i class="fa fa-comments fa-fw"></i> --><!--</a href="#">-->
-                                        </div>
-                                        <div class="media-right">
-                                            <a class="btn btn-white text-light" href="/lms_brother_docker/lms/app/index.php/forum/forum/forum/id/9/class/link-text-color">2</a><!--            <a href="#" class="btn btn-white text-light"><i class="fa fa-comments fa-fw"></i> --><!--</a>-->
-                                        </div>
-                                    </li>
-
-
-                                </ul>
-                            </div>
+                            @endforeach
                         </div>
                         <div class="keys" style="display:none" title="/lms_brother_docker/lms/app/index.php/forum"><span>1</span><span>2</span><span>5</span><span>6</span><span>7</span><span>3</span><span>4</span><span>8</span><span>9</span></div>
                     </div>
