@@ -55,7 +55,7 @@
 						<div class="widget-body">
 							<div class="separator bottom form-inline small">
 								<span class="pull-right" style="margin-left: 10px;">
-									<a class="btn btn-primary btn-icon glyphicons circle_plus" href="/admin/index.php/Faq/create"><i></i> เพิ่มคำถาม</a>
+									<a class="btn btn-primary btn-icon glyphicons circle_plus" href={{url('/faq_create')}}><i></i> เพิ่มคำถาม</a>
 								</span>
 								<span class="pull-right">
 									<label class="strong">แสดงแถว:</label>
@@ -95,20 +95,17 @@
 											</tr>
 										</thead>
 										<tbody>
+											@foreach ($faq as $item)
+											@if($item->active === 'y')
 											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="35" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td>วิธีการสมัครสมาชิก</td>
-												<td>สมัครสมาชิกได้อย่างไร</td>
-												<td>2015-10-20 16:02:46</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/faq/35"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/faq/update/35"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/faq/delete/35"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="34" id="chk_1" type="checkbox" name="chk[]"></td>
-												<td>เข้าสู่บทเรียนอย่างไร</td>
-												<td>brother</td>
-												<td>2015-09-24 11:50:14</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/faq/34"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/faq/update/34"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/faq/delete/34"><i></i></a></td>
-											</tr>
+												<td class="checkbox-column"><input class="select-on-check" value={{$faqID=$item->faq_nid_}} id="chk_0" type="checkbox" name="chk[]"></td>
+												<td>{{$item->faq_type_title_TH}}</td>
+												<td>{{$item->faq_THtopic}}</td>
+												<td>{{$item->create_date}}</td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/faq/{{$item->faq_nid_}}"> <i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="faq_edit_page/{{$item->faq_nid_}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/faq_delete/{{$item->faq_nid_}}" onclick="return confirm('คุณต้องการลบคำถาม {{$item->faq_THtopic}} หรือไม่?')"><i></i></a></td>
+											</tr>	
+											@endif
+											@endforeach
 										</tbody>
 									</table>
 									<div class="keys" style="display:none" title="/admin/index.php/Faq/index"><span>35</span><span>34</span></div>
