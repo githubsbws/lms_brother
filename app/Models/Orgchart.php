@@ -13,6 +13,8 @@ class Orgchart extends Model
 
     protected $primarykey = 'id';
 
+    protected $fillable = ['title','level'];
+    
     public static function findById($id)
     {
         return static::where('id', $id)->first();
