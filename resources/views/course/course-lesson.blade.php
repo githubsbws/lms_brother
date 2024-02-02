@@ -205,7 +205,8 @@ use App\Models\Grouptesting;
                             var myVar;
                             var width = $(document).width();
                             var height = $(document).height();
-
+                            var timer = 3000;
+                            
                             $(document).ready(function() {
 
 
@@ -214,7 +215,7 @@ use App\Models\Grouptesting;
                                 $(".video-js").each(function(videoIndex) {
                                     var videoId = $(this).attr("id");
                                     var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                                    var myPlayer = videojs(videoId);
+                                    var myPlayer = videojs("example_video_1");
 
 
                                     var $win = $(window); // or $box parent container
@@ -223,9 +224,11 @@ use App\Models\Grouptesting;
 
                                     var checkFullScreen = true;
 
+                                    
+
 
                                     function countdown(timer) {
-                                        // console.log(timer);
+                                        
                                         var myPlayer_alert = videojs(videoId);
                                         // console.log(timer)
 
