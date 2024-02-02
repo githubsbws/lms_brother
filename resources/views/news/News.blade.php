@@ -27,7 +27,7 @@
                                     <div class="media media-clearfix-xs">
                                         <div class="media-left text-center">
                                             <div class="cover width-150 width-100pc-xs overlay cover-image-full hover">
-                                                <img src="{{ asset('images/uploads/news'.$value->cms_id.'/original/'.$value->cms_picture)}}">
+                                                <img src="{{ asset('images/uploads/news/'.$value->cms_id.'/original/'.$value->cms_picture)}}">
                                             </div>
                                         </div>
                                         <div class="media-body">

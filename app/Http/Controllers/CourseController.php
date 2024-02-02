@@ -167,7 +167,7 @@ class CourseController extends Controller
      // Check if the file exists
  
      // Construct the full file path
-     $file_path = public_path('images/storage/uploads/filedoc'.DIRECTORY_SEPARATOR. $file->filename);
+     $file_path = public_path('images/uploads/filedoc'.DIRECTORY_SEPARATOR. $file->filename);
 
 
      // Check if the file actually exists on the server
