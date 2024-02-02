@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Orgchart extends Model
+class Category extends Model
 {
     use HasFactory;
 
-    protected $table = 'orgchart';
+    protected $table = 'category';
 
-    protected $primarykey = 'id';
+    protected $primarykey = 'cate_id';
 
-    protected $fillable = ['title','level'];
-    
     public static function findById($id)
     {
-        return static::where('id', $id)->first();
+        return static::where('cate_id', $id)->first();
     }
 }

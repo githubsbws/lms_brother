@@ -14,6 +14,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           docker_name: 'ghcr.io/zaproxy/zaproxy:stable'
-          target: 'http://172.24.4.15:8000'
+          target: 'http://203.151.32.100:8001'
           rules_file_name: '.zap/rules.tsv'
           cmd_options: '-a'

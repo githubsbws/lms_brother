@@ -36,7 +36,7 @@
 						<div class="widget-body">
 							<div class="separator bottom form-inline small">
 								<span class="pull-right" style="margin-left: 10px;">
-									<a class="btn btn-primary btn-icon glyphicons circle_plus" href="/admin/index.php/FaqType/create"><i></i> เพิ่มคำถาม</a>
+									<a class="btn btn-primary btn-icon glyphicons circle_plus" href={{url('/faqtype_create')}}><i></i> เพิ่มหมวดคำถาม</a>
 								</span>
 								<span class="pull-right">
 									<label class="strong">แสดงแถว:</label>
@@ -74,7 +74,17 @@
 											</tr>
 										</thead>
 										<tbody>
+											@foreach ($faqtype as $item)
+											@if($item->active === 'y')
 											<tr class="odd selectable">
+												<td class="checkbox-column"><input class="select-on-check" value={{$item->faq_type_id}} id="chk_0" type="checkbox" name="chk[]"></td>
+												<td>{{$item->faq_type_title_TH}}</td>
+
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/faqType/{{$item->faq_type_id}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="faqtype_edit_page/{{$item->faq_type_id}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/faqtype_delete/{{$item->faq_type_id}}" onclick="return confirm('คุณต้องการลบหมวดคำถาม {{$item->faq_type_title_TH}} หรือไม่?')"><i></i></a></td>
+											</tr>
+											@endif
+											@endforeach
+											{{-- <tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="97" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td>วิธีการสมัครสมาชิก</td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/faqType/97"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/faqType/update/97"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/faqType/delete/97"><i></i></a></td>
@@ -83,7 +93,7 @@
 												<td class="checkbox-column"><input class="select-on-check" value="96" id="chk_1" type="checkbox" name="chk[]"></td>
 												<td>เข้าสู่บทเรียนอย่างไร</td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/faqType/96"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/faqType/update/96"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/faqType/delete/96"><i></i></a></td>
-											</tr>
+											</tr> --}}
 										</tbody>
 									</table>
 									<div class="keys" style="display:none" title="/admin/index.php/faqType/index"><span>97</span><span>96</span></div>

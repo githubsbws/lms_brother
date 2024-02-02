@@ -243,7 +243,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
         </div>
     </div>
 </section>
-
+<script src="{{ asset('themes/bws/js/sweetalert.min.js')}}"></script>
 <script src="{{ asset('themes/bws/js/vender/video-js/video.js')}}"></script>
 <script src="{{ asset('themes/bws/js/vendor-core.min.js')}}"></script>
 <script src="{{ asset('themes/bws/js/vendor-countdown.min.js')}}"></script>

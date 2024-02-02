@@ -67,7 +67,7 @@ use App\Models\DownloadFileDoc;
                         
                                     <li class="list-group-item">
                                       
-                                      <a href="#">
+                                      <a href="{{ route('download.downloadfiles', ['id' => $f->filedoc_id]) }}">
                                         <img src="{{asset('images/icons8-pdf-48.png')}}" alt="" style="width: 22px;" />
                                        {{ $f->filedoc_name }}<span class="pull-right"><i class="fa fa-download"></i> ดาวน์โหลด </span>
                                       </a>

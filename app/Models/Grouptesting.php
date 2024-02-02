@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Orgchart extends Model
+class Grouptesting extends Model
 {
     use HasFactory;
 
-    protected $table = 'orgchart';
+    protected $table = 'grouptesting';
 
-    protected $primarykey = 'id';
+    protected $primarykey = 'group_id';
 
-    protected $fillable = ['title','level'];
-    
     public static function findById($id)
     {
-        return static::where('id', $id)->first();
+        return static::where('group_id', $id)->first();
     }
 }

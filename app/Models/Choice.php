@@ -5,18 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Orgchart extends Model
+class Choice extends Model
 {
     use HasFactory;
 
-    protected $table = 'orgchart';
+    protected $table = 'choice';
 
-    protected $primarykey = 'id';
+    protected $primarykey = 'choice_id';
 
-    protected $fillable = ['title','level'];
-    
     public static function findById($id)
     {
-        return static::where('id', $id)->first();
+        return static::where('choice_id', $id)->first();
     }
 }

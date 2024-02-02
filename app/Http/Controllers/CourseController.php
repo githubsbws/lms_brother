@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\Manage;
+use App\Models\Question;
 use App\Models\FileDoc;
 use App\Models\Learn;
 use App\Models\LearnFile;
 use App\Models\Orgchart;
 use App\Models\Orgcourse;
 use App\Models\File;
+use App\Models\Grouptesting;
 use Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log as FacadesLog;
+use Illuminate\Support\Facades\Session;
 
 class CourseController extends Controller
 {
@@ -44,7 +48,7 @@ class CourseController extends Controller
         if(Auth::check()){
         $ptest = Manage::where(['type' => 'pre','id' => $id,'active' =>'y'])->first();
         if($ptest){
-            return view("course.question",['ptest' =>$ptest]);
+            return redirect()->route("course.coursequestion",['course_id' =>$course_id,'id'=>$id]);
         }
         $learnModel = Learn::where(['lesson_id' => $id,'user_id' => Auth::user()->id])->first();
         if(!$learnModel){
@@ -174,4 +178,42 @@ class CourseController extends Controller
      // Generate the response for downloading the file
      return response()->download($file_path, $file->original_filename);
 }
+    public function coursequestion($course_id,$id,  Request $request){
+        if(Auth::check()){
+            $post_test = Manage::where(['id' => $id, 'active' =>'y'])->first();
+            if($post_test == null){
+                Session::flash('sweetAlert', [
+                    'title' => 'ไม่มีแบบทดสอบ',
+                    'text' => 'ไม่มีแบบทดสอบจากบทเรียน',
+                    'icon' => 'warning'
+                ]);
+                return redirect()->route('course.lesson',['course_id' => $course_id,'id' =>$id]);
+            }
+            $group = Grouptesting::where(['group_id' => $post_test->group_id,'active' =>'y'])->get();
+            $lesson = Lesson::where('id',$id)->first();
+            $course = Course::where('course_id',$course_id)->first();
+            $cate = Category::where('cate_id',$course->cate_id)->first();
+            $model = Question::where(['group_id'=> $post_test->group_id,'active' =>'y'])->get();
+            if($post_test->type == 'pre'){
+                $breadcrumbs = [
+                    ['name' => 'หลักสูตร', 'url' => url('/cateOnline/index')],
+                    ['name' => $cate->cate_title, 'url' => url('//courseOnline/index/' . $cate->id)],
+                    ['name' => $lesson->title, 'url' => url('//courseOnline/learn/' . $lesson->id)],
+                    ['name' => 'แบบทดสอบก่อนเรียน', 'url' => null], // You can set the URL to null for the current page
+                ];
+            }else{
+                $breadcrumbs = [
+                    ['name' => 'หลักสูตร', 'url' => url('/cateOnline/index')],
+                    ['name' => $cate->cate_title, 'url' => url('//courseOnline/index/' . $cate->id)],
+                    ['name' => $lesson->title, 'url' => url('//courseOnline/learn/' . $lesson->id)],
+                    ['name' => 'แบบทดสอบหลังเรียน', 'url' => null], // You can set the URL to null for the current page
+                ];
+            }
+            
+            return view("course.question",['group'=> $group,'lesson'=>$lesson,'course'=>$course,'cate'=>$cate,'breadcrumbs'=>$breadcrumbs,'model'=>$model]);
+        }else{
+            return redirect()->route('index');
+        }
+       
+    }
 }
