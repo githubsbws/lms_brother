@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use DateTime;
-use Intervention\Image\Facades\Image;
+// use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
 use Carbon\Carbon;
 use App\Models\Image;
