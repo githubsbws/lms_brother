@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Profiles;
 
 use App\Http\Controllers\EditController;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\InsertController;
 use App\Http\Controllers\VedioController;
 use App\Http\Controllers\UpvedioController;
@@ -14,6 +14,7 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ForgotController;
 use App\Http\Controllers\IndexController;
@@ -23,10 +24,11 @@ use App\Http\Controllers\UsabilityController;
 use App\Http\Controllers\VirtualclassroomController;
 use App\Http\Controllers\WebboardController;
 use App\Http\Controllers\ImageController;
-
+use App\Http\Controllers\ProfileController;
 //-------
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\Admin;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,12 +41,12 @@ use App\Http\Middleware\Admin;
 |
 */
 
-Route::get('/', function () {
-    return view('index/index');
-});
-Route::get('/test', function () {
-     return view('test');
-});
+Route::get('/', [IndexController::class,'index'])->name('index');
+
+Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
+Route::post('logins', [LoginController::class,'login'])->name('logins');
+Route::post('logout', [LoginController::class,'logout'])->name('logout');
+
 Route::get('/admin', function () {
     return view('admin/index/index');
 });
@@ -91,26 +93,47 @@ Route::get('change/{bank_id}',[EditController::class,'change'])->name('change');
 // Route::post('login_in',[LoginController::class,'login_in'])->name('login_in');
 // // ออกจาระบบ
 // Route::get('logout',[LoginController::class,'logout'])->name('logout');
-
+// ----- login
+Route::get('/login/login',[LoginLController::class,'loginL'])->name('login.login');
+Route::post('/lms_brother_docker/lms/app/index/user/login',[LoginLController::class,'login_to'])->name('login_to');
+Route::get('logout_t',[LoginLController::class,'logout_t'])->name('logout_t');
+// ----- index
+Route::get('index/my',[IndexController::class,'index'])->name('index');
+// ----- Forgot
+Route::get('forgot-pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
+Route::post('/lms_brother_docker/lms/app/index/user/recovery',[ForgotController::class,'forgotRecovery'])->name('forgot.recovery');
 // ------------------------------------------
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
-Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('lesson',[CourseController::class,'courseLession'])->name('course.lesson');
+// Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
+Route::get('course/detail/{id}',[CourseController::class,'courseDetail'])->name('course.detail');
+Route::get('course/detail/{course_id}/lesson/{id}',[CourseController::class,'courseLesson'])->name('course.lesson');
+Route::get('course/LearnVdo/{id}/{learn_id}/{counter}',[CourseController::class,'LearnVdo'])->name('course.LearnVdo');
+Route::get('course/question/{course_id}/{id}',[CourseController::class,'coursequestion'])->name('course.coursequestion');
+Route::get('course/question/{group}',[CourseController::class,'coursequestion'])->name('course.question');
+Route::get('download/{id}',[CourseController::class,'downloadfile'])->name('course.downloadfile');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+// ----- profile
+Route::get('profile',[ProfileController::class,'index'])->name('profile');
+
+Route::get('download',[DownloadController::class,'download'])->name('download');
+Route::get('downloads/{id}',[DownloadController::class,'downloadfiles'])->name('download.downloadfiles');
+
 // ----- faq
-Route::get('faq',[FaqController::class,'faq'])->name('faq');
+Route::get('faq_f',[FaqController::class,'faq_front'])->name('faq_front');
 // ----- Forgot
 Route::get('forgot/pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
 // ----- index
 Route::get('index',[IndexController::class,'index'])->name('index');
 // ----- login
-Route::get('login',[LoginLController::class,'loginL'])->name('login.login');
+// Route::get('logins',[LoginLController::class,'loginL'])->name('loginL.login');
 // ----- new
 Route::get('new',[NewController::class,'new'])->name('new');
+Route::get('new_detail/{id}',[NewController::class,'new_detail'])->name('new_detail');
+
 // ----- usability
-Route::get('usability',[UsabilityController::class,'usability'])->name('usability');
+Route::get('usability_front',[UsabilityController::class,'usability_front'])->name('usability_front');
 // ----- virtualclassroom
 Route::get('virtualclassroom',[VirtualclassroomController::class,'virtualclassroom'])->name('virtualclassroom');
 // ----- WebboardController
@@ -127,6 +150,17 @@ Route::get('/condition',[AdminController::class,'condition'])->name('condition')
 Route::get('/setting',[AdminController::class,'setting'])->name('setting');
 
 Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus');
+
+Route::get('/contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create');
+
+Route::post('/contactus_insert',[AdminController::class,'contactus_insert'])->name('contactus_insert');
+
+Route::get('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus_edit_page');
+
+Route::post('/contactus_edit/{id}',[AdminController::class,'contactus_edit'])->name('contactus_edit');
+
+Route::get('/contactus_delete/{id}',[AdminController::class,'contactus_delete'])->name('contactus_delete');
+
 //  new p
 Route::get('/video_create',[AdminController::class,'video_create'])->name('video_create');
 Route::get('/video',[AdminController::class,'video'])->name('video');
@@ -181,7 +215,27 @@ Route::get('/reportproblem',[AdminController::class,'reportproblem'])->name('rep
 
 Route::get('/faqtype',[AdminController::class,'faqtype'])->name('faqtype');
 
+Route::get('/faqtype_create',[AdminController::class,'faqtype_create'])->name('faqtype_create');
+
+Route::post('/faqtype_insert',[AdminController::class,'faqtype_insert'])->name('faqtype_insert');
+
+Route::get('/faqtype_edit_page/{id}',[AdminController::class,'faqtype_edit_page'])->name('faqtype_edit_page');
+
+Route::post('/faqtype_edit/{id}',[AdminController::class,'faqtype_edit'])->name('faqtype_edit');
+
+Route::get('/faqtype_delete/{id}',[AdminController::class,'faqtype_delete'])->name('faqtype_delete');
+
 Route::get('/faq',[AdminController::class,'faq'])->name('faq');
+
+Route::get('/faq_create',[AdminController::class,'faq_create'])->name('faq_create');
+
+Route::post('/faq_insert',[AdminController::class,'faq_insert'])->name('faq_insert');
+
+Route::get('/faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name('faq_edit_page');
+
+Route::post('/faq_edit/{id}',[AdminController::class,'faq_edit'])->name('faq_edit');
+
+Route::get('/faq_delete/{id}',[AdminController::class,'faq_delete'])->name('faq_delete');
 
 Route::get('/adminuser',[AdminController::class,'adminuser'])->name('adminuser');
 
@@ -248,3 +302,17 @@ Route::get('/grouptesting_delete/{group_id}',[AdminController::class,'grouptesti
 Route::get('/grouptesting_edit/{group_id}',[AdminController::class,'grouptesting_edit'])->name('grouptesting_edit');
 
 Route::post('/grouptesting_update/{group_id}',[AdminController::class,'grouptesting_update'])->name('grouptesting_update');
+
+Route::get('/question',[AdminController::class,'question'])->name('question');
+
+Route::get('/question_create',[AdminController::class,'question_create'])->name('question_create');
+
+Route::post('/question_insert',[AdminController::class,'question_insert'])->name('question_insert');
+
+Route::get('/question_edit_page/{id}',[AdminController::class,'question_edit_page'])->name('question_edit_page');
+
+Route::post('/question_edit/{id}',[AdminController::class,'question_edit'])->name('question_edit');
+
+Route::get('/question_delete/{id}',[AdminController::class,'question_delete'])->name('question_delete');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

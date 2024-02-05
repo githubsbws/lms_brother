@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-{{-- <?php include 'include/head.php'; ?> --}}
-@include('layouts.head')
+@extends('layout/mainlayout')
+@section('title', 'Brother e-learning')
+@section('content')
 
 <body>
 
@@ -54,8 +52,4 @@
         </div>
     </div>
 </body>
-@include('layouts.footer')
-{{-- <?php include 'include/footer.php'; ?> --}}
-
-
-</html>
+@endsection

@@ -2,10 +2,86 @@
 @section('title', 'Course')
 @section('content')
 @php
+use App\Models\Lesson;
 use App\Models\Learn;
 use App\Models\Score;
 use App\Models\Grouptesting;
 @endphp
+<style type="text/css">
+    .video-js {
+        max-width: 100%
+    }
+
+    /* the usual RWD shebang */
+
+    .video-js {
+        width: auto !important; /* override the plugin's inline dims to let vids scale fluidly */
+        height: auto !important;
+    }
+
+    .video-js video {
+        position: relative !important;
+    }
+
+    .split-me > div:first-child {
+        background: #555;
+    }
+
+    .split-me > div:last-child {
+        background: #666;
+    }
+
+    .vjs-progress-control {
+        display: none;
+    }
+
+    .split-me-container {
+        position: absolute;
+        top: 3em;
+        left: 1em;
+        right: 1em;
+        bottom: 1em;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .splitter-bar {
+        background: #333;
+    }
+
+    /* ------------- Flexcroll CSS ------------ */
+    .scrollgeneric {
+        line-height: 1px;
+        font-size: 1px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .hscrollerbase {
+        height: 17px;
+        background: #A3CBE0;
+    }
+
+    .hscrollerbar {
+        height: 12px;
+        background: #000;
+        cursor: e-resize;
+        padding: 3px;
+        border: 1px solid #A3CBE0;
+    }
+
+    .hscrollerbar:hover {
+        background: #222;
+        border: 1px solid #222;
+    }
+
+    .menu_li_padding {
+        padding: 10px 15px !important;
+    }
+
+
+</style>
 <body>
     @foreach($course_lesson as $lesson)
     <div class="parallax bg-white page-section third">
@@ -108,7 +184,7 @@ use App\Models\Grouptesting;
                                             <div>
                                                 <div class="split-me" id="split-me1">
                                                     <div class="col-md-6">
-                                                        <video id="example_video_1" class="video-js vjs-default-skin" controls="" preload="none" data-setup="{}">
+                                                        <video id="example_video_1" class="video-js vjs-default-skin" controls="" preload="none" data-setup="{}" controlsList="nodownload">
                                                             {{-- <source src="/../images/storage/uploads/lesson/{{$lesson->filename}}" type="video/mp4"> --}}
                                                             <source src="{{asset('images/uploads/lesson/'.$file_id->filename)}}" type="video/mp4">
                                                             <!-- <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
@@ -166,6 +242,8 @@ use App\Models\Grouptesting;
                                                     var id = '{{$file_id->id}}';
                                                     var learn_id = '{{$learn_id}}';
                                                     
+                                                    console.log(id)
+                                                    console.log(learn_id)
                                                     myPlayer1.on('play', function() {
                                                         console.log('play')
                                                         var counter = 'counter';
@@ -190,6 +268,10 @@ use App\Models\Grouptesting;
                                                                 $('#imageCheck' + data.no).html(data.image);
                                                         });
                                                     });
+                                                    function preventSeek(event) {
+    var video = document.getElementById('example_video_1');
+    video.currentTime = event.target.currentTime;
+  }
                                                 </script>
                                             </div>
                                         </div>
@@ -204,7 +286,8 @@ use App\Models\Grouptesting;
                             var myVar;
                             var width = $(document).width();
                             var height = $(document).height();
-
+                            var timer = 3000;
+                            
                             $(document).ready(function() {
 
 
@@ -213,7 +296,7 @@ use App\Models\Grouptesting;
                                 $(".video-js").each(function(videoIndex) {
                                     var videoId = $(this).attr("id");
                                     var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-                                    var myPlayer = videojs(videoId);
+                                    var myPlayer = videojs("example_video_1");
 
 
                                     var $win = $(window); // or $box parent container
@@ -222,9 +305,11 @@ use App\Models\Grouptesting;
 
                                     var checkFullScreen = true;
 
+                                    
+
 
                                     function countdown(timer) {
-                                        // console.log(timer);
+                                        
                                         var myPlayer_alert = videojs(videoId);
                                         // console.log(timer)
 
@@ -385,6 +470,9 @@ use App\Models\Grouptesting;
                         $sta = Learn::where(['lesson_id' => $list->id,'user_id' =>Auth::user()->id,'lesson_active' =>'y'])->get();
                         @endphp
                         <div class="list-group collapse in" id="curriculum-2">
+                            @php
+                                
+                            @endphp
                             <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
                                 
                                 <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">

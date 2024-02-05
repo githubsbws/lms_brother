@@ -6,6 +6,7 @@ use App\Models\Downloadcategoty;
 use App\Models\DownloadFile;
 @endphp
 <body>
+  
     <div class="page-cover">
         <img src="{{asset('assets/images/screen1.png')}}" alt="">
     </div>
@@ -31,8 +32,8 @@ use App\Models\DownloadFile;
 
                                 <div class="galcolumn" id="item02grJH" style="width: 95.7983%; padding-left: 15px; padding-bottom: 15px; float: left; box-sizing: border-box;">
                                     <div class="card" style="margin-bottom: 15px; zoom: 1; opacity: 1;">
-
-                                        <div class="img-news" style="background: {{asset('images/uploads/news/'.$new->cms_id.'/thumb/'.$new->cms_picture)}};"></div>
+                                      <img class="img-news" src="{{asset('images/uploads/news/'.$new->cms_id.'/original/'.$new->cms_picture)}}">
+                                        {{-- <div class="img-news" style="background: {{asset('images/uploads/news/'.$new->cms_id.'/thumb/'.$new->cms_picture)}};"></div> --}}
                                         <div class="card-body">
                                             <div class="text-headline">{{ \Illuminate\Support\Str::limit($new->cms_title, $limit = 40, $end = '...') }}</div>
                                             <?php 
