@@ -18,22 +18,22 @@ use App\Models\Image;
 class AdminController extends Controller
 {
     function aboutus(){
-        return view("admin\aboutus\aboutus");
+        return view("admin.aboutus.aboutus");
     }
     function condition(){
-        return view("admin\condition\condition");
+        return view("admin.condition.condition");
     }
     function setting(){
-        return view("admin\setting\setting");
+        return view("admin.setting.setting");
     }
     function contactus(){
         $contactus= DB::table('contactus')->get();
 
-        return view("admin\Contactus\Contactus",compact('contactus'));
+        return view("admin.contactus.contactus",compact('contactus'));
     }
     function contactus_create(){
         $contactus_create= DB::table('contactus')->get();
-        return view("admin\Contactus\Contactus_create",compact('contactus_create'));
+        return view("admin.contactus.contactus_create",compact('contactus_create'));
     }
     function contactus_insert(Request $request){
         $request->validate([
@@ -72,7 +72,7 @@ class AdminController extends Controller
         ->where('contac_id',$id)
         ->first();
         // dd($contactus_edit_page);
-        return view("admin\Contactus\Contactus_edit_page",compact('contactus_edit_page'));
+        return view("admin.contactus.contactus_edit_page",compact('contactus_edit_page'));
     }
     function contactus_edit(Request $request,$id){
         $request->validate([
@@ -111,11 +111,11 @@ class AdminController extends Controller
     }
     // new p
     function video_create(){
-        return view("admin\Video\Video-create");
+        return view("admin.video.video-create");
     }
     function video(){
         $vdo =DB::table('vdo')->get();
-        return view("admin\Video\Video",compact('vdo'));
+        return view("admin.video.video",compact('vdo'));
     }
     function video_insert(Request $request){
         $request->validate([
@@ -137,7 +137,7 @@ class AdminController extends Controller
     }
     function video_edit($vdo_id){
         $vdo =DB::table('vdo')->where('vdo_id',$vdo_id)->first();
-        return view("admin\Video\Video-edit",compact('vdo'));
+        return view("admin.video.video-edit",compact('vdo'));
     }
     function video_update(Request $request,$vdo_id){
         $request->validate([
@@ -166,50 +166,50 @@ class AdminController extends Controller
     }
     //
     function document(){
-        return view("admin\document\document");
+        return view("admin.document.document");
     }
     //new p
     function news_create(){
-        return view("admin\News\News-create");
+        return view("admin.news.news-create");
     }
     function news(){
-        return view("admin\News\News");
+        return view("admin.news.news");
     }   
     function category(){
-        return view("admin\category\category");
+        return view("admin.category.category");
     }
     function courseonline(){
-        return view("admin\courseonline\courseonline");
+        return view("admin.courseonline.courseonline");
     }
     function lesson(){
-        return view("admin\lesson\lesson");
+        return view("admin.lesson.lesson");
     }
 
     //new p
     function grouptesting_create(){
-        return view("admin\grouptesting\grouptesting-create");
+        return view("admin.grouptesting.grouptesting-create");
     }
     function grouptesting(){
-        return view("admin\grouptesting\grouptesting");
+        return view("admin.grouptesting.grouptesting");
     }
     //
 
     //new p
     function coursegrouptesting_create(){
-        return view("admin\coursegrouptesting\coursegrouptesting-create");
+        return view("admin.coursegrouptesting.coursegrouptesting-create");
     }
     function coursegrouptesting(){
-        return view("admin\coursegrouptesting\coursegrouptesting");
+        return view("admin.coursegrouptesting.coursegrouptesting");
     }
     //
 
     //new p
     function questionnaireout(){
         $survey_headers = Questionnaireout::get();
-        return view("admin\questionnaireout\questionnaireout",compact('survey_headers'));
+        return view("admin.questionnaireout.questionnaireout",compact('survey_headers'));
     }
     function questionnaireout_create(){
-        return view("admin\questionnaireout\questionnaireout-create");
+        return view("admin.questionnaireout.questionnaireout-create");
     }
     function questionnaireout_insert(Request $request){
         $request->validate([
@@ -231,7 +231,7 @@ class AdminController extends Controller
     }
     function questionnaireout_edit($survey_header_id){
         $survey_headers = Questionnaireout::get()->where('survey_header_id',$survey_header_id)->first();
-        return view("admin\questionnaireout\questionnaireout-edit",compact('survey_headers'));
+        return view("admin.questionnaireout.questionnaireout-edit",compact('survey_headers'));
     }
     function questionnaireout_update(Request $request,$survey_header_id){
         $request->validate([
@@ -267,7 +267,7 @@ class AdminController extends Controller
         ->join('grouptesting', 'question.group_id', '=', 'grouptesting.group_id')
         ->select('question.*', 'grouptesting.group_title')
         ->get();
-        return view("admin\Question\Question",compact('question'));
+        return view("admin.Question.Question",compact('question'));
     }
     function question_create(){
         $grouptesting = DB::table('grouptesting')
@@ -278,7 +278,7 @@ class AdminController extends Controller
             ->join('grouptesting', 'question.group_id', '=', 'grouptesting.group_id')
             ->select('question.*', 'grouptesting.group_title')
             ->get();
-        return view("admin\Question\Question_create",compact('question_create','grouptesting'));
+        return view("admin.Question.Question_create",compact('question_create','grouptesting'));
     }
     function question_insert(Request $request){
         $request->validate([
@@ -313,7 +313,7 @@ class AdminController extends Controller
         $question_edit_page= DB::table('question')
         ->where('ques_id',$id)
         ->first();
-        return view("admin\Question\Question_edit_page",compact('grouptesting','question_edit_page'));
+        return view("admin.Question.Question_edit_page",compact('grouptesting','question_edit_page'));
     }
     function question_edit(Request $request,$id){
         $request->validate([
@@ -348,10 +348,10 @@ class AdminController extends Controller
     }
     function orgchart(){
         $orgchart =DB::table('orgchart')->get();
-        return view("admin\orgchart\orgchart",compact('orgchart'));
+        return view("admin.orgchart.orgchart",compact('orgchart'));
     }
     function orgchart_create(){
-        return view("admin\orgchart\orgchart-create");
+        return view("admin.orgchart.orgchart-create");
     }
     function orgchart_insert(Request $request){
         $request->validate([
@@ -368,7 +368,7 @@ class AdminController extends Controller
     }
     function orgchart_edit($orgchart_id){
         $orgchart =DB::table('orgchart')->where('orgchart_id',$orgchart_id)->first();
-        return view("admin\orgchart\orgchart-edit",compact('orgchart'));
+        return view("admin.orgchart.orgchart-edit",compact('orgchart'));
     }
     function orgchart_update(Request $request,$orgchart_id){
         $request->validate([
@@ -393,33 +393,33 @@ class AdminController extends Controller
     
     //  
     function checklecture(){
-        return view("admin\checklecture\checklecture");
+        return view("admin.checklecture.checklecture");
     }
     function coursecheck(){
-        return view("admin\checklecture\checklecture-coursecheck");
+        return view("admin.checklecture.checklecture-coursecheck");
     }
     function certificate(){
-        return view("admin\certificate\certificate");
+        return view("admin.certificate.certificate");
     }
     function signnature(){
-        return view("admin\signnature\signnature");
+        return view("admin.signnature.signnature");
     }
     function captcha(){
-        return view("admin\captcha\captcha");
+        return view("admin.captcha.captcha");
     }
     function usability(){
-        return view("admin\usability\usability");
+        return view("admin.usability.usability");
     }
     function reportproblem(){
-        return view("admin\reportproblem\reportproblem");
+        return view("admin.reportproblem.reportproblem");
     }
     function faqtype(){
         $faqtype= DB::table('cms_faq_type')->get();
-        return view("admin\Faq\Faqtype",compact('faqtype'));
+        return view("admin.Faq.Faqtype",compact('faqtype'));
     }
     function faqtype_create(){
         $faqtype_create= DB::table('cms_faq_type')->get();
-        return view("admin\Faq\Faqtype_create",compact('faqtype_create'));
+        return view("admin.Faq.Faqtype_create",compact('faqtype_create'));
     }
     function faqtype_insert(Request $request){
         $request->validate([
@@ -442,7 +442,7 @@ class AdminController extends Controller
         ->where('faq_type_id',$id)
         ->first();
         // dd($faqtype_edit_page);
-        return view("admin\Faq\Faqtype_edit_page",compact('faqtype_edit_page'));
+        return view("admin.Faq.Faqtype_edit_page",compact('faqtype_edit_page'));
     }
     function faqtype_edit(Request $request,$id){
         $request->validate([
@@ -470,7 +470,7 @@ class AdminController extends Controller
         ->join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
         ->select('cms_faq.*', 'cms_faq_type.faq_type_title_TH')
         ->get();
-        return view("admin\Faq\Faq",compact('faq'));
+        return view("admin.Faq.Faq",compact('faq'));
     }
     function faq_create(){
         $faq_types = DB::table('cms_faq_type')
@@ -482,7 +482,7 @@ class AdminController extends Controller
             ->select('cms_faq.*', 'cms_faq_type.faq_type_title_TH')
             ->get();
         
-        return view("admin\Faq\Faq_create", compact('faq_create', 'faq_types'));
+        return view("admin.Faq.Faq_create", compact('faq_create', 'faq_types'));
     }
     function faq_insert(Request $request){
         $request->validate([
@@ -513,7 +513,7 @@ class AdminController extends Controller
         $faq_edit_page= DB::table('cms_faq')
         ->where('faq_nid_',$id)
         ->first();
-        return view("admin\Faq\Faq_edit_page",compact('faq_edit_page','faq_types'));
+        return view("admin.Faq.Faq_edit_page",compact('faq_edit_page','faq_types'));
     }
     function faq_edit(Request $request,$id){
         $request->validate([
@@ -541,20 +541,20 @@ class AdminController extends Controller
         return redirect("/faq");
     }
     function adminuser(){
-        return view("admin\adminuser\adminuser");
+        return view("admin.adminuser.adminuser");
     }
     function pgroup(){
-        return view("admin\pgroup\pgroup");
+        return view("admin.pgroup.pgroup");
     }
     function user_admin(){
-        return view("admin\user_admin\user-admin");
+        return view("admin.user_admin.user-admin");
     }
     function coursefield(){
-        return view("admin\coursefield\coursefield");
+        return view("admin.coursefield.coursefield");
     }
     //new p
     function imgslide_create(){
-        return view("admin\Imgslide\Imgslide-create");
+        return view("admin.Imgslide.Imgslide-create");
     }
     function imgslide_insert(Request $request){
         $request->validate([
@@ -579,11 +579,11 @@ class AdminController extends Controller
     }
     function imgslide(){
         $imgslide =DB::table('imgslide')->get();
-        return view("admin\Imgslide\Imgslide",compact('imgslide'));
+        return view("admin.Imgslide.Imgslide",compact('imgslide'));
     }
     function imgslide_edit($imgslide_id){
         $imgslide =DB::table('imgslide')->where('imgslide_id',$imgslide_id)->first();
-        return view("admin\Imgslide\Imgslide-edit",compact('imgslide'));
+        return view("admin.Imgslide.Imgslide-edit",compact('imgslide'));
     }
     function imgslide_update(Request $request,$imgslide_id){
         $request->validate([
@@ -615,25 +615,25 @@ class AdminController extends Controller
     }
     //  
     function librarytype(){
-        return view("admin\libraryfile\librarytype");
+        return view("admin.libraryfile.librarytype");
     }
     function libraryfile(){
-        return view("admin\libraryfile\libraryfile");
+        return view("admin.libraryfile.libraryfile");
     }
     function coursenotification(){
-        return view("admin\coursenotification\coursenotification");
+        return view("admin.coursenotification.coursenotification");
     }
     function passcourse(){
-        return view("admin\passcourse\passcourse");
+        return view("admin.passcourse.passcourse");
     }
     function logadmin(){
-        return view("admin\logadmin\logadmin");
+        return view("admin.logadmin.logadmin");
     }
     function student_photo(){
-        return view("admin\student-photo\student-photo");
+        return view("admin.student-photo.student-photo");
     }
     function capture(){
-        return view("admin\capture\capture");
+        return view("admin.capture.capture");
     }
     //----- หน้ารายชื่อธนาคาร
     public function index()

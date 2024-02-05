@@ -281,6 +281,8 @@ Route::get('/document_edit/{usa_id}',[AdminController::class,'document_edit'])->
 
 Route::post('/document_update/{usa_id}',[AdminController::class,'document_update'])->name('document_update');
 
+Route::get('/news',[AdminController::class,'news'])->name('news');
+
 Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
 
 Route::post('/news_insert',[AdminController::class,'news_insert'])->name('news_insert');
