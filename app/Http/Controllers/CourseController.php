@@ -216,4 +216,94 @@ class CourseController extends Controller
         }
        
     }
+    // course create to 
+    function courseonlinecreateto(Request $request)
+    {
+        $request->validate([
+            'course_picture' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+        ]);
+        // img
+        $uploadedFile = $request->file('CourseOnline.course_picture');
+        $extension = $uploadedFile->getClientOriginalExtension();
+        $filename = now()->format('Ymd') . rand(10000, 99999) . '_Picture.' . $extension;
+        $uploadedFile->storeAs('public/images/uploads/', $filename);
+        // ข้อมูล
+        $data = [
+            'cate_id' => $request->input('CourseOnline.cate_id'),
+            'course_lecturer' => $request->input('CourseOnline.course_lecturer'),
+            'course_title' => $request->input('CourseOnline.course_title'),
+            'course_short_title' => $request->input('CourseOnline.course_short_title'),
+            'course_detail' => $request->input('CourseOnline.course_detail'),
+            'recommend' => $request->input('CourseOnline.recommend'),
+            'course_note' => $request->input('CourseOnline.course_note'),
+            'course_picture' => $filename,
+        ];
+        // บันทึก
+        DB::table('course_online')->insert($data);
+        $redirectUrl = route('courseonline');
+        return redirect($redirectUrl);
+    }
+    // course edit
+    function courseonlineedit(Request $request, $id)
+    {
+        $course_detail = DB::table('course_online')->where('course_id', $id)->first();
+        $category = DB::table('category')->pluck('cate_title', 'cate_id');
+        return view("admin\courseonline\courseonline-edit", compact('course_detail', 'category'));
+    }
+    // course edit to 
+    function courseonlineeditto(Request $request, $id)
+    {
+        $request->validate([
+            'course_picture' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+        ]);
+        // img
+        $filename = DB::table('course_online')->where('course_id', $id)->value('course_picture');
+        $uploadedFile = $request->file('CourseOnline.course_picture');
+        if ($uploadedFile) {
+            $extension = $uploadedFile->getClientOriginalExtension();
+            // ตั้งชื่อไฟล์
+            $filename = now()->format('Ymd') . rand(10000, 99999) . '_Picture.' . $extension;
+            // บันทึกไฟล์
+            $uploadedFile->storeAs('public/images/uploads/', $filename);
+            // อัปเดตไฟล์ลงฐานข้อมูล
+            DB::table('course_online')->where('course_id', $id)->update([
+                'course_picture' => $filename,
+            ]);
+        }
+        // ข้อมูล
+        $data = [
+            'cate_id' => $request->input('CourseOnline.cate_id'),
+            'course_lecturer' => $request->input('CourseOnline.course_lecturer'),
+            'course_title' => $request->input('CourseOnline.course_title'),
+            'course_short_title' => $request->input('CourseOnline.course_short_title'),
+            'course_detail' => $request->input('CourseOnline.course_detail'),
+            'recommend' => $request->input('CourseOnline.recommend'),
+            'course_note' => $request->input('CourseOnline.course_note'),
+            'course_picture' => $filename,
+            'update_date' => now(),
+        ];
+        // บันทึก
+        DB::table('course_online')->where('course_id', $id)->update($data);
+        $redirectUrl = route('courseonline');
+        return redirect($redirectUrl);
+    }
+    // course change to id
+    function courseonlinechange($id)
+    {
+        $course_detail = DB::table('course_online')->where('course_id', $id)->first();
+        // ตรวจสอบค่าปัจจุบันของ 'active' และกำหนดค่าใหม่
+        $newActive = ($course_detail->active == 'y') ? 'n' : 'y';
+        $data = [
+            'active' => $newActive,
+        ];
+        DB::table('course_online')->where('course_id', $id)->update($data);
+        $redirectUrl = route('courseonline');
+        return redirect($redirectUrl);
+    }
+     // course det show
+     function courseonlinedet(Request $request, $id)
+     {
+      
+     }
+
 }
