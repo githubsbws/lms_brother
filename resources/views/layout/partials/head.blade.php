@@ -188,7 +188,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                             <ul class="dropdown-menu" role="menu" style="height: auto; display: none; overflow: visible; top: 100%; opacity: 0;">
                                 <li><a href="{{ url('dashboard') }}"><i class="fa fa-bar-chart-o"></i> Dashboard</a></li>
                                 <li><a href="{{ url('course') }}"><i class="fa fa-mortar-board"></i> หลักสูตรของฉัน</a></li>
-                                <li><a href="user.php"><i class="fa fa-user"></i>
+                                <li><a href="{{ url('profile') }}"><i class="fa fa-user"></i>
                                         โปรไฟล์</a></li>
                                 
                                 <li>
