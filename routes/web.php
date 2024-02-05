@@ -24,7 +24,8 @@ use App\Http\Controllers\NewController;
 use App\Http\Controllers\UsabilityController;
 use App\Http\Controllers\VirtualclassroomController;
 use App\Http\Controllers\WebboardController;
-
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LessonController;
 //-------
 use App\Http\Controllers\AdminController;
 
@@ -156,6 +157,9 @@ Route::get('/document',[AdminController::class,'document'])->name('document');
 Route::get('/news',[AdminController::class,'news'])->name('news');
 Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
 Route::post('/news_create',[AdminController::class,'news_insert'])->name('news_insert');
+Route::get('/news_edit/{id}',[AdminController::class,'news_edit'])->name('news_edit');
+Route::get('/news_delete/{id}',[AdminController::class,'news_delete'])->name('news_delete');
+Route::get('/news_update/{id}',[AdminController::class,'news_update'])->name('news_update');
 
 //---- category
 Route::get('/category',[AdminController::class,'category'])->name('category');

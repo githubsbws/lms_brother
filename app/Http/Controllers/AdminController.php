@@ -13,8 +13,11 @@ use DateTime;
 use App\Models\Questionnaireout;
 use Carbon\Carbon;
 // use App\Models\Image;
-
-
+use App\Models\Course;
+use App\Models\Lesson;
+use App\Models\News;
+use App\Models\Faq;
+use App\Models\Faq_type;
 class AdminController extends Controller
 {
     function aboutus(){
@@ -172,8 +175,14 @@ class AdminController extends Controller
     function news_create(){
         return view("admin\News\News-create");
     }
+    function news_edit ($id){
+        $news = News::where('cms_id',$id)->first();
+
+        return view("admin\News\News-edit",['news' => $news]);
+    }
     function news(){
-        return view("admin\News\News");
+        $news = News::where('active','y')->get();
+        return view("admin\News\News",['news' => $news]);
     }   
     function category(){
         $category_on = DB::table('category')->where('category.active', 'y')->orderBy('cate_id', 'desc')->get();
@@ -418,7 +427,7 @@ class AdminController extends Controller
         return view("admin\reportproblem\reportproblem");
     }
     function faqtype(){
-        $faqtype= DB::table('cms_faq_type')->get();
+        $faqtype= Faq_type::get();
         return view("admin\Faq\Faqtype",compact('faqtype'));
     }
     function faqtype_create(){
@@ -470,15 +479,13 @@ class AdminController extends Controller
         return redirect("/faqtype");
     }
     function faq(){
-        $faq= DB::table('cms_faq')
-        ->join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
+        $faq= Faq::join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
         ->select('cms_faq.*', 'cms_faq_type.faq_type_title_TH')
         ->get();
         return view("admin\Faq\Faq",compact('faq'));
     }
     function faq_create(){
-        $faq_types = DB::table('cms_faq_type')
-        ->where('active', 'y')
+        $faq_types = Faq_type::where('active', 'y')
         ->pluck('faq_type_title_TH', 'faq_type_id');
     
         $faq_create = DB::table('cms_faq')
