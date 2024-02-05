@@ -48,15 +48,15 @@
 				</li>
 				<li class="hasSubmenu glyphicons folder_open"><a data-toggle="collapse" href="#Document"><i></i><span>ระบบเอกสาร</span></a>
 					<ul class=" collapse " id="Document">
-						<li><a href="document-createtype.php">เพิ่มประเภทเอกสาร (ภาษา EN )</a></li>
-						<li><a href="document-index-type.php">จัดการประเภทเอกสาร</a></li>
-						<li><a href="document-create.php">เพิ่มเอกสาร (ภาษา EN )</a></li>
+						<li><a href="document_create">เพิ่มประเภทเอกสาร (ภาษา EN )</a></li>
+						<li><a href="document_createtype">จัดการประเภทเอกสาร</a></li>
+						<li><a href="document_index_type">เพิ่มเอกสาร (ภาษา EN )</a></li>
 						<li><a href="{{ url('/document') }}">จัดการเอกสาร</a></li>
 					</ul>
 				</li>
 				<li class="hasSubmenu glyphicons folder_new"><a data-toggle="collapse" href="#News"><i></i><span>ระบบจัดการเนื้อหาเว็บไซต์ (ข่าวสาร)</span></a>
 					<ul class=" collapse " id="News">
-						<li><a href="{{url('/news_create')}}">เพิ่มข่าวสารและกิจกรรม (ภาษา EN )</a></li>
+						<li><a href="{{ url('/news_create') }}">เพิ่มข่าวสารและกิจกรรม (ภาษา EN )</a></li>
 						<li><a href="{{ url('/news') }}">จัดการข่าวสารและกิจกรรม</a></li>
 					</ul>
 				</li>
@@ -80,9 +80,9 @@
 				</li>
 				<li class="hasSubmenu glyphicons posterous_spaces"><a data-toggle="collapse" href="#Grouptesting"><span class="label label-primary">4</span> <i></i><span>ระบบข้อสอบ</span></a>
 					<ul class=" collapse " id="Grouptesting">
-						<li><a href="grouptesting-create.php">เพิ่มชุดข้อสอบ</a></li>
+						<li><a href="grouptesting_create">เพิ่มชุดข้อสอบ</a></li>
 						<li><a href="{{ url('/grouptesting') }}">จัดการชุดข้อสอบ</a></li>
-						<li><a href="coursegrouptesting-create.php">เพิ่มชุดข้อสอบหลักสูตร</a></li>
+						<li><a href="grouptesting-create.blade.php">เพิ่มชุดข้อสอบหลักสูตร</a></li>
 						<li><a href="{{ url('/coursegrouptesting') }}">จัดการชุดข้อสอบหลักสูตร</a></li>
 					</ul>
 				</li>
