@@ -64,18 +64,18 @@
 						</div>
 						<div class="widget-body">
 							<div class="form">
-								<form enctype="multipart/form-data" id="news-form" action="news_insert" method="post">
+								<form enctype="multipart/form-data" id="news-form" action="{{route('news_update',$news->cms_id)}}" method="post">
 									@csrf
 									<p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
 									<div class="row">
-										<label for="News_cms_title" class="required">ชื่อหัวข้อ <span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="cms_title" id="News_cms_title" type="text" > <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="News_cms_title" class="required">ชื่อหัวข้อ <span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="cms_title" id="News_cms_title" type="text" value="{{$news->cms_title}}" > <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="News_cms_title_em_" style="display:none"></div>
 										</div>
 									</div>
 
 									<div class="row">
-										<label for="News_cms_short_title" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea rows="4" cols="40" class="span8" maxlength="255" name="cms_short_title" id="News_cms_short_title" ></textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="News_cms_short_title" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea rows="4" cols="40" class="span8" maxlength="255" name="cms_short_title" id="News_cms_short_title" >{{ $news->cms_short_title}}</textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="News_cms_short_title_em_" style="display:none"></div>
 										</div>
@@ -83,7 +83,7 @@
 
 									<div class="row">
 										<label for="News_cms_detail">เนื้อหาข่าว</label>
-										<textarea rows="4" cols="40" class="span8" maxlength="255" name="cms_detail" id="cms_detail"></textarea>
+										<textarea rows="4" cols="40" class="span8" maxlength="500" name="cms_detail" id="cms_detail" >{{ $news->cms_detail}}</textarea>
 										<div id="mceu_25" class="mce-tinymce mce-container mce-panel" hidefocus="1" tabindex="-1" role="application" style="visibility: hidden; border-width: 1px; width: 680px;">
 											<div id="mceu_25-body" class="mce-container-body mce-stack-layout">
 												<div id="mceu_26" class="mce-container mce-menubar mce-toolbar mce-stack-layout-item mce-first" role="menubar" style="border-width: 0px 0px 1px;">
@@ -209,6 +209,7 @@
 
 									<div class="row">
 										<font color="#990000">
+                                             {{ $news->cms_picture}}
 											<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> รูปภาพควรมีขนาด 250x180(แนวนอน) หรือ ขนาด 250x(xxx) (แนวยาว)
 										</font>
 									</div>

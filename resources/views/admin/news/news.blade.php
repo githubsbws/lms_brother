@@ -1,6 +1,8 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+
+
 <body class="">
 
 	<!-- Main Container Fluid -->
@@ -97,15 +99,16 @@
 											</tr>
 										</thead>
 										<tbody>
+											@foreach ($news as $item)
+                                            @if($item->active === 'y')
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="78" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/78/small/17122021085656_Picture.JPG" alt="17122021085656_Picture.JPG"></td>
-												<td>วิธีการใช้งาน TS-Chatbot</td>
-												<td style="width:450px; vertical-align:top;">อธิบาย ขั้นตอนการใช้งานเมนูทั้ง 3 ของ TS-Chatbot บน Application LINE
-													เพื่อให้ช่างของบราเดอร์สามารถทำความคุ้นเคยก่อนใช้งานจริง</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/78"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/78"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/78"><i></i></a></td>
+												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/78/small/17122021085656_Picture.JPG">{{$item->cms_picture}}</td>
+												<td>{{$item->cms_title}}</td>
+												<td style="width:450px; vertical-align:top;">{{$item->cms_short_title}}</td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/78"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('news_edit',$item->cms_id)}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('news_delete',$item->cms_id)}}"><i></i></a></td>
 											</tr>
-											<tr class="even selectable">
+											{{-- <tr class="even selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="77" id="chk_1" type="checkbox" name="chk[]"></td>
 												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/77/small/07012021172459_Picture.jpg" alt="07012021172459_Picture.jpg"></td>
 												<td>Technical Clip EP 3</td>
@@ -172,7 +175,9 @@
 												<td style="width:450px; vertical-align:top;">Needle bar supporter ชำรุด ทำให้เสาเข็มเอียง
 													เข็มจึงเย็บไม่ตรงช่องแผ่น plate</td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/65"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/65"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/65"><i></i></a></td>
-											</tr>
+											</tr> --}}
+											@endif
+											@endforeach
 										</tbody>
 									</table>
 									<div class="pagination pull-right">
