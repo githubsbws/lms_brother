@@ -176,13 +176,17 @@ class AdminController extends Controller
         return view("admin\News\News");
     }   
     function category(){
-        return view("admin\category\category");
+        $category_on = DB::table('category')->where('category.active', 'y')->orderBy('cate_id', 'desc')->get();
+        return view("admin\category\category",compact('category_on'));
     }
     function courseonline(){
-        return view("admin\courseonline\courseonline");
+        $course_online = Course::join('category', 'category.cate_id', '=', 'course_online.cate_id')->where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
+        return view("admin\courseonline\courseonline", compact('course_online'));
     }
     function lesson(){
-        return view("admin\lesson\lesson");
+        $course_online = Course::where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
+        $lesson = Lesson::join('course_online','course_online.course_id','=','lesson.course_id')->where('lesson.active', 'y')->get();
+        return view("admin\lesson\lesson",compact('course_online','lesson'));
     }
 
     //new p
