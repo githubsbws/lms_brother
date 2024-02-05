@@ -1,4 +1,6 @@
-<?php include 'head.php' ?>
+@extends('admin/layouts/mainlayout')
+@section('title', 'Admin')
+@section('content')
 
 <body class="">
 
@@ -6,7 +8,7 @@
 	<div class="container-fluid fluid menu-left">
 
 		<!-- Top navbar -->
-		<?php include 'top-nav.php' ?>
+		@include('admin.layouts.partials.top-nav')
 		<!-- Top navbar END -->
 
 
@@ -14,7 +16,7 @@
 		<div id="wrapper">
 
 			<!-- Sidebar Menu -->
-			<?php include 'menu-left.php' ?>
+			@include('admin.layouts.partials.menu-left')
 			<!-- // Sidebar Menu END -->
 
 
@@ -68,4 +70,4 @@
 
 </body>
 
-<?php include 'footer.php' ?>
+@endsection

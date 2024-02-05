@@ -23,7 +23,7 @@
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="{{url('admin')}}">หน้าหลัก</a></li> » <li><a href="{{url('news')}}">ระบบข่าวสารและกิจกรรม</a></li> » <li>เพิ่มข่าวสารและกิจกรรม</li>
+					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="{{url('news')}}">ระบบข่าวสารและกิจกรรม</a></li> » <li>เพิ่มข่าวสารและกิจกรรม</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
 				<script src="/admin/js/tinymce-4.3.4/tinymce.min.js" type="text/javascript"></script>
@@ -64,18 +64,18 @@
 						</div>
 						<div class="widget-body">
 							<div class="form">
-								<form enctype="multipart/form-data" id="news-form" action="news_insert" method="post">
+								<form enctype="multipart/form-data" id="news-form" action="{{route('news_update',$news->cms_id)}}" method="post">
 									@csrf
 									<p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
 									<div class="row">
-										<label for="News_cms_title" class="required">ชื่อหัวข้อ <span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="cms_title" id="News_cms_title" type="text" > <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="News_cms_title" class="required">ชื่อหัวข้อ <span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="cms_title" id="News_cms_title" type="text" value="{{$news->cms_title}}" > <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="News_cms_title_em_" style="display:none"></div>
 										</div>
 									</div>
 
 									<div class="row">
-										<label for="News_cms_short_title" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea rows="4" cols="40" class="span8" maxlength="255" name="cms_short_title" id="News_cms_short_title" ></textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="News_cms_short_title" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea rows="4" cols="40" class="span8" maxlength="255" name="cms_short_title" id="News_cms_short_title" >{{ $news->cms_short_title}}</textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="News_cms_short_title_em_" style="display:none"></div>
 										</div>
@@ -83,7 +83,7 @@
 
 									<div class="row">
 										<label for="News_cms_detail">เนื้อหาข่าว</label>
-										<textarea rows="4" cols="40" class="span8" maxlength="255" name="cms_detail" id="cms_detail"></textarea>
+										<textarea rows="4" cols="40" class="span8" maxlength="500" name="cms_detail" id="cms_detail" >{{ $news->cms_detail}}</textarea>
 										<div id="mceu_25" class="mce-tinymce mce-container mce-panel" hidefocus="1" tabindex="-1" role="application" style="visibility: hidden; border-width: 1px; width: 680px;">
 											<div id="mceu_25-body" class="mce-container-body mce-stack-layout">
 												<div id="mceu_26" class="mce-container mce-menubar mce-toolbar mce-stack-layout-item mce-first" role="menubar" style="border-width: 0px 0px 1px;">
@@ -199,8 +199,43 @@
 										<label for="News_cms_picture">รูปภาพ</label>
 										<div class="fileupload fileupload-new" data-provides="fileupload">
 											<div class="input-append">
-												<div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-default btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span><input id="ytNews_cms_picture" type="hidden" value="" name="cms_picture"><input name="cms_picture" id="News_cms_picture" type="file" method="post"></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+												<div class="uneditable-input span3">
+													<i class="icon-file fileupload-exists"></i> 
+													<span class="fileupload-preview"></span>
+												</div>
+												<img id="previewImage" src="#" alt="Preview Image" style="display: none;">
+												<span class="btn btn-default btn-file">
+													<span class="fileupload-new">Select file</span>
+													<span class="fileupload-exists">Change</span>
+													{{-- <input id="ytNews_cms_picture" type="hidden" value="" name="cms_picture"> --}}
+													<input name="cms_picture" id="imageInput" type="file" method="post">
+												</span>
+												<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+												{{-- <input type="file" id="imageInput" name="image"> --}}
+
 											</div>
+											<script>
+												document.addEventListener('DOMContentLoaded', function() {
+													var imageInput = document.getElementById('imageInput');
+													var previewImage = document.getElementById('previewImage');
+										
+													imageInput.addEventListener('change', function() {
+														previewImageFile(this);
+													});
+										
+													function previewImageFile(input) {
+														var file = input.files[0];
+														if (file) {
+															var reader = new FileReader();
+															reader.onload = function(e) {
+																previewImage.src = e.target.result;
+																previewImage.style.display = 'block';
+															};
+															reader.readAsDataURL(file);
+														}
+													}
+												});
+											</script>
 										</div>
 										<div class="error help-block">
 											<div class="label label-important" id="News_cms_picture_em_" style="display:none"></div>
@@ -209,6 +244,7 @@
 
 									<div class="row">
 										<font color="#990000">
+                                             {{ $news->cms_picture}}
 											<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> รูปภาพควรมีขนาด 250x180(แนวนอน) หรือ ขนาด 250x(xxx) (แนวยาว)
 										</font>
 									</div>
@@ -245,6 +281,6 @@
 		<!-- // Footer END -->
 
 	</div>
-
+	
 </body>
 @endsection

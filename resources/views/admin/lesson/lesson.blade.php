@@ -144,52 +144,10 @@
 												<td>&nbsp;</td>
 												<td><select class="" name="Lesson[course_id]" id="Lesson_course_id">
 														<option value="">ทั้งหมด</option>
-														<option value="236">tee test</option>
-														<option value="235">ทีเทส</option>
-														<option value="232">หลักสูตรแนะนำผลิตภัณฑ์ GTX เบื้องต้น</option>
-														<option value="231">หลักสูตรแนะนำผลิตภัณฑ์ BMB เบื้องต้น</option>
-														<option value="230">Online Marketing Day4 Facebook Live Shopee Lazada</option>
-														<option value="229">Online Marketing Day3 Facebook and IG Ads</option>
-														<option value="228">Online Marketing Day2 Digital Content Strategy</option>
-														<option value="226">Online Marketing Day1 Social Media Platform</option>
-														<option value="225">การซ่อมบำรุงเครื่องพิมพ์ฉลาก รุ่น TD-4550DNWB</option>
-														<option value="224">การซ่อมบำรุงจักรเย็บผ้ารุ่น NV-180</option>
-														<option value="223">การซ่อมบำรุงจักรเย็บผ้ารุ่น GS2700</option>
-														<option value="222">การซ่อมบำรุงเครื่องพิมพ์ฉลาก PT-E850TKW</option>
-														<option value="220">หลักสูตรผลิตภัณฑ์ใหม่ BHmini19HT</option>
-														<option value="219">Ink Tank Mini19HT_BCC</option>
-														<option value="218">ธกส. (HiQ)</option>
-														<option value="217">Product Overview </option>
-														<option value="215">Strategic Thinking</option>
-														<option value="214">เทคนิคการนำเสนอบริการเสริมการรับประกันเครื่อง " Brother Care Pack "</option>
-														<option value="213">CRG Project</option>
-														<option value="212">การใช้งานโปรแกรม BR-Admin Professional 4</option>
-														<option value="211">ความรู้ทั่วไป</option>
-														<option value="210">Barcode Utility Program</option>
-														<option value="209">การซ่อมบำรุงเครื่อง Scanner สำหรับ ADS-Series</option>
-														<option value="208">การใช้งานโปรแกรม Brother iprint and scan</option>
-														<option value="201">การเรียนรู้เครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422 Training For BCC</option>
-														<option value="197">การซ่อมบำรุงเครื่องพิมพ์ Brother Color LED สำหรับ ECL-Series</option>
-														<option value="195">TEST_COURSEONLINE</option>
-														<option value="192">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ A3 Inkjet Tank Technology.</option>
-														<option value="191">การซ่อมบำรุงเครื่องพิมพ์ Brother Mono Laser สำหรับ ELL-Series</option>
-														<option value="190">การใช้ Cap Frame เบี้ยงต้น</option>
-														<option value="189">ตำแหน่งการปรับสายพานจักร VR</option>
-														<option value="188">การแก้ไขปัญหาจักร VR ปุ่มนิรภัยถูกปิด</option>
-														<option value="187">Mobile printing</option>
-														<option value="186">การติดตั้งและการใช้งาน Program Brother Meter Read Tool</option>
-														<option value="185">ความรู้พื้นฐานของจักร NV950</option>
-														<option value="184">Brother Service Excellence ( Module I : Brother Care ) </option>
-														<option value="183">Brother Service Excellence ( Module II : Brother นักบริการมืออาชีพ )</option>
-														<option value="182">การซ่อมบำรุงเครื่องพิมพ์ Brother Mono Laser สำหรับ DL-Series</option>
-														<option value="180">Sales : รู้จักกับ Inkjet tank ของ Brother กัน</option>
-														<option value="179">Sales : อบรมความเข้าใจพื้นฐานเกี่ยวกับการใช้งาน Scanner</option>
-														<option value="178">Sales : อัพเดต Laser รุ่นใหม่</option>
-														<option value="177">Sales : P-Touch Editor</option>
-														<option value="176">หลักสูตรการอบรมขั้นพื้นฐานสำหรับเครื่องพิมพ์ Inkjet Tank System.</option>
-														<option value="172">การแก้ปัญหาเบื้องตของจักรเย็บผ้า</option>
-														<option value="171">การใช้งานระบบบริการลูกค้า (New BSIS)</option>
-														<option value="139">การใช้งานโปรแกรมลายปักษ์ (PE-Design Next)</option>
+												{{-- แก้ไข --}}
+														@foreach ($course_online as $course)
+            												<option value="{{ $course->course_id }}">{{ $course->course_title }}</option>
+        												@endforeach
 													</select></td>
 												<td><input name="Lesson[title]" type="text" maxlength="80"></td>
 												<td>&nbsp;</td>
@@ -201,18 +159,27 @@
 											</tr>
 										</thead>
 										<tbody>
-											<tr class="items[]_313">
-												<td class="checkbox-column"><input class="select-on-check" value="313" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td style="width: 150px;">การเรียนรู้เครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422 Training For BCC</td>
-												<td style="width: 250px;">บทที่ 5. แบบทดสอบหลังจบหลักสูตร (GTX-422)</td>
-												<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/313">เลือก</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/313">จัดการวิดีโอ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/313?type=pre">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/313?type=post">เลือกข้อสอบ (1)</a></td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/313"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/313"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/313"><i></i></a></td>
-											</tr>
-											<tr class="items[]_312">
+											@foreach ($lesson as $item)
+												@if ($item->active == 'y')
+												<tr class="items[]">
+													<td class="checkbox-column"><input class="select-on-check" value="313" id="chk_0" type="checkbox" name="chk[]"></td>
+													<td style="width: 150px;">{{ $item->course_title }}</td>
+													<td style="width: 250px;">{{ $item->title }}</td>
+													<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/313">เลือก</a></td>
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/313">จัดการวิดีโอ (0)</a></td>
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/313?type=pre">เลือกข้อสอบ (0)</a></td>
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/313?type=post">เลือกข้อสอบ (1)</a></td>
+													<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
+													<td style="width: 90px;" class="center">
+														<a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('lession-det', $item->id) }}"><i></i></a> 
+														<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('lession-edit', $item->id) }}"><i></i></a> 
+														<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{ route('lession-change', $item->id) }}" onclick="return confirm('คุณต้องการเปลี่ยนสถานะ หรือไม่ ?')"><i></i></a>
+													</td>
+												</tr>
+												@endif
+											@endforeach
+											{{-- จบแก้ไข --}}
+											{{-- <tr class="items[]_312">
 												<td class="checkbox-column"><input class="select-on-check" value="312" id="chk_1" type="checkbox" name="chk[]"></td>
 												<td style="width: 150px;">การเรียนรู้เครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422 Training For BCC</td>
 												<td style="width: 250px;">บทที่ 4 การบำรุงรักษาของเครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422</td>
@@ -222,95 +189,8 @@
 												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/312?type=post">เลือกข้อสอบ (0)</a></td>
 												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/312"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/312"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/312"><i></i></a></td>
-											</tr>
-											<tr class="items[]_311">
-												<td class="checkbox-column"><input class="select-on-check" value="311" id="chk_2" type="checkbox" name="chk[]"></td>
-												<td style="width: 150px;">การเรียนรู้เครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422 Training For BCC</td>
-												<td style="width: 250px;">บทที่ 3. การออกแบบและการพิมพ์ลงบนผ้าของเครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422</td>
-												<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/311">เลือก</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/311">จัดการวิดีโอ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/311?type=pre">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/311?type=post">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/311"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/311"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/311"><i></i></a></td>
-											</tr>
-											<tr class="items[]_310">
-												<td class="checkbox-column"><input class="select-on-check" value="310" id="chk_3" type="checkbox" name="chk[]"></td>
-												<td style="width: 150px;">การเรียนรู้เครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422 Training For BCC</td>
-												<td style="width: 250px;">บทที่ 2 การติดตั้งและการตั้งค่าเครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422</td>
-												<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/310">เลือก</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/310">จัดการวิดีโอ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/310?type=pre">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/310?type=post">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/310"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/310"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/310"><i></i></a></td>
-											</tr>
-											<tr class="items[]_309">
-												<td class="checkbox-column"><input class="select-on-check" value="309" id="chk_4" type="checkbox" name="chk[]"></td>
-												<td style="width: 150px;">การเรียนรู้เครื่องพิมพ์ผ้าระบบดิจิตอล GTX-422 Training For BCC</td>
-												<td style="width: 250px;">บทที่ 1 รู้จักกับเครื่องพิมพ์ผ้าระบบดิจิทัล GTX-422</td>
-												<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/309">เลือก</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/309">จัดการวิดีโอ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/309?type=pre">เลือกข้อสอบ (1)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/309?type=post">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/309"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/309"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/309"><i></i></a></td>
-											</tr>
-											<tr class="items[]_307">
-												<td class="checkbox-column"><input class="select-on-check" value="307" id="chk_5" type="checkbox" name="chk[]"></td>
-												<td style="width: 150px;">การซ่อมบำรุงเครื่องพิมพ์ Brother Mono Laser สำหรับ ELL-Series</td>
-												<td style="width: 250px;">บทที่ 7. แบบทดสอบหลังจบหลักสูตร (Brother Mono Laser ELL Series)</td>
-												<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/307">เลือก</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/307">จัดการวิดีโอ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/307?type=pre">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/307?type=post">เลือกข้อสอบ (1)</a></td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/307"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/307"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/307"><i></i></a></td>
-											</tr>
-											<tr class="items[]_306">
-												<td class="checkbox-column"><input class="select-on-check" value="306" id="chk_6" type="checkbox" name="chk[]"></td>
-												<td style="width: 150px;">การซ่อมบำรุงเครื่องพิมพ์ Brother Color LED สำหรับ ECL-Series</td>
-												<td style="width: 250px;">บนที่ 7. แบบทดสอบ ECL-SEries ภาคทฏษฎี 20 ข้อ (Brother Color LED for ECL Series )</td>
-												<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/306">เลือก</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/306">จัดการวิดีโอ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/306?type=pre">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/306?type=post">เลือกข้อสอบ (1)</a></td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/306"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/306"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/306"><i></i></a></td>
-											</tr>
-											<tr class="items[]_305">
-												<td class="checkbox-column"><input class="select-on-check" value="305" id="chk_7" type="checkbox" name="chk[]"></td>
-												<td style="width: 150px;">การซ่อมบำรุงเครื่องพิมพ์ Brother Color LED สำหรับ ECL-Series</td>
-												<td style="width: 250px;">บทที่ 6 ขั้นตอนการถอดประกอบเครื่องพิมพ์ (Brother Color LED for ECL Series )</td>
-												<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/305">เลือก</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/305">จัดการวิดีโอ (14)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/305?type=pre">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/305?type=post">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/305"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/305"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/305"><i></i></a></td>
-											</tr>
-											<tr class="items[]_304">
-												<td class="checkbox-column"><input class="select-on-check" value="304" id="chk_8" type="checkbox" name="chk[]"></td>
-												<td style="width: 150px;">การซ่อมบำรุงเครื่องพิมพ์ Brother Color LED สำหรับ ECL-Series</td>
-												<td style="width: 250px;">บทที่ 5. การแก้ปัญหาเบื้องต้น (Brother Color LED for ECL Series)</td>
-												<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/304">เลือก</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/304">จัดการวิดีโอ (1)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/304?type=pre">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/304?type=post">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/304"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/304"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/304"><i></i></a></td>
-											</tr>
-											<tr class="items[]_303">
-												<td class="checkbox-column"><input class="select-on-check" value="303" id="chk_9" type="checkbox" name="chk[]"></td>
-												<td style="width: 150px;">การซ่อมบำรุงเครื่องพิมพ์ Brother Color LED สำหรับ ECL-Series</td>
-												<td style="width: 250px;">บทที่ 4.ขั้นตอนตรวจเช็คตามระยะเวลา (Brother Color LED for ECL Series)</td>
-												<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/303">เลือก</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/303">จัดการวิดีโอ (1)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/303?type=pre">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/303?type=post">เลือกข้อสอบ (0)</a></td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/lesson/303"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/lesson/update/303"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/lesson/delete/303"><i></i></a></td>
-											</tr>
+											</tr> --}}
+											
 										</tbody>
 									</table>
 									<div class="pagination pull-right">

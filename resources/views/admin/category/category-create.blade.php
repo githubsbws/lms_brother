@@ -23,9 +23,17 @@
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="{{url('admin')}}">หน้าหลัก</a></li> » <li><a href="{{url('news')}}">ระบบข่าวสารและกิจกรรม</a></li> » <li>เพิ่มข่าวสารและกิจกรรม</li>
+					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="/admin/index.php/category/index">ระบบหมวดหลักสูตร</a></li> » <li>เพิ่มหมวดหลักสูตร</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
+
+
+				<script src="/admin/js/jquery.validate.js" type="text/javascript"></script>
+				<script src="/admin/js/jquery.uploadifive.min.js" type="text/javascript"></script>
+				<script src="/admin/../js/jwplayer/jwplayer.js" type="text/javascript"></script>
+				<script type="text/javascript">
+					jwplayer.key = "J0+IRhB3+LyO0fw2I+2qT2Df8HVdPabwmJVeDWFFoplmVxFF5uw6ZlnPNXo=";
+				</script>
 				<script src="/admin/js/tinymce-4.3.4/tinymce.min.js" type="text/javascript"></script>
 				<script type="text/javascript">
 					$(function() {
@@ -51,6 +59,76 @@
 						});
 					});
 				</script>
+
+				<script type="text/javascript">
+					function upload() {
+						var file = $('#Category_cate_image').val();
+						var exts = ['jpg', 'gif', 'png'];
+						if (file) {
+							var get_ext = file.split('.');
+							get_ext = get_ext.reverse();
+							if ($.inArray(get_ext[0].toLowerCase(), exts) > -1) {
+
+								if ($('#queue .uploadifive-queue-item').length == 0) {
+									return true;
+								} else {
+									$('#filename').uploadifive('upload');
+									return false;
+								}
+
+							} else {
+								$('#Category_cate_image_em_').removeAttr('style').html("<p class='error help-block'><span class='label label-important'> ไม่สามารถอัพโหลดได้ ไฟล์ที่สามารถอัพโหลดได้จะต้องเป็น: jpg, gif, png.</span></p>");
+								return false;
+							}
+						} else {
+							if ($('#queue .uploadifive-queue-item').length == 0) {
+								return true;
+							} else {
+								$('#filename').uploadifive('upload');
+								return false;
+							}
+						}
+					}
+
+					function deleteVdo(vdo_id, file_id) {
+						$.get("/admin/index.php/Category/deleteVdo", {
+							id: file_id
+						}, function(data) {
+							if ($.trim(data) == 1) {
+								notyfy({
+									dismissQueue: false,
+									text: "ลบข้อมูลเรียบร้อย",
+									type: 'success'
+								});
+								$('#' + vdo_id).parent().hide('fast');
+							} else {
+								alert('ไม่สามารถลบวิดีโอได้');
+							}
+						});
+					}
+				</script>
+
+				<link rel="stylesheet" type="text/css" href="/admin/css/uploadifive.css">
+				<style type="text/css">
+					body {
+						font: 13px Arial, Helvetica, Sans-serif;
+					}
+
+					.uploadifive-button {
+						float: left;
+						margin-right: 10px;
+					}
+
+					#queue {
+						border: 1px solid #E5E5E5;
+						height: 177px;
+						overflow: auto;
+						margin-bottom: 10px;
+						padding: 0 3px 3px;
+						width: 600px;
+					}
+				</style>
+
 				<!-- innerLR -->
 				<div class="innerLR">
 					<div class="widget widget-tabs border-bottom-none">
@@ -58,32 +136,40 @@
 							<ul>
 								<li class="active">
 									<a class="glyphicons edit" href="#account-details" data-toggle="tab">
-										<i></i>เพิ่มข่าวสารและกิจกรรม </a>
+										<i></i>เพิ่มหมวดหลักสูตร </a>
 								</li>
 							</ul>
 						</div>
 						<div class="widget-body">
 							<div class="form">
-								<form enctype="multipart/form-data" id="news-form" action="news_insert" method="post">
+								<form enctype="multipart/form-data" id="Category-form" action="/admin/index.php/Category/create" method="post">
+									{{-- แก้ไข --}}
 									@csrf
+									{{-- แก้ไข --}}
 									<p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
 									<div class="row">
-										<label for="News_cms_title" class="required">ชื่อหัวข้อ <span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="cms_title" id="News_cms_title" type="text" > <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+									</div>
+
+									<div class="row">
+									</div>
+
+									<div class="row">
+										<label for="Category_cate_title" class="required">ชื่อหมวดหลักสูตร <span class="required">*</span></label> 
+										<input size="60" maxlength="250" class="span8" name="Category[cate_title]" id="Category_cate_title" type="text" required> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
-											<div class="label label-important" id="News_cms_title_em_" style="display:none"></div>
+											<div class="label label-important" id="Category_cate_title_em_" style="display:none"></div>
 										</div>
 									</div>
 
 									<div class="row">
-										<label for="News_cms_short_title" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea rows="4" cols="40" class="span8" maxlength="255" name="cms_short_title" id="News_cms_short_title" ></textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="Category_cate_short_detail" class="required">รายละเอียดย่อ <span class="required">*</span></label> <textarea rows="4" cols="40" class="span8" maxlength="255" name="Category[cate_short_detail]" id="Category_cate_short_detail" required></textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
-											<div class="label label-important" id="News_cms_short_title_em_" style="display:none"></div>
+											<div class="label label-important" id="Category_cate_short_detail_em_" style="display:none"></div>
 										</div>
 									</div>
 
 									<div class="row">
-										<label for="News_cms_detail">เนื้อหาข่าว</label>
-										<textarea rows="4" cols="40" class="span8" maxlength="255" name="cms_detail" id="cms_detail"></textarea>
+										<label for="Category_cate_detail" class="required">รายละเอียด <span class="required">*</span></label>
 										<div id="mceu_25" class="mce-tinymce mce-container mce-panel" hidefocus="1" tabindex="-1" role="application" style="visibility: hidden; border-width: 1px; width: 680px;">
 											<div id="mceu_25-body" class="mce-container-body mce-stack-layout">
 												<div id="mceu_26" class="mce-container mce-menubar mce-toolbar mce-stack-layout-item mce-first" role="menubar" style="border-width: 0px 0px 1px;">
@@ -174,7 +260,7 @@
 														</div>
 													</div>
 												</div>
-												<div id="mceu_47" class="mce-edit-area mce-container mce-panel mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group" style="border-width: 1px 0px 0px;"><iframe id="News_cms_detail_ifr" frameborder="0" allowtransparency="true" title="Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help" src="javascript:&quot;&quot;" style="width: 100%; height: 300px; display: block;"></iframe></div>
+												<div id="mceu_47" class="mce-edit-area mce-container mce-panel mce-stack-layout-item" hidefocus="1" tabindex="-1" role="group" style="border-width: 1px 0px 0px;"><iframe id="Category_cate_detail_ifr" frameborder="0" allowtransparency="true" title="Rich Text Area. Press ALT-F9 for menu. Press ALT-F10 for toolbar. Press ALT-0 for help" src="javascript:&quot;&quot;" style="width: 100%; height: 300px; display: block;"></iframe></div>
 												<div id="mceu_48" class="mce-statusbar mce-container mce-panel mce-stack-layout-item mce-last" hidefocus="1" tabindex="-1" role="group" style="border-width: 1px 0px 0px;">
 													<div id="mceu_48-body" class="mce-container-body mce-flow-layout">
 														<div id="mceu_49" class="mce-path mce-flow-layout-item mce-first">
@@ -184,26 +270,58 @@
 													</div>
 												</div>
 											</div>
-										</div><textarea rows="6" cols="50" class="span8 tinymce" name="News[cms_detail]" id="News_cms_detail" aria-hidden="true" style="display: none;"></textarea>
+										</div><textarea rows="6" cols="50" class="span8 tinymce" name="Category[cate_detail]" id="Category_cate_detail" aria-hidden="true" style="" required></textarea>
 										<div class="error help-block">
-											<div class="label label-important" id="News_cms_detail_em_" style="display:none"></div>
+											<div class="label label-important" id="Category_cate_detail_em_" style="display:none"></div>
+										</div>
+									</div>
+									<br>
+									<div class="row">
+										<label for="Filecategory_filename" class="required">ไฟล์บทเรียน (mp3,mp4) <span class="required">*</span></label>
+										<div id="queue"></div>
+										<input id="ytfilename" type="file" value="" name="Filecategory[filename]" required>
+										{{-- <div id="uploadifive-filename" class="uploadifive-button" style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 100px;">Select Files<input id="filename" multiple="multiple" name="Filecategory[filename]" type="file" style="display: none;"><input type="file" style="opacity: 0; position: absolute; z-index: 999;" multiple="multiple"></div> <!-- <input id="file_upload" name="file_upload" type="file" multiple="true" > --> --}}
+										<!-- <a style="position: relative; top: 8px;" href="javascript:$('#file_upload').uploadifive('upload')">Upload Files</a> -->
+										{{-- <script type="text/javascript">
+											$(function() {
+												$('#filename').uploadifive({
+													'auto': false,
+													//'checkScript'      : 'check-exists.php',
+													'checkScript': '/admin/index.php/Category/checkExists',
+													'formData': {
+														'timestamp': '1702018493',
+														'token': 'f07ff728a0c3e1fc068fc31fc3c93137'
+													},
+													'queueID': 'queue',
+													'uploadScript': '/admin/index.php/Category/uploadifive',
+													'onQueueComplete': function(file, data) {
+														//console.log(data);
+														$('#Category-form').submit();
+													}
+												});
+											});
+										</script> --}}
+										<div class="error help-block">
+											<div class="label label-important" id="Filecategory_filename_em_" style="display:none"></div>
 										</div>
 									</div>
 
 									<br>
+									<br>
+
 									<div class="row">
 									</div>
 									<br>
 
 									<div class="row">
-										<label for="News_cms_picture">รูปภาพ</label>
+										<label for="Category_cate_image">รูปภาพประกอบ</label>
 										<div class="fileupload fileupload-new" data-provides="fileupload">
 											<div class="input-append">
-												<div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-default btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span><input id="ytNews_cms_picture" type="hidden" value="" name="cms_picture"><input name="cms_picture" id="News_cms_picture" type="file" method="post"></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+												<div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-default btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span><input id="ytCategory_cate_image" type="hidden" value="" name="Category[cate_image]"><input name="Category[cate_image]" id="Category_cate_image" type="file"></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
 											</div>
 										</div>
 										<div class="error help-block">
-											<div class="label label-important" id="News_cms_picture_em_" style="display:none"></div>
+											<div class="label label-important" id="Category_cate_image_em_" style="display:none"></div>
 										</div>
 									</div>
 
@@ -215,7 +333,7 @@
 									<br>
 
 									<div class="row buttons">
-										<button class="btn btn-primary btn-icon glyphicons ok_2"><i></i>บันทึกข้อมูล</button>
+										<button class="btn btn-primary btn-icon glyphicons ok_2" onclick="return upload();"><i></i>บันทึกข้อมูล</button>
 									</div>
 								</form>
 							</div><!-- form -->
@@ -247,4 +365,5 @@
 	</div>
 
 </body>
+
 @endsection

@@ -12,9 +12,12 @@ use DateTime;
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
 use Carbon\Carbon;
-use App\Models\Image;
-
-
+// use App\Models\Image;
+use App\Models\Course;
+use App\Models\Lesson;
+use App\Models\News;
+use App\Models\Faq;
+use App\Models\Faq_type;
 class AdminController extends Controller
 {
     function aboutus(){
@@ -170,19 +173,29 @@ class AdminController extends Controller
     }
     //new p
     function news_create(){
-        return view("admin.news.news-create");
+        return view("admin\News\News-create");
+    }
+    function news_edit ($id){
+        $news = News::where('cms_id',$id)->first();
+
+        return view("admin\News\News-edit",['news' => $news]);
     }
     function news(){
-        return view("admin.news.news");
+        $news = News::where('active','y')->get();
+        return view("admin\News\News",['news' => $news]);
     }   
     function category(){
-        return view("admin.category.category");
+        $category_on = DB::table('category')->where('category.active', 'y')->orderBy('cate_id', 'desc')->get();
+        return view("admin\category\category",compact('category_on'));
     }
     function courseonline(){
-        return view("admin.courseonline.courseonline");
+        $course_online = Course::join('category', 'category.cate_id', '=', 'course_online.cate_id')->where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
+        return view("admin\courseonline\courseonline", compact('course_online'));
     }
     function lesson(){
-        return view("admin.lesson.lesson");
+        $course_online = Course::where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
+        $lesson = Lesson::join('course_online','course_online.course_id','=','lesson.course_id')->where('lesson.active', 'y')->get();
+        return view("admin\lesson\lesson",compact('course_online','lesson'));
     }
 
     //new p
@@ -414,8 +427,8 @@ class AdminController extends Controller
         return view("admin.reportproblem.reportproblem");
     }
     function faqtype(){
-        $faqtype= DB::table('cms_faq_type')->get();
-        return view("admin.Faq.Faqtype",compact('faqtype'));
+        $faqtype= Faq_type::get();
+        return view("admin\Faq\Faqtype",compact('faqtype'));
     }
     function faqtype_create(){
         $faqtype_create= DB::table('cms_faq_type')->get();
@@ -466,15 +479,13 @@ class AdminController extends Controller
         return redirect("/faqtype");
     }
     function faq(){
-        $faq= DB::table('cms_faq')
-        ->join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
+        $faq= Faq::join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
         ->select('cms_faq.*', 'cms_faq_type.faq_type_title_TH')
         ->get();
         return view("admin.Faq.Faq",compact('faq'));
     }
     function faq_create(){
-        $faq_types = DB::table('cms_faq_type')
-        ->where('active', 'y')
+        $faq_types = Faq_type::where('active', 'y')
         ->pluck('faq_type_title_TH', 'faq_type_id');
     
         $faq_create = DB::table('cms_faq')
@@ -539,6 +550,54 @@ class AdminController extends Controller
         ];
         DB::table('cms_faq')->where('faq_nid_',$id)->update($faq_delete);
         return redirect("/faq");
+    }
+    function generation(){
+        $generation= DB::table('org_course')->get();
+        return view("admin\Generation\Generation",compact('generation'));
+    }
+    function generation_create(){
+        $generation_create= DB::table('org_course')->get();
+        return view("admin\Generation\Generation_create",compact('generation_create'));
+    }
+    function generation_insert(Request $request){
+        $request->validate([
+            'orgchart_id'=>'required|numeric',
+            'course_id'=>'required|numeric'
+        ]);
+        $generation_data=[
+            'orgchart_id'=>$request->orgchart_id,
+            'course_id'=>$request->course_id,
+            'parent_id'=>'0',
+            'active'=>'y',
+        ];
+        DB::table('org_course')->insert($generation_data);
+        return redirect('/generation');
+    }
+    function generation_edit_page($id){
+        $generation_edit_page= DB::table('org_course')
+        ->where('id',$id)
+        ->first();
+        return view("admin\Generation\Generation_edit_page",compact('generation_edit_page'));
+    }
+    function generation_edit(Request $request,$id){
+        $request->validate([
+            'orgchart_id'=>'required|numeric',
+            'course_id'=>'required|numeric'
+        ]);
+        $generation_edit  =[
+            'orgchart_id'=>$request->orgchart_id,
+            'course_id'=>$request->course_id,
+        ]; 
+        DB::table('org_course')->where('id',$id)->update($generation_edit);
+        return redirect("/generation");
+    }
+    function generation_delete($id){
+ 
+        $generation_delete=[ 
+            'active'=>'n',
+        ];
+        DB::table('org_course')->where('id',$id)->update($generation_delete);
+        return redirect("/generation");
     }
     function adminuser(){
         return view("admin.adminuser.adminuser");
