@@ -9,10 +9,10 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use DateTime;
-use Intervention\Image\Facades\Image;
+// use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
 use Carbon\Carbon;
-use App\Models\Image;
+// use App\Models\Image;
 
 
 class AdminController extends Controller
@@ -539,6 +539,54 @@ class AdminController extends Controller
         ];
         DB::table('cms_faq')->where('faq_nid_',$id)->update($faq_delete);
         return redirect("/faq");
+    }
+    function generation(){
+        $generation= DB::table('org_course')->get();
+        return view("admin\Generation\Generation",compact('generation'));
+    }
+    function generation_create(){
+        $generation_create= DB::table('org_course')->get();
+        return view("admin\Generation\Generation_create",compact('generation_create'));
+    }
+    function generation_insert(Request $request){
+        $request->validate([
+            'orgchart_id'=>'required|numeric',
+            'course_id'=>'required|numeric'
+        ]);
+        $generation_data=[
+            'orgchart_id'=>$request->orgchart_id,
+            'course_id'=>$request->course_id,
+            'parent_id'=>'0',
+            'active'=>'y',
+        ];
+        DB::table('org_course')->insert($generation_data);
+        return redirect('/generation');
+    }
+    function generation_edit_page($id){
+        $generation_edit_page= DB::table('org_course')
+        ->where('id',$id)
+        ->first();
+        return view("admin\Generation\Generation_edit_page",compact('generation_edit_page'));
+    }
+    function generation_edit(Request $request,$id){
+        $request->validate([
+            'orgchart_id'=>'required|numeric',
+            'course_id'=>'required|numeric'
+        ]);
+        $generation_edit  =[
+            'orgchart_id'=>$request->orgchart_id,
+            'course_id'=>$request->course_id,
+        ]; 
+        DB::table('org_course')->where('id',$id)->update($generation_edit);
+        return redirect("/generation");
+    }
+    function generation_delete($id){
+ 
+        $generation_delete=[ 
+            'active'=>'n',
+        ];
+        DB::table('org_course')->where('id',$id)->update($generation_delete);
+        return redirect("/generation");
     }
     function adminuser(){
         return view("admin\adminuser\adminuser");
