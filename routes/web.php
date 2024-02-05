@@ -24,10 +24,11 @@ use App\Http\Controllers\UsabilityController;
 use App\Http\Controllers\VirtualclassroomController;
 use App\Http\Controllers\WebboardController;
 use App\Http\Controllers\ImageController;
-
+use App\Http\Controllers\ProfileController;
 //-------
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\Admin;
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,7 +114,8 @@ Route::get('course/question/{group}',[CourseController::class,'coursequestion'])
 Route::get('download/{id}',[CourseController::class,'downloadfile'])->name('course.downloadfile');
 // ----- dashboard
 Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
-
+// ----- profile
+Route::get('profile',[ProfileController::class,'index'])->name('profile');
 
 Route::get('download',[DownloadController::class,'download'])->name('download');
 Route::get('downloads/{id}',[DownloadController::class,'downloadfiles'])->name('download.downloadfiles');
