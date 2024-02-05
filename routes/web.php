@@ -157,11 +157,35 @@ Route::get('/news',[AdminController::class,'news'])->name('news');
 Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
 Route::post('/news_create',[AdminController::class,'news_insert'])->name('news_insert');
 
+//---- category
 Route::get('/category',[AdminController::class,'category'])->name('category');
+Route::get('/category-create',[CategoryController::class,'categorycreate'])->name('category-create');
+Route::post('/admin/index.php/Category/create',[CategoryController::class,'categorycreateto'])->name('category-create-to');
+Route::get('/admin/index.php/category/update/{id}',[CategoryController::class,'categoryedit'])->name('category-edit');
+Route::post('/admin/index.php/category/edit/{id}',[CategoryController::class,'categoryeditto'])->name('category-edit-to');
+Route::get('/admin/index.php/category/change/{id}',[CategoryController::class,'categorychange'])->name('category-change');
+Route::get('/admin/index.php/category/{id}',[CategoryController::class,'categorydet'])->name('category-det');
+//---- end category
 
+//---- courseoline
 Route::get('/courseonline',[AdminController::class,'courseonline'])->name('courseonline');
+Route::get('/courseonline-create',[CourseController::class,'courseonlinecreate'])->name('courseonline-create');
+Route::post('/admin/index.php/CourseOnline/create',[CourseController::class,'courseonlinecreateto'])->name('courseonline-create-to');
+Route::get('/admin/index.php/courseOnline/update/{id}',[CourseController::class,'courseonlineedit'])->name('courseonline-edit');
+Route::post('/admin/index.php/CourseOnline/edit/{id}',[CourseController::class,'courseonlineeditto'])->name('courseonline-edit-to');
+Route::get('/admin/index.php/courseOnline/change/{id}',[CourseController::class,'courseonlinechange'])->name('courseonline-change');
+Route::get('/admin/index.php/courseOnline/{id}',[CourseController::class,'courseonlinedet'])->name('courseonline-det');
+//---- end courseoline
 
+//---- lesson
 Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
+Route::get('/lession-create',[LessonController::class,'lessioncreate'])->name('lession-create');
+Route::post('/admin/index.php/Lesson/create',[LessonController::class,'lessioncreateto'])->name('lession-create-to');
+Route::get('/admin/index.php/lesson/update/{id}',[LessonController::class,'lessionedit'])->name('lession-edit');
+Route::post('/admin/index.php/lesson/edit/{id}',[LessonController::class,'lessioneditto'])->name('lession-edit-to');
+Route::get('/admin/index.php/lesson/change/{id}',[LessonController::class,'lessionchange'])->name('lession-change');
+Route::get('/admin/index.php/lesson/{id}',[LessonController::class,'lessiondet'])->name('lession-det');
+//----end lesson
 
 Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
 
