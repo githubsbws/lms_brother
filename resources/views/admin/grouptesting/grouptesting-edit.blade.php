@@ -1,12 +1,13 @@
-<?php include 'head.php' ?>
-
+@extends('admin/layouts/mainlayout')
+@section('title', 'Admin')
+@section('content')
 <body class="">
 
 	<!-- Main Container Fluid -->
 	<div class="container-fluid fluid menu-left">
 
 		<!-- Top navbar -->
-		<?php include 'top-nav.php' ?>
+		@include('admin.layouts.partials.top-nav')
 		<!-- Top navbar END -->
 
 
@@ -14,7 +15,7 @@
 		<div id="wrapper">
 
 			<!-- Sidebar Menu -->
-			<?php include 'menu-left.php' ?>
+			@include('admin.layouts.partials.menu-left')
 			<!-- // Sidebar Menu END -->
 
 
@@ -40,10 +41,11 @@
 						</div>
 						<div class="widget-body">
 							<div class="form">
-								<form enctype="multipart/form-data" id="news-form" action="/admin/index.php/Grouptesting/create" method="post">
+								<form enctype="multipart/form-data" id="news-form" action="{{route('grouptesting_update',$grouptesting->group_id)}}" method="post">
+									@csrf
 									<p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
 									<div class="row">
-										<label for="Grouptesting_lesson_id" class="required">ชื่อบทเรียนออนไลน์ <span class="required">*</span></label> <select class="span8" name="Grouptesting[lesson_id]" id="Grouptesting_lesson_id">
+										<label for="Grouptesting_lesson_id" class="required">ชื่อบทเรียนออนไลน์ <span class="required">*</span></label> <select class="span8" name="Grouptesting[lesson_id]" id="Grouptesting_lesson_id" >
 											<option value="">--- กรุณาเลือกบทเรียน ---</option>
 											<option value="92">Mono Laser Technology</option>
 											<option value="98">Direct Thermal and Thermal Transfer</option>
@@ -293,7 +295,7 @@
 									</div>
 
 									<div class="row">
-										<label for="Grouptesting_group_title" class="required">ชื่อชุด <span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="Grouptesting[group_title]" id="Grouptesting_group_title" type="text"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<label for="Grouptesting_group_title" class="required">ชื่อชุด <span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="Grouptesting[group_title]" id="Grouptesting_group_title" type="text" value="{{$grouptesting->group_title}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Grouptesting_group_title_em_" style="display:none"></div>
 										</div>
@@ -331,5 +333,4 @@
 	</div>
 
 </body>
-
-<?php include 'footer.php' ?>
+@endsection

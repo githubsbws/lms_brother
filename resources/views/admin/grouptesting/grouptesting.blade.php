@@ -102,107 +102,21 @@
 											</tr>
 										</thead>
 										<tbody>
+											@foreach ($grouptesting as $item)
+											@if($item->active === 'y')
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="254" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">tee test</td>
-												<td>teetest</td>
-												<td style="width:65px;text-align:center">2</td>
+												<td style="width:230px">{{$item->group_id}}</td>
+												<td>{{$item->group_title}}</td>
+												<td style="width:65px;text-align:center">{{$item->lesson_id}}</td>
 												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/254">Import excel</a></td>
 												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/254">เพิ่มข้อสอบ</a></td>
 												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/254">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/254"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/254"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/254"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="253" id="chk_1" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">แนะนำผลิตภัณฑ์ BMB เบื้องต้น</td>
-												<td>ข้อสอบ BMB สำหรับศูนย์บริการ .</td>
-												<td style="width:65px;text-align:center">30</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/253">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/253">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/253">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/253"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/253"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/253"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="249" id="chk_2" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">First1st</td>
-												<td>test</td>
-												<td style="width:65px;text-align:center">3</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/249">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/249">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/249">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/249"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/249"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/249"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="248" id="chk_3" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">Namwantest1</td>
-												<td>test</td>
-												<td style="width:65px;text-align:center">3</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/248">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/248">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/248">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/248"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/248"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/248"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="247" id="chk_4" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">Namwantest2</td>
-												<td>test</td>
-												<td style="width:65px;text-align:center">3</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/247">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/247">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/247">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/247"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/247"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/247"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="246" id="chk_5" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">บทที่ 7. แบบทดสอบ 10 ข้อ สำหรับเครื่องพิมพ์ฉลากรุ่น TD-4550DNWB</td>
-												<td>แบบทดสอบหลังเรียน TD-4550DNWB</td>
-												<td style="width:65px;text-align:center">10</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/246">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/246">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/246">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/246"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/246"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/246"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="245" id="chk_6" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">บทที่ 6 แบบทดสอบ NV-180 ภาคทฏษฎี 10 ข้อ</td>
-												<td>แบบทดสอบ NV-180 หลังเรียน</td>
-												<td style="width:65px;text-align:center">16</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/245">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/245">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/245">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/245"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/245"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/245"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="244" id="chk_7" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">บทที่ 5 แบบทดสอบ GS2700 ภาคทฏษฎี 10 ข้อ</td>
-												<td>ข้อสอบหลังเรียน (GS-2700)</td>
-												<td style="width:65px;text-align:center">10</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/244">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/244">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/244">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/244"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/244"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/244"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="243" id="chk_8" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">บทที่ 6 การถอดประกอบเครื่องพิมพ์ฉลาก PT-E850TKW</td>
-												<td>ข้อสอบหลังเรียน PT-E850TKW</td>
-												<td style="width:65px;text-align:center">10</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/243">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/243">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/243">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/243"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/243"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/243"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="242" id="chk_9" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">บทที่ 2.คุณสมบัติและข้อมูลตัวเครื่อง (Brother Mono Laser for ELL Series)</td>
-												<td>Specification for ELL Series</td>
-												<td style="width:65px;text-align:center">5</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/242">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/242">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/242">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/242"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/grouptesting/update/242"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/grouptesting/delete/242"><i></i></a></td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/254"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('grouptesting_edit',$item->group_id)}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('grouptesting_delete',$item->group_id )}}"><i></i></a></td>
 											</tr>
 										</tbody>
+										@endif
+										@endforeach
 									</table>
 									<div class="pagination pull-right">
 										<ul class="" id="yw1">

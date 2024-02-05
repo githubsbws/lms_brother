@@ -14,12 +14,18 @@ class File extends Model
     protected $primarykey = 'id';
 
     protected $fillable = [
-        'views'
+        'views',
+        'lesson_id',
+        'filename' ,
+        'file_name',
     ];
-
+    public $timestamps = false;
     public static function findById($id)
     {
         return static::where('id', $id)->first();
     }
-    
+    public function lesson()
+    {
+        return $this->belongsTo(Lesson::class, 'lesson_id', 'id');
+    }
 }

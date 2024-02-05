@@ -49,13 +49,13 @@
                                     <div class="panel panel-default paper-shadow" data-z="0.5" style="z-index:99;">
                                         <div class="cover overlay cover-image-full hover">
                                             <span class="img icon-block height-150 bg-primary"></span>
-                                            <a href="course-detail.php" class="padding-none overlay overlay-full icon-block bg-primary">
+                                            <a href="{{ route('course.detail', ['id' => $item->course_id]) }}" class="padding-none overlay overlay-full icon-block bg-primary">
                                                 <span class="v-center">
                                                     <img src="{{asset('images/uploads/courseonline/'.$item->course_id.'/thumb/'.$item->course_picture)}}" style="height: 150px">
-                                                    <i class="fa fa-css3"></i>
+                                                    
                                                 </span>
                                             </a>
-                                            <a href="course-detail.php" class="overlay overlay-full overlay-hover overlay-bg-white">
+                                            <a href="{{ route('course.detail', ['id' => $item->course_id]) }}" class="overlay overlay-full overlay-hover overlay-bg-white">
                                                 <span class="v-center">
                                                     <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
                                                 </span>
