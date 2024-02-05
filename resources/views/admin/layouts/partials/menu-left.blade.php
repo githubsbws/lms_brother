@@ -132,6 +132,12 @@
 						<li><a href="{{ url('/faq') }}">คำถามที่พบบ่อย</a></li>
 					</ul>
 				</li>
+				<li class="hasSubmenu glyphicons no-js circle_question_mark"><a data-toggle="collapse" href="#question"><i></i><span>ระบบแบบสอบถาม</span></a>
+					<ul class=" collapse " id="question">
+						<li><a href="{{ url('/question') }}">จัดการแบบสอบถาม</a></li>
+						<li><a href="{{ url('/question_create') }}">เพิ่มคำถาม</a></li>
+					</ul>
+				</li>
 				<li class="hasSubmenu glyphicons magic"><a data-toggle="collapse" href="#Rights"><i></i><span>ระบบการกำหนดสิทธิการใช้งาน</span></a>
 					<ul class=" collapse " id="Rights">
 						<li><a href="{{ url('/adminuser') }}">ข้อมูลผู้ดูแลระบบ</a></li>
@@ -168,6 +174,12 @@
 					<ul class=" collapse " id="courseNotification">
 						<li><a href="coursenotification-create.php">สร้างระบบแจ้งเตือนบทเรียน</a></li>
 						<li><a href="{{ url('/coursenotification') }}">จัดการระบบแจ้งเตือนบทเรียน</a></li>
+					</ul>
+				</li>
+				<li class="hasSubmenu glyphicons user_add"><a data-toggle="collapse" href="#generation"><i></i><span>ระบบจัดการรุ่นผู้เรียน</span></a>
+					<ul class=" collapse " id="generation">
+						
+						<li><a href="{{ url('/generation') }}">จัดการรุ่นผู้เรียน</a></li>
 					</ul>
 				</li>
 				<li class="hasSubmenu glyphicons print"><a data-toggle="collapse" href="#Passcours"><i></i><span>ระบบพิมพ์ใบประกาศนียบัตร</span></a>

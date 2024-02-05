@@ -314,3 +314,15 @@ Route::post('/question_edit/{id}',[AdminController::class,'question_edit'])->nam
 Route::get('/question_delete/{id}',[AdminController::class,'question_delete'])->name('question_delete');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/generation',[AdminController::class,'generation'])->name('generation');
+
+Route::get('/generation_create',[AdminController::class,'generation_create'])->name('generation_create');
+
+Route::post('/generation_insert',[AdminController::class,'generation_insert'])->name('generation_insert');
+
+Route::get('/generation_edit_page/{id}',[AdminController::class,'generation_edit_page'])->name('generation_edit_page');
+
+Route::post('/generation_edit/{id}',[AdminController::class,'generation_edit'])->name('generation_edit');
+
+Route::get('/generation_delete/{id}',[AdminController::class,'generation_delete'])->name('generation_delete');
