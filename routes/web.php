@@ -152,7 +152,14 @@ Route::get('/setting',[AdminController::class,'setting'])->name('setting');
 
 Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus');
 
+//  new p
+Route::get('/video_create',[AdminController::class,'video_create'])->name('video_create');
 Route::get('/video',[AdminController::class,'video'])->name('video');
+Route::post('/video_insert',[AdminController::class,'video_insert'])->name('video_insert');
+Route::get('/video_edit/{vdo_id}',[AdminController::class,'video_edit'])->name('video_edit');
+Route::post('/video_update/{vdo_id}',[AdminController::class,'video_update'])->name('video_update');
+Route::get('/video_delete/{vdo_id}',[AdminController::class,'video_delete'])->name('video_delete');
+//
 
 //---- category
 Route::get('/category',[AdminController::class,'category'])->name('category');
@@ -188,9 +195,23 @@ Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('group
 
 Route::get('/coursegrouptesting',[AdminController::class,'coursegrouptesting'])->name('coursegrouptesting');
 
+//new p
 Route::get('/questionnaireout',[AdminController::class,'questionnaireout'])->name('questionnaireout');
+Route::get('/questionnaireout_create',[AdminController::class,'questionnaireout_create'])->name('questionnaireout_create');
+Route::post('/questionnaireout_insert',[AdminController::class,'questionnaireout_insert'])->name('questionnaireout_insert');
+Route::get('/questionnaireout_edit/{survey_header_id}',[AdminController::class,'questionnaireout_edit'])->name('questionnaireout_edit');
+Route::post('/questionnaireout_update/{survey_header_id}',[AdminController::class,'questionnaireout_update'])->name('questionnaireout_update');
+Route::get('/questionnaireout_delete/{survey_header_id}',[AdminController::class,'questionnaireout_delete'])->name('questionnaireout_delete');
+//
 
+//new p
 Route::get('/orgchart',[AdminController::class,'orgchart'])->name('orgchart');
+Route::get('/orgchart_create',[AdminController::class,'orgchart_create'])->name('orgchart_create');
+Route::post('/orgchart_insert',[AdminController::class,'orgchart_insert'])->name('orgchart_insert');
+Route::get('/orgchart_edit/{orgchart_id}',[AdminController::class,'orgchart_edit'])->name('orgchart_edit');
+Route::post('/orgchart_update/{orgchart_id}',[AdminController::class,'orgchart_update'])->name('orgchart_update');
+Route::get('/orgchart_delete/{orgchart_id}',[AdminController::class,'orgchart_delete'])->name('orgchart_delete');
+//
 
 Route::get('/checklecture',[AdminController::class,'checklecture'])->name('checklecture');
 
@@ -218,7 +239,14 @@ Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admi
 
 Route::get('/coursefield',[AdminController::class,'coursefield'])->name('coursefield');
 
+// new p
 Route::get('/imgslide',[AdminController::class,'imgslide'])->name('imgslide');
+Route::get('/imgslide_create',[AdminController::class,'imgslide_create'])->name('imgslide_create');
+Route::post('/imgslide_insert',[AdminController::class,'imgslide_insert'])->name('imgslide_insert');
+Route::post('/imgslide_update/{imgslide_id}',[AdminController::class,'imgslide_update'])->name('imgslide_update');
+Route::get('/imgslide_delete/{imgslide_id}',[AdminController::class,'imgslide_delete'])->name('imgslide_delete');
+Route::get('/imgslide_edit/{imgslide_id}',[AdminController::class,'imgslide_edit'])->name('imgslide_edit');
+//
 
 Route::get('/librarytype',[AdminController::class,'librarytype'])->name('librarytype');
 
