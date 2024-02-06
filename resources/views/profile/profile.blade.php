@@ -9,7 +9,7 @@
                         class="fa fa-fw fa-user"></i></span>
             </div>
             <div class="media-body">
-                <h3 class="text-display-2 text-white margin-none">{{ Auth::user()->username }}</h3>
+                <h3 class="text-display-2 text-white margin-none">{{ $profile->firstname }}</h3>
 
                 <p class="text-white text-subhead" style="font-size: 1.6rem;">ดูประวัติส่วนตัว</p>
             </div>
@@ -38,7 +38,7 @@
                     <!-- Tabs -->
                     <ul class="nav nav-tabs">
                         <li class="active"><a><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs"
-                                                                                     style="font-size: 23px;">{{Auth::user()->username}}</span></a>
+                                                                                     style="font-size: 23px;">{{ $profile->firstname}} {{ $profile->lastname}}</span></a>
                         </li>
                     </ul>
                     <!-- // END Tabs -->
