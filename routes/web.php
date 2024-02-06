@@ -24,7 +24,8 @@ use App\Http\Controllers\NewController;
 use App\Http\Controllers\UsabilityController;
 use App\Http\Controllers\VirtualclassroomController;
 use App\Http\Controllers\WebboardController;
-
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LessonController;
 //-------
 use App\Http\Controllers\AdminController;
 
@@ -163,6 +164,9 @@ Route::get('/document',[AdminController::class,'document'])->name('document');
 Route::get('/news',[AdminController::class,'news'])->name('news');
 Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
 Route::post('/news_create',[AdminController::class,'news_insert'])->name('news_insert');
+Route::get('/news_edit/{id}',[AdminController::class,'news_edit'])->name('news_edit');
+Route::get('/news_delete/{id}',[AdminController::class,'news_delete'])->name('news_delete');
+Route::get('/news_update/{id}',[AdminController::class,'news_update'])->name('news_update');
 
 //---- category
 Route::get('/category',[AdminController::class,'category'])->name('category');
@@ -263,6 +267,55 @@ Route::get('/student_photo',[AdminController::class,'student_photo'])->name('stu
 
 Route::get('/capture',[AdminController::class,'capture'])->name('capture');
 
+Route::get('/document',[AdminController::class,'document'])->name('document');
+
+Route::get('/document_create',[AdminController::class,'document_create'])->name('document_create');
+
+Route::get('/document_index_type',[AdminController::class,'document_index_type'])->name('document_index_type');
+
+Route::post('/document_insert',[AdminController::class,'document_insert'])->name('document_insert');
+
+Route::get('/document_delete/{usa_id}',[AdminController::class,'document_delete'])->name('document_delete');
+
+Route::get('/document_edit/{usa_id}',[AdminController::class,'document_edit'])->name('document_edit');
+
+Route::post('/document_update/{usa_id}',[AdminController::class,'document_update'])->name('document_update');
+
+Route::get('/news',[AdminController::class,'news'])->name('news');
+
+Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
+
+Route::post('/news_insert',[AdminController::class,'news_insert'])->name('news_insert');
+
+Route::get('/news_edit/{cms_id}',[AdminController::class,'news_edit'])->name('news_edit');
+
+Route::get('/news_delete/{cms_id}',[AdminController::class,'news_delete'])->name('news_delete');
+
+Route::post('/news_update/{cms_id}',[AdminController::class,'news_update'])->name('news_update');
+
+Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
+
+Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
+
+Route::post('/grouptesting_insert',[AdminController::class,'grouptesting_insert'])->name('grouptesting_insert');
+
+Route::get('/grouptesting_delete/{group_id}',[AdminController::class,'grouptesting_delete'])->name('grouptesting_delete');
+
+Route::get('/grouptesting_edit/{group_id}',[AdminController::class,'grouptesting_edit'])->name('grouptesting_edit');
+
+Route::post('/grouptesting_update/{group_id}',[AdminController::class,'grouptesting_update'])->name('grouptesting_update');
+
+Route::get('/question',[AdminController::class,'question'])->name('question');
+
+Route::get('/question_create',[AdminController::class,'question_create'])->name('question_create');
+
+Route::post('/question_insert',[AdminController::class,'question_insert'])->name('question_insert');
+
+Route::get('/question_edit_page/{id}',[AdminController::class,'question_edit_page'])->name('question_edit_page');
+
+Route::post('/question_edit/{id}',[AdminController::class,'question_edit'])->name('question_edit');
+
+Route::get('/question_delete/{id}',[AdminController::class,'question_delete'])->name('question_delete');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

@@ -23,7 +23,7 @@
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="/admin/index.php/news/index">ระบบข่าวสารและกิจกรรม</a></li> » <li>เพิ่มข่าวสารและกิจกรรม</li>
+					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="{{url('news')}}">ระบบข่าวสารและกิจกรรม</a></li> » <li>เพิ่มข่าวสารและกิจกรรม</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
 				<script src="/admin/js/tinymce-4.3.4/tinymce.min.js" type="text/javascript"></script>
@@ -199,8 +199,43 @@
 										<label for="News_cms_picture">รูปภาพ</label>
 										<div class="fileupload fileupload-new" data-provides="fileupload">
 											<div class="input-append">
-												<div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-default btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span><input id="ytNews_cms_picture" type="hidden" value="" name="cms_picture"><input name="cms_picture" id="News_cms_picture" type="file" method="post"></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+												<div class="uneditable-input span3">
+													<i class="icon-file fileupload-exists"></i> 
+													<span class="fileupload-preview"></span>
+												</div>
+												<img id="previewImage" src="#" alt="Preview Image" style="display: none;">
+												<span class="btn btn-default btn-file">
+													<span class="fileupload-new">Select file</span>
+													<span class="fileupload-exists">Change</span>
+													{{-- <input id="ytNews_cms_picture" type="hidden" value="" name="cms_picture"> --}}
+													<input name="cms_picture" id="imageInput" type="file" method="post">
+												</span>
+												<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+												{{-- <input type="file" id="imageInput" name="image"> --}}
+
 											</div>
+											<script>
+												document.addEventListener('DOMContentLoaded', function() {
+													var imageInput = document.getElementById('imageInput');
+													var previewImage = document.getElementById('previewImage');
+										
+													imageInput.addEventListener('change', function() {
+														previewImageFile(this);
+													});
+										
+													function previewImageFile(input) {
+														var file = input.files[0];
+														if (file) {
+															var reader = new FileReader();
+															reader.onload = function(e) {
+																previewImage.src = e.target.result;
+																previewImage.style.display = 'block';
+															};
+															reader.readAsDataURL(file);
+														}
+													}
+												});
+											</script>
 										</div>
 										<div class="error help-block">
 											<div class="label label-important" id="News_cms_picture_em_" style="display:none"></div>
@@ -246,6 +281,6 @@
 		<!-- // Footer END -->
 
 	</div>
-
+	
 </body>
 @endsection

@@ -11,7 +11,7 @@ class News extends Model
 
     protected $table = 'news';
 
-    protected $primarykey = 'cms_id';
+    protected $primaryKey = 'cms_id';
 
     protected $fillable = [ 'cms_title','cms_short_title','cms_picture','create_date','create_by','update_date','update_by','active'];
 

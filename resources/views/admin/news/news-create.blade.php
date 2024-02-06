@@ -23,7 +23,7 @@
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="/admin/index.php/news/index">ระบบข่าวสารและกิจกรรม</a></li> » <li>เพิ่มข่าวสารและกิจกรรม</li>
+					<li><a href="{{url('admin')}}">หน้าหลัก</a></li> » <li><a href="{{url('news')}}">ระบบข่าวสารและกิจกรรม</a></li> » <li>เพิ่มข่าวสารและกิจกรรม</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
 				<script src="/admin/js/tinymce-4.3.4/tinymce.min.js" type="text/javascript"></script>
