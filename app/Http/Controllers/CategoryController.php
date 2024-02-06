@@ -18,7 +18,7 @@ class CategoryController extends Controller
     function categorycreate()
     {
         // $category_on = DB::table('category');
-        return view("admin\category\category-create");
+        return view("admin.category.category-create");
     }
     // category create to
     function categorycreateto(Request $request)
@@ -56,7 +56,7 @@ class CategoryController extends Controller
     {
         $category = DB::table('category')->where('cate_id', $id)->first();
         $vdo = DB::table('filecategory')->where('category_id', $id)->get();
-        return view("admin\category\category-edit", compact('category', 'vdo'));
+        return view("admin.category.category-edit", compact('category', 'vdo'));
     }
 
     // category edit to

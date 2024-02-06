@@ -48,7 +48,7 @@
                         <div class="widget-body">
                             <div class="separator bottom form-inline small">
                                 <span class="pull-right" style="margin-left: 10px;">
-									<a class="btn btn-primary btn-icon glyphicons circle_plus" href={{url('/contactus_create')}}><i></i> เพิ่มข้อมูลติดต่อ</a>
+									<a class="btn btn-primary btn-icon glyphicons circle_plus" href={{url('contactus_create')}}><i></i> เพิ่มข้อมูลติดต่อ</a>
 								</span>
                                 <span class="pull-right">
                                     <label class="strong">แสดงแถว:</label>

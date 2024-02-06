@@ -116,7 +116,7 @@
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="35" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td width="110"><img
-													src="{{ asset('../storage/images/uploads/category/' . $item->cate_image) }}"
+													src="{{ asset('images/uploads/category/' . $item->cate_image) }}"
 													alt="{{ $item->cate_image }}"></td>
 												<td>{{$item->cate_title}}</td>
 												<td style="text-align:center;width:100px;"><a class="cate_show_toggle" title="Uncheck" href="/admin/index.php/category/toggle/35?attribute=cate_show&amp;check="><img src="/admin/images/check.png" alt="Uncheck"></a></td>
