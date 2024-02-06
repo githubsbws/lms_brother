@@ -12,7 +12,7 @@ use DateTime;
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
 use Carbon\Carbon;
-// use App\Models\Image;
+use App\Models\Image;
 use App\Models\Course;
 use App\Models\Lesson;
 use App\Models\News;
@@ -173,29 +173,29 @@ class AdminController extends Controller
     }
     //new p
     function news_create(){
-        return view("admin\News\News-create");
+        return view("admin.news.news-create");
     }
     function news_edit ($id){
         $news = News::where('cms_id',$id)->first();
 
-        return view("admin\News\News-edit",['news' => $news]);
+        return view("admin.news.News-edit",['news' => $news]);
     }
     function news(){
         $news = News::where('active','y')->get();
-        return view("admin\News\News",['news' => $news]);
+        return view("admin.news.news",['news' => $news]);
     }   
     function category(){
         $category_on = DB::table('category')->where('category.active', 'y')->orderBy('cate_id', 'desc')->get();
-        return view("admin\category\category",compact('category_on'));
+        return view("admin.category.category",compact('category_on'));
     }
     function courseonline(){
         $course_online = Course::join('category', 'category.cate_id', '=', 'course_online.cate_id')->where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
-        return view("admin\courseonline\courseonline", compact('course_online'));
+        return view("admin.courseonline.courseonline", compact('course_online'));
     }
     function lesson(){
         $course_online = Course::where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
         $lesson = Lesson::join('course_online','course_online.course_id','=','lesson.course_id')->where('lesson.active', 'y')->get();
-        return view("admin\lesson\lesson",compact('course_online','lesson'));
+        return view("admin.lesson.lesson",compact('course_online','lesson'));
     }
 
     //new p
@@ -428,7 +428,7 @@ class AdminController extends Controller
     }
     function faqtype(){
         $faqtype= Faq_type::get();
-        return view("admin\Faq\Faqtype",compact('faqtype'));
+        return view("admin.Faq.Faqtype",compact('faqtype'));
     }
     function faqtype_create(){
         $faqtype_create= DB::table('cms_faq_type')->get();
@@ -482,7 +482,7 @@ class AdminController extends Controller
         $faq= Faq::join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
         ->select('cms_faq.*', 'cms_faq_type.faq_type_title_TH')
         ->get();
-        return view("admin.Faq.Faq",compact('faq'));
+        return view("admin.faq.faq",compact('faq'));
     }
     function faq_create(){
         $faq_types = Faq_type::where('active', 'y')
@@ -553,11 +553,11 @@ class AdminController extends Controller
     }
     function generation(){
         $generation= DB::table('org_course')->get();
-        return view("admin\Generation\Generation",compact('generation'));
+        return view("admin.Generation.Generation",compact('generation'));
     }
     function generation_create(){
         $generation_create= DB::table('org_course')->get();
-        return view("admin\Generation\Generation_create",compact('generation_create'));
+        return view("admin.Generation.Generation_create",compact('generation_create'));
     }
     function generation_insert(Request $request){
         $request->validate([
@@ -577,7 +577,7 @@ class AdminController extends Controller
         $generation_edit_page= DB::table('org_course')
         ->where('id',$id)
         ->first();
-        return view("admin\Generation\Generation_edit_page",compact('generation_edit_page'));
+        return view("admin.Generation.Generation_edit_page",compact('generation_edit_page'));
     }
     function generation_edit(Request $request,$id){
         $request->validate([
