@@ -149,6 +149,16 @@ Route::get('/setting',[AdminController::class,'setting'])->name('setting');
 
 Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus');
 
+Route::get('/contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create');
+
+Route::post('/contactus_insert',[AdminController::class,'contactus_insert'])->name('contactus_insert');
+
+Route::get('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus_edit_page');
+
+Route::post('/contactus_edit/{id}',[AdminController::class,'contactus_edit'])->name('contactus_edit');
+
+Route::get('/contactus_delete/{id}',[AdminController::class,'contactus_delete'])->name('contactus_delete');
+
 Route::get('/video',[AdminController::class,'video'])->name('video');
 
 Route::get('/document',[AdminController::class,'document'])->name('document');
@@ -178,13 +188,13 @@ Route::get('/admin/index.php/courseOnline/{id}',[CourseController::class,'course
 //---- end courseoline
 
 //---- lesson
-Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
-Route::get('/lession-create',[LessonController::class,'lessioncreate'])->name('lession-create');
-Route::post('/admin/index.php/Lesson/create',[LessonController::class,'lessioncreateto'])->name('lession-create-to');
-Route::get('/admin/index.php/lesson/update/{id}',[LessonController::class,'lessionedit'])->name('lession-edit');
-Route::post('/admin/index.php/lesson/edit/{id}',[LessonController::class,'lessioneditto'])->name('lession-edit-to');
-Route::get('/admin/index.php/lesson/change/{id}',[LessonController::class,'lessionchange'])->name('lession-change');
-Route::get('/admin/index.php/lesson/{id}',[LessonController::class,'lessiondet'])->name('lession-det');
+// Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
+// Route::get('/lession-create',[LessonController::class,'lessioncreate'])->name('lession-create');
+// Route::post('/admin/index.php/Lesson/create',[LessonController::class,'lessioncreateto'])->name('lession-create-to');
+// Route::get('/admin/index.php/lesson/update/{id}',[LessonController::class,'lessionedit'])->name('lession-edit');
+// Route::post('/admin/index.php/lesson/edit/{id}',[LessonController::class,'lessioneditto'])->name('lession-edit-to');
+// Route::get('/admin/index.php/lesson/change/{id}',[LessonController::class,'lessionchange'])->name('lession-change');
+// Route::get('/admin/index.php/lesson/{id}',[LessonController::class,'lessiondet'])->name('lession-det');
 //----end lesson
 
 Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
@@ -211,7 +221,27 @@ Route::get('/reportproblem',[AdminController::class,'reportproblem'])->name('rep
 
 Route::get('/faqtype',[AdminController::class,'faqtype'])->name('faqtype');
 
+Route::get('/faqtype_create',[AdminController::class,'faqtype_create'])->name('faqtype_create');
+
+Route::post('/faqtype_insert',[AdminController::class,'faqtype_insert'])->name('faqtype_insert');
+
+Route::get('/faqtype_edit_page/{id}',[AdminController::class,'faqtype_edit_page'])->name('faqtype_edit_page');
+
+Route::post('/faqtype_edit/{id}',[AdminController::class,'faqtype_edit'])->name('faqtype_edit');
+
+Route::get('/faqtype_delete/{id}',[AdminController::class,'faqtype_delete'])->name('faqtype_delete');
+
 Route::get('/faq',[AdminController::class,'faq'])->name('faq');
+
+Route::get('/faq_create',[AdminController::class,'faq_create'])->name('faq_create');
+
+Route::post('/faq_insert',[AdminController::class,'faq_insert'])->name('faq_insert');
+
+Route::get('/faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name('faq_edit_page');
+
+Route::post('/faq_edit/{id}',[AdminController::class,'faq_edit'])->name('faq_edit');
+
+Route::get('/faq_delete/{id}',[AdminController::class,'faq_delete'])->name('faq_delete');
 
 Route::get('/adminuser',[AdminController::class,'adminuser'])->name('adminuser');
 
