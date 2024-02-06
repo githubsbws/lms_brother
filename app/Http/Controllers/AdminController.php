@@ -741,3 +741,64 @@ class AdminController extends Controller
         return redirect($redirectUrl)->with('success', 'ลบข้อมูลสำเร็จ');
     }
 }
+
+function document_insert(Request $request){
+    $request->validate(
+        [
+            'usa_title'=>'required|max:50',
+            'usa_short_title'=>'required'
+        ]
+        );
+        $dir = "uploads/";
+        $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+
+        $data = [
+            'usa_title'=>$request->usa_title,
+            'usa_detail'=>$request->usa_detail,
+            'create_date' => $currentTime,
+            'create_by'=>'1',
+            'update_date' => $currentTime,
+            'update_by'=>'1',
+            'active' => 'y'
+            
+            // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+        ];
+        
+        DB::table('usability')->insert($data);
+        // $request->cms_picture->move(public_path('storage/News'),$imageName); 
+        // return redirect('/document');
+        // dd($data);
+    }
+    function document_delete($usa_id){
+        $document_delete=[ 
+            'active'=>'n',
+        ];
+        DB::table('news')->where('usa_id',$usa_id)->update($document_delete);
+        return redirect("/document");
+    }
+    function document_update(Request $request){
+            $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString(); // รูปแบบเวลาเป็น 'YYYY-MM-DD HH:MM:SS'
+
+            $data = [
+                    'usa_title'=>$request->usa_title,
+                    'usa_detail'=>$request->usa_detail,
+                    'create_date' => $currentTime,
+                    'create_by'=>'1',
+                    'update_date' => $currentTime,
+                    'update_by'=>'1',
+                    'active' => 'y'
+                
+                // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+            ];
+            // dd($data);
+            DB::table('usability')->where('usa_id',$usa_id)->update($data);
+            // DB::table('news')->where('cms_id',$cms_id)->first($data);
+            return redirect('/document');
+        }
+
+    function document_edit($usa_id){
+        // $news =DB::table('news')->get();
+        $usability=DB::table('usability')->where('usa_id',$usa_id)->first();
+        // dd($news);
+        return view("admin\Document\document-edit",compact('usability'));
+    }
