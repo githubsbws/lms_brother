@@ -196,7 +196,7 @@
                                                                     value="176" id="chk_0" type="checkbox"
                                                                     name="chk[]"></td>
                                                             <td width="110"><img
-                                                                    src="{{ asset('../storage/images/uploads/' . $item->course_picture) }}"
+                                                                    src="{{ asset('images/uploads/courseonline/'.$item->course_id.'/thumb/' . $item->course_picture) }}"
                                                                     alt="{{ $item->course_picture }}"></td>
                                                             <td>{{ $item->course_title }}</td>
                                                             <td style="width:130px">{{ $item->cate_title }}</td>

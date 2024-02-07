@@ -26,6 +26,7 @@ use App\Http\Controllers\VirtualclassroomController;
 use App\Http\Controllers\WebboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LessonController;
+use App\Http\Controllers\ProfileController;
 //-------
 use App\Http\Controllers\AdminController;
 
@@ -45,6 +46,7 @@ Route::get('/', [IndexController::class,'index'])->name('index');
 Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
 Route::post('logins', [LoginController::class,'login'])->name('logins');
 Route::post('logout', [LoginController::class,'logout'])->name('logout');
+Route::get('profile',[ProfileController::class,'index'])->name('profile');
 
 Route::get('/admin', function () {
     return view('admin/index/index');
@@ -150,6 +152,16 @@ Route::get('/setting',[AdminController::class,'setting'])->name('setting');
 
 Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus');
 
+Route::get('/contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create');
+
+Route::post('/contactus_insert',[AdminController::class,'contactus_insert'])->name('contactus_insert');
+
+Route::get('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus_edit_page');
+
+Route::post('/contactus_edit/{id}',[AdminController::class,'contactus_edit'])->name('contactus_edit');
+
+Route::get('/contactus_delete/{id}',[AdminController::class,'contactus_delete'])->name('contactus_delete');
+
 //  new p
 Route::get('/video_create',[AdminController::class,'video_create'])->name('video_create');
 Route::get('/video',[AdminController::class,'video'])->name('video');
@@ -158,15 +170,6 @@ Route::get('/video_edit/{vdo_id}',[AdminController::class,'video_edit'])->name('
 Route::post('/video_update/{vdo_id}',[AdminController::class,'video_update'])->name('video_update');
 Route::get('/video_delete/{vdo_id}',[AdminController::class,'video_delete'])->name('video_delete');
 //
-
-Route::get('/document',[AdminController::class,'document'])->name('document');
-
-Route::get('/news',[AdminController::class,'news'])->name('news');
-Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
-Route::post('/news_create',[AdminController::class,'news_insert'])->name('news_insert');
-Route::get('/news_edit/{id}',[AdminController::class,'news_edit'])->name('news_edit');
-Route::get('/news_delete/{id}',[AdminController::class,'news_delete'])->name('news_delete');
-Route::get('/news_update/{id}',[AdminController::class,'news_update'])->name('news_update');
 
 //---- category
 Route::get('/category',[AdminController::class,'category'])->name('category');
@@ -236,7 +239,27 @@ Route::get('/reportproblem',[AdminController::class,'reportproblem'])->name('rep
 
 Route::get('/faqtype',[AdminController::class,'faqtype'])->name('faqtype');
 
+Route::get('/faqtype_create',[AdminController::class,'faqtype_create'])->name('faqtype_create');
+
+Route::post('/faqtype_insert',[AdminController::class,'faqtype_insert'])->name('faqtype_insert');
+
+Route::get('/faqtype_edit_page/{id}',[AdminController::class,'faqtype_edit_page'])->name('faqtype_edit_page');
+
+Route::post('/faqtype_edit/{id}',[AdminController::class,'faqtype_edit'])->name('faqtype_edit');
+
+Route::get('/faqtype_delete/{id}',[AdminController::class,'faqtype_delete'])->name('faqtype_delete');
+
 Route::get('/faq',[AdminController::class,'faq'])->name('faq');
+
+Route::get('/faq_create',[AdminController::class,'faq_create'])->name('faq_create');
+
+Route::post('/faq_insert',[AdminController::class,'faq_insert'])->name('faq_insert');
+
+Route::get('/faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name('faq_edit_page');
+
+Route::post('/faq_edit/{id}',[AdminController::class,'faq_edit'])->name('faq_edit');
+
+Route::get('/faq_delete/{id}',[AdminController::class,'faq_delete'])->name('faq_delete');
 
 Route::get('/adminuser',[AdminController::class,'adminuser'])->name('adminuser');
 
