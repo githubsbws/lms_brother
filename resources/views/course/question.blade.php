@@ -243,13 +243,13 @@
         document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
     
         // เมื่อนับถอยหลังเสร็จสิ้น
-        if (countDownTime < 0) {
-            clearInterval(x);
-            document.getElementById("timer").innerHTML = "หมดเวลา";
-            window.timeEnd = true;
-            $('#question-form').submit();
+    //     if (countDownTime < 0) {
+    //         clearInterval(x);
+    //         document.getElementById("timer").innerHTML = "หมดเวลา";
+    //         window.timeEnd = true;
+    //         $('#question-form').submit();
 
-        }
-    }, 1000); // ทำงานทุก 1 วินาที
+    //     }
+    // }, 1000); // ทำงานทุก 1 วินาที
 </script>
 @endsection

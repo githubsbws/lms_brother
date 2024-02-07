@@ -140,7 +140,7 @@ class AdminController extends Controller
     }
     function video_edit($vdo_id){
         $vdo =DB::table('vdo')->where('vdo_id',$vdo_id)->first();
-        return view("admin.video.video-edit",compact('vdo'));
+        return view("admin.video.Video-edit",compact('vdo'));
     }
     function video_update(Request $request,$vdo_id){
         $request->validate([
