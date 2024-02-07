@@ -39,6 +39,7 @@
                     <ul class="nav nav-tabs">
                         <li class="active"><a><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs"
                                                                                      style="font-size: 23px;">{{Auth::user()->username}}</span></a>
+                                                                                     
                         </li>
                     </ul>
                     <!-- // END Tabs -->
