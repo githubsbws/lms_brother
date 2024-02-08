@@ -12,7 +12,7 @@ use Illuminate\Http\RedirectResponse;
 class ForgotController extends Controller
 {
     function forgotPass(){
-        return view('forgot\forgot-pass');
+        return view('forgot.forgot-pass');
     }
 
     function forgotRecovery(Request $request){

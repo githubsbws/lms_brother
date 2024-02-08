@@ -84,7 +84,7 @@ class ChoiceController extends Controller
       //    'active'       => 'y',
          
       // ]);
-        dd($scores->toArray());
+      //   dd($scores->toArray());
       return redirect()->route('index');
    }
 }
