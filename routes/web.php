@@ -249,6 +249,10 @@ Route::post('/faqtype_edit/{id}',[AdminController::class,'faqtype_edit'])->name(
 
 Route::get('/faqtype_delete/{id}',[AdminController::class,'faqtype_delete'])->name('faqtype_delete');
 
+Route::get('/learnreset_resetuser',[AdminController::class,'learnreset_resetuser'])->name('learnreset_resetuser');
+
+Route::get('/learnreset_resetuser_insert',[AdminController::class,'learnreset_resetuser_insert'])->name('learnreset_resetuser_insert');
+
 Route::get('/faq',[AdminController::class,'faq'])->name('faq');
 
 Route::get('/faq_create',[AdminController::class,'faq_create'])->name('faq_create');
