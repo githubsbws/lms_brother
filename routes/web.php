@@ -138,7 +138,7 @@ Route::get('usability_front',[UsabilityController::class,'usability_front'])->na
 // ----- virtualclassroom
 Route::get('virtualclassroom',[VirtualclassroomController::class,'virtualclassroom'])->name('virtualclassroom');
 // ----- WebboardController
-Route::get('webboard',[WebboardController::class,'webboard'])->name('webboard');
+
 
 
 
@@ -151,6 +151,7 @@ Route::get('/condition',[AdminController::class,'condition'])->name('condition')
 Route::get('/setting',[AdminController::class,'setting'])->name('setting');
 
 Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus');
+Route::get('contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create');
 
 Route::get('/contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create');
 

@@ -134,14 +134,6 @@ use App\Models\Grouptesting;
                                     <a href="{{ route('course.downloadfile', ['id' => $fs->id]) }}" target="_blank" >{{ $fs->file_name}}</a>
                                     <br>
                                     @endforeach
-                                    @php
-                                    $tests = Grouptesting::where('lesson_id',$lesson_id)->where('active','y')->first();
-                                    if($tests != null){
-                                        echo "<a herf='{{ route('course.coursequestion', ['course_id' => $course_id ,'id' => $lesson_id]) }}'>มีแบบทดสอบ</a>";
-                                    }else{
-                                        echo "ไม่มีแบบทดสอบ";
-                                    }
-                                    @endphp
                                     <p></p>
 
                                 </div>
@@ -563,7 +555,7 @@ use App\Models\Grouptesting;
                                     <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
                                         ผลการสอบกอ่นเรียน,ผลการสอบหลังเรียน<br>
                                         @php
-                                        $score = Score::where('lesson_id',$lesson_id)->where('user_id',Auth::user()->id)->where('score_past','y')->where('active','y')->orderBy('update_date','DESC')->first();
+                                        $score = Score::where('lesson_id',$lesson_id)->where('user_id',Auth::user()->id)->where('active','y')->orderBy('update_date','DESC')->first();
                                         if(!$score){
                                             echo "<p style='font-weight: normal;color: #045BAB;'>- </p>";
                                         }else{

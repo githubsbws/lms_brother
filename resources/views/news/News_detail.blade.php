@@ -26,7 +26,7 @@
                                     <div class="media media-clearfix-xs">
                                         <div class="media-left text-center">
                                             <div class="cover width-150 width-100pc-xs overlay cover-image-full hover">
-                                                <img src="https://cdn.pixabay.com/photo/2014/05/21/22/28/old-newspaper-350376_640.jpg">
+                                                <img src="{{ asset('images/uploads/news/'.$news->cms_id.'/original/'.$news->cms_picture)}}">
                                             </div>
                                         </div>
                                         <div class="media-body">
@@ -37,7 +37,7 @@
                                             <div class="media v-middle">
                                                 <div class="media-body">
                                                     <h6> posted by
-                                                        <i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> BCTL_Kitichai &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> 2021-12-17 08:56:56 <br>
+                                                        <i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> {{$profiles->firstname}} &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> {{$news->update_date}} <br>
                                                     </h6>
                                                 </div>
                                             </div>

@@ -18,19 +18,37 @@ class ChoiceController extends Controller
    {
       $score = 0;
       // $request->input('Choice');
-      // dd($request);
-      // เช็คคำตอบข้อกา
-      foreach ($request->input('Choice') as $ques_id => $selected_choices) {
-         $correct_choices = Choice::where([
-            'ques_id' => $ques_id,
-            'active' => 'y',
-            'choice_answer' => 1,
-         ])->pluck('choice_id')->toArray();
-         $is_correct = array_diff($selected_choices, $correct_choices) === array_diff($correct_choices, $selected_choices);
-         if ($is_correct) {
-            $score++;
+      // dd($request->input('Choice.1905'));
+      $score = 0;
+      foreach ($request->input('Choice') as $ques_id => $choices) {
+         foreach ($choices as $choice) {
+            $chk_choice = Choice::where('choice_id', $choice)
+            ->where('active', 'y')
+            ->where('choice_answer', '1')
+            ->first();
+             if ($chk_choice != null) {
+               $score++; // เพิ่มคะแนนขึ้นเมื่อพบตัวเลือกที่ถูกต้อง
+           }
          }
+     }
+     $score_tot = 0;
+     foreach ($request->input('Choice') as $ques_id => $choices) {
+      foreach ($choices as $choice) {
+         $score_tot++;
       }
+  }
+      // เช็คคำตอบข้อกา
+      // foreach ($request->input('Choice') as $ques_id => $selected_choices) {
+      //    $correct_choices = Choice::where([
+      //       'ques_id' => $ques_id,
+      //       'active' => 'y',
+      //       'choice_answer' => 1,
+      //    ])->pluck('choice_id')->toArray();
+      //    $is_correct = array_diff($selected_choices, $correct_choices) === array_diff($correct_choices, $selected_choices);
+      //    if ($is_correct) {
+      //       $score++;
+      //    }
+      // }
       // เช็คคำตอบข้อเขียน
       $choice_text = $request->input('ChoiceText');
       if (!is_null($choice_text) && is_array($choice_text)) {
@@ -46,10 +64,11 @@ class ChoiceController extends Controller
             }
          }
       }
+      
       $ptest = Manage::where(['id' => $id, 'active' => 'y'])->first();
       $users = User::where(['id' => Auth::user()->id])->first();
       $lesson = Lesson::where(['id' => $id, 'active' => 'y'])->first();
-      $score_total = ($ptest->manage_row/2);
+      $score_total = ($score_tot/2);
       if($score>$score_total){
          $score_past = 'y';
       }else{
@@ -62,7 +81,7 @@ class ChoiceController extends Controller
       $scores->course_id = $lesson->course_id;
       $scores->type = $ptest->type;
       $scores->score_number = $score;
-      $scores->score_total = $ptest->manage_row;
+      $scores->score_total = $score_tot;
       $scores->score_past = $score_past;
       $scores->active = 'y';
       $scores->create_by = $users->id;
@@ -85,6 +104,8 @@ class ChoiceController extends Controller
          
       // ]);
       //   dd($scores->toArray());
-      return redirect()->route('index');
+      
+      // dd($scores->toArray());
+      return redirect()->route('course.lesson',['course_id'=>$lesson->course_id,'id' =>$lesson->id]);
    }
 }
