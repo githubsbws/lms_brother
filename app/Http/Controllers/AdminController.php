@@ -809,3 +809,39 @@ function document_insert(Request $request){
         // dd($news);
         return view("admin\Document\document-edit",compact('usability'));
     }
+    function learnreset_resetuser(){
+        $score =DB::table('score')->get();
+        // $learnreset =DB::table('score')->get();
+        return view("admin\learnreset\learnreset-resetuser",compact('score'));
+    }
+    function learnreset_resetuser_insert(Request $request){
+        $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+        $data = [
+            'user_id'=>$request->user_id,
+            'lesson_id'=>$request->lesson_id,
+            'create_date' => $currentTime,
+            'reset_description'=>'resetuser',
+            'create_by'=>'1',
+            'update_date' => $currentTime,
+            'update_by'=>'1',
+            
+            // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+        ];
+        
+        // DB::table('log_reset1')->insert($data);
+        // dd($data);
+        $dataupdate = [
+            'user_id'=>$request->user_id,
+            'score_total'=>'0',
+            'score_number'=>'0',
+            'update_date' => $currentTime,
+            'update_by'=>$request->user_id
+            
+            // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
+        ];
+        DB::table('score')
+        ->where('user_id',$request->user_id)
+        ->where('lesson_id',$request->lesson_id)
+        ->update($dataupdate);
+        return redirect('/learnreset_resetuser');
+    }
