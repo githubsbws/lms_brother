@@ -358,3 +358,13 @@ Route::get('/generation_edit_page/{id}',[AdminController::class,'generation_edit
 Route::post('/generation_edit/{id}',[AdminController::class,'generation_edit'])->name('generation_edit');
 
 Route::get('/generation_delete/{id}',[AdminController::class,'generation_delete'])->name('generation_delete');
+
+// ----- Classroom
+Route::get('classroom',[AdminController::class,'classroom'])->name('classroom');
+
+Route::get('/classroom_edit/{id}',[AdminController::class,'classroom_edit'])->name('classroom_edit');
+
+Route::get('/classroom_delete/{id}',[AdminController::class,'classroom_delete'])->name('classroom_delete');
+
+Route::post('/classroom_update/{id}',[AdminController::class,'classroom_update'])->name('classroom_update');
+

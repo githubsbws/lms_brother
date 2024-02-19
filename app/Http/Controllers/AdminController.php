@@ -845,3 +845,33 @@ function document_insert(Request $request){
         ->update($dataupdate);
         return redirect('/learnreset_resetuser');
     }
+//classroom
+    function classroom(){
+        $zoom =DB::table('zoom')->get();
+        return view("admin\Classroom\Classroom",compact('zoom'));
+    }
+    function classroom_edit($id){
+        $zoom=DB::table('zoom')->where('id',$id)->first();
+        return view("admin\Classroom\Classroom-update",compact('zoom'));
+    }
+        function classroom_delete($id) {
+            $classroom_delete = [ 
+                'active' => 'n',
+            ];
+            DB::table('zoom')->where('id', $id)->update($classroom_delete);
+        return redirect()->route('classroom')->with('success', 'Classroom deleted successfully.');
+    }
+    function classroom_update(Request $request){
+        $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();;
+        $dataupdate = [
+            'title'=>$request->title,
+            'join_url'=>$request->join_url,
+            'start_date'=>$request->start_date,
+            'updated_date' => $currentTime,
+            'updated_by'=>"1"
+        ];
+        DB::table('zoom')
+        ->where('id',$request->id)
+        ->update($dataupdate);
+        return redirect()->route('classroom');
+    }

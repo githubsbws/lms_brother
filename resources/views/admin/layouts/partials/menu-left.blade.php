@@ -98,6 +98,7 @@
 						<li><a href="{{ url('/orgchart') }}">จัดการระดับชั้นการเรียน</a></li>
 					</ul>
 				</li>
+				<li class="hasSubmenu glyphicons refresh"><a href="{{ url('/classroom') }}"><i></i><span>จัดการระบบห้องเรียนออนไลน์</span></a></li>
 				<li class="hasSubmenu glyphicons print"><a data-toggle="collapse" href="#CheckLecture"><i></i><span>ระบบตรวจข้อสอบบรรยาย</span></a>
 					<ul class=" collapse " id="CheckLecture">
 						<li><a href="{{ url('/checklecture') }}">ตรวจข้อสอบบรรยายบทเรียน</a></li>
