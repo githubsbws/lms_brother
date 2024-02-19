@@ -123,9 +123,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                     <li class="dropdown">
                         <a href="{{ url('course') }}">หลักสูตร</a>
                     </li>
-                    <li class="dropdown">
-                        <a href="{{url('webboard')}}">เว็บบอร์ด</a>
-                    </li>
+                    
                     @endif
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">วิธีการใช้งาน <span class="caret"></span></a>

@@ -93,7 +93,7 @@
                             {{-- จบแก้ไข --}}
                         </div>
                         <div class="col-md-3">
-                            <form action="/lms_brother_docker/lms/app/index.php/course/index" method="post">
+                            <form action="{{url('search')}}" method="post">
                                 <div class="panel panel-primary" data-toggle="panel-collapse" data-open="true">
                                     <div class="panel-heading panel-collapse-trigger collapse in" data-toggle="collapse"
                                         data-target="#53a72aaf-2f2d-d3bb-4ee9-cd2922844b76" aria-expanded="true"

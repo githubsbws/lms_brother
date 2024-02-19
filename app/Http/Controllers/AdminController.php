@@ -36,7 +36,7 @@ class AdminController extends Controller
     }
     function contactus_create(){
         $contactus_create= DB::table('contactus')->get();
-        return view("admin.contactus.contactus_create",compact('contactus_create'));
+        return view("admin.contactus.Contactus_create",compact('contactus_create'));
     }
     function contactus_insert(Request $request){
         $request->validate([
@@ -75,7 +75,7 @@ class AdminController extends Controller
         ->where('contac_id',$id)
         ->first();
         // dd($contactus_edit_page);
-        return view("admin.contactus.contactus_edit_page",compact('contactus_edit_page'));
+        return view("admin.contactus.Contactus_edit_page",compact('contactus_edit_page'));
     }
     function contactus_edit(Request $request,$id){
         $request->validate([

@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Course;
+use App\Models\Score;
 use App\Models\Lesson;
 use App\Models\Manage;
 use App\Models\Question;
@@ -47,8 +48,12 @@ class CourseController extends Controller
         $domain = '15';
         if(Auth::check()){
         $ptest = Manage::where(['type' => 'pre','id' => $id,'active' =>'y'])->first();
-        if($ptest){
-            return redirect()->route("course.coursequestion",['course_id' =>$course_id,'id'=>$id]);
+        $chk_score = Score::where(['lesson_id'=>$id,'user_id'=>Auth::user()->id,'active'=>'y','course_id'=>$course_id])->orderBy('update_date','DESC')->first();
+        // dd($chk_score->toArray());
+        if($chk_score == null){
+            if($ptest){
+                return redirect()->route("course.coursequestion",['course_id' =>$course_id,'id'=>$id]);
+            }
         }
         $learnModel = Learn::where(['lesson_id' => $id,'user_id' => Auth::user()->id])->first();
         if(!$learnModel){

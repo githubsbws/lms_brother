@@ -22,6 +22,7 @@
 				<li class="glyphicons home active"><a href="{{ url('/admin') }}"><i></i><span>หน้าหลัก</span></a></li>
 				<li class="hasSubmenu glyphicons posterous_spaces "><a data-toggle="collapse" href="#About"><i></i><span>เกี่ยวกับเรา</span></a>
 					<ul class=" collapse " id="About">
+						<li><a href="{{ url('aboutus_create') }}">เพิ่มข้อมูลเกี่ยวกับเรา</a></li>
 						<li><a href="{{ url('/aboutus') }}">จัดการเกี่ยวกับเรา</a></li>
 					</ul>
 				</li>

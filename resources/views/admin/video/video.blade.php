@@ -99,7 +99,7 @@
 											@if($item->active === 'y')
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value={{$item->vdo_id}} id="chk_0" type="checkbox" name="chk[]"></td>
-												<td>{{$item->vdo_title}}</td>
+												<td>{!! htmlspecialchars_decode($item->vdo_title) !!}</td>
 												<td><a href="{{$item->vdo_path}}">{{$item->vdo_path}}</a></td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด {{$item->vdo_id}}" href="{{$item->vdo_id}}"><i></i></a> 
 													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข {{$item->vdo_id}}" href="{{url('video_edit',$item->vdo_id)}}"><i></i></a> 
