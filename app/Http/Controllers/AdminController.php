@@ -599,9 +599,64 @@ class AdminController extends Controller
         DB::table('org_course')->where('id',$id)->update($generation_delete);
         return redirect("/generation");
     }
+
+    //new p
     function adminuser(){
-        return view("admin.adminuser.adminuser");
+        $users =DB::table('users')->paginate(10);
+        return view("admin\adminuser\adminuser",compact('users'));
     }
+    function adminuser_create(){
+        return view("admin\adminuser\adminuser-create");
+    }
+    function adminuser_insert(Request $request){
+        $request->validate([
+            'username' => 'required|max:20',
+            'password' => 'required|max:32|min:8',
+            'email' => 'required|max:39|email',
+        ]);
+        $date=new DateTime('Asia/Bangkok');
+        $adminuser_data=[
+            'username'=>$request->username,
+            'password'=>$request->password,
+            'email'=>$request->email,
+            'create_at'=>$date,
+            'lastvisit_at'=>$date,
+            'last_activity'=>$date,
+            'status'=>'1'      
+        ];
+        DB::table('users')->insert($adminuser_data);
+        return redirect()->route('adminuser');
+    }
+    function adminuser_edit($id){
+        $users = DB::table('users')->where('id',$id)->first();
+        return view("admin\adminuser\adminuser-edit",compact('users'));
+    }
+    function adminuser_update(Request $request,$id){
+        $request->validate([
+            'username' => 'required|max:20',
+            'password' => 'required|max:32|min:8',
+            'email' => 'required|max:39|email',
+        ]);
+        $date=new DateTime('Asia/Bangkok');
+        $adminuser_data=[
+            'username'=>$request->username,
+            'password'=>$request->password,
+            'email'=>$request->email,
+            'lastvisit_at'=>$date,
+            'last_activity'=>$date,
+            'status'=>'1'             
+        ];
+        DB::table('users')->where('id',$id)->update($adminuser_data);
+        return redirect()->route('adminuser');
+    }
+    function adminuser_delete($id){
+        $adminuser_delete=[
+            'status'=>'0'
+        ];
+        DB::table('users')->where('id',$id)->update($adminuser_delete);
+        return redirect()->route('adminuser');
+    }
+    //
     function pgroup(){
         return view("admin.pgroup.pgroup");
     }
