@@ -369,3 +369,15 @@ Route::get('/classroom_delete/{id}',[AdminController::class,'classroom_delete'])
 
 Route::post('/classroom_update/{id}',[AdminController::class,'classroom_update'])->name('classroom_update');
 
+// ----- Captcha
+Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha');
+
+Route::get('/captcha_create',[AdminController::class,'captcha_create'])->name('captcha_create');
+
+Route::post('/captcha_insert',[AdminController::class,'captcha_insert'])->name('captcha_insert');
+
+Route::get('/captcha_edit/{capid}',[AdminController::class,'captcha_edit'])->name('captcha_edit');
+
+Route::get('/captcha_delete/{capid}',[AdminController::class,'captcha_delete'])->name('captcha_delete');
+
+Route::post('/captcha_update/{capid}',[AdminController::class,'captcha_update'])->name('captcha_update');

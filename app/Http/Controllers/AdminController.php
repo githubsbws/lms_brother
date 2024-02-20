@@ -875,3 +875,81 @@ function document_insert(Request $request){
         ->update($dataupdate);
         return redirect()->route('classroom');
     }
+        //Captcha
+        function captcha_create(){
+            return view("admin\captcha\captcha-create");
+        }
+        function captcha(){
+            // อัปเดตเป็นชื่อตารางที่ถูกต้อง 'config_captcha'
+            $captcha = Captcha::paginate(10);
+            return view("admin\captcha\captcha",compact('captcha'));
+        }
+        function captcha_edit($capid){
+            $captcha = Captcha::get()->where('capid',$capid)->first();
+            return view("admin\captcha\captcha-edit",compact('captcha'));
+        }
+        function captcha_update(Request $request,$capid){
+            $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+            $captcha_data=[
+                'capt_name'=>$request->capt_name,
+                'type'=>$request->type,
+                'capt_times'=>$request->capt_times,
+                'updated_by'=>'1',
+                'updated_date'=>$currentTime               //default
+            ];
+            $update_captcha = Captcha::where('capid', $capid)->first();
+            $update_captcha->fill($captcha_data);
+            $update_captcha->save();
+            return redirect()->route('captcha');
+        }
+        function captcha_insert(Request $request){
+            $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+            $captcha_data=[
+                'capt_name'=>$request->capt_name,
+                'type'=>$request->type,
+                'capt_times'=>$request->capt_times,
+                'capt_time_random'=>'10',
+                'capt_time_back'=>'10',
+                'capt_wait_time'=>'10',
+                'capt_hide'=>'1',
+                'capt_active'=>'y',
+                'created_by'=>'1',
+                'updated_by'=>'1',
+                'slide'=>'10',
+                'prev_slide'=>'999',
+                'domain_id'=>'35',
+                'capt_time_random2'=>'2',
+                'capt_time_random3'=>'3',
+                'created_date'=> $currentTime ,
+                'updated_date'=>$currentTime 
+            ];
+            $survey = new Captcha;
+            $survey->fill($captcha_data);
+            $survey->save();
+            return redirect()->route('captcha');
+        }
+        function captcha_delete(Request $request,$capid) {
+            $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+            if ($request->has('capt_active') ) {
+                $captcha_delete = [ 
+                    'capt_active' => 'y',
+                    'updated_at' => $currentTime,
+                    'created_at'=>"1"
+                ];
+                $captcha_survey = Captcha::where(['capid'=>$request->capid])->first();
+                $captcha_survey->fill($Captcha_delete);
+                $captcha_survey->save();
+                return redirect()->route('captcha');
+            } 
+            else {
+                $captcha_delete = [ 
+                    'capt_active' => 'n',
+                    'updated_at' => $currentTime,
+                    'created_at'=>"1"
+                ];
+                $captcha_survey  = Captcha::where(['capid'=>$request->capid])->first();
+                $captcha_survey->fill($captcha_delete);
+                $captcha_survey->save();
+                return redirect()->route('captcha');
+            }
+        }
