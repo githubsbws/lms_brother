@@ -265,8 +265,14 @@ Route::get('/faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name
 Route::post('/faq_edit/{id}',[AdminController::class,'faq_edit'])->name('faq_edit');
 
 Route::get('/faq_delete/{id}',[AdminController::class,'faq_delete'])->name('faq_delete');
-
+// new p
 Route::get('/adminuser',[AdminController::class,'adminuser'])->name('adminuser');
+Route::get('/adminuser_create',[AdminController::class,'adminuser_create'])->name('adminuser_create');
+Route::post('/adminuser_insert',[AdminController::class,'adminuser_insert'])->name('adminuser_insert');
+Route::post('/adminuser_update/{id}',[AdminController::class,'adminuser_update'])->name('adminuser_update');
+Route::get('/adminuser_delete/{id}',[AdminController::class,'adminuser_delete'])->name('adminuser_delete');
+Route::get('/adminuser_edit/{id}',[AdminController::class,'adminuser_edit'])->name('adminuser_edit');
+//
 
 Route::get('/pgroup',[AdminController::class,'pgroup'])->name('pgroup');
 
