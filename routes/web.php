@@ -274,7 +274,14 @@ Route::get('/adminuser_delete/{id}',[AdminController::class,'adminuser_delete'])
 Route::get('/adminuser_edit/{id}',[AdminController::class,'adminuser_edit'])->name('adminuser_edit');
 //
 
+// new p
 Route::get('/pgroup',[AdminController::class,'pgroup'])->name('pgroup');
+Route::get('/pgroup_create',[AdminController::class,'pgroup_create'])->name('pgroup_create');
+Route::post('/pgroup_insert',[AdminController::class,'pgroup_insert'])->name('pgroup_insert');
+Route::post('/pgroup_update/{pgroup_id}',[AdminController::class,'pgroup_update'])->name('pgroup_update');
+Route::get('/pgroup_delete/{pgroup_id}',[AdminController::class,'pgroup_delete'])->name('pgroup_delete');
+Route::get('/pgroup_edit/{pgroup_id}',[AdminController::class,'pgroup_edit'])->name('pgroup_edit');
+//
 
 Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin');
 

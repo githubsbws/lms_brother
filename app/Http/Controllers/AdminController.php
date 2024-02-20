@@ -18,6 +18,10 @@ use App\Models\Lesson;
 use App\Models\News;
 use App\Models\Faq;
 use App\Models\Faq_type;
+use App\Models\Pgroup;
+use App\Models\Pgroupcondition;
+
+
 class AdminController extends Controller
 {
     function aboutus(){
@@ -657,9 +661,74 @@ class AdminController extends Controller
         return redirect()->route('adminuser');
     }
     //
+
+    // new p
     function pgroup(){
-        return view("admin.pgroup.pgroup");
+        $p_group = Pgroup::get();
+        return view("admin\pgroup\pgroup",compact('p_group'));
     }
+    function pgroup_create(){
+        return view("admin\pgroup\pgroup-create");
+    }
+    function pgroup_insert(Request $request){
+        $request->validate([
+            'group_name' => 'required|max:17',
+
+        ]);
+        $date=new DateTime('Asia/Bangkok');
+        $pgroup_data=[
+            'group_name'=>$request->group_name,
+            'create_date'=>$date,
+            'create_by'=>'1',               //default
+            'update_date'=>$date,
+            'update_by'=>'1',               //default
+            'active'=>'y'                   //default
+        ];
+        $p_group = new Pgroup();
+        $p_group->fill($pgroup_data);
+        $p_group->save();
+
+        $test = $request->input("setting","update","delete");
+        $p_groupcondition = new Pgroupcondition();
+        $p_groupcondition->pgroup_id = $p_group->pgroup_id;
+        $p_groupcondition->permission = '{'.$test.'}';
+        $p_groupcondition->save();
+        return redirect()->route('pgroup');
+    }
+    function pgroup_edit($pgroup_id){
+        $p_group = Pgroup::get()->where('pgroup_id',$pgroup_id)->first();
+        return view("admin\pgroup\pgroup-edit",compact('p_group'));
+    }
+    function pgroup_update(Request $request,$pgroup_id){
+        $request->validate([
+            'group_name' => 'required|max:17',
+        ]);
+        $date=new DateTime('Asia/Bangkok');
+        $pgroup_data=[
+            'group_name'=>$request->group_name,
+            'create_by'=>'1',               //default
+            'update_date'=>$date,
+            'update_by'=>'2',               //default
+            'active'=>'y'                   //default
+        ];
+        $update_p_group = Pgroup::where('pgroup_id', $pgroup_id)->first();
+        $update_p_group->fill($pgroup_data);
+        $update_p_group->save(); 
+
+
+        return redirect()->route('pgroup');
+    }
+    function pgroup_delete($pgroup_id){
+        $pgroup_delete=[
+            'active'=>'n'
+        ];
+        $update_pgroup = Pgroup::where('pgroup_id', $pgroup_id)->first();
+        $update_pgroup->fill($pgroup_delete);
+        $update_pgroup->save();
+        return redirect()->route('pgroup');
+    }
+    //
+
     function user_admin(){
         return view("admin.user_admin.user-admin");
     }
