@@ -20,7 +20,9 @@ use App\Models\Faq;
 use App\Models\Faq_type;
 use App\Models\Pgroup;
 use App\Models\Pgroupcondition;
-
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UserImport;
+use App\Imports\UsersImport;
 
 class AdminController extends Controller
 {
@@ -54,7 +56,7 @@ class AdminController extends Controller
             'contac_ans_detail'=>'required',
 
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $contact_data=[
             'contac_by_name'=>$request->contac_by_name,
             'contac_by_surname'=>$request->contac_by_surname,
@@ -92,7 +94,7 @@ class AdminController extends Controller
             'contac_ans_subject'=>'required',
             'contac_ans_detail'=>'required',
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $contactus_edit  =[
             'contac_by_name'=>$request->contac_by_name,
             'contac_by_surname'=>$request->contac_by_surname,
@@ -104,13 +106,13 @@ class AdminController extends Controller
             'contac_ans_detail'=>$request->contac_ans_detail,
             'update_date'=>$date,
             'update_by'=>'1'
-        ]; 
+        ];
         DB::table('contactus')->where('contac_id',$id)->update($contactus_edit);
         return redirect("/contactus");
     }
     function contactus_delete($id){
- 
-        $contactus_delete=[ 
+
+        $contactus_delete=[
             'active'=>'n',
         ];
         DB::table('contactus')->where('contac_id',$id)->update($contactus_delete);
@@ -187,7 +189,7 @@ class AdminController extends Controller
     function news(){
         $news = News::where('active','y')->get();
         return view("admin.news.news",['news' => $news]);
-    }   
+    }
     function category(){
         $category_on = DB::table('category')->where('category.active', 'y')->orderBy('cate_id', 'desc')->get();
         return view("admin.category.category",compact('category_on'));
@@ -290,7 +292,7 @@ class AdminController extends Controller
         $grouptesting = DB::table('grouptesting')
         ->where('active', 'y')
         ->pluck('group_title', 'group_id');
-    
+
         $question_create = DB::table('question')
             ->join('grouptesting', 'question.group_id', '=', 'grouptesting.group_id')
             ->select('question.*', 'grouptesting.group_title')
@@ -306,7 +308,7 @@ class AdminController extends Controller
             'ques_title'=>'required',
             'ques_explain'=>'required',
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $question_data=[
             'group_id'=>$request->group_id,
             'ques_type'=>$request->ques_type,
@@ -341,7 +343,7 @@ class AdminController extends Controller
             'ques_title'=>'required',
             'ques_explain'=>'required',
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $question_edit  =[
             'group_id'=>$request->group_id,
             'ques_type'=>$request->ques_type,
@@ -351,13 +353,13 @@ class AdminController extends Controller
             'ques_explain'=>$request->ques_explain,
             'update_date'=>$date,
             'update_by'=>'1'
-        ]; 
+        ];
         DB::table('question')->where('ques_id',$id)->update($question_edit);
         return redirect("/question");
     }
     function question_delete($id){
- 
-        $question_delete=[ 
+
+        $question_delete=[
             'active'=>'n',
         ];
         DB::table('question')->where('ques_id',$id)->update($question_delete);
@@ -391,7 +393,7 @@ class AdminController extends Controller
         $request->validate([
             'title'=>'required|max:24',
             'level' => 'required|max:1',
-        ]); 
+        ]);
         $orgchart_data=[
             'title'=>$request->title,
             'level'=>$request->level,
@@ -407,8 +409,8 @@ class AdminController extends Controller
         DB::table('orgchart')->where('orgchart_id',$orgchart_id)->update($orgchart_delete);
         return redirect()->route('orgchart');
     }
-    
-    //  
+
+    //
     function checklecture(){
         return view("admin.checklecture.checklecture");
     }
@@ -442,7 +444,7 @@ class AdminController extends Controller
         $request->validate([
             'faq_type_title_TH'=>'required'
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $faqtype_data=[
             'faq_type_title_TH'=>$request->faq_type_title_TH,
             'create_date'=>$date,
@@ -465,18 +467,18 @@ class AdminController extends Controller
         $request->validate([
             'faq_type_title_TH'=>'required',
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $faqtype_edit  =[
             'faq_type_title_TH'=>$request->faq_type_title_TH,
             'update_date'=>$date,
             'update_by'=>'1'
-        ]; 
+        ];
         DB::table('cms_faq_type')->where('faq_type_id',$id)->update($faqtype_edit);
         return redirect("/faqtype");
     }
     function faqtype_delete($id){
- 
-        $faqtype_delete=[ 
+
+        $faqtype_delete=[
             'active'=>'n',
         ];
         DB::table('cms_faq_type')->where('faq_type_id',$id)->update($faqtype_delete);
@@ -491,12 +493,12 @@ class AdminController extends Controller
     function faq_create(){
         $faq_types = Faq_type::where('active', 'y')
         ->pluck('faq_type_title_TH', 'faq_type_id');
-    
+
         $faq_create = DB::table('cms_faq')
             ->join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
             ->select('cms_faq.*', 'cms_faq_type.faq_type_title_TH')
             ->get();
-        
+
         return view("admin.Faq.Faq_create", compact('faq_create', 'faq_types'));
     }
     function faq_insert(Request $request){
@@ -505,7 +507,7 @@ class AdminController extends Controller
             'faq_THtopic'=>'required',
             'faq_THanswer'=>'required'
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $faq_data=[
             'faq_THtopic'=>$request->faq_THtopic,
             'faq_THanswer'=>$request->faq_THanswer,
@@ -536,20 +538,20 @@ class AdminController extends Controller
             'faq_THtopic'=>'required',
             'faq_THanswer'=>'required'
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $faq_edit  =[
             'faq_THtopic'=>$request->faq_THtopic,
             'faq_THanswer'=>$request->faq_THanswer,
             'faq_type_id'=>$request->faq_type_id,
             'update_date'=>$date,
             'update_by'=>'1',
-        ]; 
+        ];
         DB::table('cms_faq')->where('faq_nid_',$id)->update($faq_edit);
         return redirect("/faq");
     }
     function faq_delete($id){
- 
-        $faq_delete=[ 
+
+        $faq_delete=[
             'active'=>'n',
         ];
         DB::table('cms_faq')->where('faq_nid_',$id)->update($faq_delete);
@@ -591,13 +593,13 @@ class AdminController extends Controller
         $generation_edit  =[
             'orgchart_id'=>$request->orgchart_id,
             'course_id'=>$request->course_id,
-        ]; 
+        ];
         DB::table('org_course')->where('id',$id)->update($generation_edit);
         return redirect("/generation");
     }
     function generation_delete($id){
- 
-        $generation_delete=[ 
+
+        $generation_delete=[
             'active'=>'n',
         ];
         DB::table('org_course')->where('id',$id)->update($generation_delete);
@@ -626,7 +628,7 @@ class AdminController extends Controller
             'create_at'=>$date,
             'lastvisit_at'=>$date,
             'last_activity'=>$date,
-            'status'=>'1'      
+            'status'=>'1'
         ];
         DB::table('users')->insert($adminuser_data);
         return redirect()->route('adminuser');
@@ -648,7 +650,7 @@ class AdminController extends Controller
             'email'=>$request->email,
             'lastvisit_at'=>$date,
             'last_activity'=>$date,
-            'status'=>'1'             
+            'status'=>'1'
         ];
         DB::table('users')->where('id',$id)->update($adminuser_data);
         return redirect()->route('adminuser');
@@ -713,7 +715,7 @@ class AdminController extends Controller
         ];
         $update_p_group = Pgroup::where('pgroup_id', $pgroup_id)->first();
         $update_p_group->fill($pgroup_data);
-        $update_p_group->save(); 
+        $update_p_group->save();
 
 
         return redirect()->route('pgroup');
@@ -732,6 +734,22 @@ class AdminController extends Controller
     function user_admin(){
         return view("admin.user_admin.user-admin");
     }
+    //************************* */ import user by chockekr
+    public function userExcel(){
+        return view("admin.user_admin.user-excel");
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new UsersImport, $request->file('import_excel'));
+
+        return redirect()->back()->with('success', 'Excel imported successfully!');
+    }
+    //************************** */
     function coursefield(){
         return view("admin.coursefield.coursefield");
     }
@@ -757,7 +775,7 @@ class AdminController extends Controller
             'active'=>'y'                   //default
         ];
         DB::table('imgslide')->insert($imgslide_data);
-        $request->imgslide_picture->move(public_path('storage/Imgslides'),$imageName); 
+        $request->imgslide_picture->move(public_path('storage/Imgslides'),$imageName);
         return redirect()->route('imgslide');
     }
     function imgslide(){
@@ -785,9 +803,9 @@ class AdminController extends Controller
             'active'=>'y'                   //default
         ];
         DB::table('imgslide')->where('imgslide_id',$imgslide_id)->update($imgslide_data);
-        $request->imgslide_picture->move(public_path('storage/Imgslides'),$imageName); 
+        $request->imgslide_picture->move(public_path('storage/Imgslides'),$imageName);
         return redirect()->route('imgslide');
-        
+
     }
     function imgslide_delete($imgslide_id){
         $imgslide_delete=[
@@ -796,7 +814,7 @@ class AdminController extends Controller
         DB::table('imgslide')->where('imgslide_id',$imgslide_id)->update($imgslide_delete);
         return redirect()->route('imgslide');
     }
-    //  
+    //
     function librarytype(){
         return view("admin.libraryfile.librarytype");
     }
@@ -859,7 +877,7 @@ class AdminController extends Controller
     {
         return view('bank');
     }
-    
+
     //----- ลบ VDO
     function del(Request $request, $id)
     {
@@ -891,17 +909,17 @@ function document_insert(Request $request){
             'update_date' => $currentTime,
             'update_by'=>'1',
             'active' => 'y'
-            
+
             // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
         ];
-        
+
         DB::table('usability')->insert($data);
-        // $request->cms_picture->move(public_path('storage/News'),$imageName); 
+        // $request->cms_picture->move(public_path('storage/News'),$imageName);
         // return redirect('/document');
         // dd($data);
     }
     function document_delete($usa_id){
-        $document_delete=[ 
+        $document_delete=[
             'active'=>'n',
         ];
         DB::table('news')->where('usa_id',$usa_id)->update($document_delete);
@@ -918,7 +936,7 @@ function document_insert(Request $request){
                     'update_date' => $currentTime,
                     'update_by'=>'1',
                     'active' => 'y'
-                
+
                 // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
             ];
             // dd($data);
@@ -948,10 +966,10 @@ function document_insert(Request $request){
             'create_by'=>'1',
             'update_date' => $currentTime,
             'update_by'=>'1',
-            
+
             // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
         ];
-        
+
         // DB::table('log_reset1')->insert($data);
         // dd($data);
         $dataupdate = [
@@ -960,7 +978,7 @@ function document_insert(Request $request){
             'score_number'=>'0',
             'update_date' => $currentTime,
             'update_by'=>$request->user_id
-            
+
             // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
         ];
         DB::table('score')
@@ -979,7 +997,7 @@ function document_insert(Request $request){
         return view("admin\Classroom\Classroom-update",compact('zoom'));
     }
         function classroom_delete($id) {
-            $classroom_delete = [ 
+            $classroom_delete = [
                 'active' => 'n',
             ];
             DB::table('zoom')->where('id', $id)->update($classroom_delete);
@@ -1045,7 +1063,7 @@ function document_insert(Request $request){
                 'capt_time_random2'=>'2',
                 'capt_time_random3'=>'3',
                 'created_date'=> $currentTime ,
-                'updated_date'=>$currentTime 
+                'updated_date'=>$currentTime
             ];
             $survey = new Captcha;
             $survey->fill($captcha_data);
@@ -1055,7 +1073,7 @@ function document_insert(Request $request){
         function captcha_delete(Request $request,$capid) {
             $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
             if ($request->has('capt_active') ) {
-                $captcha_delete = [ 
+                $captcha_delete = [
                     'capt_active' => 'y',
                     'updated_at' => $currentTime,
                     'created_at'=>"1"
@@ -1064,9 +1082,9 @@ function document_insert(Request $request){
                 $captcha_survey->fill($Captcha_delete);
                 $captcha_survey->save();
                 return redirect()->route('captcha');
-            } 
+            }
             else {
-                $captcha_delete = [ 
+                $captcha_delete = [
                     'capt_active' => 'n',
                     'updated_at' => $currentTime,
                     'created_at'=>"1"

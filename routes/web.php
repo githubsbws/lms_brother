@@ -284,6 +284,8 @@ Route::get('/pgroup_edit/{pgroup_id}',[AdminController::class,'pgroup_edit'])->n
 //
 
 Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin');
+Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel');
+Route::post('/userexcel/import', [AdminController::class,'importExcel'])->name('import.excel');
 
 Route::get('/coursefield',[AdminController::class,'coursefield'])->name('coursefield');
 
