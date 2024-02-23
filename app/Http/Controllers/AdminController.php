@@ -21,6 +21,12 @@ use App\Models\Lesson;
 use App\Models\News;
 use App\Models\Faq;
 use App\Models\Faq_type;
+use App\Models\Pgroup;
+use App\Models\Pgroupcondition;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UserImport;
+use App\Imports\UsersImport;
+
 use App\Models\About;
 use App\Models\Conditions;
 use App\Models\Setting;
@@ -242,7 +248,7 @@ class AdminController extends Controller
             'contac_ans_detail'=>'required',
 
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $contact_data=[
             'contac_by_name'=>$request->contac_by_name,
             'contac_by_surname'=>$request->contac_by_surname,
@@ -311,7 +317,7 @@ class AdminController extends Controller
             'contac_ans_subject'=>'required',
             'contac_ans_detail'=>'required',
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $contactus_edit  =[
             'contac_by_name'=>$request->contac_by_name,
             'contac_by_surname'=>$request->contac_by_surname,
@@ -323,13 +329,13 @@ class AdminController extends Controller
             'contac_ans_detail'=>$request->contac_ans_detail,
             'update_date'=>$date,
             'update_by'=>'1'
-        ]; 
+        ];
         DB::table('contactus')->where('contac_id',$id)->update($contactus_edit);
         return redirect("/contactus");
     }
     function contactus_delete($id){
- 
-        $contactus_delete=[ 
+
+        $contactus_delete=[
             'active'=>'n',
         ];
         DB::table('contactus')->where('contac_id',$id)->update($contactus_delete);
@@ -658,6 +664,7 @@ class AdminController extends Controller
     function news(){
         $news = News::where('active','y')->paginate(10);
         return view("admin.news.news",['news' => $news]);
+    }
     }  
     function news_detail($id){
         $news = News::where('cms_id',$id)->first();
@@ -1477,7 +1484,7 @@ class AdminController extends Controller
         $grouptesting = DB::table('grouptesting')
         ->where('active', 'y')
         ->pluck('group_title', 'group_id');
-    
+
         $question_create = DB::table('question')
             ->join('grouptesting', 'question.group_id', '=', 'grouptesting.group_id')
             ->select('question.*', 'grouptesting.group_title')
@@ -1493,7 +1500,7 @@ class AdminController extends Controller
             'ques_title'=>'required',
             'ques_explain'=>'required',
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $question_data=[
             'group_id'=>$request->group_id,
             'ques_type'=>$request->ques_type,
@@ -1528,7 +1535,7 @@ class AdminController extends Controller
             'ques_title'=>'required',
             'ques_explain'=>'required',
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $question_edit  =[
             'group_id'=>$request->group_id,
             'ques_type'=>$request->ques_type,
@@ -1543,8 +1550,8 @@ class AdminController extends Controller
         return redirect("/question");
     }
     function question_delete($id){
- 
-        $question_delete=[ 
+
+        $question_delete=[
             'active'=>'n',
         ];
         DB::table('question')->where('ques_id',$id)->update($question_delete);
@@ -1578,7 +1585,7 @@ class AdminController extends Controller
         $request->validate([
             'title'=>'required|max:24',
             'level' => 'required|max:1',
-        ]); 
+        ]);
         $orgchart_data=[
             'title'=>$request->title,
             'level'=>$request->level,
@@ -1594,8 +1601,8 @@ class AdminController extends Controller
         DB::table('orgchart')->where('orgchart_id',$orgchart_id)->update($orgchart_delete);
         return redirect()->route('orgchart');
     }
-    
-    //  
+
+    //
     function checklecture(){
         return view("admin.checklecture.checklecture");
     }
@@ -1718,7 +1725,7 @@ class AdminController extends Controller
         $request->validate([
             'faq_type_title_TH'=>'required'
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $faqtype_data=[
             'faq_type_title_TH'=>$request->faq_type_title_TH,
             'create_date'=>$date,
@@ -1741,7 +1748,7 @@ class AdminController extends Controller
         $request->validate([
             'faq_type_title_TH'=>'required',
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $faqtype_edit  =[
             'faq_type_title_TH'=>$request->faq_type_title_TH,
             'update_date'=>$date,
@@ -1753,8 +1760,8 @@ class AdminController extends Controller
         return redirect("/faqtype");
     }
     function faqtype_delete($id){
- 
-        $faqtype_delete=[ 
+
+        $faqtype_delete=[
             'active'=>'n',
             'update_by' => Auth::user()->id
         ];
@@ -1777,10 +1784,15 @@ class AdminController extends Controller
     function faq_create(){
         $faq_types = Faq_type::where('active', 'y')
         ->pluck('faq_type_title_TH', 'faq_type_id');
+
+        $faq_create = DB::table('cms_faq')
+            ->join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
     
         $faq_create = Faq::join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
             ->select('cms_faq.*', 'cms_faq_type.faq_type_title_TH')
             ->get();
+
+        
         
         return view("admin.faq.Faq_create", compact('faq_create', 'faq_types'));
     }
@@ -1790,7 +1802,7 @@ class AdminController extends Controller
             'faq_THtopic'=>'required',
             'faq_THanswer'=>'required'
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $faq_data=[
             'faq_THtopic'=>$request->faq_THtopic,
             'faq_THanswer'=>$request->faq_THanswer,
@@ -1844,20 +1856,21 @@ class AdminController extends Controller
             'faq_THtopic'=>'required',
             'faq_THanswer'=>'required'
         ]);
-        $date=new DateTime('Asia/Bangkok'); 
+        $date=new DateTime('Asia/Bangkok');
         $faq_edit  =[
             'faq_THtopic'=>$request->faq_THtopic,
             'faq_THanswer'=>$request->faq_THanswer,
             'faq_type_id'=>$request->faq_type_id,
             'update_date'=>$date,
+            
             'update_by'=>Auth::user()->id,
         ]; 
         DB::table('cms_faq')->where('faq_nid_',$id)->update($faq_edit);
         return redirect("/faq");
     }
     function faq_delete($id){
- 
-        $faq_delete=[ 
+
+        $faq_delete=[
             'active'=>'n',
         ];
         $faq = Faq::where('faq_nid_',$id);
@@ -1900,28 +1913,164 @@ class AdminController extends Controller
         $generation_edit  =[
             'orgchart_id'=>$request->orgchart_id,
             'course_id'=>$request->course_id,
-        ]; 
+        ];
         DB::table('org_course')->where('id',$id)->update($generation_edit);
         return redirect("/generation");
     }
     function generation_delete($id){
- 
-        $generation_delete=[ 
+
+        $generation_delete=[
             'active'=>'n',
         ];
         DB::table('org_course')->where('id',$id)->update($generation_delete);
         return redirect("/generation");
     }
+
+    //new p
     function adminuser(){
-        return view("admin.adminuser.adminuser");
+        $users =DB::table('users')->paginate(10);
+        return view("admin\adminuser\adminuser",compact('users'));
     }
+    function adminuser_create(){
+        return view("admin\adminuser\adminuser-create");
+    }
+    function adminuser_insert(Request $request){
+        $request->validate([
+            'username' => 'required|max:20',
+            'password' => 'required|max:32|min:8',
+            'email' => 'required|max:39|email',
+        ]);
+        $date=new DateTime('Asia/Bangkok');
+        $adminuser_data=[
+            'username'=>$request->username,
+            'password'=>$request->password,
+            'email'=>$request->email,
+            'create_at'=>$date,
+            'lastvisit_at'=>$date,
+            'last_activity'=>$date,
+            'status'=>'1'
+        ];
+        DB::table('users')->insert($adminuser_data);
+        return redirect()->route('adminuser');
+    }
+    function adminuser_edit($id){
+        $users = DB::table('users')->where('id',$id)->first();
+        return view("admin\adminuser\adminuser-edit",compact('users'));
+    }
+    function adminuser_update(Request $request,$id){
+        $request->validate([
+            'username' => 'required|max:20',
+            'password' => 'required|max:32|min:8',
+            'email' => 'required|max:39|email',
+        ]);
+        $date=new DateTime('Asia/Bangkok');
+        $adminuser_data=[
+            'username'=>$request->username,
+            'password'=>$request->password,
+            'email'=>$request->email,
+            'lastvisit_at'=>$date,
+            'last_activity'=>$date,
+            'status'=>'1'
+        ];
+        DB::table('users')->where('id',$id)->update($adminuser_data);
+        return redirect()->route('adminuser');
+    }
+    function adminuser_delete($id){
+        $adminuser_delete=[
+            'status'=>'0'
+        ];
+        DB::table('users')->where('id',$id)->update($adminuser_delete);
+        return redirect()->route('adminuser');
+    }
+    //
+
+    // new p
     function pgroup(){
-        return view("admin.pgroup.pgroup");
+        $p_group = Pgroup::get();
+        return view("admin\pgroup\pgroup",compact('p_group'));
     }
+    function pgroup_create(){
+        return view("admin\pgroup\pgroup-create");
+    }
+    function pgroup_insert(Request $request){
+        $request->validate([
+            'group_name' => 'required|max:17',
+
+        ]);
+        $date=new DateTime('Asia/Bangkok');
+        $pgroup_data=[
+            'group_name'=>$request->group_name,
+            'create_date'=>$date,
+            'create_by'=>'1',               //default
+            'update_date'=>$date,
+            'update_by'=>'1',               //default
+            'active'=>'y'                   //default
+        ];
+        $p_group = new Pgroup();
+        $p_group->fill($pgroup_data);
+        $p_group->save();
+
+        $test = $request->input("setting","update","delete");
+        $p_groupcondition = new Pgroupcondition();
+        $p_groupcondition->pgroup_id = $p_group->pgroup_id;
+        $p_groupcondition->permission = '{'.$test.'}';
+        $p_groupcondition->save();
+        return redirect()->route('pgroup');
+    }
+    function pgroup_edit($pgroup_id){
+        $p_group = Pgroup::get()->where('pgroup_id',$pgroup_id)->first();
+        return view("admin\pgroup\pgroup-edit",compact('p_group'));
+    }
+    function pgroup_update(Request $request,$pgroup_id){
+        $request->validate([
+            'group_name' => 'required|max:17',
+        ]);
+        $date=new DateTime('Asia/Bangkok');
+        $pgroup_data=[
+            'group_name'=>$request->group_name,
+            'create_by'=>'1',               //default
+            'update_date'=>$date,
+            'update_by'=>'2',               //default
+            'active'=>'y'                   //default
+        ];
+        $update_p_group = Pgroup::where('pgroup_id', $pgroup_id)->first();
+        $update_p_group->fill($pgroup_data);
+        $update_p_group->save();
+
+
+        return redirect()->route('pgroup');
+    }
+    function pgroup_delete($pgroup_id){
+        $pgroup_delete=[
+            'active'=>'n'
+        ];
+        $update_pgroup = Pgroup::where('pgroup_id', $pgroup_id)->first();
+        $update_pgroup->fill($pgroup_delete);
+        $update_pgroup->save();
+        return redirect()->route('pgroup');
+    }
+    //
+
     function user_admin(){
         $query = User::with('profile')->paginate($this->limit);
         return view("admin.user_admin.user-admin",compact('query'));
     }
+    //************************* */ import user by chockekr
+    public function userExcel(){
+        return view("admin.user_admin.user-excel");
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new UsersImport, $request->file('import_excel'));
+
+        return redirect()->back()->with('success', 'Excel imported successfully!');
+    }
+    //************************** */
     function coursefield(){
         return view("admin.coursefield.coursefield");
     }
@@ -1947,6 +2096,7 @@ class AdminController extends Controller
             'active'=>'y'                   //default
         ];
         DB::table('imgslide')->insert($imgslide_data);
+        $request->imgslide_picture->move(public_path('storage/Imgslides'),$imageName);
 
             $idFolder = public_path('images/uploads/imgslides');
             if (!file_exists($idFolder)) {
@@ -1985,6 +2135,7 @@ class AdminController extends Controller
             'active'=>'y'                   //default
         ];
         DB::table('imgslide')->where('imgslide_id',$imgslide_id)->update($imgslide_data);
+        $request->imgslide_picture->move(public_path('storage/Imgslides'),$imageName);
 
         $idFolder = public_path('images/uploads/imgslides');
             if (!file_exists($idFolder)) {
@@ -1993,7 +2144,7 @@ class AdminController extends Controller
             
         $request->imgslide_picture->move($idFolder,$imageName); 
         return redirect()->route('imgslide');
-        
+
     }
     function imgslide_delete($imgslide_id){
         $imgslide_delete=[
@@ -2002,7 +2153,7 @@ class AdminController extends Controller
         DB::table('imgslide')->where('imgslide_id',$imgslide_id)->update($imgslide_delete);
         return redirect()->route('imgslide');
     }
-    //  
+    //
     function librarytype(){
         return view("admin.libraryfile.librarytype");
     }
@@ -2075,7 +2226,7 @@ class AdminController extends Controller
     {
         return view('bank');
     }
-    
+
     //----- ลบ VDO
     function del(Request $request, $id)
     {
@@ -2107,17 +2258,17 @@ function document_insert(Request $request){
             'update_date' => $currentTime,
             'update_by'=>'1',
             'active' => 'y'
-            
+
             // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
         ];
-        
+
         DB::table('usability')->insert($data);
-        // $request->cms_picture->move(public_path('storage/News'),$imageName); 
+        // $request->cms_picture->move(public_path('storage/News'),$imageName);
         // return redirect('/document');
         // dd($data);
     }
     function document_delete($usa_id){
-        $document_delete=[ 
+        $document_delete=[
             'active'=>'n',
         ];
         DB::table('news')->where('usa_id',$usa_id)->update($document_delete);
@@ -2134,7 +2285,7 @@ function document_insert(Request $request){
                     'update_date' => $currentTime,
                     'update_by'=>'1',
                     'active' => 'y'
-                
+
                 // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
             ];
             // dd($data);
@@ -2164,10 +2315,10 @@ function document_insert(Request $request){
             'create_by'=>'1',
             'update_date' => $currentTime,
             'update_by'=>'1',
-            
+
             // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
         ];
-        
+
         // DB::table('log_reset1')->insert($data);
         // dd($data);
         $dataupdate = [
@@ -2176,7 +2327,7 @@ function document_insert(Request $request){
             'score_number'=>'0',
             'update_date' => $currentTime,
             'update_by'=>$request->user_id
-            
+
             // ใส่ข้อมูลที่ต้องการ insert ให้ครบ
         ];
         DB::table('score')
@@ -2185,3 +2336,111 @@ function document_insert(Request $request){
         ->update($dataupdate);
         return redirect('/learnreset_resetuser');
     }
+//classroom
+    function classroom(){
+        $zoom =DB::table('zoom')->get();
+        return view("admin\Classroom\Classroom",compact('zoom'));
+    }
+    function classroom_edit($id){
+        $zoom=DB::table('zoom')->where('id',$id)->first();
+        return view("admin\Classroom\Classroom-update",compact('zoom'));
+    }
+        function classroom_delete($id) {
+            $classroom_delete = [
+                'active' => 'n',
+            ];
+            DB::table('zoom')->where('id', $id)->update($classroom_delete);
+        return redirect()->route('classroom')->with('success', 'Classroom deleted successfully.');
+    }
+    function classroom_update(Request $request){
+        $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();;
+        $dataupdate = [
+            'title'=>$request->title,
+            'join_url'=>$request->join_url,
+            'start_date'=>$request->start_date,
+            'updated_date' => $currentTime,
+            'updated_by'=>"1"
+        ];
+        DB::table('zoom')
+        ->where('id',$request->id)
+        ->update($dataupdate);
+        return redirect()->route('classroom');
+    }
+        //Captcha
+        function captcha_create(){
+            return view("admin\captcha\captcha-create");
+        }
+        function captcha(){
+            // อัปเดตเป็นชื่อตารางที่ถูกต้อง 'config_captcha'
+            $captcha = Captcha::paginate(10);
+            return view("admin\captcha\captcha",compact('captcha'));
+        }
+        function captcha_edit($capid){
+            $captcha = Captcha::get()->where('capid',$capid)->first();
+            return view("admin\captcha\captcha-edit",compact('captcha'));
+        }
+        function captcha_update(Request $request,$capid){
+            $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+            $captcha_data=[
+                'capt_name'=>$request->capt_name,
+                'type'=>$request->type,
+                'capt_times'=>$request->capt_times,
+                'updated_by'=>'1',
+                'updated_date'=>$currentTime               //default
+            ];
+            $update_captcha = Captcha::where('capid', $capid)->first();
+            $update_captcha->fill($captcha_data);
+            $update_captcha->save();
+            return redirect()->route('captcha');
+        }
+        function captcha_insert(Request $request){
+            $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+            $captcha_data=[
+                'capt_name'=>$request->capt_name,
+                'type'=>$request->type,
+                'capt_times'=>$request->capt_times,
+                'capt_time_random'=>'10',
+                'capt_time_back'=>'10',
+                'capt_wait_time'=>'10',
+                'capt_hide'=>'1',
+                'capt_active'=>'y',
+                'created_by'=>'1',
+                'updated_by'=>'1',
+                'slide'=>'10',
+                'prev_slide'=>'999',
+                'domain_id'=>'35',
+                'capt_time_random2'=>'2',
+                'capt_time_random3'=>'3',
+                'created_date'=> $currentTime ,
+                'updated_date'=>$currentTime
+            ];
+            $survey = new Captcha;
+            $survey->fill($captcha_data);
+            $survey->save();
+            return redirect()->route('captcha');
+        }
+        function captcha_delete(Request $request,$capid) {
+            $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
+            if ($request->has('capt_active') ) {
+                $captcha_delete = [
+                    'capt_active' => 'y',
+                    'updated_at' => $currentTime,
+                    'created_at'=>"1"
+                ];
+                $captcha_survey = Captcha::where(['capid'=>$request->capid])->first();
+                $captcha_survey->fill($Captcha_delete);
+                $captcha_survey->save();
+                return redirect()->route('captcha');
+            }
+            else {
+                $captcha_delete = [
+                    'capt_active' => 'n',
+                    'updated_at' => $currentTime,
+                    'created_at'=>"1"
+                ];
+                $captcha_survey  = Captcha::where(['capid'=>$request->capid])->first();
+                $captcha_survey->fill($captcha_delete);
+                $captcha_survey->save();
+                return redirect()->route('captcha');
+            }
+        }

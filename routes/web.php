@@ -331,12 +331,27 @@ Route::post('faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name
 Route::post('/faq_edit/{id}',[AdminController::class,'faq_edit'])->name('faq_edit');
 
 Route::get('/faq_delete/{id}',[AdminController::class,'faq_delete'])->name('faq_delete');
-
+// new p
 Route::get('/adminuser',[AdminController::class,'adminuser'])->name('adminuser');
+Route::get('/adminuser_create',[AdminController::class,'adminuser_create'])->name('adminuser_create');
+Route::post('/adminuser_insert',[AdminController::class,'adminuser_insert'])->name('adminuser_insert');
+Route::post('/adminuser_update/{id}',[AdminController::class,'adminuser_update'])->name('adminuser_update');
+Route::get('/adminuser_delete/{id}',[AdminController::class,'adminuser_delete'])->name('adminuser_delete');
+Route::get('/adminuser_edit/{id}',[AdminController::class,'adminuser_edit'])->name('adminuser_edit');
+//
 
+// new p
 Route::get('/pgroup',[AdminController::class,'pgroup'])->name('pgroup');
+Route::get('/pgroup_create',[AdminController::class,'pgroup_create'])->name('pgroup_create');
+Route::post('/pgroup_insert',[AdminController::class,'pgroup_insert'])->name('pgroup_insert');
+Route::post('/pgroup_update/{pgroup_id}',[AdminController::class,'pgroup_update'])->name('pgroup_update');
+Route::get('/pgroup_delete/{pgroup_id}',[AdminController::class,'pgroup_delete'])->name('pgroup_delete');
+Route::get('/pgroup_edit/{pgroup_id}',[AdminController::class,'pgroup_edit'])->name('pgroup_edit');
+//
 
 Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin');
+Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel');
+Route::post('/userexcel/import', [AdminController::class,'importExcel'])->name('import.excel');
 
 Route::get('/coursefield',[AdminController::class,'coursefield'])->name('coursefield');
 
@@ -452,6 +467,28 @@ Route::get('/generation_edit_page/{id}',[AdminController::class,'generation_edit
 Route::post('/generation_edit/{id}',[AdminController::class,'generation_edit'])->name('generation_edit');
 
 Route::get('/generation_delete/{id}',[AdminController::class,'generation_delete'])->name('generation_delete');
+
+// ----- Classroom
+Route::get('classroom',[AdminController::class,'classroom'])->name('classroom');
+
+Route::get('/classroom_edit/{id}',[AdminController::class,'classroom_edit'])->name('classroom_edit');
+
+Route::get('/classroom_delete/{id}',[AdminController::class,'classroom_delete'])->name('classroom_delete');
+
+Route::post('/classroom_update/{id}',[AdminController::class,'classroom_update'])->name('classroom_update');
+
+// ----- Captcha
+Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha');
+
+Route::get('/captcha_create',[AdminController::class,'captcha_create'])->name('captcha_create');
+
+Route::post('/captcha_insert',[AdminController::class,'captcha_insert'])->name('captcha_insert');
+
+Route::get('/captcha_edit/{capid}',[AdminController::class,'captcha_edit'])->name('captcha_edit');
+
+Route::get('/captcha_delete/{capid}',[AdminController::class,'captcha_delete'])->name('captcha_delete');
+
+Route::post('/captcha_update/{capid}',[AdminController::class,'captcha_update'])->name('captcha_update');
 
 Route::get('/logadmin',[AdminController::class,'logadmin'])->name('logadmin');
 

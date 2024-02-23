@@ -98,6 +98,7 @@
 						<li><a href="{{ url('/orgchart') }}">จัดการระดับชั้นการเรียน</a></li>
 					</ul>
 				</li>
+				<li class="hasSubmenu glyphicons refresh"><a href="{{ url('/classroom') }}"><i></i><span>จัดการระบบห้องเรียนออนไลน์</span></a></li>
 				<li class="hasSubmenu glyphicons print"><a data-toggle="collapse" href="#CheckLecture"><i></i><span>ระบบตรวจข้อสอบบรรยาย</span></a>
 					<ul class=" collapse " id="CheckLecture">
 						<li><a href="{{ url('/checklecture') }}">ตรวจข้อสอบบรรยายบทเรียน</a></li>
@@ -148,7 +149,7 @@
 				<li class="hasSubmenu glyphicons user_add"><a data-toggle="collapse" href="#admin"><i></i><span>ระบบจัดการสมาชิก (สมาชิก)</span></a>
 					<ul class=" collapse " id="admin">
 						<li><a href="user-admin-create.php">เพิ่มสมาชิก</a></li>
-						<li><a href="user-admin-excel.php">เพิ่มสมาชิกจาก Excel</a></li>
+						<li><a href="{{ url('/userexcel') }}">เพิ่มสมาชิกจาก Excel</a></li>
 						<li><a href="{{ url('/user_admin') }}">รายชื่อสมาชิก</a></li>
 					</ul>
 				</li>
@@ -174,7 +175,7 @@
 				</li>
 				<li class="hasSubmenu glyphicons user_add"><a data-toggle="collapse" href="#generation"><i></i><span>ระบบจัดการรุ่นผู้เรียน</span></a>
 					<ul class=" collapse " id="generation">
-						
+
 						<li><a href="{{ url('/generation') }}">จัดการรุ่นผู้เรียน</a></li>
 					</ul>
 				</li>
