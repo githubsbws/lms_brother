@@ -13,11 +13,14 @@ class Users extends AuthenticatableUser implements Authenticatable
 
     protected $table = 'users';
 
-    protected $primarykey = 'id';
+    protected $primaryKey = 'id';
 
     public function Profiles()
     {
         return $this->hasOne(Profiles::class);
     }
-    
+    public function isAdmin()
+{
+    return $this->superuser;
+}
 }

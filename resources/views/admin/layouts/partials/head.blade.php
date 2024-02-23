@@ -40,5 +40,7 @@
 		"resources/Adminkit/theme/css/style.min.css",
 		"resources/Adminkit/theme/scripts/plugins/system/less.min.js"
 	])
-	
+
+	<script src="{{ asset('themes/bws/js/sweetalert.min.js')}}"></script>
+	<script src="{{asset('js/tinymce-4.3.4/tinymce.min.js')}}" type="text/javascript"></script>
 </head>

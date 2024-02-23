@@ -1,6 +1,10 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+@php
+use App\Models\Lesson;
+use App\Models\Question;
+@endphp
 <body class="">
 
 	<!-- Main Container Fluid -->
@@ -103,33 +107,39 @@
 										</thead>
 										<tbody>
 											@foreach ($grouptesting as $item)
-											@if($item->active === 'y')
+											@php
+											$lesson = Lesson::where('id',$item->lesson_id)->first();
+											$question = Question::where('group_id',$item->group_id)->get();
+											@endphp
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="254" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td style="width:230px">{{$item->group_id}}</td>
+												<td style="width:230px">{{$lesson->title}}</td>
 												<td>{{$item->group_title}}</td>
-												<td style="width:65px;text-align:center">{{$item->lesson_id}}</td>
+												<td style="width:65px;text-align:center">{{ count($question) }}</td>
 												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/254">Import excel</a></td>
 												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/254">เพิ่มข้อสอบ</a></td>
 												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/254">จัดการข้อสอบ</a></td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/254"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('grouptesting_edit',$item->group_id)}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('grouptesting_delete',$item->group_id )}}"><i></i></a></td>
 											</tr>
 										</tbody>
-										@endif
+										
 										@endforeach
 									</table>
 									<div class="pagination pull-right">
-										<ul class="" id="yw1">
-											<li class="first hidden"><a href="/admin/index.php/grouptesting/index">&lt;&lt; หน้าแรก</a></li>
-											<li class="previous hidden"><a href="/admin/index.php/grouptesting/index">&lt; หน้าที่แล้ว</a></li>
-											<li class="page active"><a href="/admin/index.php/grouptesting/index">1</a></li>
-											<li class="page"><a href="/admin/index.php/grouptesting/index?Grouptesting_page=2">2</a></li>
-											<li class="page"><a href="/admin/index.php/grouptesting/index?Grouptesting_page=3">3</a></li>
-											<li class="page"><a href="/admin/index.php/grouptesting/index?Grouptesting_page=4">4</a></li>
-											<li class="page"><a href="/admin/index.php/grouptesting/index?Grouptesting_page=5">5</a></li>
-											<li class="page"><a href="/admin/index.php/grouptesting/index?Grouptesting_page=6">6</a></li>
-											<li class="next"><a href="/admin/index.php/grouptesting/index?Grouptesting_page=2">หน้าถัดไป &gt;</a></li>
-											<li class="last"><a href="/admin/index.php/grouptesting/index?Grouptesting_page=6">หน้าสุดท้าย &gt;&gt;</a></li>
+										<ul class="pagination margin-top-none" id="yw0">
+											<li class="first "><a href="{{url('grouptesting')}}">&lt;&lt; หน้าแรก</a></li>
+											@if ($grouptesting->currentPage() > 1)
+											<li class="previous "><a href="{{ $grouptesting->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+											@endif
+											@for ($i = max(1, $grouptesting->currentPage() - 3); $i <= min($grouptesting->lastPage(), $grouptesting->currentPage() + 3); $i++)
+											<li class="page"><a href="{{ $grouptesting->url($i) }}" class="pagination-link {{ ($i == $grouptesting->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
+											@endfor
+											@if ($grouptesting->currentPage() < $grouptesting->lastPage())
+											<li class="next"><a href="{{ $grouptesting->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
+											@endif
+											@if ($grouptesting->currentPage() == $grouptesting->lastPage())
+											<li class="last"><a href="{{ $grouptesting->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+											@endif
 										</ul>
 									</div>
 									<div class="keys" style="display:none" title="/admin/index.php/Grouptesting/index"><span>254</span><span>253</span><span>249</span><span>248</span><span>247</span><span>246</span><span>245</span><span>244</span><span>243</span><span>242</span></div>

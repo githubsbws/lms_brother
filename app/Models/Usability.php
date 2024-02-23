@@ -11,7 +11,14 @@ class Usability extends Model
 
     protected $table = 'usability';
 
-    protected $primarykey = 'usa_id';
+    protected $primaryKey = 'usa_id';
+
+    protected $fillable = [
+        'active'
+    ];
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
 
     public static function findById($id)
     {

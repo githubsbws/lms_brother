@@ -21,7 +21,25 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row" data-toggle="isotope" style="position: relative; height: 0px;">
-
+                            @foreach($zoom as $z)
+                            @php
+                            $z_date = $z->start_date;
+                            $z_range = $z->duration;
+                            if($z_range !== null){
+                                $date_now = now();
+                                $newDate = date('Y-m-d', strtotime($z_date . ' + ' . $z_range . ' days'));
+                            }
+                            @endphp
+                            @if($date_now <= $newDate)
+                            <div class="row">
+                            <h4 class="text-headline margin-v-5-0" style="font-size: 28px;"><a href="{{ $z->join_url}}" title="{{ $z->join_url}}">{{ $z->title}}</a></h4>
+                            <h6> ระยะเวลา {{ $z->duration}} วัน &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> 
+                            </h6>
+                            </div>
+                            @else
+                           
+                            @endif
+                            @endforeach
 
 
                         </div>

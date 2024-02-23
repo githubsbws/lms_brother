@@ -22,7 +22,6 @@
 				<li class="glyphicons home active"><a href="{{ url('/admin') }}"><i></i><span>หน้าหลัก</span></a></li>
 				<li class="hasSubmenu glyphicons posterous_spaces "><a data-toggle="collapse" href="#About"><i></i><span>เกี่ยวกับเรา</span></a>
 					<ul class=" collapse " id="About">
-						<li><a href="{{ url('aboutus_create') }}">เพิ่มข้อมูลเกี่ยวกับเรา</a></li>
 						<li><a href="{{ url('/aboutus') }}">จัดการเกี่ยวกับเรา</a></li>
 					</ul>
 				</li>
@@ -49,9 +48,9 @@
 				</li>
 				<li class="hasSubmenu glyphicons folder_open"><a data-toggle="collapse" href="#Document"><i></i><span>ระบบเอกสาร</span></a>
 					<ul class=" collapse " id="Document">
-						<li><a href="document_create">เพิ่มประเภทเอกสาร (ภาษา EN )</a></li>
-						<li><a href="document_createtype">จัดการประเภทเอกสาร</a></li>
-						<li><a href="document_index_type">เพิ่มเอกสาร (ภาษา EN )</a></li>
+						<li><a href="{{url('document_type_create')}}">เพิ่มประเภทเอกสาร (ภาษา EN )</a></li>
+						<li><a href="{{ url('document_type') }}">จัดการประเภทเอกสาร</a></li>
+						<li><a href="{{url('document_create')}}">เพิ่มเอกสาร (ภาษา EN )</a></li>
 						<li><a href="{{ url('/document') }}">จัดการเอกสาร</a></li>
 					</ul>
 				</li>
@@ -63,27 +62,27 @@
 				</li>
 				<li class="hasSubmenu glyphicons folder_open"><a data-toggle="collapse" href="#Category"><span class="label label-primary">1</span> <i></i><span>ระบบหมวดหลักสูตร</span></a>
 					<ul class=" collapse " id="Category">
-						<li><a href="category-create.php">เพิ่มหมวดหลักสูตร (ภาษา EN )</a></li>
+						<li><a href="{{ url('category_create')}}">เพิ่มหมวดหลักสูตร (ภาษา EN )</a></li>
 						<li><a href="{{ url('/category') }}">จัดการหมวดหลักสูตร</a></li>
 					</ul>
 				</li>
 				<li class="hasSubmenu glyphicons imac"><a data-toggle="collapse" href="#CourseOnline"><span class="label label-primary">2</span> <i></i><span>ระบบจัดการหลักสูตร</span></a>
 					<ul class=" collapse " id="CourseOnline">
-						<li><a href="courseonline-create.php">เพิ่ม (ภาษา EN )</a></li>
+						<li><a href="{{ url('courseonline_create')}}">เพิ่ม (ภาษา EN )</a></li>
 						<li><a href="{{ url('/courseonline') }}">จัดการ</a></li>
 					</ul>
 				</li>
 				<li class="hasSubmenu glyphicons imac"><a data-toggle="collapse" href="#Lesson"><span class="label label-primary">3</span> <i></i><span>ระบบจัดการเนื้อหาบทเรียน</span></a>
 					<ul class=" collapse " id="Lesson">
-						<li><a href="lession-create.php">เพิ่มบทเรียน (ภาษา EN )</a></li>
+						<li><a href="{{url('lesson_create')}}">เพิ่มบทเรียน (ภาษา EN )</a></li>
 						<li><a href="{{ url('/lesson') }}">จัดการบทเรียน</a></li>
 					</ul>
 				</li>
 				<li class="hasSubmenu glyphicons posterous_spaces"><a data-toggle="collapse" href="#Grouptesting"><span class="label label-primary">4</span> <i></i><span>ระบบข้อสอบ</span></a>
 					<ul class=" collapse " id="Grouptesting">
-						<li><a href="grouptesting_create">เพิ่มชุดข้อสอบ</a></li>
+						<li><a href="{{url('grouptesting_create')}}">เพิ่มชุดข้อสอบ</a></li>
 						<li><a href="{{ url('/grouptesting') }}">จัดการชุดข้อสอบ</a></li>
-						<li><a href="grouptesting-create.blade.php">เพิ่มชุดข้อสอบหลักสูตร</a></li>
+						<li><a href="{{url('coursegrouptesting_create')}}">เพิ่มชุดข้อสอบหลักสูตร</a></li>
 						<li><a href="{{ url('/coursegrouptesting') }}">จัดการชุดข้อสอบหลักสูตร</a></li>
 					</ul>
 				</li>
@@ -119,7 +118,7 @@
 				<li class="hasSubmenu glyphicons refresh"><a href="learnreset-resetuser.php"><i></i><span>ระบบรีเซ็ตผลการเรียนการสอบ</span></a></li>
 				<li class="hasSubmenu glyphicons wallet"><a data-toggle="collapse" href="#Usability"><i></i><span>ระบบวิธีการใช้งาน</span></a>
 					<ul class=" collapse " id="Usability">
-						<li><a href="usability-create.php">เพิ่มวิธีการใช้งาน (ภาษา EN )</a></li>
+						<li><a href="{{url('usability_create')}}">เพิ่มวิธีการใช้งาน (ภาษา EN )</a></li>
 						<li><a href="{{ url('/usability') }}">จัดการวิธีการใช้งาน</a></li>
 					</ul>
 				</li>
@@ -153,25 +152,20 @@
 						<li><a href="{{ url('/user_admin') }}">รายชื่อสมาชิก</a></li>
 					</ul>
 				</li>
-				<li class="hasSubmenu glyphicons book"><a data-toggle="collapse" href="#CourseField"><i></i><span>จัดการฟอร์ม สมัครสมาชิก</span></a>
+				{{-- <li class="hasSubmenu glyphicons book"><a data-toggle="collapse" href="#CourseField"><i></i><span>จัดการฟอร์ม สมัครสมาชิก</span></a>
 					<ul class=" collapse " id="CourseField">
 						<li><a href="coursefield-create.php">เพิ่ม Field</a></li>
 						<li><a href="{{ url('/coursefield') }}">จัดการ Field</a></li>
 						<li><a href="coursefield-manageform.php">จัดการ รูปแบบฟอร์ม</a></li>
 					</ul>
-				</li>
+				</li> --}}
 				<li class="hasSubmenu glyphicons bullhorn"><a data-toggle="collapse" href="#imgslide"><span class="label label-primary"></span> <i></i><span>ระบบป้ายประชาสัมพันธ์</span></a>
 					<ul class=" collapse " id="imgslide">
 						<li><a href="{{ url('/imgslide_create') }}">เพิ่มป้ายประชาสัมพันธ์ (ภาษา EN )</a></li>
 						<li><a href="{{ url('/imgslide') }}">จัดการป้ายประชาสัมพันธ์</a></li>
 					</ul>
 				</li>
-				<li class="hasSubmenu glyphicons posterous_spaces"><a data-toggle="collapse" href="#LibraryType"><span class="label label-primary"></span> <i></i><span>ระบบห้องสมุดอิเล็กทรอนิกส์</span></a>
-					<ul class=" collapse " id="LibraryType">
-						<li><a href="{{ url('/librarytype') }}">จัดการประเภทห้องสมุด</a></li>
-						<li><a href="{{ url('/libraryfile') }}">จัดการห้องสมุด</a></li>
-					</ul>
-				</li>
+				
 				<li class="hasSubmenu glyphicons cogwheel"><a data-toggle="collapse" href="#courseNotification"><i></i><span>ระบบตั้งค่าการแจ้งเตือนบทเรียน</span></a>
 					<ul class=" collapse " id="courseNotification">
 						<li><a href="coursenotification-create.php">สร้างระบบแจ้งเตือนบทเรียน</a></li>
@@ -207,20 +201,14 @@
 				<li class="hasSubmenu glyphicons folder_new"><a href="logemail-email.php"><i></i><span>ระบบการส่งผลการเรียนผ่านทางระบบอัตโนมัติ</span></a></li>
 				<li class="hasSubmenu glyphicons print"><a data-toggle="collapse" href="#LogAdmin"><i></i><span>ระบบเก็บ Log การใช้งานระบบ</span></a>
 					<ul class=" collapse " id="LogAdmin">
-						<li><a href="logadmin-user.php">Log การใช้งานผู้เรียน</a></li>
-						<li><a href="{{ url('/logadmin') }}">Log การใช้งานผู้ดูแลระบบ</a></li>
-						<li><a href="logadmin-apporve.php">Log การยืนยันสมัครสมาชิก</a></li>
-						<li><a href="logadmin-apporvepersonal.php">Log การยืนยันสมัครสมาชิกบุคคลทั่วไป</a></li>
-						<li><a href="logadmin-register.php">Log การตรวจสอบการสมัครสมาชิก</a></li>
+						<li><a href="{{url('logusers')}}">Log การใช้งานผู้เรียน</a></li>
+						<li><a href="{{ url('logadmin') }}">Log การใช้งานผู้ดูแลระบบ</a></li>
+						<li><a href="{{url('logapprove')}}">Log การยืนยันสมัครสมาชิก</a></li>
+						<li><a href="{{ url('logapporvepersonal')}}">Log การยืนยันสมัครสมาชิกบุคคลทั่วไป</a></li>
+						<li><a href="{{ url('logregister')}}">Log การตรวจสอบการสมัครสมาชิก</a></li>
 					</ul>
 				</li>
-				<li class="hasSubmenu glyphicons film"><a data-toggle="collapse" href="#student_photo"><i></i><span>ระบบการยืนยันการเข้าเรียนของผู้เรียน</span></a>
-					<ul class=" collapse " id="student_photo">
-						<li><a href="{{ url('/student_photo') }}">จัดการการถ่ายภาพนักเรียน</a></li>
-						<li><a href="{{ url('/capture') }}">จัดการภาพถ่ายนักเรียน</a></li>
-					</ul>
-				</li>
-				<li class="hasSubmenu glyphicons film"><a href="capturemember.php"><i></i><span>จัดการการถ่ายภาพนักเรียน</span></a></li>
+				
 			</ul>
 			<div class="clearfix"></div>
 

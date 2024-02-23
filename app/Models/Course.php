@@ -11,7 +11,26 @@ class Course extends Model
 
     protected $table = 'course_online';
 
-    protected $primarykey = 'course_id';
+    protected $primaryKey = 'course_id';
+
+    protected $fillable = [
+        'course_lecturer',
+        'active',
+        'recommend',
+        'special_category',
+        'status',
+        'cate_amount',
+        'time_test',
+        'lang_id',
+        'random_choice',
+        'average_time_pretest',
+        'average_time_posttest'
+    ];
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
+    const BOOK_AT = 'course_book_date'; // Custom created_at column
+    const RECTOR_AT = 'course_rector_date'; // Custom update_at column
 
     public static function findById($id)
     {

@@ -13,6 +13,14 @@ class Downloadcategoty extends Model
 
     protected $primaryKey = 'download_id';
 
+    protected $fillable = [
+        'active',
+        'title_id'
+    ];
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
+
     public static function findById($id)
     {
         return static::where('download_id', $id)->first();

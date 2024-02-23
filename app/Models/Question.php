@@ -11,7 +11,16 @@ class Question extends Model
 
     protected $table = 'question';
 
-    protected $primarykey = 'ques_id';
+    protected $primaryKey = 'ques_id';
+
+    protected $fillable = [
+        'step_id',
+        'active'
+    ];
+
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
 
     public static function findById($id)
     {

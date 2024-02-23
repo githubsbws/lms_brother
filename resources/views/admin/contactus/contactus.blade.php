@@ -107,8 +107,8 @@
                                                     <td>{{$item->contac_ans_subject}}</td>
                                                     <td>{{$item->contac_ans_detail}}</td>
                                                     <td style="width: 90px;" class="center">
-                                                        <a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/contact/{{$item->contac_id}}"><i></i></a>
-                                                        <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/contactus_edit_page/{{$item->contac_id}}"><i></i></a>
+                                                        <a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('contactus.view',['id'=>$item->contac_id])}}"><i></i></a>
+                                                        <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('contactus.edit_page',['id'=>$item->contac_id])}}"><i></i></a>
                                                         <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/contactus_delete/{{$item->contac_id}}" onclick="return confirm('คุณต้องการลบข้อมูลติดต่อเราของ {{$item->contac_by_name}} หรือไม่?')"><i></i></a>
                                                     </td>
                                                 </tr>

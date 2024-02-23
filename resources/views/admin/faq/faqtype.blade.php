@@ -80,7 +80,7 @@
 												<td class="checkbox-column"><input class="select-on-check" value={{$item->faq_type_id}} id="chk_0" type="checkbox" name="chk[]"></td>
 												<td>{{$item->faq_type_title_TH}}</td>
 
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/faqType/{{$item->faq_type_id}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="faqtype_edit_page/{{$item->faq_type_id}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/faqtype_delete/{{$item->faq_type_id}}" onclick="return confirm('คุณต้องการลบหมวดคำถาม {{$item->faq_type_title_TH}} หรือไม่?')"><i></i></a></td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('faqtype.detail',['id'=>$item->faq_type_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="faqtype_edit_page/{{$item->faq_type_id}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/faqtype_delete/{{$item->faq_type_id}}" onclick="return confirm('คุณต้องการลบหมวดคำถาม {{$item->faq_type_title_TH}} หรือไม่?')"><i></i></a></td>
 											</tr>
 											@endif
 											@endforeach

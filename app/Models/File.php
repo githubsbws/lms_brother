@@ -11,15 +11,19 @@ class File extends Model
 
     protected $table = 'file';
 
-    protected $primarykey = 'id';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'views',
         'lesson_id',
         'filename' ,
         'file_name',
+        'active'
     ];
-    public $timestamps = false;
+    
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
+
     public static function findById($id)
     {
         return static::where('id', $id)->first();

@@ -72,30 +72,6 @@
 										<option value="200">200</option>
 										<option value="250">250</option>
 									</select>
-									<div class="btn-group bootstrap-select"><button class="btn dropdown-toggle clearfix btn-default btn-small" data-toggle="dropdown" id="news_per_page"><span class="filter-option pull-left">ค่าเริ่มต้น (10)</span>&nbsp;<span class="caret"></span></button>
-										<div class="dropdown-menu" role="menu">
-											<ul style="max-height: none; overflow-y: auto;">
-												<li rel="0"><a tabindex="-1" href="#">ค่าเริ่มต้น (10)</a></li>
-												<li rel="1"><a tabindex="-1" href="#">10</a></li>
-												<li rel="2"><a tabindex="-1" href="#">50</a></li>
-												<li rel="3"><a tabindex="-1" href="#">100</a></li>
-												<li rel="4"><a tabindex="-1" href="#">200</a></li>
-												<li rel="5"><a tabindex="-1" href="#">250</a></li>
-											</ul>
-										</div>
-									</div>
-									<div class="btn-group bootstrap-select"><button class="btn dropdown-toggle clearfix btn-default btn-small" data-toggle="dropdown" id="news_per_page"><span class="filter-option pull-left">ค่าเริ่มต้น (10)</span>&nbsp;<span class="caret"></span></button>
-										<div class="dropdown-menu" role="menu">
-											<ul style="max-height: none; overflow-y: auto;">
-												<li rel="0"><a tabindex="-1" href="#">ค่าเริ่มต้น (10)</a></li>
-												<li rel="1"><a tabindex="-1" href="#">10</a></li>
-												<li rel="2"><a tabindex="-1" href="#">50</a></li>
-												<li rel="3"><a tabindex="-1" href="#">100</a></li>
-												<li rel="4"><a tabindex="-1" href="#">200</a></li>
-												<li rel="5"><a tabindex="-1" href="#">250</a></li>
-											</ul>
-										</div>
-									</div>
 								</span>
 							</div>
 							<div class="clear-div"></div>
@@ -118,20 +94,16 @@
 											</tr>
 										</thead>
 										<tbody>
+											@foreach($about as $abouts)
 											<tr class="items[]_2">
-												<td class="checkbox-column"><input class="select-on-check" value="2" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td>About Brother</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/about/2"><i></i></a>
-													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/about/update/2"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/about/delete/2"><i></i></a>
+												<td class="checkbox-column"><input class="select-on-check" value="{{$abouts->about_id}}" id="chk_0" type="checkbox" name="chk[]"></td>
+												<td>{{$abouts->about_title}}</td>
+												<td>{!! htmlspecialchars_decode($abouts->about_detail) !!}</td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('aboutus.detail', ['id' => $abouts->about_id]) }}"><i></i></a>
+													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('aboutus.update', ['id' => $abouts->about_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/about/delete/2"><i></i></a>
 												</td>
 											</tr>
-											<tr class="items[]_1">
-												<td class="checkbox-column"><input class="select-on-check" value="1" id="chk_1" type="checkbox" name="chk[]"></td>
-												<td>บราเดอร์ ประเทศไทย</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/about/1"><i></i></a>
-													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/about/update/1"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/about/delete/1"><i></i></a>
-												</td>
-											</tr>
+											@endforeach
 										</tbody>
 									</table>
 									<div class="keys" style="display:none" title="/admin/index.php/About/index">

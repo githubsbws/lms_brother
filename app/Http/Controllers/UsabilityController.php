@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 
 class UsabilityController extends Controller
 {
-    function usability_front(){
-        $usability = Usability::where('active','y')->get();
+    function usability_front($id){
+        $usability = Usability::where('usa_id',$id)->get();
         return view("usability_f.usability",['usa'=> $usability]);
     }
     

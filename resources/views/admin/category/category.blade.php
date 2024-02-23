@@ -93,9 +93,10 @@
 												<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
 												<th id="Category-grid_c1">รูปภาพ</th>
 												<th id="Category-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/category/index?Category_sort=cate_title">ชื่อหมวดหลักสูตร</a></th>
-												<th id="Category-grid_c3">วีดีโอตัวอย่าง</th>
-												<th style="text-align:center;" id="Category-grid_c4"><a class="sort-link" style="color:white;" href="/admin/index.php/category/index?Category_sort=cate_show">แสดงผล</a></th>
-												<th class="button-column" id="Category-grid_c5">จัดการ</th>
+												<th id="Category-grid_c3">รายละเอียดย่อ</th>
+												<th id="Category-grid_c4">รายละเอียด</th>
+												<th style="text-align:center;" id="Category-grid_c5"><a class="sort-link" style="color:white;" href="/admin/index.php/category/index?Category_sort=cate_show">เปิด-ปิด</a></th>
+												<th class="button-column" id="Category-grid_c6">จัดการ</th>
 											</tr>
 											<tr class="filters">
 												<td>&nbsp;</td>
@@ -116,17 +117,23 @@
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="35" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td width="110"><img
-													src="{{ asset('images/uploads/category/' . $item->cate_image) }}"
+													src="{{ asset('images/uploads/category/'.$item->cate_id.'/original/'. $item->cate_image) }}"
 													alt="{{ $item->cate_image }}"></td>
 												<td>{{$item->cate_title}}</td>
-												<td style="text-align:center;width:100px;"><a class="cate_show_toggle" title="Uncheck" href="/admin/index.php/category/toggle/35?attribute=cate_show&amp;check="><img src="/admin/images/check.png" alt="Uncheck"></a></td>
-												<td style="width: 90px; text-align:center;">0</td>
+												<td style="text-align:center;width:100px;">{{ $item->cate_short_detail}}</td>
+												<td style="width: 90px; text-align:center;">{{ $item->cate_detail}}</td>
+												@if($item->cate_show == '1')
+												<td style="width: 90px; text-align:center;"><a class="btn btn-primary" href="{{ route('category.openshow', ['id' => $item->cate_id, 'off' => '0']) }}" role="button">เปิด</a></td>
+												@else
+												<td style="width: 90px; text-align:center;"><a class="btn btn-light" href="{{ route('category.openshow', ['id' => $item->cate_id, 'on' => '1']) }}" role="button">ปิด</a></td>
+												@endif
 												<td style="width: 90px;" class="center">
-													<a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('category-det', $item->cate_id) }}"><i></i></a> 
-													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('category-edit', $item->cate_id) }}"><i></i></a> 
-													<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{ route('category-change', $item->cate_id) }}" onclick="return confirm('คุณต้องการเปลี่ยนสถานะ หรือไม่ ?')"><i></i></a>
+													<a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('category.detail',['id'=>$item->cate_id]) }}"><i></i></a> 
+													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('category.edit',['id' =>$item->cate_id]) }}"><i></i></a> 
+													<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{ route('category.delete',['id' =>$item->cate_id]) }}" onclick="return confirm('Are you Delete {{$item->cate_title}}?')"><i></i></a>
 												</td>
 											</tr>
+											
 											@endforeach
 											{{-- แก้ไข --}}
 										</tbody>
@@ -137,7 +144,6 @@
 							</div>
 						</div>
 					</div>
-
 					<!-- Options -->
 					<div class="separator top form-inline small">
 						<!-- With selected actions -->

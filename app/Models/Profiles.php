@@ -12,9 +12,20 @@ class Profiles extends Model
     protected $table = 'profiles';
 
     protected $primarykey = 'user_id';
+    
+    protected $fillable = [
+        'user_id',
+        'lastname',
+        'firstname',
+        'identification',
+        'advisor_email1',
+        'advisor_email2',
+        'firstname_en',
+        'lastname_en'
+      ];
 
     public function user()
     {
-        return $this->belongsTo(Users::class);
+        return $this->belongsTo(Users::class,'id','user_id');
     }
 }

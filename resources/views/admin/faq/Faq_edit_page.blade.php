@@ -39,7 +39,7 @@
                         </div>
                         <div class="widget-body">
                             <div class="form">
-                                <form enctype="multipart/form-data" id="faq_edit" action="/faq_edit/{{$faq_edit_page->faq_nid_}}" method="post">
+                                <form enctype="multipart/form-data" id="faq_edit" action="{{route('faq.edit',['id' =>$faq_edit_page->faq_nid_])}}" method="post">
                                     @csrf
                                     <input type="hidden" name="faq_nid_" value="{{ $faq_edit_page->faq_nid_ }}"> <!-- ตัวอย่างการเพิ่ม input hidden เพื่อเก็บ ID ของคำถาม -->
 
@@ -49,7 +49,7 @@
                                         <label for="faq_type_id" class="required">หมวดหมู่คำถาม <span class="required">*</span></label>
                                         <select class="span8 custom-dropdown" name="faq_type_id" id="faq_type_id">
                                             @foreach($faq_types as $key => $value)
-                                                <option value="{{ $key }}" {{ $faq_edit_page->faq_type_id == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                                <option value="{{ $value->faq_type_id }}" {{ $faq_edit_page->faq_type_id == $value->faq_type_id ? 'selected' : '' }}>{{ $value->faq_type_title_TH }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -2,7 +2,58 @@
 @section('title', 'Admin')
 @section('content')
 <body class="">
+<style>
+	.switch {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 34px;
+}
 
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #0dfa24;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #0dfa24;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(40px);
+  -ms-transform: translateX(40px);
+  transform: translateX(40px);
+}
+</style>
 	<!-- Main Container Fluid -->
 	<div class="container-fluid fluid menu-left">
 
@@ -62,9 +113,11 @@
 								</li>
 							</ul>
 						</div>
+						
 						<div class="widget-body">
 							<div class="form">
-								<form enctype="multipart/form-data" id="page-form" action="/admin/index.php/Setting/create" method="post">
+								<form enctype="multipart/form-data" id="page-form" action="{{route('setting.update',['id' => $setting->setting_id])}}" method="post">
+									@csrf
 									<p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
 
 									<!-- <div class="row">
@@ -82,12 +135,12 @@
 					<label for="Setting_settings_institution">รหัสสถาบัญ</label>					<input class="span7" size="60" maxlength="255" name="Setting[settings_institution]" id="Setting_settings_institution" type="text" value="40294" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>					<div class="errorMessage" id="Setting_settings_institution_em_" style="display:none"></div>				</div> -->
 
 									<div class="row">
-										<label for="Setting_email_room">User Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label> <input class="span7" size="60" maxlength="255" name="Setting[email_room]" id="Setting_email_room" type="text" value=""> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
+										<label for="Setting_email_room">User Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label> <input class="span7" size="60" maxlength="255" name="email_room" id="Setting_email_room" type="text" value="{{ $setting->email_room}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
 										<div class="errorMessage" id="Setting_email_room_em_" style="display:none"></div>
 									</div>
 
 									<div class="row">
-										<label for="Setting_pass_email_room">Pass Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label> <input class="span7" size="60" maxlength="255" name="Setting[pass_email_room]" id="Setting_pass_email_room" type="text" value=""> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
+										<label for="Setting_pass_email_room">Pass Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label> <input class="span7" size="60" maxlength="255" name="pass_email_room" id="Setting_pass_email_room" type="text" value="{{ $setting->pass_email_room}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
 										<div class="errorMessage" id="Setting_pass_email_room_em_" style="display:none"></div>
 									</div>
 
@@ -98,31 +151,30 @@
 									<p></p>
 
 									<div class="row">
-										<label for="Setting_settings_user_email" class="required">User Email ที่ใช้ในการส่งข้อมูล <span class="required">*</span></label> <input class="span7" size="60" maxlength="255" name="Setting[settings_user_email]" id="Setting_settings_user_email" type="text" value="developtestbws@gmail.com"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
+										<label for="Setting_settings_user_email" class="required">User Email ที่ใช้ในการส่งข้อมูล <span class="required">*</span></label> <input class="span7" size="60" maxlength="255" name="settings_user_email" id="Setting_settings_user_email" type="text" value="{{$setting->settings_user_email}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
 										<div class="errorMessage" id="Setting_settings_user_email_em_" style="display:none"></div>
 									</div>
 
 									<div class="row">
-										<label for="Setting_settings_pass_email">Pass Email ที่ใช้ในการส่งข้อมูล</label> <input class="span7" size="60" maxlength="255" name="Setting[settings_pass_email]" id="Setting_settings_pass_email" type="text" value="121314151617"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
+										<label for="Setting_settings_pass_email">Pass Email ที่ใช้ในการส่งข้อมูล</label> <input class="span7" size="60" maxlength="255" name="settings_pass_email" id="Setting_settings_pass_email" type="text" value="{{$setting->settings_pass_email}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
 										<div class="errorMessage" id="Setting_settings_pass_email_em_" style="display:none"></div>
 									</div>
 
 									<div class="row">
 										<label for="Setting_settings_testing">เปิด-ปิด การเฉลยข้อสอบ</label>
-										<div class="toggle-button" data-togglebutton-style-enabled="success" style="width: 100px; height: 25px;">
-											<input id="ytSetting_settings_testing" type="hidden" value="0" name="Setting[settings_testing]">
-											<div style="left: -50%; width: 150px;"><input value="1" name="Setting[settings_testing]" id="Setting_settings_testing" type="checkbox"><span class="labelLeft success" style="width: 50px; height: 25px; line-height: 25px;">ON</span><label for="Setting_settings_testing" style="width: 50px; height: 25px;"></label><span class="labelRight" style="width: 50px; height: 25px; line-height: 25px;">OFF </span></div>
-										</div>
-										<div class="errorMessage" id="Setting_settings_testing_em_" style="display:none"></div>
+										<label class="switch">
+											<input type="checkbox" id="toggleSwitch" name="settings_testing" @if($setting->settings_testing == 1) checked @endif>{{$setting->settings_testing}}
+											<span class="slider"></span>
+										  </label>
 									</div>
 
+									
 									<div class="row">
 										<label for="Setting_settings_register">เปิด-ปิด การลงทะเบียน</label>
-										<div class="toggle-button" data-togglebutton-style-enabled="success" style="width: 100px; height: 25px;">
-											<input id="ytSetting_settings_register" type="hidden" value="0" name="Setting[settings_register]">
-											<div style="left: -50%; width: 150px;"><input value="1" name="Setting[settings_register]" id="Setting_settings_register" type="checkbox"><span class="labelLeft success" style="width: 50px; height: 25px; line-height: 25px;">ON</span><label for="Setting_settings_register" style="width: 50px; height: 25px;"></label><span class="labelRight" style="width: 50px; height: 25px; line-height: 25px;">OFF </span></div>
-										</div>
-										<div class="errorMessage" id="Setting_settings_register_em_" style="display:none"></div>
+										<label class="switch">
+											<input type="checkbox" id="toggleSwitch" name="settings_register" @if($setting->settings_register == 1) checked @endif>{{$setting->settings_register}}
+											<span class="slider"></span>
+										  </label>
 									</div>
 
 									<p></p>
@@ -133,13 +185,13 @@
 
 
 									<div class="row">
-										<label for="Setting_settings_score">เปอร์เซ็นการคำนวณคะแนน การทดสอบผ่าน (ใส่ค่า 80 คือผ่าน 80 เปอร์เซ็นของคะแนนสอบ)</label> <input class="span7" size="60" maxlength="255" name="Setting[settings_score]" id="Setting_settings_score" type="text" value="90"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
+										<label for="Setting_settings_score">เปอร์เซ็นการคำนวณคะแนน การทดสอบผ่าน (ใส่ค่า 80 คือผ่าน 80 เปอร์เซ็นของคะแนนสอบ)</label> <input class="span7" size="60" maxlength="255" name="settings_score" id="Setting_settings_score" type="text" value="{{$setting->settings_score}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
 										<div class="errorMessage" id="Setting_settings_score_em_" style="display:none"></div>
 									</div>
 
 
 									<div class="row">
-										<label for="Setting_password_expire_day">จำนวนวัน ที่รหัสผ่าน User จะหมดอายุ (ใส่ 0 หรือเว้นว่างถ้าไม่กำหนด)</label> <input class="span7" size="60" maxlength="255" name="Setting[password_expire_day]" id="Setting_password_expire_day" type="text" value="0"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
+										<label for="Setting_password_expire_day">จำนวนวัน ที่รหัสผ่าน User จะหมดอายุ (ใส่ 0 หรือเว้นว่างถ้าไม่กำหนด)</label> <input class="span7" size="60" maxlength="255" name="password_expire_day" id="Setting_password_expire_day" type="text" value="{{$setting->password_expire_day}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
 										<div class="errorMessage" id="Setting_password_expire_day_em_" style="display:none"></div>
 									</div>
 
@@ -241,6 +293,19 @@
 		<!-- // Footer END -->
 
 	</div>
-
+	<script>
+		// เมื่อมีการเปลี่ยนแปลงใน input checkbox
+		document.getElementById("toggleSwitch").addEventListener("change", function() {
+			if (this.checked) {
+				// ถ้า checkbox ถูกเลือก
+				console.log("เปิด");
+				// ใส่โค้ดที่ต้องการเมื่อเปิด
+			} else {
+				// ถ้า checkbox ไม่ถูกเลือก
+				console.log("ปิด");
+				// ใส่โค้ดที่ต้องการเมื่อปิด
+			}
+			});
+	</script>
 </body>
 @endsection

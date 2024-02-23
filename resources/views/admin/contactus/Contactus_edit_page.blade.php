@@ -40,7 +40,7 @@
                         <div class="widget-body">
                             
                             <div class="form">
-                                <form enctype="multipart/form-data" id="contactus_edit" action="/contactus_edit/{{$contactus_edit_page->contac_id}}" method="post">
+                                <form enctype="multipart/form-data" id="contactus_edit" action="{{ route('contactus.edit_page',['id' => $contactus_edit_page->contac_id]) }}" method="post">
                                     @csrf
                                     <p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
 

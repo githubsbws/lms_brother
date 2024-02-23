@@ -13,6 +13,13 @@ class DownloadFile extends Model
 
     protected $primaryKey = 'file_id';
 
+    protected $fillable = [
+        'active'
+    ];
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
+
     public static function findById($id)
     {
         return static::where('file_id', $id)->first();

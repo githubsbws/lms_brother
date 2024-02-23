@@ -48,9 +48,13 @@ Route::post('logins', [LoginController::class,'login'])->name('logins');
 Route::post('logout', [LoginController::class,'logout'])->name('logout');
 Route::get('profile',[ProfileController::class,'index'])->name('profile');
 
-Route::get('/admin', function () {
-    return view('admin/index/index');
-});
+// Route::get('/admin', function () {
+//     return view('admin/index/index');
+// });
+Route::get('admin',[AdminController::class,'admin'])->name('admin');
+Route::get('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
+Route::post('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
+Route::post('logoutadmin', [AdminController::class,'logoutadmin'])->name('logout.admin');
 
 // Route::group(['middleware' => ['auth']], function () {
 //     Route::get('/admin', 'AdminController@index');
@@ -107,9 +111,10 @@ Route::get('forgot-pass',[ForgotController::class,'forgotPass'])->name('forgot.p
 Route::post('/lms_brother_docker/lms/app/index/user/recovery',[ForgotController::class,'forgotRecovery'])->name('forgot.recovery');
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');
+Route::get('search', [CourseController::class, 'course']);
 // Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
 Route::get('course/detail/{id}',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('course/detail/{course_id}/lesson/{id}',[CourseController::class,'courseLesson'])->name('course.lesson');
+Route::get('course/detail/{course_id}/lesson/{id}/{files?}',[CourseController::class,'courseLesson'])->name('course.lesson');
 Route::get('course/LearnVdo/{id}/{learn_id}/{counter}',[CourseController::class,'LearnVdo'])->name('course.LearnVdo');
 Route::get('course/question/{course_id}/{id}',[CourseController::class,'coursequestion'])->name('course.coursequestion');
 Route::get('course/question/{group}',[CourseController::class,'coursequestion'])->name('course.question');
@@ -134,7 +139,7 @@ Route::get('index',[IndexController::class,'index'])->name('index');
 Route::get('new',[NewController::class,'new'])->name('new');
 Route::get('new_detail/{id}',[NewController::class,'new_detail'])->name('new_detail');
 // ----- usability
-Route::get('usability_front',[UsabilityController::class,'usability_front'])->name('usability_front');
+Route::get('usability_front/{id}',[UsabilityController::class,'usability_front'])->name('usability_front');
 // ----- virtualclassroom
 Route::get('virtualclassroom',[VirtualclassroomController::class,'virtualclassroom'])->name('virtualclassroom');
 // ----- WebboardController
@@ -145,19 +150,28 @@ Route::get('virtualclassroom',[VirtualclassroomController::class,'virtualclassro
 
 // ----- admin src
 Route::get('/aboutus',[AdminController::class,'aboutus'])->name('aboutus');
+Route::get('aboutus_detail/{id}',[AdminController::class,'aboutus_detail'])->name('aboutus.detail');
+Route::get('aboutus_update/{id}',[AdminController::class,'aboutus_update'])->name('aboutus.update');
+Route::post('aboutus_update/{id}',[AdminController::class,'aboutus_update'])->name('aboutus.update');
 
 Route::get('/condition',[AdminController::class,'condition'])->name('condition');
+Route::get('condition_detail/{id}',[AdminController::class,'condition_detail'])->name('condition.detail');
+Route::get('condition_update/{id}',[AdminController::class,'condition_update'])->name('condition.update');
+Route::post('condition_update/{id}',[AdminController::class,'condition_update'])->name('condition.update');
 
 Route::get('/setting',[AdminController::class,'setting'])->name('setting');
+Route::post('setting_update/{id}',[AdminController::class,'setting_update'])->name('setting.update');
 
 Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus');
 Route::get('contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create');
+Route::get('contactus_view/{id}',[AdminController::class,'contactus_view'])->name('contactus.view');
 
 Route::get('/contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create');
 
 Route::post('/contactus_insert',[AdminController::class,'contactus_insert'])->name('contactus_insert');
 
-Route::get('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus_edit_page');
+Route::get('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus.edit_page');
+Route::post('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus.edit_page');
 
 Route::post('/contactus_edit/{id}',[AdminController::class,'contactus_edit'])->name('contactus_edit');
 
@@ -166,6 +180,7 @@ Route::get('/contactus_delete/{id}',[AdminController::class,'contactus_delete'])
 //  new p
 Route::get('/video_create',[AdminController::class,'video_create'])->name('video_create');
 Route::get('/video',[AdminController::class,'video'])->name('video');
+Route::get('video_detail/{vdo_id}',[AdminController::class,'video_detail'])->name('video.detail');
 Route::post('/video_insert',[AdminController::class,'video_insert'])->name('video_insert');
 Route::get('/video_edit/{vdo_id}',[AdminController::class,'video_edit'])->name('video_edit');
 Route::post('/video_update/{vdo_id}',[AdminController::class,'video_update'])->name('video_update');
@@ -174,37 +189,73 @@ Route::get('/video_delete/{vdo_id}',[AdminController::class,'video_delete'])->na
 
 //---- category
 Route::get('/category',[AdminController::class,'category'])->name('category');
-Route::get('/category-create',[CategoryController::class,'categorycreate'])->name('category-create');
-Route::post('/admin/index.php/Category/create',[CategoryController::class,'categorycreateto'])->name('category-create-to');
-Route::get('/admin/index.php/category/update/{id}',[CategoryController::class,'categoryedit'])->name('category-edit');
-Route::post('/admin/index.php/category/edit/{id}',[CategoryController::class,'categoryeditto'])->name('category-edit-to');
-Route::get('/admin/index.php/category/change/{id}',[CategoryController::class,'categorychange'])->name('category-change');
-Route::get('/admin/index.php/category/{id}',[CategoryController::class,'categorydet'])->name('category-det');
+
+Route::get('category_create',[AdminController::class,'category_create'])->name('category.create');
+Route::post('category_create',[AdminController::class,'category_create'])->name('category.create');
+
+Route::get('category_detail/{id}',[AdminController::class,'category_detail'])->name('category.detail');
+
+Route::get('category_edit/{id}',[AdminController::class,'category_edit'])->name('category.edit');
+Route::post('category_edit/{id}',[AdminController::class,'category_edit'])->name('category.edit');
+
+Route::get('category_delete/{id}',[AdminController::class,'category_delete'])->name('category.delete');
+
+Route::get('category_openshow/{id}',[AdminController::class,'category_openshow'])->name('category.openshow');
+
 //---- end category
 
 //---- courseoline
-Route::get('/courseonline',[AdminController::class,'courseonline'])->name('courseonline');
-Route::get('/courseonline-create',[CourseController::class,'courseonlinecreate'])->name('courseonline-create');
-Route::post('/admin/index.php/CourseOnline/create',[CourseController::class,'courseonlinecreateto'])->name('courseonline-create-to');
-Route::get('/admin/index.php/courseOnline/update/{id}',[CourseController::class,'courseonlineedit'])->name('courseonline-edit');
-Route::post('/admin/index.php/CourseOnline/edit/{id}',[CourseController::class,'courseonlineeditto'])->name('courseonline-edit-to');
-Route::get('/admin/index.php/courseOnline/change/{id}',[CourseController::class,'courseonlinechange'])->name('courseonline-change');
-Route::get('/admin/index.php/courseOnline/{id}',[CourseController::class,'courseonlinedet'])->name('courseonline-det');
+Route::get('courseonline',[AdminController::class,'courseonline'])->name('courseonline');
+Route::get('courseonline_create',[AdminController::class,'courseonline_create'])->name('courseonline.create');
+Route::post('courseonline_create',[AdminController::class,'courseonline_create'])->name('courseonline.create');
+
+Route::get('courseonline_detail/{id}',[AdminController::class,'courseonline_detail'])->name('courseonline.detail');
+
+Route::get('courseonline_edit/{id}',[AdminController::class,'courseonline_edit'])->name('courseonline.edit');
+Route::post('courseonline_edit/{id}',[AdminController::class,'courseonline_edit'])->name('courseonline.edit');
+
+Route::get('courseonline_delete/{id}',[AdminController::class,'courseonline_delete'])->name('courseonline.delete');
+
 //---- end courseoline
 
 //---- lesson
 Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
-Route::get('/lession-create',[LessonController::class,'lessioncreate'])->name('lession-create');
-Route::post('/admin/index.php/Lesson/create',[LessonController::class,'lessioncreateto'])->name('lession-create-to');
-Route::get('/admin/index.php/lesson/update/{id}',[LessonController::class,'lessionedit'])->name('lession-edit');
-Route::post('/admin/index.php/lesson/edit/{id}',[LessonController::class,'lessioneditto'])->name('lession-edit-to');
-Route::get('/admin/index.php/lesson/change/{id}',[LessonController::class,'lessionchange'])->name('lession-change');
-Route::get('/admin/index.php/lesson/{id}',[LessonController::class,'lessiondet'])->name('lession-det');
+
+Route::get('lesson_edit/{id}',[AdminController::class,'lesson_edit'])->name('lesson.edit');
+Route::post('lesson_edit/{id}',[AdminController::class,'lesson_edit'])->name('lesson.edit');
+
+Route::get('lesson_create',[AdminController::class,'lesson_create'])->name('lesson.create');
+Route::post('lesson_create',[AdminController::class,'lesson_create'])->name('lesson.create');
+
+Route::get('lesson_detail/{id}',[AdminController::class,'lesson_detail'])->name('lesson.detail');
+
+Route::get('lesson_delete/{id}',[AdminController::class,'lesson_delete'])->name('lesson.delete');
+
+Route::get('lesson_delete_video/{id}',[AdminController::class,'lesson_delete_video'])->name('lesson_video.delete');
+
+Route::post('lesson_move',[AdminController::class,'lesson_move'])->name('lesson.move');
+
+Route::get('downloadlesson/{id}',[AdminController::class,'downloadfile'])->name('lesson.downloadfile');
+
+Route::get('filemanagers/{id?}', [AdminController::class,'filemanagers'])->name('filemanagers');
+
+// Route::get('/lession-create',[LessonController::class,'lessioncreate'])->name('lession-create');
+// Route::post('/admin/index.php/Lesson/create',[LessonController::class,'lessioncreateto'])->name('lession-create-to');
+// Route::get('/admin/index.php/lesson/update/{id}',[LessonController::class,'lessionedit'])->name('lession-edit');
+// Route::post('/admin/index.php/lesson/edit/{id}',[LessonController::class,'lessioneditto'])->name('lession-edit-to');
+// Route::get('/admin/index.php/lesson/change/{id}',[LessonController::class,'lessionchange'])->name('lession-change');
+// Route::get('/admin/index.php/lesson/{id}',[LessonController::class,'lessiondet'])->name('lession-det');
 //----end lesson
 
-Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
+Route::get('grouptesting/{id?}/{type?}',[AdminController::class,'grouptesting'])->name('grouptesting');
 
-Route::get('/coursegrouptesting',[AdminController::class,'coursegrouptesting'])->name('coursegrouptesting');
+Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
+Route::post('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
+
+Route::get('coursegrouptesting',[AdminController::class,'coursegrouptesting'])->name('coursegrouptesting');
+
+Route::get('coursegrouptesting_create',[AdminController::class,'coursegrouptesting_create'])->name('coursegrouptesting.create');
+Route::post('coursegrouptesting_create',[AdminController::class,'coursegrouptesting_create'])->name('coursegrouptesting.create');
 
 //new p
 Route::get('/questionnaireout',[AdminController::class,'questionnaireout'])->name('questionnaireout');
@@ -236,9 +287,22 @@ Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha');
 
 Route::get('/usability',[AdminController::class,'usability'])->name('usability');
 
+Route::get('usability_detail/{id}',[AdminController::class,'usability_detail'])->name('usability.detail');
+
+Route::get('usability_edit/{id}',[AdminController::class,'usability_edit'])->name('usability.edit');
+Route::post('usability_edit/{id}',[AdminController::class,'usability_edit'])->name('usability.edit');
+
+Route::get('usability_create',[AdminController::class,'usability_create'])->name('usability.create');
+Route::post('usability_create',[AdminController::class,'usability_create'])->name('usability.create');
+
+Route::get('usability_delete',[AdminController::class,'usability_delete'])->name('usability.delete');
+Route::post('usability_delete',[AdminController::class,'usability_delete'])->name('usability.delete');
+
 Route::get('/reportproblem',[AdminController::class,'reportproblem'])->name('reportproblem');
 
 Route::get('/faqtype',[AdminController::class,'faqtype'])->name('faqtype');
+
+Route::get('faqtype_detail/{id}',[AdminController::class,'faqtype_detail'])->name('faqtype.detail');
 
 Route::get('/faqtype_create',[AdminController::class,'faqtype_create'])->name('faqtype_create');
 
@@ -255,12 +319,14 @@ Route::get('/learnreset_resetuser',[AdminController::class,'learnreset_resetuser
 Route::get('/learnreset_resetuser_insert',[AdminController::class,'learnreset_resetuser_insert'])->name('learnreset_resetuser_insert');
 
 Route::get('/faq',[AdminController::class,'faq'])->name('faq');
+Route::get('faq_detail/{id}',[AdminController::class,'faq_detail'])->name('faq.detail');
 
 Route::get('/faq_create',[AdminController::class,'faq_create'])->name('faq_create');
 
 Route::post('/faq_insert',[AdminController::class,'faq_insert'])->name('faq_insert');
 
 Route::get('/faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name('faq_edit_page');
+Route::post('faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name('faq.edit');
 
 Route::post('/faq_edit/{id}',[AdminController::class,'faq_edit'])->name('faq_edit');
 
@@ -276,6 +342,7 @@ Route::get('/coursefield',[AdminController::class,'coursefield'])->name('coursef
 
 // new p
 Route::get('/imgslide',[AdminController::class,'imgslide'])->name('imgslide');
+Route::get('imgslide_detail/{id}',[AdminController::class,'imgslide_detail'])->name('imgslide.detail');
 Route::get('/imgslide_create',[AdminController::class,'imgslide_create'])->name('imgslide_create');
 Route::post('/imgslide_insert',[AdminController::class,'imgslide_insert'])->name('imgslide_insert');
 Route::post('/imgslide_update/{imgslide_id}',[AdminController::class,'imgslide_update'])->name('imgslide_update');
@@ -296,6 +363,29 @@ Route::get('/student_photo',[AdminController::class,'student_photo'])->name('stu
 Route::get('/capture',[AdminController::class,'capture'])->name('capture');
 
 Route::get('/document',[AdminController::class,'document'])->name('document');
+Route::get('document_downloadfile/{id}',[AdminController::class,'document_downloadfile'])->name('document.downloadfile');
+
+Route::get('document_create',[AdminController::class,'document_create'])->name('document.create');
+Route::post('document_create',[AdminController::class,'document_create'])->name('document.create');
+
+Route::get('document_detail/{id}',[AdminController::class,'document_detail'])->name('document.detail');
+
+Route::get('document_edit/{id}',[AdminController::class,'document_edit'])->name('document.edit');
+Route::post('document_edit/{id}',[AdminController::class,'document_edit'])->name('document.edit');
+
+Route::get('document_delete/{id}',[AdminController::class,'document_delete'])->name('document.delete');
+
+Route::get('document_type',[AdminController::class,'document_type'])->name('document.type');
+
+Route::get('document_type_detail/{id}',[AdminController::class,'document_type_detail'])->name('document_type.detail');
+
+Route::get('document_type_create',[AdminController::class,'document_type_create'])->name('document_type.create');
+Route::post('document_type_create',[AdminController::class,'document_type_create'])->name('document_type.create');
+
+Route::get('document_type_edit/{id}',[AdminController::class,'document_type_edit'])->name('document_type.edit');
+Route::post('document_type_edit/{id}',[AdminController::class,'document_type_edit'])->name('document_type.edit');
+
+Route::get('document_type_delete/{id}',[AdminController::class,'document_type_delete'])->name('document_type.delete');
 
 Route::get('/document_create',[AdminController::class,'document_create'])->name('document_create');
 
@@ -310,12 +400,15 @@ Route::get('/document_edit/{usa_id}',[AdminController::class,'document_edit'])->
 Route::post('/document_update/{usa_id}',[AdminController::class,'document_update'])->name('document_update');
 
 Route::get('/news',[AdminController::class,'news'])->name('news');
+Route::get('news_detail/{id}',[AdminController::class,'news_detail'])->name('news.detail');
 
 Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
+Route::post('news_create',[AdminController::class,'news_create'])->name('news.create');
 
 Route::post('/news_insert',[AdminController::class,'news_insert'])->name('news_insert');
 
 Route::get('/news_edit/{cms_id}',[AdminController::class,'news_edit'])->name('news_edit');
+Route::post('/news_edit/{cms_id}',[AdminController::class,'news_edit'])->name('news.edit');
 
 Route::get('/news_delete/{cms_id}',[AdminController::class,'news_delete'])->name('news_delete');
 
@@ -323,7 +416,7 @@ Route::post('/news_update/{cms_id}',[AdminController::class,'news_update'])->nam
 
 Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
 
-Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
+// Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
 
 Route::post('/grouptesting_insert',[AdminController::class,'grouptesting_insert'])->name('grouptesting_insert');
 
@@ -359,3 +452,13 @@ Route::get('/generation_edit_page/{id}',[AdminController::class,'generation_edit
 Route::post('/generation_edit/{id}',[AdminController::class,'generation_edit'])->name('generation_edit');
 
 Route::get('/generation_delete/{id}',[AdminController::class,'generation_delete'])->name('generation_delete');
+
+Route::get('/logadmin',[AdminController::class,'logadmin'])->name('logadmin');
+
+Route::get('/logusers',[AdminController::class,'logusers'])->name('logusers');
+
+Route::get('/logapprove',[AdminController::class,'logapprove'])->name('logapprove');
+
+Route::get('/logapporvepersonal',[AdminController::class,'logapporvepersonal'])->name('logapporvepersonal');
+
+Route::get('/logregister',[AdminController::class,'logregister'])->name('logregister');

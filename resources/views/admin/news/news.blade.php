@@ -106,7 +106,7 @@
 												<td width="110"><img src="{{asset('images/uploads/news/'.$item->cms_id.'/small/'.$item->cms_picture)}}"></td>
 												<td>{{$item->cms_title}}</td>
 												<td style="width:450px; vertical-align:top;">{{$item->cms_short_title}}</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/78"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('news_edit',$item->cms_id)}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('news_delete',$item->cms_id)}}"><i></i></a></td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('news.detail',['id'=>$item->cms_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('news_edit',$item->cms_id)}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('news_delete',$item->cms_id)}}"><i></i></a></td>
 											</tr>
 											{{-- <tr class="even selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="77" id="chk_1" type="checkbox" name="chk[]"></td>
@@ -181,14 +181,20 @@
 										</tbody>
 									</table>
 									<div class="pagination pull-right">
-										<ul class="" id="yw1">
-											<li class="first hidden"><a href="/admin/index.php/news/index">&lt;&lt; หน้าแรก</a></li>
-											<li class="previous hidden"><a href="/admin/index.php/news/index">&lt; หน้าที่แล้ว</a></li>
-											<li class="page active"><a href="/admin/index.php/news/index">1</a></li>
-											<li class="page"><a href="/admin/index.php/news/index?News_page=2">2</a></li>
-											<li class="page"><a href="/admin/index.php/news/index?News_page=3">3</a></li>
-											<li class="next"><a href="/admin/index.php/news/index?News_page=2">หน้าถัดไป &gt;</a></li>
-											<li class="last"><a href="/admin/index.php/news/index?News_page=3">หน้าสุดท้าย &gt;&gt;</a></li>
+										<ul class="pagination margin-top-none" id="yw0">
+											<li class="first hidden"><a href="{{url('new')}}">&lt;&lt; หน้าแรก</a></li>
+											@if ($news->currentPage() > 1)
+											<li class="previous hidden"><a href="{{ $news->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+											@endif
+											@for ($i = max(1, $news->currentPage() - 3); $i <= min($news->lastPage(), $news->currentPage() + 3); $i++)
+											<li class="page"><a href="{{ $news->url($i) }}" class="pagination-link {{ ($i == $news->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
+											@endfor
+											@if ($news->currentPage() < $news->lastPage())
+											<li class="next"><a href="{{ $news->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
+											@endif
+											@if ($news->currentPage() == $news->lastPage())
+											<li class="last"><a href="{{ $news->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+											@endif
 										</ul>
 									</div>
 									<div class="keys" style="display:none" title="/admin/index.php/News/index"><span>78</span><span>77</span><span>74</span><span>72</span><span>71</span><span>70</span><span>68</span><span>67</span><span>66</span><span>65</span></div>

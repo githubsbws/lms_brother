@@ -11,7 +11,7 @@ class Category extends Model
 
     protected $table = 'category';
 
-    protected $primarykey = 'cate_id';
+    protected $primaryKey = 'cate_id';
     protected $fillable = [
         'cate_title',
         'cate_short_detail',
@@ -19,6 +19,7 @@ class Category extends Model
         'cate_image',
         'create_date',
         'update_date',
+        'active'
     ];
     const CREATED_AT = 'create_date'; // Custom created_at column
     const UPDATED_AT = 'update_date'; // Custom update_at column

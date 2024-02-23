@@ -15,11 +15,14 @@ class Faq extends Model
 
     protected $prefix = '';
 
-    protected $primarykey = 'faq_nid';
+    protected $primaryKey = 'faq_nid_';
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
 
     public static function findById($id)
     {
-        return static::where('faq_nid', $id)->first();
+        return static::where('faq_nid_', $id)->first();
     }
 
     

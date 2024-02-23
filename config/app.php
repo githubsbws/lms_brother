@@ -185,6 +185,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'AuthFacade' => App\Facades\AuthFacade::class,
     ])->toArray(),
 
 ];

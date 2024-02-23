@@ -1,6 +1,9 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+
 <body class="">
 
 	<!-- Main Container Fluid -->
@@ -27,16 +30,74 @@
 				<div class="innerLR">
 					<!-- Box -->
 					<div class="hero-unit well">
-						<h1>Ouch! <span>404 error</span></h1>
+						<h1>รายชื่อสมาชิก</h1>
 						<hr class="separator">
 						<!-- Row -->
-						<div class="row-fluid row-merge">
+						<div class="content">
+							<div class="container-fluid">
+								<div class="row">
+									<div class="col-md-12 mb-3">
+										<div class="table-main">
+											<select class="form-select min-wid-110">
+												<option value="100">100 แถว</option>
+												<option value="500">500 แถว</option>
+												<option value="1000">1000 แถว</option>
+											</select>
+											<div class="table-responsive">
+												<table class="table table-striped table-bordered table-condensed dataTable table-primary js-table-sortable ui-sortable" id="table-condition">
+													<thead class="thead-dark">
+														<tr>
+															<th scope="col">ลำดับ</th>
+															<th scope="col">ชื่อ นามสกุล</th>
+															<th scope="col">เลขบัตรประชาชน</th>
+															<th scope="col">email</th>
+															<th scope="col">advisor_email1</th>
+															<th scope="col">จัดการ</th>
+														</tr>
+													</thead>
+													<tbody>
+														@foreach ($query as $index => $data)
+														{{-- @dump($data->profile); --}}
+															<tr>
+																<td>
+																	@if (method_exists($query, 'firstItem'))
+																		{{ $query->firstItem() + $loop->index }}
+																	@else
+																		{{ $index + 1 }}
+																	@endif
+																</td>
+																<td>{{ @$data->profile->firstname }} {{ @$data->profile->lastname }}</td>
+																<td>{{ @$data->profile->identification }}</td>
+																<td>{{ @$data->email }}</td>
+																<td>{{ @$data->profile->advisor_email1 }}</td>
+																<td>
+																	<a href="" class="btn btn-info"><i class="bi bi-eye"></i></a>
+																	<a href="" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+																	<a href="" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+																</td>
+															</tr>
+														@endforeach
+													</tbody>
+												</table>
+											</div>
+										</div>	
+									</div>
+									<div class="pagination-main mt-3">
+										<nav>
+											<ul class="pagination justify-content-end">
+												{{ $query->links()}}
+											</ul>
+										</nav>
+									</div>
+								</div>
+
+							</div>
 
 							<!-- Column -->
 							<div>
-								<div class="innerAll left">
-									<p>It seems the page you are looking for is not here anymore. The page might have moved to another address or just removed by our staff.</p>
-								</div>
+								
+									
+								
 							</div>
 							<!-- // Column END -->
 

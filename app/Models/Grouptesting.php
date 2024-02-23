@@ -11,7 +11,16 @@ class Grouptesting extends Model
 
     protected $table = 'grouptesting';
 
-    protected $primarykey = 'group_id';
+    protected $primaryKey = 'group_id';
+
+    protected $fillable = [
+        'step_id',
+        'active'
+    ];
+
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
 
     public static function findById($id)
     {

@@ -92,31 +92,59 @@
 											</tr>
 										</thead>
 										<tbody>
+											@foreach($usa as $us)
 											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="14" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td>การติดตามผลการเรียน</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/usability/14"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/usability/update/14"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/usability/delete/14"><i></i></a></td>
+												<td class="checkbox-column"><input class="select-on-check" value="{{ $us->usa_id}}" id="chk_0" type="checkbox" name="chk[]"></td>
+												<td>{{ $us->usa_title}}</td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('usability.detail',['id'=>$us->usa_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('usability.edit',['id'=>$us->usa_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" onclick="showSweetAlert()" href="#"><i></i></a></td>
 											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="13" id="chk_1" type="checkbox" name="chk[]"></td>
-												<td>การทำแบบสอบถาม</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/usability/13"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/usability/update/13"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/usability/delete/13"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="10" id="chk_2" type="checkbox" name="chk[]"></td>
-												<td>การสอบและผลการสอบ</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/usability/10"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/usability/update/10"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/usability/delete/10"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="9" id="chk_3" type="checkbox" name="chk[]"></td>
-												<td>การเข้าสู่ห้องเรียนออนไลน์</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/usability/9"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/usability/update/9"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/usability/delete/9"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="4" id="chk_4" type="checkbox" name="chk[]"></td>
-												<td>การสมัครสมาชิก</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/usability/4"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/usability/update/4"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/usability/delete/4"><i></i></a></td>
-											</tr>
+											@php
+											$route = route('usability.delete', ['id' => $us->usa_id]);
+											$csrf_token = csrf_token();
+											@endphp
+											<script>
+												var id = {{$us->usa_id}};
+												function showSweetAlert() {
+													swal({
+														title: "ต้องการลบข้อมูลใช่หรือไม่?",
+														icon: "warning",
+														buttons: true,
+														dangerMode: true,
+													})
+													.then((willDelete) => {
+														if (willDelete) {
+															// ส่งคำขอไปยังหน้า Controller เมื่อผู้ใช้ยืนยันการลบข้อมูล
+															fetch("{{ $route }}", {
+																method: 'POST',
+																headers: {
+																	'X-CSRF-TOKEN': "{{ $csrf_token }}",
+																	'Content-Type': 'application/json',
+																	'Accept': 'application/json'
+																},
+																body: JSON.stringify({ id: id }) // ส่ง ID ของข้อมูลที่ต้องการลบ
+															})
+															.then(response => response.json())
+															.then(data => {
+																console.log(data);
+																// แสดงข้อความหลังจากลบข้อมูลสำเร็จ
+																swal("ลบข้อมูลเรียบร้อย!", {
+																	icon: "success",
+																}).then(results =>{
+																	location.reload();
+																});
+															})
+															.catch(error => {
+																// แสดงข้อความเมื่อเกิดข้อผิดพลาด
+																swal("Oops!", "เกิดข้อผิดพลาดในการลบข้อมูล!", "error");
+															});
+														} else {
+															// ผู้ใช้ยกเลิกการลบข้อมูล
+															swal("ยกเลิกการลบข้อมูล!");
+														}
+													});
+												}
+											</script>
+											@endforeach
 										</tbody>
 									</table>
 									<div class="keys" style="display:none" title="/admin/index.php/Usability/index"><span>14</span><span>13</span><span>10</span><span>9</span><span>4</span></div>
@@ -160,6 +188,6 @@
 		<!-- // Footer END -->
 
 	</div>
-
+	
 </body>
 @endsection

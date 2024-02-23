@@ -43,6 +43,7 @@
                     <div class="row">
                         <div class="col-md-9">
                             {{-- แก้ไข --}}
+                            @if ($course_detail->count() > 0)
                             <div class="row" data-toggle="isotope" style="position: relative; ">
                                 @foreach ($course_detail as $item)
                                 <div class="item col-xs-12 col-sm-6 col-lg-4" style="position: absolute; left: 0px; top: 0px;">
@@ -90,10 +91,13 @@
                                 </div>
                                 @endforeach
                             </div>
+                            @else
+                            <p>ไม่พบคอร์สที่ตรงกับคำค้นหา</p>
+                            @endif
                             {{-- จบแก้ไข --}}
                         </div>
                         <div class="col-md-3">
-                            <form action="{{url('search')}}" method="post">
+                            <form action="{{url('search')}}" method="get" class="search-form">
                                 <div class="panel panel-primary" data-toggle="panel-collapse" data-open="true">
                                     <div class="panel-heading panel-collapse-trigger collapse in" data-toggle="collapse"
                                         data-target="#53a72aaf-2f2d-d3bb-4ee9-cd2922844b76" aria-expanded="true"

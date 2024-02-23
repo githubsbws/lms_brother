@@ -196,18 +196,18 @@
                                                                     value="176" id="chk_0" type="checkbox"
                                                                     name="chk[]"></td>
                                                             <td width="110"><img
-                                                                    src="{{ asset('images/uploads/courseonline/'.$item->course_id.'/thumb/' . $item->course_picture) }}"
+                                                                    src="{{ asset('images/uploads/courseonline/'.$item->course_id.'/original/' . $item->course_picture) }}"
                                                                     alt="{{ $item->course_picture }}"></td>
                                                             <td>{{ $item->course_title }}</td>
                                                             <td style="width:130px">{{ $item->cate_title }}</td>
-                                                            <td width="150">{{ $item->course_lecturer}}</td>
+                                                            <td width="150">{{ $item->teacher_name}}</td>
                                                             <td style="text-align: center; width:50px;" class="row_move">
                                                                 <a  class="glyphicons move btn-action btn-inverse"><i></i></a>
                                                             </td>
                                                             <td style="width: 90px;" class="center">
-                                                                <a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด"  href="{{ route('courseonline-det', $item->course_id) }}"><i></i></a>
-                                                                <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('courseonline-edit', $item->course_id) }}"><i></i></a>
-                                                                <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ"href="{{ route('courseonline-change', $item->course_id) }}" onclick="return confirm('คุณต้องการเปลี่ยนสถานะ หรือไม่ ?')"><i></i></a>   
+                                                                <a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด"  href="{{ route('courseonline.detail',['id'=>$item->course_id]) }}"><i></i></a>
+                                                                <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('courseonline.edit',['id' =>$item->course_id]) }}"><i></i></a>
+                                                                <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ"href="{{ route('courseonline.delete',['id' =>$item->course_id]) }}" onclick="return confirm('คุณต้องการเปลี่ยนสถานะ หรือไม่ ?')"><i></i></a>   
                                                             </td>
                                                         </tr>
                                                     @endif
@@ -227,33 +227,20 @@
                                             </tbody>
                                         </table>
                                         <div class="pagination pull-right">
-                                            <ul class="" id="yw1">
-                                                <li class="first hidden"><a
-                                                        href="/admin/index.php/courseOnline/index">&lt;&lt; หน้าแรก</a>
-                                                </li>
-                                                <li class="previous hidden"><a
-                                                        href="/admin/index.php/courseOnline/index">&lt; หน้าที่แล้ว</a>
-                                                </li>
-                                                <li class="page active"><a
-                                                        href="/admin/index.php/courseOnline/index">1</a></li>
-                                                <li class="page"><a
-                                                        href="/admin/index.php/courseOnline/index?CourseOnline_page=2">2</a>
-                                                </li>
-                                                <li class="page"><a
-                                                        href="/admin/index.php/courseOnline/index?CourseOnline_page=3">3</a>
-                                                </li>
-                                                <li class="page"><a
-                                                        href="/admin/index.php/courseOnline/index?CourseOnline_page=4">4</a>
-                                                </li>
-                                                <li class="page"><a
-                                                        href="/admin/index.php/courseOnline/index?CourseOnline_page=5">5</a>
-                                                </li>
-                                                <li class="next"><a
-                                                        href="/admin/index.php/courseOnline/index?CourseOnline_page=2">หน้าถัดไป
-                                                        &gt;</a></li>
-                                                <li class="last"><a
-                                                        href="/admin/index.php/courseOnline/index?CourseOnline_page=5">หน้าสุดท้าย
-                                                        &gt;&gt;</a></li>
+                                            <ul class="pagination margin-top-none" id="yw0">
+                                                <li class="first "><a href="{{url('courseonline')}}">&lt;&lt; หน้าแรก</a></li>
+                                                @if ($course_online->currentPage() > 1)
+                                                <li class="previous "><a href="{{ $course_online->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+                                                @endif
+                                                @for ($i = max(1, $course_online->currentPage() - 3); $i <= min($course_online->lastPage(), $course_online->currentPage() + 3); $i++)
+                                                <li class="page"><a href="{{ $course_online->url($i) }}" class="pagination-link {{ ($i == $course_online->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
+                                                @endfor
+                                                @if ($course_online->currentPage() < $course_online->lastPage())
+                                                <li class="next"><a href="{{ $course_online->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
+                                                @endif
+                                                @if ($course_online->currentPage() == $course_online->lastPage())
+                                                <li class="last"><a href="{{ $course_online->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+                                                @endif
                                             </ul>
                                         </div>
                                         <div class="keys" style="display:none"

@@ -1,6 +1,33 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+@php
+use App\Models\Course;
+use App\Models\File;
+use App\Models\Manage;
+@endphp
+<style>
+#sortable-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#sortable-table td, #sortable-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+#sortable-table th {
+    background-color: #f2f2f2;
+    color: #333;
+}
+
+tr.dragged {
+    opacity: 0.5;
+    /* เพิ่มสไตล์อื่น ๆ ตามต้องการ */
+}
+</style>
 <body class="">
 
 	<!-- Main Container Fluid -->
@@ -160,23 +187,41 @@
 										</thead>
 										<tbody>
 											@foreach ($lesson as $item)
-												@if ($item->active == 'y')
-												<tr class="items[]">
+												@php 
+												$course = Course::where('course_id', $item->course_id)->first();
+												$file = File::where('lesson_id',$item->id)->where('active','y')->get();
+												$chkpre = Manage::where('id',$item->id)->where('type','pre')->where('active','y')->get();
+												$chkpost = Manage::where('id',$item->id)->where('type','post')->where('active','y')->get();
+												@endphp
+												<tr class="items[]" >
 													<td class="checkbox-column"><input class="select-on-check" value="313" id="chk_0" type="checkbox" name="chk[]"></td>
-													<td style="width: 150px;">{{ $item->course_title }}</td>
+													<td style="width: 150px;">{{ $course->course_title }}</td>
 													<td style="width: 250px;">{{ $item->title }}</td>
 													<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/313">เลือก</a></td>
-													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/File/index/313">จัดการวิดีโอ (0)</a></td>
-													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/313?type=pre">เลือกข้อสอบ (0)</a></td>
-													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Lesson/FormLesson/313?type=post">เลือกข้อสอบ (1)</a></td>
-													<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
+													@if($file->isEmpty())
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('filemanagers')}}">จัดการวิดีโอ (0)</a></td>
+													@else
+													 
+													 <td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('filemanagers',['id' =>$item->id])}}">จัดการวิดีโอ ({{ count($file) }})</a></td>
+													@endif
+													@if($chkpre->isEmpty())
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting')}}">เลือกข้อสอบ (0)</a></td>
+													@else
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting',['id' => $item->id,'type' => 'pre'])}}">เลือกข้อสอบ ({{ count($chkpre) }})</a></td>
+													@endif
+													@if($chkpost->isEmpty())
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting')}}">เลือกข้อสอบ (0)</a></td>
+													@else
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting',['id' => $item->id,'type' => 'post'])}}">เลือกข้อสอบ ({{ count($chkpost) }})</a></td>
+													@endif
+													<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse" onclick="moveData({{ $item->id }})"><i></i></a></td>
 													<td style="width: 90px;" class="center">
-														<a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('lession-det', $item->id) }}"><i></i></a> 
-														<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('lession-edit', $item->id) }}"><i></i></a> 
-														<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{ route('lession-change', $item->id) }}" onclick="return confirm('คุณต้องการเปลี่ยนสถานะ หรือไม่ ?')"><i></i></a>
+														<a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('lesson.detail', ['id' =>$item->id]) }}"><i></i></a> 
+														<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('lesson.edit',['id' =>$item->id]) }}"><i></i></a> 
+														<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{ route('lesson.delete',['id' =>$item->id]) }}" onclick="#"><i></i></a>
 													</td>
 												</tr>
-												@endif
+												
 											@endforeach
 											{{-- จบแก้ไข --}}
 											{{-- <tr class="items[]_312">
@@ -194,21 +239,20 @@
 										</tbody>
 									</table>
 									<div class="pagination pull-right">
-										<ul class="" id="yw1">
-											<li class="first hidden"><a href="/admin/index.php/lesson/index">&lt;&lt; หน้าแรก</a></li>
-											<li class="previous hidden"><a href="/admin/index.php/lesson/index">&lt; หน้าที่แล้ว</a></li>
-											<li class="page active"><a href="/admin/index.php/lesson/index">1</a></li>
-											<li class="page"><a href="/admin/index.php/lesson/index?Lesson_page=2">2</a></li>
-											<li class="page"><a href="/admin/index.php/lesson/index?Lesson_page=3">3</a></li>
-											<li class="page"><a href="/admin/index.php/lesson/index?Lesson_page=4">4</a></li>
-											<li class="page"><a href="/admin/index.php/lesson/index?Lesson_page=5">5</a></li>
-											<li class="page"><a href="/admin/index.php/lesson/index?Lesson_page=6">6</a></li>
-											<li class="page"><a href="/admin/index.php/lesson/index?Lesson_page=7">7</a></li>
-											<li class="page"><a href="/admin/index.php/lesson/index?Lesson_page=8">8</a></li>
-											<li class="page"><a href="/admin/index.php/lesson/index?Lesson_page=9">9</a></li>
-											<li class="page"><a href="/admin/index.php/lesson/index?Lesson_page=10">10</a></li>
-											<li class="next"><a href="/admin/index.php/lesson/index?Lesson_page=2">หน้าถัดไป &gt;</a></li>
-											<li class="last"><a href="/admin/index.php/lesson/index?Lesson_page=25">หน้าสุดท้าย &gt;&gt;</a></li>
+										<ul class="pagination margin-top-none" id="yw0">
+											<li class="first "><a href="{{url('lesson')}}">&lt;&lt; หน้าแรก</a></li>
+											@if ($lesson->currentPage() > 1)
+											<li class="previous "><a href="{{ $lesson->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+											@endif
+											@for ($i = max(1, $lesson->currentPage() - 3); $i <= min($lesson->lastPage(), $lesson->currentPage() + 3); $i++)
+											<li class="page"><a href="{{ $lesson->url($i) }}" class="pagination-link {{ ($i == $lesson->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
+											@endfor
+											@if ($lesson->currentPage() < $lesson->lastPage())
+											<li class="next"><a href="{{ $lesson->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
+											@endif
+											@if ($lesson->currentPage() == $lesson->lastPage())
+											<li class="last"><a href="{{ $lesson->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+											@endif
 										</ul>
 									</div>
 									<div class="keys" style="display:none" title="/admin/index.php/Lesson/index"><span>313</span><span>312</span><span>311</span><span>310</span><span>309</span><span>307</span><span>306</span><span>305</span><span>304</span><span>303</span></div>

@@ -11,7 +11,7 @@ class Lesson extends Model
 
     protected $table = 'lesson';
 
-    protected $primarykey = 'id';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'course_id',
         'title' ,
@@ -21,8 +21,11 @@ class Lesson extends Model
         'time_test',
         'content',
         'image',
+        'active'
     ];
-    public $timestamps = false;
+    
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
 
     public static function findById($id)
     {

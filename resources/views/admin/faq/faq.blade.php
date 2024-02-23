@@ -90,6 +90,7 @@
 												<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
 												<th id="Faq-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/faq/index?Faq_sort=faq_type_id">หมวดคำถาม</a></th>
 												<th id="Faq-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/faq/index?Faq_sort=faq_THtopic">คำถาม</a></th>
+												<th id="Faq-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/faq/index?Faq_sort=faq_THtopic">คำตอบ</a></th>
 												<th id="Faq-grid_c3"><a class="sort-link" style="color:white;" href="/admin/index.php/faq/index?Faq_sort=create_date">วันที่เพิ่มข้อมูล</a></th>
 												<th class="button-column" id="Faq-grid_c4">จัดการ</th>
 											</tr>
@@ -101,8 +102,9 @@
 												<td class="checkbox-column"><input class="select-on-check" value={{$faqID=$item->faq_nid_}} id="chk_0" type="checkbox" name="chk[]"></td>
 												<td>{{$item->faq_type_title_TH}}</td>
 												<td>{{$item->faq_THtopic}}</td>
+												<td>{!! htmlspecialchars_decode($item->faq_THanswer) !!}</td>
 												<td>{{$item->create_date}}</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/faq/{{$item->faq_nid_}}"> <i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="faq_edit_page/{{$item->faq_nid_}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/faq_delete/{{$item->faq_nid_}}" onclick="return confirm('คุณต้องการลบคำถาม {{$item->faq_THtopic}} หรือไม่?')"><i></i></a></td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('faq.detail',['id' =>$item->faq_nid_])}}"> <i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="faq_edit_page/{{$item->faq_nid_}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/faq_delete/{{$item->faq_nid_}}" onclick="return confirm('คุณต้องการลบคำถาม {{$item->faq_THtopic}} หรือไม่?')"><i></i></a></td>
 											</tr>	
 											@endif
 											@endforeach

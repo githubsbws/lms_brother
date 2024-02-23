@@ -94,6 +94,7 @@
 											<tr>
 												<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
 												<th id="conditions-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/conditions/index?Conditions_sort=conditions_title">หัวข้อเงื่อนไขการใช้งาน</a></th>
+												<th class="button-column" id="conditions-grid_c2">รายละเอียด</th>
 												<th class="button-column" id="conditions-grid_c2">จัดการ</th>
 											</tr>
 											<tr class="filters">
@@ -103,11 +104,14 @@
 											</tr>
 										</thead>
 										<tbody>
+											@foreach($conditions as $condition)
 											<tr class="items[]_1">
 												<td class="checkbox-column"><input class="select-on-check" value="1" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td>ข้อกำหนด &amp; เงื่อนไข</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/conditions/1"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/conditions/update/1"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/conditions/delete/1"><i></i></a></td>
+												<td>{!! htmlspecialchars_decode($condition->conditions_title)  !!}</td>
+												<td>{!! htmlspecialchars_decode($condition->conditions_detail)  !!}</td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('condition.detail',['id'=>$condition->conditions_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('condition.update',['id'=>$condition->conditions_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/conditions/delete/1"><i></i></a></td>
 											</tr>
+											@endforeach
 										</tbody>
 									</table>
 									<div class="keys" style="display:none" title="/admin/index.php/Conditions/index"><span>1</span></div>

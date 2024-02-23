@@ -66,32 +66,8 @@
 			<li class="dropdown visible-abc">
 				<a href="" data-toggle="dropdown" class="glyphicons cogwheel"><i></i>คู่มือการใช้งาน<span class="caret"></span></a>
 				<ul class="dropdown-menu pull-right">
-
-					<li class="dropdown submenu">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 2</a>
-						<ul class="dropdown-menu submenu-show submenu-hide pull-left">
-							<li class="dropdown submenu">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 2.1</a>
-								<ul class="dropdown-menu submenu-show submenu-hide pull-left">
-									<li><a href="#">Level 2.1.1</a></li>
-									<li><a href="#">Level 2.1.2</a></li>
-									<li><a href="#">Level 2.1.3</a></li>
-									<li><a href="#">Level 2.1.4</a></li>
-								</ul>
-							</li>
-							<li class="dropdown submenu">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Level 2.2</a>
-								<ul class="dropdown-menu submenu-show submenu-hide pull-left">
-									<li><a href="#">Level 2.2.1</a></li>
-									<li><a href="#">Level 2.2.2</a></li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-
-					<li><a href="">Some option</a></li>
-					<li><a href="">Some other option</a></li>
-					<li><a href="">Other option</a></li>
+					<li><a href="">คู่มือสำหรับผู้ดูแลระบบ</a></li>
+					<li><a href="">คู่มือสำหรับผู้ใช้งาน</a></li>
 
 				</ul>
 			</li>
@@ -116,7 +92,10 @@
 					</li>
 					<li>
 						<span>
-							<a class="btn btn-default btn-mini pull-right" href="login.html?lang=en&amp;layout_type=fluid&amp;menu_position=menu-left">Sign
+							<form id="logout-form" action="{{ route('logout.admin') }}" method="POST" style="display: none;">
+								@csrf
+							</form>
+							<a class="btn btn-default btn-mini pull-right" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign
 								Out</a>
 						</span>
 					</li>

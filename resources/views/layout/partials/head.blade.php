@@ -26,7 +26,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
     $gallery = 'Gallery';
     $contactus = 'Contact us ';
 }
-
+use App\Models\Usability;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,7 +97,7 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                     <span class="icon-bar"></span>
                 </button>
                 <div class="navbar-brand navbar-brand-logo">
-                    <a href="index.php">
+                    <a href="{{url('index')}}">
                         <img src="{{ asset('themes/bws/images/brotherlogo.png') }}">
                     </a>
                 </div>
@@ -128,21 +128,14 @@ if (empty($_SESSION['lang']) || $_SESSION['lang'] == 1) {
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">วิธีการใช้งาน <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            @php
+                            $usa = Usability::where('active','y')->get();
+                            @endphp
+                            @foreach ($usa as $us)
                             <li>
-                                <a href="{{ url('usability_front') }}">การติดตามผลการเรียน</a>
+                                <a href="{{ url('usability_front',$us->usa_id) }}">{{ $us->usa_title }}</a>
                             </li>
-                            <li>
-                                <a href="{{ url('usability_front') }}">การทำแบบสอบถาม</a>
-                            </li>
-                            <li>
-                                <a href="{{ url('usability_front') }}">การสอบและผลการสอบ</a>
-                            </li>
-                            <li>
-                                <a href="{{ url('usability_front') }}">การเข้าสู่ห้องเรียนออนไลน์</a>
-                            </li>
-                            <li>
-                                <a href="{{ url('usability_front') }}">การสมัครสมาชิก</a>
-                            </li>
+                            @endforeach
                         </ul>
                     </li>
                     <li class="dropdown">

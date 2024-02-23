@@ -4,8 +4,10 @@
 @php
 use App\Models\Lesson;
 use App\Models\Learn;
+use App\Models\LearnFile;
 use App\Models\Score;
 use App\Models\Grouptesting;
+use App\Models\File;
 @endphp
 <style type="text/css">
     .video-js {
@@ -130,10 +132,14 @@ use App\Models\Grouptesting;
                                     <p>{{ $lesson->description}}</p>
                                     <p></p>
                                     <h4>ไฟล์ประกอบการเรียน</h4>
+                                    @if($file->isEmpty())
+                                    -
+                                    @else
                                     @foreach($file as $fs)
                                     <a href="{{ route('course.downloadfile', ['id' => $fs->id]) }}" target="_blank" >{{ $fs->file_name}}</a>
                                     <br>
                                     @endforeach
+                                    @endif
                                     <p></p>
 
                                 </div>
@@ -144,18 +150,22 @@ use App\Models\Grouptesting;
                             <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
                                 @php
                                 if($learn_id){
-                                    $learn_sta = Learn::findById($learn_id);
+                                    $learn_sta = LearnFile::where('file_id',$file_id->id)->where('user_id_file' , Auth::user()->id)->first();
                                     // dd($learn_sta->toArray());
-                                    if($learn_sta->lesson_status == "pass"){
-                                        $statusValue = '<img src="' . asset('images/icon_checkpast.png') . '" alt="ผ่าน" title="ผ่าน" style="margin-bottom: 8px;">';
-                                    }elseif($learn_sta->lesson_status == "learning"){
-                                        $statusValue = '<img src="' . asset('images/icon_checklost.png') . '" alt="เรียนยังไม่ผ่าน" title="เรียนยังไม่ผ่าน" style="margin-bottom: 8px;">';
-                                    }else{
-                                        $statusValue = '<img src="' . asset('images/icon_checkbox.png') . '" alt="ยังไม่ได้เรียน" title="ยังไม่ได้เรียน" style="margin-bottom: 8px;">';
+                                    if($learn_sta != null){
+                                        if($learn_sta->learn_file_status == 's'){
+                                            $statusValue = '<img src="' . asset('images/icon_checkpast.png') . '" alt="ผ่าน" title="ผ่าน" style="margin-bottom: 8px;">';
+                                        }elseif($learn_sta->learn_file_status == 'l'){
+                                            $statusValue = '<img src="' . asset('images/icon_checklost.png') . '" alt="เรียนยังไม่ผ่าน" title="เรียนยังไม่ผ่าน" style="margin-bottom: 8px;">';
+                                        }
                                     }
+                                    else{
+                                            $statusValue = '<img src="' . asset('images/icon_checkbox.png') . '" alt="ยังไม่ได้เรียน" title="ยังไม่ได้เรียน" style="margin-bottom: 8px;">';
+                                        }
                                 }
                                 @endphp
                                 <div class="panel panel-default">
+                                    
                                     <div class="panel-heading" role="tab" id="heading{{$file_id->id}}">
                                         <h4 class="panel-title">
                                             <a data-toggle="collapse" data-parent="#accordion2" href="#collapse{{$file_id->id}}" aria-expanded="true" aria-controls="collapse{{$file_id->id}}">
@@ -460,11 +470,9 @@ use App\Models\Grouptesting;
                         @foreach($lesson_list  as $list)
                         @php
                         $sta = Learn::where(['lesson_id' => $list->id,'user_id' =>Auth::user()->id,'lesson_active' =>'y'])->get();
+                        $files = File::where(['lesson_id' => $list->id,'active' =>'y'])->orderBy('id','ASC')->get();
                         @endphp
                         <div class="list-group collapse in" id="curriculum-2">
-                            @php
-                                
-                            @endphp
                             <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
                                 
                                 <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
@@ -492,6 +500,45 @@ use App\Models\Grouptesting;
                                     </div> -->
                                 </div>
                             </a>
+                            @if(count($files) > 1)
+                            @foreach($files as $fsa)
+                            @php
+                            $sta = LearnFile::where(['file_id' => $fsa->id,'user_id_file' =>Auth::user()->id])->first();           
+                            @endphp
+                            @if($track->id == $fsa->id)
+
+                            @else
+                            <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id,'files' => $fsa->id]) }}">
+                                
+                                <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id,'files' =>$fsa->id]) }}">
+                                    <div class="media-left">
+                                                <li class="text-crt"></li>
+                                    </div>
+                                    <div class="media-body">
+                                        @php
+                                        if($sta == null){
+                                            echo "<i class='fa fa-fw fa-circle text-grey-300'></i>";
+                                        }else{
+                                           
+                                                if($status->learn_file_status == "s"){
+                                                    echo "<i class='fa fa-fw fa-circle text-green-300'></i>";
+                                                }else{
+                                                    echo "<i class='fa fa-fw fa-circle text-orange-300'></i>";
+                                                }
+                                            
+                                        }
+                                        @endphp
+                                        {{ $list->title }} : {{ $fsa->file_name}}
+                                       
+                                    </div>
+                                    <!-- <div class="media-right">
+                                        <div class="width-100 text-right text-caption">10:00 min</div>
+                                    </div> -->
+                                </div>
+                            </a>
+                            @endif
+                            @endforeach
+                            @endif
                         </div>
                         @endforeach
                     </div>
@@ -553,7 +600,7 @@ use App\Models\Grouptesting;
                                         
                                     </li>
                                     <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
-                                        ผลการสอบกอ่นเรียน,ผลการสอบหลังเรียน<br>
+                                        ผลการสอบก่อนเรียน,ผลการสอบหลังเรียน<br>
                                         @php
                                         $score = Score::where('lesson_id',$lesson_id)->where('user_id',Auth::user()->id)->where('active','y')->orderBy('update_date','DESC')->first();
                                         if(!$score){
@@ -587,7 +634,7 @@ use App\Models\Grouptesting;
                                         $count_lesson = $lesson_list->count();
                                         @endphp
                                         @if($count_learn == $count_lesson)
-                                        <script>
+                                        {{-- <script>
                                             document.addEventListener('DOMContentLoaded', function() {
                                                 @if(Session::has('sweetAlert'))
                                                 var sweetAlertData = @json(Session::get('sweetAlert'));
@@ -622,7 +669,7 @@ use App\Models\Grouptesting;
                                                 @endif
                                                 
                                             });
-                                        </script>
+                                        </script> --}}
                                         <p style="font-weight: normal;color: #045BAB;">ทำแบบทดสอบ</p>
                                         @else
                                         <p style="font-weight: normal;color: #045BAB;">-</p>

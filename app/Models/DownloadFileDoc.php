@@ -13,6 +13,13 @@ class DownloadFileDoc extends Model
 
     protected $primaryKey = 'filedoc_id';
 
+    protected $fillable = [
+        'active'
+    ];
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
+
     public static function findById($id)
     {
         return static::where('filedoc_id', $id)->first();

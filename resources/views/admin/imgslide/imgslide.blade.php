@@ -100,9 +100,9 @@
 											@if($item->active === 'y')
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value={{$item->imgslide_id}} id="chk_0" type="checkbox" name="chk[]"></td>
-												<td><img src="{{url('/public/storage/Imgslides',$item->imgslide_picture)}}" style="width:100px;height:100px;"><br>{{$item->imgslide_picture}}</td>
-												<td><a href="{{$item->imgslide_link}}">{{$item->imgslide_link}}</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{$item->imgslide_id}}"><i></i></a> 
+												<td><img src="{{asset('images/uploads/imgslides/'.$item->imgslide_picture)}}" style="width:100px;height:100px;"><br>{{$item->imgslide_picture}}</td>
+												<td><a href="{{$item->imgslide_link}}" target="_blank">{{$item->imgslide_link}}</a></td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('imgslide.detail',['id'=>$item->imgslide_id])}}"><i></i></a> 
 													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข {{$item->imgslide_id}}" href="{{url('imgslide_edit',$item->imgslide_id)}}"><i></i></a> 
 													<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ {{$item->imgslide_id}}" href="{{route('imgslide_delete',$item->imgslide_id)}}" onclick="return confirm('Are you Delete {{$item->imgslide_link}}?')"><i></i></a>	
 												</td>

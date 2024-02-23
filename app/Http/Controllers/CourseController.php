@@ -44,7 +44,7 @@ class CourseController extends Controller
     }
 
     // Lession
-    function courseLesson($course_id,$id, Request $request){
+    function courseLesson($course_id,$id, Request $request,$files = null){
         $domain = '15';
         if(Auth::check()){
         $ptest = Manage::where(['type' => 'pre','id' => $id,'active' =>'y'])->first();
@@ -86,24 +86,37 @@ class CourseController extends Controller
         $file = FileDoc::where(['lesson_id' => $id,'active' =>'y'])->get();
         if(isset($id)){
             $course_lesson = Lesson::join('course_online','course_online.course_id','=','lesson.course_id')->where('lesson.id',$id)->get();
-            $file_id = File::where('lesson_id',$id)->first();
-            
+            $track = File::where('lesson_id',$id)->first();
+            if($files != null){
+                $file_id = File::where('id',$files)->first();
+                // dd($file_id->toArray());
+            }else{
+                $file_id = File::where('lesson_id',$id)->first();
+            }
+            // dd($file_id->id);
         }
-        return view("course.course-lesson",['course_lesson' =>$course_lesson,'course_detail' =>$course_detail,'lesson_list' =>$lesson_list,'file' =>$file,'course_id' =>$course_id,'lesson_id' =>$id,'learn_id' =>$learn_id,'file_id' =>$file_id]);
+        return view("course.course-lesson",['course_lesson' =>$course_lesson,'course_detail' =>$course_detail,'lesson_list' =>$lesson_list,'file' =>$file,'course_id' =>$course_id,'lesson_id' =>$id,'learn_id' =>$learn_id,'file_id' =>$file_id,'track' => $track]);
     }else{
         return redirect()->route('index');
     }
 }
     
     // course
-    function course()
+    function course(Request $request)
     {
         if(Auth::check()){
         $org_chart_ids = Orgchart::where('active', 'y')->pluck('id');
 
         $orgcourse = Orgcourse::whereIn('orgchart_id', $org_chart_ids)->where('active', 'y')->pluck('course_id');
 
-        $course_detail = Course::join('category','category.cate_id','=','course_online.cate_id')->whereIn('course_id',$orgcourse)->where('course_online.active','y')->orderBy('course_id', 'desc')->paginate(6);
+        $query = $request->input('search_text');
+
+        if($query){
+            $course_detail = Course::join('category','category.cate_id','=','course_online.cate_id')->where('course_title', 'like', "%$query%")->paginate(10);
+        }else{
+            $course_detail = Course::join('category','category.cate_id','=','course_online.cate_id')->whereIn('course_id',$orgcourse)->where('course_online.active','y')->orderBy('course_id', 'desc')->paginate(6);
+        }
+        
         return view("course.course",['course_detail' =>$course_detail]);
     }else{
         return redirect()->route('index');
@@ -222,93 +235,6 @@ class CourseController extends Controller
        
     }
     // course create to 
-    function courseonlinecreateto(Request $request)
-    {
-        $request->validate([
-            'course_picture' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-        ]);
-        // img
-        $uploadedFile = $request->file('CourseOnline.course_picture');
-        $extension = $uploadedFile->getClientOriginalExtension();
-        $filename = now()->format('Ymd') . rand(10000, 99999) . '_Picture.' . $extension;
-        $uploadedFile->storeAs('public/images/uploads/', $filename);
-        // ข้อมูล
-        $data = [
-            'cate_id' => $request->input('CourseOnline.cate_id'),
-            'course_lecturer' => $request->input('CourseOnline.course_lecturer'),
-            'course_title' => $request->input('CourseOnline.course_title'),
-            'course_short_title' => $request->input('CourseOnline.course_short_title'),
-            'course_detail' => $request->input('CourseOnline.course_detail'),
-            'recommend' => $request->input('CourseOnline.recommend'),
-            'course_note' => $request->input('CourseOnline.course_note'),
-            'course_picture' => $filename,
-        ];
-        // บันทึก
-        DB::table('course_online')->insert($data);
-        $redirectUrl = route('courseonline');
-        return redirect($redirectUrl);
-    }
-    // course edit
-    function courseonlineedit(Request $request, $id)
-    {
-        $course_detail = DB::table('course_online')->where('course_id', $id)->first();
-        $category = DB::table('category')->pluck('cate_title', 'cate_id');
-        return view("admin\courseonline\courseonline-edit", compact('course_detail', 'category'));
-    }
-    // course edit to 
-    function courseonlineeditto(Request $request, $id)
-    {
-        $request->validate([
-            'course_picture' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-        ]);
-        // img
-        $filename = DB::table('course_online')->where('course_id', $id)->value('course_picture');
-        $uploadedFile = $request->file('CourseOnline.course_picture');
-        if ($uploadedFile) {
-            $extension = $uploadedFile->getClientOriginalExtension();
-            // ตั้งชื่อไฟล์
-            $filename = now()->format('Ymd') . rand(10000, 99999) . '_Picture.' . $extension;
-            // บันทึกไฟล์
-            $uploadedFile->storeAs('public/images/uploads/', $filename);
-            // อัปเดตไฟล์ลงฐานข้อมูล
-            DB::table('course_online')->where('course_id', $id)->update([
-                'course_picture' => $filename,
-            ]);
-        }
-        // ข้อมูล
-        $data = [
-            'cate_id' => $request->input('CourseOnline.cate_id'),
-            'course_lecturer' => $request->input('CourseOnline.course_lecturer'),
-            'course_title' => $request->input('CourseOnline.course_title'),
-            'course_short_title' => $request->input('CourseOnline.course_short_title'),
-            'course_detail' => $request->input('CourseOnline.course_detail'),
-            'recommend' => $request->input('CourseOnline.recommend'),
-            'course_note' => $request->input('CourseOnline.course_note'),
-            'course_picture' => $filename,
-            'update_date' => now(),
-        ];
-        // บันทึก
-        DB::table('course_online')->where('course_id', $id)->update($data);
-        $redirectUrl = route('courseonline');
-        return redirect($redirectUrl);
-    }
-    // course change to id
-    function courseonlinechange($id)
-    {
-        $course_detail = DB::table('course_online')->where('course_id', $id)->first();
-        // ตรวจสอบค่าปัจจุบันของ 'active' และกำหนดค่าใหม่
-        $newActive = ($course_detail->active == 'y') ? 'n' : 'y';
-        $data = [
-            'active' => $newActive,
-        ];
-        DB::table('course_online')->where('course_id', $id)->update($data);
-        $redirectUrl = route('courseonline');
-        return redirect($redirectUrl);
-    }
-     // course det show
-     function courseonlinedet(Request $request, $id)
-     {
-      
-     }
+    
 
 }
