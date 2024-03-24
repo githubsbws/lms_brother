@@ -66,11 +66,11 @@
                         
                     </div>
                     <label class="strong">Username</label>
-                   <input type="text" name="username">
+                   <input type="text" name="username" placeholder="Your username">
                        
                         
                         <label class="strong">Password</label>
-                       <input type="password" name="password">
+                       <input type="password" name="password" placeholder="Your password">
                        
                         <br><br>
                         <div class="row-fluid">

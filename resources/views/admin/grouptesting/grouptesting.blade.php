@@ -90,7 +90,7 @@ use App\Models\Question;
 												<th id="Grouptesting-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/grouptesting/index?Grouptesting_sort=group_title">ชื่อชุด</a></th>
 												<th id="Grouptesting-grid_c3">จำนวนข้อ</th>
 												<th id="Grouptesting-grid_c4">&nbsp;</th>
-												<th id="Grouptesting-grid_c5">&nbsp;</th>
+												{{-- <th id="Grouptesting-grid_c5">&nbsp;</th> --}}
 												<th id="Grouptesting-grid_c6">&nbsp;</th>
 												<th class="button-column" id="Grouptesting-grid_c7">จัดการ</th>
 											</tr>
@@ -101,7 +101,7 @@ use App\Models\Question;
 												<td>&nbsp;</td>
 												<td>&nbsp;</td>
 												<td>&nbsp;</td>
-												<td>&nbsp;</td>
+												{{-- <td>&nbsp;</td> --}}
 												<td>&nbsp;</td>
 											</tr>
 										</thead>
@@ -109,17 +109,17 @@ use App\Models\Question;
 											@foreach ($grouptesting as $item)
 											@php
 											$lesson = Lesson::where('id',$item->lesson_id)->first();
-											$question = Question::where('group_id',$item->group_id)->get();
+											$question = Question::where('group_id',$item->group_id)->where('active','y')->get();
 											@endphp
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="254" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td style="width:230px">{{$lesson->title}}</td>
 												<td>{{$item->group_title}}</td>
 												<td style="width:65px;text-align:center">{{ count($question) }}</td>
-												<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/254">Import excel</a></td>
-												<td width="100px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/create/254">เพิ่มข้อสอบ</a></td>
-												<td width="120px"><a class="btn btn-primary btn-icon" href="/admin/index.php/question/index/254">จัดการข้อสอบ</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/254"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('grouptesting_edit',$item->group_id)}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('grouptesting_delete',$item->group_id )}}"><i></i></a></td>
+												<td width="120px"><a class="btn btn-success btn-icon" href="{{route('ques.excel',['id' => $item->group_id])}}">Import excel</a></td>
+												{{-- <td width="100px"><a class="btn btn-primary btn-icon" href="{{ route('group_question.create',['id' => $item->group_id]) }}">เพิ่มข้อสอบ</a></td> --}}
+												<td width="120px"><a class="btn btn-primary btn-icon" href="{{ route('group_question',['id' => $item->group_id])}}">จัดการข้อสอบ</a></td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('grouptesting.detail',['id' => $item->group_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('grouptesting.edit',['id' =>$item->group_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('grouptesting_delete',$item->group_id )}}"><i></i></a></td>
 											</tr>
 										</tbody>
 										
@@ -137,8 +137,8 @@ use App\Models\Question;
 											@if ($grouptesting->currentPage() < $grouptesting->lastPage())
 											<li class="next"><a href="{{ $grouptesting->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
 											@endif
-											@if ($grouptesting->currentPage() == $grouptesting->lastPage())
-											<li class="last"><a href="{{ $grouptesting->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+											@if ($grouptesting->currentPage() < $grouptesting->lastPage())
+											<li class="last"><a href="{{ url('grouptesting?page='.$grouptesting->lastPage()) }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
 											@endif
 										</ul>
 									</div>

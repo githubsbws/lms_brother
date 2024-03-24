@@ -121,7 +121,7 @@
 													alt="{{ $item->cate_image }}"></td>
 												<td>{{$item->cate_title}}</td>
 												<td style="text-align:center;width:100px;">{{ $item->cate_short_detail}}</td>
-												<td style="width: 90px; text-align:center;">{{ $item->cate_detail}}</td>
+												<td style="width: 90px; text-align:center;">{!! htmlspecialchars_decode($item->cate_detail) !!}</td>
 												@if($item->cate_show == '1')
 												<td style="width: 90px; text-align:center;"><a class="btn btn-primary" href="{{ route('category.openshow', ['id' => $item->cate_id, 'off' => '0']) }}" role="button">เปิด</a></td>
 												@else

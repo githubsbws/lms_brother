@@ -253,7 +253,8 @@
 									</div>
 									<div class="row">
 										<label for="Lesson_content" class="required">เนื้อหา <span class="required">*</span></label>
-										<textarea class="tinymce" name="content" id="Lesson_content" aria-hidden="true" required></textarea>
+										<div id="microtextbox-cms-detail"></div>
+										{{-- <textarea class="tinymce" name="content" id="Lesson_content" aria-hidden="true" required></textarea> --}}
 										<div class="error help-block">
 											<div class="label label-important" id="Lesson_content_em_" style="display:none"></div>
 										</div>
@@ -414,7 +415,19 @@
 		<!-- // Footer END -->
 
 	</div>
-
+	<script>
+		const mtextboxConfig = {
+			target: [
+				{
+					id: 'microtextbox-cms-detail',
+					name: 'content',
+					options: {
+						placeholder: 'รายละเอียด'
+					}
+				}
+			]
+		};
+	</script>
 </body>
 
 @endsection

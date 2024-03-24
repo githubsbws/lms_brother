@@ -11,8 +11,14 @@ class Orgcourse extends Model
 
     protected $table = 'org_course';
 
-    protected $primarykey = 'id';
+    protected $primaryKey = 'id';
 
+    protected $fillable = [
+        'active'
+    ];
+
+    public $timestamps = false;
+    
     public static function findById($id)
     {
         return static::where('id', $id)->first();

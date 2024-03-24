@@ -14,7 +14,8 @@ class About extends Model
     protected $primaryKey = 'about_id';
     protected $fillable = [
         'about_title',
-        'about_detail'
+        'about_detail',
+        'active'
     ];
     const CREATED_AT = 'create_date'; // Custom created_at column
     const UPDATED_AT = 'update_date'; // Custom update_at column

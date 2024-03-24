@@ -516,11 +516,12 @@ use App\Models\File;
                                     </div>
                                     <div class="media-body">
                                         @php
+                                        // dd($sta->toArray());
                                         if($sta == null){
                                             echo "<i class='fa fa-fw fa-circle text-grey-300'></i>";
                                         }else{
                                            
-                                                if($status->learn_file_status == "s"){
+                                                if($sta->learn_file_status == "s"){
                                                     echo "<i class='fa fa-fw fa-circle text-green-300'></i>";
                                                 }else{
                                                     echo "<i class='fa fa-fw fa-circle text-orange-300'></i>";

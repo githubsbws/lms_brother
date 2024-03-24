@@ -11,7 +11,12 @@ class Manage extends Model
 
     protected $table = 'manage';
 
-    protected $primarykey = 'manage_id';
+    protected $primaryKey = 'manage_id';
+
+    protected $fillable = [ 'id','group_id','manage_row','active'];
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
 
     public static function findById($id)
     {

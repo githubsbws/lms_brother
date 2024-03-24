@@ -150,17 +150,15 @@ input:checked + .slider:before {
                                             </div>
                                         </div>
 
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_number">รหัสหลักสูตร</label>					<input class="span8" name="CourseOnline[course_number]" id="CourseOnline_course_number" type="text" maxlength="255" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_number_em_" style="display:none"></div></div>				</div> -->
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_rector_date">หลักสูตรได้รับความเห็นชอบเมื่อวันที่</label>					<input class="span8" readonly="readonly" id="CourseOnline_course_rector_date" name="CourseOnline[course_rector_date]" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_rector_date_em_" style="display:none"></div></div>				</div> -->
-
                                         <div class="row">
                                             <label for="CourseOnline_course_lecturer">ชื่อวิยากร</label>
                                             <select class="span8" name="teacher_name"
                                                 id="CourseOnline_course_lecturer">
+                                                @if( $course_detail->teacher_name != null)
                                                 <option value="{{ $course_detail->teacher_name }}">{{ $course_detail->teacher_name}}</option>
+                                                @else
+                                                <option value="">-</option>
+                                                @endif
                                                 @foreach($teacher as $t)
                                                 <option value="{{ $t->teacher_name }}">{{ $t->teacher_name}}</option>
                                                 @endforeach
@@ -198,7 +196,7 @@ input:checked + .slider:before {
                                             <label for="CourseOnline_course_short_title" class="required">รายละเอียดย่อ
                                                 <span class="required">*</span>
                                             </label>
-                                            <textarea rows="6" cols="50" class="span8 tinymce" name="course_short_title"
+                                            <textarea rows="6" cols="50" class="span8" name="course_short_title"
                                                 id="CourseOnline_course_short_title">{!!  htmlspecialchars_decode($course_detail->course_short_title) !!}</textarea>
                                             <span style="margin:0;"
                                                 class="btn-action single glyphicons circle_question_mark"><i></i></span>
@@ -212,16 +210,16 @@ input:checked + .slider:before {
                                         <div class="row">
                                             <label for="CourseOnline_course_detail" class="required">รายละเอียด <span
                                                     class="required">*</span></label>
-                                            
-                                            <textarea rows="6" cols="50" class="span8 tinymce" name="course_detail"
-                                                id="CourseOnline_course_detail" aria-hidden="true" style="">{!!  htmlspecialchars_decode($course_detail->course_detail) !!}</textarea>
+                                                <div id="microtextbox-cms-detail" style="height: 600px"></div>
+                                            {{-- <textarea rows="6" cols="50" class="span8 tinymce" name="course_detail"
+                                                id="CourseOnline_course_detail" aria-hidden="true" style="">{!!  htmlspecialchars_decode($course_detail->course_detail) !!}</textarea> --}}
                                             <div class="error help-block">
                                                 <div class="label label-important" id="CourseOnline_course_detail_em_"
                                                     style="display:none"></div>
                                             </div>
                                         </div>
                                         <br>
-
+                                        <br>
 
                                         <div class="row">
                                             <label for="CourseOnline_recommend">ปักหมุดหลักสูตรแนะนำ</label>
@@ -236,35 +234,7 @@ input:checked + .slider:before {
                                         </div>
 
 
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_refer">กำหนดอ้างถึงหนังสือ</label>					<input size="60" maxlength="255" class="span8" name="CourseOnline[course_refer]" id="CourseOnline_course_refer" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_refer_em_" style="display:none"></div></div>				</div> -->
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_book_number">หนังสือกรมพัฒนาธุรกิจการค้าเลขที่</label>					<input class="span8" name="CourseOnline[course_book_number]" id="CourseOnline_course_book_number" type="text" maxlength="255" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_book_number_em_" style="display:none"></div></div>				</div> -->
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_book_date">วันที่พัฒนาธุรกิจการค้า</label>					<input class="span8" readonly="readonly" id="CourseOnline_course_book_date" name="CourseOnline[course_book_date]" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_book_date_em_" style="display:none"></div></div>				</div> -->
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_type">ประเภทการเก็บชั่วโมง</label>					<select class="span8" name="CourseOnline[course_type]" id="CourseOnline_course_type">
-                                                        <option value="">เลือกประเภทการเก็บชั่วโมง</option>
-                                                        <option value="1">CPD</option>
-                                                        <option value="2">CPA</option>
-                                                        </select>					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_type_em_" style="display:none"></div></div>				</div> -->
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_hour">การเก็บชั่วโมง (บัญชี)</label>					<input size="60" maxlength="255" class="span8" name="CourseOnline[course_hour]" id="CourseOnline_course_hour" type="text" />					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_hour_em_" style="display:none"></div></div>				</div> -->
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_other">การเก็บชั่วโมง (อื่นๆ)</label>					<input size="60" maxlength="255" class="span8" name="CourseOnline[course_other]" id="CourseOnline_course_other" type="text" />					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_other_em_" style="display:none"></div></div>				</div> -->
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_tax">ประเภทการเสียภาษีหรือไม่</label>					<select class="span8" name="CourseOnline[course_tax]" id="CourseOnline_course_tax">
-                                                        <option value="">กรุณาเลือกประเภท</option>
-                                                        <option value="0" selected="selected">ไม่เสียภาษี (n.v.)</option>
-                                                        <option value="1">เสียภาษี</option>
-                                                        </select>					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_tax_em_" style="display:none"></div></div>				</div> -->
-
+                                     
                                         <div class="row">
                                             <label for="CourseOnline_course_note">หมายเหตุ</label> <input size="60"
                                                 maxlength="255" class="span8" value="{{ $course_detail->course_note }}"
@@ -274,11 +244,7 @@ input:checked + .slider:before {
                                                 <div class="label label-important" id="CourseOnline_course_note_em_"
                                                     style="display:none"></div>
                                             </div>
-                                        </div>
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_price">ราคา</label>					<input class="span8" name="CourseOnline[course_price]" id="CourseOnline_course_price" type="text" value="0" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_price_em_" style="display:none"></div></div>				</div> -->
-
+                                        </div>      
                                         <div class="row">
                                         </div>
 
@@ -395,6 +361,25 @@ input:checked + .slider:before {
                 }
                 });
         </script>
+         @php
+         $text = htmlspecialchars_decode(htmlspecialchars_decode($course_detail->course_detail));
+         @endphp
+     
+        <script>
+         const text = '{!! $text !!}'
+         const mtextboxConfig = {
+             target: [
+                 {
+                     id: 'microtextbox-cms-detail',
+                     name: 'course_detail',
+                     options: {
+                        placeholder: "",
+                        body: '{!! $text !!}'
+                     },
+                 }
+             ],
+         }
+     </script>
     </body>
 
 @endsection

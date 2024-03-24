@@ -111,7 +111,11 @@
 
                                         <div class="row">
                                             <label for="CourseOnline_recommend">ปักหมุดหลักสูตรแนะนำ</label>
-                                            -
+                                            @if($course_online->recommend == 'y')
+                                            <h5>เปิด</h5>
+                                            @else
+                                            <h5>ไม่เปิด</h5>
+                                            @endif
                                             <div class="error help-block">
                                                 <div class="label label-important" id="CourseOnline_recommend_em_"
                                                     style="display:none"></div>

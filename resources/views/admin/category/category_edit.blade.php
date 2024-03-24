@@ -105,9 +105,10 @@
                                         <div class="row">
                                             <label for="Category_cate_detail" class="required">รายละเอียด <span
                                                     class="required">*</span></label>
-                                            
-                                            <textarea rows="6" cols="50" class="span8 tinymce" name="cate_detail"
-                                                id="Category_cate_detail" aria-hidden="true" style="">{{ $category->cate_detail }}</textarea>
+                                                    {{-- {!! htmlspecialchars_decode(htmlspecialchars_decode($category->cate_detail)) !!} --}}
+                                            <div id="microtextbox-cms-detail" style="height: 1000px"></div>
+                                            {{-- <textarea rows="6" cols="50" class="span8 tinymce" name="cate_detail"
+                                                id="Category_cate_detail" aria-hidden="true" style="">{!! htmlspecialchars_decode($category->cate_detail) !!}</textarea> --}}
                                             <div class="error help-block">
                                                 <div class="label label-important" id="Category_cate_detail_em_"
                                                     style="display:none"></div>
@@ -222,5 +223,23 @@
         </div>
 
     </body>
+    @php
+    $text = htmlspecialchars_decode(htmlspecialchars_decode($category->cate_detail));
+	@endphp
 
+   <script>
+	const text = '{!! $text !!}'
+	const mtextboxConfig = {
+		target: [
+			{
+				id: 'microtextbox-cms-detail',
+				name: 'cate_detail',
+				options: {
+					placeholder: "",
+                    body: '{!! $text !!}'
+				},
+			}
+		],
+	}
+</script>
 @endsection

@@ -56,7 +56,7 @@
                                     <div class="panel panel-default" data-toggle="panel-collapse" data-open="false">
                                         
                                         <div class="panel-heading panel-collapse-trigger collapse in collapsed" data-toggle="collapse" data-target="#3caeb8e4-baaa-9587-7891-500dc5108dfe" aria-expanded="false" style="">
-                                            <h3 class="panel-title" style="font-size: 22px;"><img src="https://cdn.pixabay.com/photo/2014/12/29/18/44/beach-583172_640.jpg" alt="person" style="width: 25px;">{{ $type->faq_THtopic}}</h3>
+                                            <h3 class="panel-title" style="font-size: 22px;"><img src="{{ asset('themes/bws/images/brotherlogo.png') }}" alt="person" style="width: 25px;">{{ $type->faq_THtopic}}</h3>
                                         </div>
 
                                         
@@ -81,7 +81,7 @@
                         @endforeach
                     </div>
                     <div class="col-md-3">
-                        <form action="/lms_brother_docker/lms/app/index.php/faq" method="post">
+                        <form action="{{ url('faq_f_seach')}}" method="get">
                             <div class="panel panel-default" data-toggle="panel-collapse" data-open="true">
                                 <div class="panel-heading panel-collapse-trigger collapse in" data-toggle="collapse" data-target="#db1bec6e-26b3-0d7f-8fb2-2ea6a985de3c" aria-expanded="true" style="">
                                     <h4 class="panel-title" style="font-weight: bold;">ค้นหา</h4>

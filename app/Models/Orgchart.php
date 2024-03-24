@@ -11,9 +11,11 @@ class Orgchart extends Model
 
     protected $table = 'orgchart';
 
-    protected $primarykey = 'id';
+    protected $primaryKey = 'id';
 
-    protected $fillable = ['title','level'];
+    protected $fillable = ['title','level','active'];
+
+    public $timestamps = false;
     
     public static function findById($id)
     {

@@ -23,10 +23,31 @@
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="/admin/index.php/grouptesting/index">ระบบชุดข้อสอบบทเรียนออนไลน์</a></li> » <li>เพิ่มชุดข้อสอบอบรมออนไลน์</li>
+					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="/admin/index.php/grouptesting/index">ระบบชุดข้อสอบหลักสูตร</a></li> » <li>เพิ่มชุดข้อสอบหลักสูตร</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
-
+				<script>
+					tinymce.init({
+						selector: ".tinymce",
+						theme: "modern",
+						width: 680,
+						height: 300,
+						plugins: [
+							"advlist autolink link image lists charmap print preview hr anchor pagebreak",
+							"searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
+							"table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
+						],
+						toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
+						toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
+						image_advtab: true,
+				
+						external_filemanager_path: "{{asset('filemanager_f')}}",
+						filemanager_title: "Responsive Filemanager",
+						external_plugins: {
+							"filemanager": "{{asset('filemanager_f/plugin.min.js')}}"
+						}
+					});
+				</script>
 
 				<!-- innerLR -->
 				<div class="innerLR">
@@ -45,10 +66,10 @@
 									@csrf
 									<p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
 									<div class="row">
-										<label for="Grouptesting_lesson_id" class="required">ชื่อบทเรียนออนไลน์ <span class="required">*</span></label> <select class="span8" name="group_id" id="Grouptesting_lesson_id">
-											<option value="">--- กรุณาเลือกบทเรียน ---</option>
-											@foreach ($grouptesting as $item)
-											<option value="{{ $item->group_id}}">{{$item->group_title}}</option>
+										<label for="Grouptesting_lesson_id" class="required">ชื่อหลักสูตร <span class="required">*</span></label> <select class="span8" name="course_id" id="Grouptesting_lesson_id">
+											<option value="">--- ชื่อหลักสูตร ---</option>
+											@foreach ($course as $item)
+											<option value="{{ $item->course_id}}">{{$item->course_title}}</option>
 											@endforeach
 										</select> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
@@ -57,24 +78,7 @@
 									</div>
 
 									<div class="row">
-										<label for="Grouptesting_group_title" class="required">ประเภท <span class="required">*</span></label> 
-										<input type="radio" id="radio" name="radio" value="1"><span>Checkbox</span><br><br>
-										<input type="radio" id="radio" name="radio" value="2"><span>Radio</span><br><br>
-										<input type="radio" id="radio" name="radio" value="3"><span>Textarea</span><br>
-										<div class="error help-block">
-											<div class="label label-important" id="Grouptesting_group_title_em_" style="display:none"></div>
-										</div>
-									</div>
-									<div class="row">
-										<label for="Grouptesting_group_title" class="required">หัวข้อ <span class="required">*</span></label> 
-										<textarea rows="6" cols="50" class="span8 tinymce" name="ques_title" id="ques_title" aria-hidden="true" ></textarea>
-										<div class="error help-block">
-											<div class="label label-important" id="Grouptesting_group_title_em_" style="display:none"></div>
-										</div>
-									</div>
-									<div class="row">
-										<label for="Grouptesting_group_title" class="required">รายละเอียดย่อ <span class="required">*</span></label> 
-										<textarea rows="6" cols="50" class="span8 tinymce" name="ques_explain" id="ques_explain" aria-hidden="true" ></textarea>
+										<label for="Grouptesting_group_title" class="required">ชื่อชุด <span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="group_title" id="Grouptesting_group_title" type="text"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Grouptesting_group_title_em_" style="display:none"></div>
 										</div>

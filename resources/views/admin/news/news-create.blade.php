@@ -40,11 +40,12 @@
 						toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
 						toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
 						image_advtab: true,
+						automatic_uploads: true,
 				
-						external_filemanager_path: "{{asset('filemanager_f')}}",
+						external_filemanager_path: "{{asset('filemanager')}}",
 						filemanager_title: "Responsive Filemanager",
 						external_plugins: {
-							"filemanager": "{{asset('filemanager_f/plugin.min.js')}}"
+							"filemanager": "{{asset('filemanager/plugin.min.js')}}"
 						}
 					});
 				</script>
@@ -80,7 +81,8 @@
 
 									<div class="row">
 										<label for="News_cms_detail">เนื้อหาข่าว</label>
-										<textarea rows="6" cols="50" class="span8 tinymce" name="cms_detail" id="cms_detail" aria-hidden="true"></textarea>
+										<div id="microtextbox-cms-detail"></div>
+										{{-- <textarea rows="6" cols="50" class="span8 tinymce" name="cms_detail" id="cms_detail" aria-hidden="true"></textarea> --}}
 										<div class="error help-block">
 											<div class="label label-important" id="News_cms_detail_em_" style="display:none"></div>
 										</div>
@@ -179,4 +181,17 @@
 	</div>
 
 </body>
+<script>
+	const mtextboxConfig = {
+		target: [
+			{
+				id: 'microtextbox-cms-detail',
+				name: 'cms_detail',
+				options: {
+					placeholder: 'รายละเอียดเนื้อหาข่าว'
+				},
+			}
+		],
+	}
+</script>
 @endsection

@@ -13,5 +13,9 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
+        'orgchart_saveorgchart', 
+        'orgchart_new',
+        'orgchart_delete',
+        'orgchart_edit',
     ];
 }

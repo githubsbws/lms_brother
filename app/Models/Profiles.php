@@ -11,21 +11,33 @@ class Profiles extends Model
 
     protected $table = 'profiles';
 
-    protected $primarykey = 'user_id';
+    protected $primaryKey = 'user_id';
+    public $timestamps = false;
     
     protected $fillable = [
-        'user_id',
-        'lastname',
-        'firstname',
-        'identification',
-        'advisor_email1',
-        'advisor_email2',
-        'firstname_en',
-        'lastname_en'
-      ];
+        'user_id','title_id', 'firstname', 'lastname', 'firstname_en', 'lastname_en','identification','phone', 'advisor_email1', 'advisor_email2'
+    ];
 
     public function user()
     {
         return $this->belongsTo(Users::class,'id','user_id');
+    }
+    public function ProfTitle()
+    {
+        return $this->belongsTo(ProfilesTitle::class,'prof_id','title_id');
+    }
+    public function Fullname()
+    {
+        if($this->firstname != null && $this->lastname != null)
+        {
+            return $this->firstname . ' ' . $this->lastname;
+        }else{
+            return $this->firstname = "-".' '.$this->lastname = "-";
+        }
+        
+    }
+    public function FullnameEn()
+    {
+        return $this->firstname_en . ' ' . $this->lastname_en;
     }
 }

@@ -6,23 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class Questionnaireout extends Model
+class QSection extends Model
 {
     use HasFactory;
     protected $connection = 'mysql_noprefix';
-    protected $table = 'q_survey_headers';
+    protected $table = 'q_survey_sections';
     protected $prefix = '';
-    protected $primaryKey = 'survey_header_id';
+    protected $primaryKey = 'survey_section_id';
     protected $fillable = [
-        'survey_name',
-        'instructions',
-        'active'
+        'section_title',
+        'section_required_yn'
     ];
     
     public $timestamps = false;
 
     public static function fingById($id)
     {
-        return static::where('survey_header_id', $id)->first();
+        return static::where('survey_section_id', $id)->first();
     }
 }

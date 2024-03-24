@@ -73,7 +73,8 @@
 
 									<div class="row">
 										<label for="usa_detail" class="required">รายละเอียดย่อ <span class="required">*</span></label> 
-										<textarea rows="4" cols="40" class="span8 tinymce" maxlength="255" name="usa_detail" id="usa_detail" >{!! htmlspecialchars_decode($usa->usa_detail) !!}</textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<div id="microtextbox-cms-detail" style="height: 1000px"></div>
+										{{-- <textarea rows="4" cols="40" class="span8 tinymce" maxlength="255" name="usa_detail" id="usa_detail" >{!! htmlspecialchars_decode($usa->usa_detail) !!}</textarea> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> --}}
 										<div class="error help-block">
 											<div class="label label-important" id="usa_detail" style="display:none"></div>
 										</div>
@@ -110,6 +111,23 @@
 		<!-- // Footer END -->
 
 	</div>
-	
+	@php
+    $text = htmlspecialchars_decode(htmlspecialchars_decode($usa->usa_detail));
+	@endphp
+
+   <script>
+	const mtextboxConfig = {
+		target: [
+			{
+				id: 'microtextbox-cms-detail',
+				name: 'usa_detail',
+				options: {
+					placeholder: "",
+					body: '{!! $text !!}'
+				},
+			}
+		],
+	}
+</script>	
 </body>
 @endsection

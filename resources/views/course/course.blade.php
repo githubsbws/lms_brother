@@ -24,9 +24,9 @@
             <div class="container">
                 <div>
                     <ul class="pagination margin-top-none" id="yw0">
-                        <li class="first hidden"><a href="{{url('course')}}">&lt;&lt; หน้าแรก</a></li>
+                        <li class="first "><a href="{{url('course')}}">&lt;&lt; หน้าแรก</a></li>
                         @if ($course_detail->currentPage() > 1)
-                        <li class="previous hidden"><a href="{{ $course_detail->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+                        <li class="previous "><a href="{{ $course_detail->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
                         @endif
                         @for ($i = max(1, $course_detail->currentPage() - 3); $i <= min($course_detail->lastPage(), $course_detail->currentPage() + 3); $i++)
                         <li class="page"><a href="{{ $course_detail->url($i) }}" class="pagination-link {{ ($i == $course_detail->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
@@ -34,8 +34,8 @@
                         @if ($course_detail->currentPage() < $course_detail->lastPage())
                         <li class="next"><a href="{{ $course_detail->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
                         @endif
-                        @if ($course_detail->currentPage() == $course_detail->lastPage())
-                        <li class="last"><a href="{{ $course_detail->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+                        @if ($course_detail->currentPage() < $course_detail->lastPage())
+                        <li class="last"><a href="{{ url('course?page='.$course_detail->lastPage()) }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
                         @endif
                     </ul>
                 </div>
@@ -168,7 +168,7 @@
                                         @endforeach
                                     </div>
                                 </div>
-                                <button type="button" data-role="none" class="slick-prev"
+                                {{-- <button type="button" data-role="none" class="slick-prev"
                                     style="display: block;">Previous</button><button type="button" data-role="none"
                                     class="slick-next" style="display: block;">Next</button>
                                 <ul class="slick-dots" style="display: block;">
@@ -179,7 +179,7 @@
                                     <li><button type="button" data-role="none">5</button></li>
                                     <li><button type="button" data-role="none">6</button></li>
                                     <li><button type="button" data-role="none">7</button></li>
-                                </ul>
+                                </ul> --}}
                             </div>
                         </div>
                     </div>

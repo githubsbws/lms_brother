@@ -83,6 +83,7 @@
 											<tr>
 												<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
 												<th id="about-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/about/index?About_sort=about_title">หัวข้อเกี่ยวกับเรา</a>
+												<th id="about-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/about/index?About_sort=about_title">รายละเอียดเกี่ยวกับเรา</a>
 												</th>
 												<th class="button-column" id="about-grid_c2">จัดการ</th>
 											</tr>
@@ -98,9 +99,9 @@
 											<tr class="items[]_2">
 												<td class="checkbox-column"><input class="select-on-check" value="{{$abouts->about_id}}" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td>{{$abouts->about_title}}</td>
-												<td>{!! htmlspecialchars_decode($abouts->about_detail) !!}</td>
+												<td>{!! htmlspecialchars_decode(htmlspecialchars_decode($abouts->about_detail)) !!}</td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('aboutus.detail', ['id' => $abouts->about_id]) }}"><i></i></a>
-													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('aboutus.update', ['id' => $abouts->about_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/about/delete/2"><i></i></a>
+													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('aboutus.update', ['id' => $abouts->about_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('aboutus.delete', ['id' => $abouts->about_id])}}"><i></i></a>
 												</td>
 											</tr>
 											@endforeach

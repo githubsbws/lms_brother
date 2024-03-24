@@ -49,9 +49,9 @@
                             @endforeach
                             <div style="float: right;">
                                 <ul class="pagination margin-top-none" id="yw0">
-                                    <li class="first hidden"><a href="{{url('new')}}">&lt;&lt; หน้าแรก</a></li>
+                                    <li class="first "><a href="{{url('new')}}">&lt;&lt; หน้าแรก</a></li>
                                     @if ($news->currentPage() > 1)
-                                    <li class="previous hidden"><a href="{{ $news->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+                                    <li class="previous "><a href="{{ $news->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
                                     @endif
                                     @for ($i = max(1, $news->currentPage() - 3); $i <= min($news->lastPage(), $news->currentPage() + 3); $i++)
                                     <li class="page"><a href="{{ $news->url($i) }}" class="pagination-link {{ ($i == $news->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
@@ -59,14 +59,14 @@
                                     @if ($news->currentPage() < $news->lastPage())
                                     <li class="next"><a href="{{ $news->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
                                     @endif
-                                    @if ($news->currentPage() == $news->lastPage())
-                                    <li class="last"><a href="{{ $news->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+                                    @if ($news->currentPage() < $news->lastPage())
+                                    <li class="last"><a href="{{ url('new?page='.$news->lastPage()) }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
                                     @endif
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <form action="/lms_brother_docker/lms/app/index.php/list_news" method="post">
+                            <form action="{{url('new_search')}}" method="get">
                                 <div class="panel panel-default" data-toggle="panel-collapse" data-open="true">
                                     <div class="panel-heading panel-collapse-trigger collapse in" data-toggle="collapse" data-target="#4fe5d772-ac6b-7188-4cfa-b2666261bdf7" aria-expanded="true" style="">
                                         <h4 class="panel-title" style="font-weight: bold;">ค้นหา</h4>

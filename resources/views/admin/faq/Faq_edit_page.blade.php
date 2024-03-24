@@ -61,7 +61,9 @@
 
                                     <div class="row">
                                         <label for="faq_THanswer" class="required">คำตอบ <span class="required">*</span></label>
-                                        <textarea class="span8" name="faq_THanswer" id="faq_THanswer" rows="6">{{ $faq_edit_page->faq_THanswer }}</textarea>
+                                        {{-- {!! htmlspecialchars_decode($faq_edit_page->faq_THanswer) !!} --}}
+                                        <div id="microtextbox-cms-detail" style="height: 1000px"></div>
+                                        {{-- <textarea class="span8" name="faq_THanswer" id="faq_THanswer" rows="6">{{ $faq_edit_page->faq_THanswer }}</textarea> --}}
                                     </div>
 
                                     <div class="row buttons">
@@ -91,7 +93,25 @@
         <!-- // Footer END -->
 
     </div>
+    @php
+    $text = htmlspecialchars_decode(htmlspecialchars_decode($faq_edit_page->faq_THanswer));
+	@endphp
 
+   <script>
+	var text = {!! json_encode($text) !!};
+	const mtextboxConfig = {
+		target: [
+			{
+				id: 'microtextbox-cms-detail',
+				name: 'faq_THanswer',
+				options: {
+					placeholder: text,
+                    body : '{!! $text !!}'
+				},
+			}
+		],
+	}
+</script>
 </body>
 
 @endsection

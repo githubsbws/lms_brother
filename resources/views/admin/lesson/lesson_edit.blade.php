@@ -167,7 +167,9 @@
                                         <div class="row">
                                             <label for="Lesson_content" class="required">เนื้อหา <span
                                                     class="required">*</span></label>
-                                            <textarea rows="6" cols="50" class="span8 tinymce" name="content" id="Lesson_content" aria-hidden="true">{!! htmlspecialchars_decode($lesson->content) !!}</textarea>
+                                                {{-- {!! htmlspecialchars_decode($lesson->content) !!} --}}
+                                            <div id="microtextbox-cms-detail" style="height: 1000px"></div>
+                                            {{-- <textarea rows="6" cols="50" class="span8 tinymce" name="content" id="Lesson_content" aria-hidden="true">{!! htmlspecialchars_decode($lesson->content) !!}</textarea> --}}
                                             <div class="error help-block">
                                                 <div class="label label-important" id="Lesson_content_em_"
                                                     style="display:none"></div>
@@ -382,7 +384,25 @@
             <!-- // Footer END -->
 
         </div>
+        @php
+        $text = htmlspecialchars_decode(htmlspecialchars_decode($lesson->content));
+        @endphp
+    
+       <script>
 
+        const mtextboxConfig = {
+            target: [
+                {
+                    id: 'microtextbox-cms-detail',
+                    name: 'content',
+                    options: {
+                        placeholder: "",
+                        body: '{!! $text !!}'
+                    },
+                }
+            ],
+        }
+    </script>
     </body>
 
 @endsection

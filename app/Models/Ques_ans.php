@@ -11,14 +11,20 @@ class Ques_ans extends Model
 
     protected $connection = 'mysql_noprefix';
 
-    protected $table = 'q_quest_ans';
+    protected $table = 'q_answers';
 
     protected $prefix = '';
 
     protected $primarykey = 'id';
 
+    protected $fillable = [
+        'choice_id'
+    ];
+    
+    public $timestamps = false;
+
     public static function findById($id)
     {
-        return static::where('id', $id)->first();
+        return static::where('answer_id', $id)->first();
     }
 }

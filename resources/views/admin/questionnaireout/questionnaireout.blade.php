@@ -70,23 +70,40 @@
 											<tr>
 												<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
 												<th id="FaqType-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/faqType/index?FaqType_sort=faq_type_title_TH">หมวดหัวข้อ</a></th>
+												<th id="Grouptesting-grid_c5">&nbsp;</th>
 												<th class="button-column" id="FaqType-grid_c2">จัดการ</th>
 											</tr>
 										</thead>
 										<tbody>
 											@foreach ($survey_headers as $item)
-											@if($item->active === 'y')
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="97" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td>{{$item->survey_name}}</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด {{$item->survey_header_id}}" href="/admin/index.php/faqType/97"><i></i></a> 
+												<td width="100px"><a class="btn btn-primary btn-icon" href="{{ route('questionnaireout.exam',['id' => $item->survey_header_id]) }}" target="_blank"><input type="text" value="{{route('questionnaireout.exam',['id' =>$item->survey_header_id])}}">Link แบบสอบถาม</a></td>
+												<td style="width: 90px;" class="center"> 
 													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข {{$item->survey_header_id}}" href="{{url('questionnaireout_edit',$item->survey_header_id)}}"><i></i></a> 
 													<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ {{$item->survey_header_id}}" href="{{route('questionnaireout_delete',$item->survey_header_id)}}"><i></i></a></td>
 											</tr>
-											@endif
 											@endforeach
 										</tbody>
 									</table>
+									<div class="pagination pull-right">
+										<ul class="pagination margin-top-none" id="yw0">
+											<li class="first"><a href="{{url('questionnaireout')}}">&lt;&lt; หน้าแรก</a></li>
+											@if ($survey_headers->currentPage() > 1)
+												<li class="previous"><a href="{{ $survey_headers->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+											@endif
+											@for ($i = max(1, $survey_headers->currentPage() - 3); $i <= min($survey_headers->lastPage(), $survey_headers->currentPage() + 3); $i++)
+												<li class="page"><a href="{{ $survey_headers->url($i) }}" class="pagination-link {{ ($i == $survey_headers->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
+											@endfor
+											@if ($survey_headers->currentPage() < $survey_headers->lastPage())
+												<li class="next"><a href="{{ $survey_headers->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
+											@endif
+											@if ($survey_headers->currentPage() < $survey_headers->lastPage())
+												<li class="last"><a href="{{ url('questionnaireout?page='.$survey_headers->lastPage()) }}" class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+											@endif
+										</ul>
+									</div>
 									<div class="keys" style="display:none" title="/admin/index.php/faqType/index"><span>97</span><span>96</span></div>
 									<input type="hidden" name="FaqType[news_per_page]" value="">
 								</div>

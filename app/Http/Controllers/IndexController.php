@@ -11,15 +11,18 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Session;
+use App\Models\Imgslide;
 
 class IndexController extends Controller
 {
    function index(){
       $news = News::where('active','y')->limit(4)->get();
       $download = Downloadtitle::where('active','y')->get();
+      $img = Imgslide::where('active','y')->get();
       return view("index.index",[
         'news' => $news,   
-        'download' => $download
+        'download' => $download,
+        'img' => $img
       ]);
    }
 }

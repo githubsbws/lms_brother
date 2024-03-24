@@ -108,83 +108,15 @@
 												<td style="width:450px; vertical-align:top;">{{$item->cms_short_title}}</td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('news.detail',['id'=>$item->cms_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('news_edit',$item->cms_id)}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('news_delete',$item->cms_id)}}"><i></i></a></td>
 											</tr>
-											{{-- <tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="77" id="chk_1" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/77/small/07012021172459_Picture.jpg" alt="07012021172459_Picture.jpg"></td>
-												<td>Technical Clip EP 3</td>
-												<td style="width:450px; vertical-align:top;">การแก้ปัญหา Develop Joint ทำงานผิดปกติของเครื่อง Color LED </td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/77"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/77"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/77"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="74" id="chk_2" type="checkbox" name="chk[]"></td>
-												<td width="110"><img style="width:110px;height:90px;" src="/admin/images/logo_course.png" alt="No Image"></td>
-												<td>Brother Care Pack</td>
-												<td style="width:450px; vertical-align:top;">แนะนำ Brother Care Pack :ซึ่งจะมีการอธิบายถึงบริการต่างๆที่ทางบราเดร์จัดเตรียมไว้ให้</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/74"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/74"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/74"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="72" id="chk_3" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/72/small/12052020094250_Picture.jpg" alt="12052020094250_Picture.jpg"></td>
-												<td>Cloud77 App</td>
-												<td style="width:450px; vertical-align:top;">โปรแกรมสำหรับการ get information ในรูปของ Text file จากเครื่อง printer ทั้ง Inkjet และ Laser ของ brother
-													ทั้งยังสามารถ print Maintenance77 จากโปรแกรมได้ </td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/72"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/72"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/72"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="71" id="chk_4" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/71/small/24042020152134_Picture.jpg" alt="24042020152134_Picture.jpg"></td>
-												<td>แนะนำโปรแกรม BR-Admin Professional 4</td>
-												<td style="width:450px; vertical-align:top;">อธิบายความหมาย หน้าที่ จุดเด่น ของโปรแกรม BR-Admin Professional 4
-													หากต้องการเรียนการใช้งาน ให้เข้าระบบ LMS ด้วย Username / Password ที่ทางบราเดอร์กำหนดให้</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/71"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/71"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/71"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="70" id="chk_5" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/70/small/13042020162123_Picture.jpg" alt="13042020162123_Picture.jpg"></td>
-												<td>6 ขั้นตอนในการแก้ Machine Error 50</td>
-												<td style="width:450px; vertical-align:top;">Technical Clip # 01
-													- 6 ขั้นตอนในการแก้ Machine Error 50</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/70"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/70"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/70"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="68" id="chk_6" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/68/small/03042020123014_Picture.jpg" alt="03042020123014_Picture.jpg"></td>
-												<td>BrUSBsn</td>
-												<td style="width:450px; vertical-align:top;">การใช้งานโปรแกรม BrUSBsn เพื่อใส่ค่า หมายเลขหัวพิมพ์, หมายเลขเลเซฮร์, หมายเลขเครื่อง </td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/68"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/68"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/68"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="67" id="chk_7" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/67/small/03042020111854_Picture.jpg" alt="03042020111854_Picture.jpg"></td>
-												<td>brother maintenance USB</td>
-												<td style="width:450px; vertical-align:top;">โปรแกรมการเชื่อมต่อ Computer กับ brother printer ภายใต้ Maintenance mode หรือ Firmware mode</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/67"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/67"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/67"><i></i></a></td>
-											</tr>
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="66" id="chk_8" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/66/small/02042020142137_Picture.jpg" alt="02042020142137_Picture.jpg"></td>
-												<td>การใช้งานโปรแกรม SVsetting</td>
-												<td style="width:450px; vertical-align:top;">โปรแกรมสำหรับการ
-													get information, Print Maintenance, Add Serial number, input country code </td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/66"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/66"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/66"><i></i></a></td>
-											</tr>
-											<tr class="even selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="65" id="chk_9" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="http://lms.brother.co.th/admin/../uploads/news/65/small/01042020142634_Picture.JPG" alt="01042020142634_Picture.JPG"></td>
-												<td>อาการเข็มเย็บไม่ตรงช่องแผ่นplate</td>
-												<td style="width:450px; vertical-align:top;">Needle bar supporter ชำรุด ทำให้เสาเข็มเอียง
-													เข็มจึงเย็บไม่ตรงช่องแผ่น plate</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/news/65"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="/admin/index.php/news/update/65"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/news/delete/65"><i></i></a></td>
-											</tr> --}}
 											@endif
 											@endforeach
 										</tbody>
 									</table>
 									<div class="pagination pull-right">
 										<ul class="pagination margin-top-none" id="yw0">
-											<li class="first hidden"><a href="{{url('new')}}">&lt;&lt; หน้าแรก</a></li>
+											<li class="first "><a href="{{url('news')}}">&lt;&lt; หน้าแรก</a></li>
 											@if ($news->currentPage() > 1)
-											<li class="previous hidden"><a href="{{ $news->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+											<li class="previous "><a href="{{ $news->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
 											@endif
 											@for ($i = max(1, $news->currentPage() - 3); $i <= min($news->lastPage(), $news->currentPage() + 3); $i++)
 											<li class="page"><a href="{{ $news->url($i) }}" class="pagination-link {{ ($i == $news->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
@@ -192,8 +124,8 @@
 											@if ($news->currentPage() < $news->lastPage())
 											<li class="next"><a href="{{ $news->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
 											@endif
-											@if ($news->currentPage() == $news->lastPage())
-											<li class="last"><a href="{{ $news->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+											@if ($news->currentPage() < $news->lastPage())
+											<li class="last"><a href="{{ url('news?page='.$news->lastPage()) }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
 											@endif
 										</ul>
 									</div>

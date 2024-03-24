@@ -22,6 +22,23 @@
 			<!-- Content -->
 			<!-- <div class="span-19"> -->
 			<div id="content">
+				@if (session('success'))
+                    <div class="alert alert-success" id="success-alert">{{ session('success') }}</div>
+                    <script>
+                        setTimeout(function(){
+                            document.getElementById('success-alert').style.display = 'none';
+                        }, 3000);
+                    </script>
+                @endif
+
+                @if ($errors->has('import_excel'))
+                    <div class="alert alert-danger" id="error-alert">{{ $errors->first('import_excel') }}</div>
+                    <script>
+                        setTimeout(function(){
+                            document.getElementById('error-alert').style.display = 'none';
+                        }, 3000);
+                    </script>
+                @endif
 				<!-- breadcrumbs -->
 				<div class="separator bottom"></div>
                     <div class="innerLR">
@@ -32,6 +49,7 @@
                             <div class="widget-body">
                                 <div class="row-fluid">
                                     <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
                                         <div class="span4">
                                             <h4>นำเข้าไฟล์ สำหรับผู้เรียน <label>(ไฟล์ excel เท่านั้น)</label></h4>
                                             <input type="file" class="form-control" id="import_excel" name="import_excel">

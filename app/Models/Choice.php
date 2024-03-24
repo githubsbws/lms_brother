@@ -11,7 +11,21 @@ class Choice extends Model
 
     protected $table = 'choice';
 
-    protected $primarykey = 'choice_id';
+    protected $primaryKey = 'choice_id';
+
+    protected $fillable = [
+        'choice_detail',
+        'choice_answer',
+        'choice_type',
+        'ques_id',
+        'create_by',
+        'update_by',
+        'active'
+    ];
+
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
 
     public static function findById($id)
     {

@@ -15,7 +15,13 @@ class Question extends Model
 
     protected $fillable = [
         'step_id',
-        'active'
+        'active',
+        'ques_type',
+        'ques_title',
+        'ques_explain',
+        'group_id',
+        'create_by',
+        'update_by'
     ];
 
 

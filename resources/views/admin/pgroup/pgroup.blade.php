@@ -51,7 +51,7 @@
 						</div>
 						<div class="separator bottom form-inline small">
 								<span class="pull-right" style="margin-left: 10px;">
-									<a class="btn btn-primary btn-icon glyphicons circle_plus" href="{{ url('/pgroup_create') }}"><i></i> เพิ่มระดับชั้น</a>
+									<a class="btn btn-primary btn-icon glyphicons circle_plus" href="{{ url('/pgroup_create') }}"><i></i> เพิ่มกลุ่มผู้ใช้งาน</a>
 								</span>
 								<span class="pull-right">
 									<label class="strong">แสดงแถว:</label>
@@ -83,30 +83,25 @@
 									<table class="table table-striped table-bordered table-condensed dataTable table-primary js-table-sortable ui-sortable">
 										<thead>
 											<tr>
-												<th class="checkbox-column" id="chk" style="width: 50px"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
-												<th id="Pgroup-grid_c1" style="width: 10px">No</th>
-												<th id="Pgroup-grid_c2">group name</th>
-												<th id="Pgroup-grid_c2">วันที่สร้าง</th>
-												<th id="Pgroup-grid_c2">วันที่แก้ไขล่าสุด</th>
-												<th id="Pgroup-grid_c2" style="width: 50px; text-align: center;">ย้าย</th>
-												<th id="Pgroup-grid_c2">จัดการ</th>
+												{{-- <th class="checkbox-column" id="chk" style="width: 50px"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th> --}}
+												<th>No</th>
+												<th>รายชื่อกลุ่มผู้ใช้งาน</th>
+												<th>จัดการสิทธิ์</th>
+                                                <th>ลบ</th>
 											</tr>
 										</thead>
 										<tbody>
-											@foreach($p_group as $item)
-											@if($item->active === 'y')
-											<tr class="odd selectable"> 
-												<td class="checkbox-column"><input class="select-on-check" value="" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td>{{$item->pgroup_id}}</td>
-												<td>{{$item->group_name}}</td>
-												<td>{{$item->create_date}}</td>
-												<td>{{$item->update_date}}</td>
-												<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse"><i></i></a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด " href=""><i></i></a> 
-													<a class="btn-action glyphicons pencil btn-success" title="แก้ไข {{$item->pgroup_id}}" href="{{url('pgroup_edit',$item->pgroup_id)}}"><i></i></a> 
-													<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ {{$item->pgroup_id}}" href="{{route('pgroup_delete',$item->pgroup_id)}}" onclick="return confirm('Are you Delete {{$item->group_name}}?')"><i></i></a></td>
-											</tr>
-											@endif
+											@foreach($p_group as $index => $item)
+                                                <tr class="odd selectable">
+                                                    {{-- <td class="checkbox-column"><input class="select-on-check" value="" id="chk_0" type="checkbox" name="chk[]"></td> --}}
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $item->group_name }}</td>
+                                                    <td><a href="{{ route('pgroup_edit',['pgroup_id' => $item->id]) }}" class="btn btn-success">แก้ไขสิทธิ์</a></td>
+                                                    <td><a href="{{ route('pgroup_delete',['pgroup_id' => $item->id]) }}" class="btn btn-danger">ลบ</a></td>
+                                                    {{-- <td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด " href=""><i></i></a>
+                                                        <a class="btn-action glyphicons pencil btn-success" title="แก้ไข {{$item->pgroup_id}}" href="{{url('pgroup_edit',$item->pgroup_id)}}"><i></i></a>
+                                                        <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ {{$item->pgroup_id}}" href="{{route('pgroup_delete',$item->pgroup_id)}}" onclick="return confirm('Are you Delete {{$item->group_name}}?')"><i></i></a></td> --}}
+                                                </tr>
 											@endforeach
 										</tbody>
 									</table>

@@ -3,6 +3,8 @@
 @section('content')
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" rel="stylesheet" >
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <body class="">
 
@@ -52,6 +54,7 @@
 															<th scope="col">เลขบัตรประชาชน</th>
 															<th scope="col">email</th>
 															<th scope="col">advisor_email1</th>
+                                                            <th scope="col">จัดการสิทธิ์</th>
 															<th scope="col">จัดการ</th>
 														</tr>
 													</thead>
@@ -66,21 +69,24 @@
 																		{{ $index + 1 }}
 																	@endif
 																</td>
-																<td>{{ @$data->profile->firstname }} {{ @$data->profile->lastname }}</td>
-																<td>{{ @$data->profile->identification }}</td>
+																<td>{{ @$data->Profiles->firstname }} {{ @$data->Profiles->lastname }}</td>
+																<td>{{ @$data->Profiles->identification }}</td>
 																<td>{{ @$data->email }}</td>
-																<td>{{ @$data->profile->advisor_email1 }}</td>
+																<td>{{ @$data->Profiles->advisor_email1 }}</td>
+                                                                <td>
+                                                                    <a href="{{ route('permission_add',['id'=> $data->id]) }}" class="btn btn-info"><i class="bi bi-joystick"></i></a>
+                                                                </td>
 																<td>
-																	<a href="" class="btn btn-info"><i class="bi bi-eye"></i></a>
-																	<a href="" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
-																	<a href="" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+																	<a href="{{ route('user_view',['id'=>$data->id]) }}" class="btn btn-info"><i class="bi bi-eye"></i></a>
+																	<a href="{{ route('user_edit',['id'=>$data->id]) }}" class="btn btn-warning"><i class="bi bi-pencil"></i></a>
+																	<a href="#" class="btn btn-danger" onclick="confirmDelete('{{ route('user_delete', ['id' => $data->id]) }}')"><i class="bi bi-trash"></i></a>
 																</td>
 															</tr>
 														@endforeach
 													</tbody>
 												</table>
 											</div>
-										</div>	
+										</div>
 									</div>
 									<div class="pagination-main mt-3">
 										<nav>
@@ -95,9 +101,9 @@
 
 							<!-- Column -->
 							<div>
-								
-									
-								
+
+
+
 							</div>
 							<!-- // Column END -->
 
@@ -130,6 +136,21 @@
 		<!-- // Footer END -->
 
 	</div>
-
+    <script type="text/javascript">
+        function confirmDelete(deleteUrl) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'ต้องการลบข้อมูลใช่ไหม?',
+                showCancelButton: true,
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = deleteUrl;
+                    Swal.fire('ลบข้อมูลเรียบร้อย', '', 'success');
+                }
+            });
+        }
+    </script>
 </body>
 @endsection

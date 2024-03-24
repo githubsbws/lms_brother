@@ -74,8 +74,8 @@
 
 									<div class="row">
 										<label for="Usability_usa_detail" class="required">รายละเอียดการใช้งาน <span class="required">*</span></label>
-										
-										<textarea rows="6" cols="50" class="span8 tinymce" name="usa_detail" id="Usability_usa_detail" aria-hidden="true" ></textarea>
+										<div id="microtextbox-cms-detail"></div>
+										{{-- <textarea rows="6" cols="50" class="span8 tinymce" name="usa_detail" id="Usability_usa_detail" aria-hidden="true" ></textarea> --}}
 										<div class="error help-block">
 											<div class="label label-important" id="Usability_usa_detail_em_" style="display:none"></div>
 										</div>
@@ -113,6 +113,18 @@
 		<!-- // Footer END -->
 
 	</div>
-
+	<script>
+		const mtextboxConfig = {
+			target: [
+				{
+					id: 'microtextbox-cms-detail',
+					name: 'usa_detail',
+					options: {
+						placeholder: 'รายละเอียด'
+					}
+				}
+			]
+		};
+	</script>
 </body>
 @endsection

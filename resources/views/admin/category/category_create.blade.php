@@ -94,8 +94,8 @@
                                             <label for="Category_cate_short_detail" class="required">รายละเอียดย่อ <span
                                                     class="required">*</span></label>
                                             <textarea rows="4" cols="40" class="span8" maxlength="255" name="cate_short_detail"
-                                                id="Category_cate_short_detail"></textarea> <span style="margin:0;"
-                                                class="btn-action single glyphicons circle_question_mark"><i></i></span>
+                                                id="Category_cate_short_detail"></textarea> 
+                                                <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
                                             <div class="error help-block">
                                                 <div class="label label-important" id="Category_cate_short_detail_em_"
                                                     style="display:none"></div>
@@ -105,9 +105,9 @@
                                         <div class="row">
                                             <label for="Category_cate_detail" class="required">รายละเอียด <span
                                                     class="required">*</span></label>
-                                            
-                                            <textarea rows="6" cols="50" class="span8 tinymce" name="cate_detail"
-                                                id="Category_cate_detail" aria-hidden="true" style=""></textarea>
+                                                    <div id="microtextbox-cms-detail-long"></div>
+                                            {{-- <textarea rows="6" cols="50" class="span8 tinymce" name="cate_detail"
+                                                id="Category_cate_detail" aria-hidden="true" style=""></textarea> --}}
                                             <div class="error help-block">
                                                 <div class="label label-important" id="Category_cate_detail_em_"
                                                     style="display:none"></div>
@@ -213,7 +213,19 @@
             <!-- // Footer END -->
 
         </div>
-
+        <script>
+            const mtextboxConfig = {
+                target: [
+                    {
+                        id: 'microtextbox-cms-detail-long',
+                        name: 'cate_detail',
+                        options: {
+                            placeholder: 'รายละเอียด'
+                        }
+                    }
+                ]
+            };
+        </script>
     </body>
 
 @endsection

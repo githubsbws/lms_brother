@@ -188,16 +188,20 @@ tr.dragged {
 										<tbody>
 											@foreach ($lesson as $item)
 												@php 
-												$course = Course::where('course_id', $item->course_id)->first();
+												$course = Course::findById($item->course_id);
 												$file = File::where('lesson_id',$item->id)->where('active','y')->get();
 												$chkpre = Manage::where('id',$item->id)->where('type','pre')->where('active','y')->get();
 												$chkpost = Manage::where('id',$item->id)->where('type','post')->where('active','y')->get();
 												@endphp
 												<tr class="items[]" >
 													<td class="checkbox-column"><input class="select-on-check" value="313" id="chk_0" type="checkbox" name="chk[]"></td>
+													@if($course != null)
 													<td style="width: 150px;">{{ $course->course_title }}</td>
+													@else
+													<td style="width: 150px;">-</td>
+													@endif
 													<td style="width: 250px;">{{ $item->title }}</td>
-													<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="/admin/index.php/Questionnaire/Choose/313">เลือก</a></td>
+													<td style="text-align: center" width="160px"><a class="btn btn-primary btn-icon" href="{{route('questionnaireout.plan',['id'=>$item->id])}}">เลือก</a></td>
 													@if($file->isEmpty())
 													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('filemanagers')}}">จัดการวิดีโอ (0)</a></td>
 													@else
@@ -205,14 +209,14 @@ tr.dragged {
 													 <td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('filemanagers',['id' =>$item->id])}}">จัดการวิดีโอ ({{ count($file) }})</a></td>
 													@endif
 													@if($chkpre->isEmpty())
-													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting')}}">เลือกข้อสอบ (0)</a></td>
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting.plan',['id' => $item->id,'type' => 'pre'])}}">เลือกข้อสอบ (0)</a></td>
 													@else
-													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting',['id' => $item->id,'type' => 'pre'])}}">เลือกข้อสอบ ({{ count($chkpre) }})</a></td>
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting.plan',['id' => $item->id,'type' => 'pre'])}}">เลือกข้อสอบ ({{ count($chkpre) }})</a></td>
 													@endif
 													@if($chkpost->isEmpty())
-													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting')}}">เลือกข้อสอบ (0)</a></td>
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting.plan',['id' => $item->id,'type' => 'post'])}}">เลือกข้อสอบ (0)</a></td>
 													@else
-													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting',['id' => $item->id,'type' => 'post'])}}">เลือกข้อสอบ ({{ count($chkpost) }})</a></td>
+													<td style="text-align: center" width="100px"><a class="btn btn-primary btn-icon" href="{{route('grouptesting.plan',['id' => $item->id,'type' => 'post'])}}">เลือกข้อสอบ ({{ count($chkpost) }})</a></td>
 													@endif
 													<td style="text-align: center; width:50px;" class="row_move"><a class="glyphicons move btn-action btn-inverse" onclick="moveData({{ $item->id }})"><i></i></a></td>
 													<td style="width: 90px;" class="center">
@@ -250,8 +254,8 @@ tr.dragged {
 											@if ($lesson->currentPage() < $lesson->lastPage())
 											<li class="next"><a href="{{ $lesson->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
 											@endif
-											@if ($lesson->currentPage() == $lesson->lastPage())
-											<li class="last"><a href="{{ $lesson->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+											@if ($lesson->currentPage() < $lesson->lastPage())
+											<li class="last"><a href="{{ url('lesson?page='.$lesson->lastPage()) }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
 											@endif
 										</ul>
 									</div>

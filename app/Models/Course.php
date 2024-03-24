@@ -17,7 +17,6 @@ class Course extends Model
         'course_lecturer',
         'active',
         'recommend',
-        'special_category',
         'status',
         'cate_amount',
         'time_test',

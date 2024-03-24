@@ -71,7 +71,7 @@
                                         <div class="row">
                                             <label for="Category_cate_detail" class="required">รายละเอียด <span
                                                     class="required">*</span></label>
-                                                    <h5>{{ $category->cate_detail }}</h5>
+                                                    <h5>{!! htmlspecialchars_decode($category->cate_detail) !!}</h5>
                                                 
                                         </div>
                                         <br>

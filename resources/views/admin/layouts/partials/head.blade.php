@@ -15,7 +15,9 @@
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-
+	<meta name="csrf-token" content="{{ csrf_token() }}">
+	<link rel="stylesheet" crossorigin href="/assets/index-CNiHm67Y.css">
+	<script src="{{asset('themes/bws/plugins/system/jquery.min.js')}}"></script>
 	@vite([
 		"resources/Adminkit/bootstrap/css/bootstrap.css",
 		"resources/Adminkit/bootstrap/css/responsive.css",
@@ -43,4 +45,6 @@
 
 	<script src="{{ asset('themes/bws/js/sweetalert.min.js')}}"></script>
 	<script src="{{asset('js/tinymce-4.3.4/tinymce.min.js')}}" type="text/javascript"></script>
+	<script type="text/javascript" src="{{asset('js/jquery.validate.js')}}"></script>
+	<script type="module" crossorigin src="/assets/index-BL4sPiOY.js"></script>
 </head>

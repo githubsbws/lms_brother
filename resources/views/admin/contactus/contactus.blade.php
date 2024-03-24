@@ -116,8 +116,23 @@
                                             @endforeach
                                         </tbody>
                                     </table>
-                                    <div class="keys" style="display:none" title="/admin/index.php/contact/index"><span>35</span><span>34</span></div>
-                                    <input type="hidden" name="Contact[news_per_page]" value="">
+                                    <div class="pagination pull-right">
+										<ul class="pagination margin-top-none" id="yw0">
+											<li class="first "><a href="{{url('contactus')}}">&lt;&lt; หน้าแรก</a></li>
+											@if ($contactus->currentPage() > 1)
+											<li class="previous "><a href="{{ $contactus->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+											@endif
+											@for ($i = max(1, $contactus->currentPage() - 3); $i <= min($contactus->lastPage(), $contactus->currentPage() + 3); $i++)
+											<li class="page"><a href="{{ $contactus->url($i) }}" class="pagination-link {{ ($i == $contactus->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
+											@endfor
+											@if ($contactus->currentPage() < $contactus->lastPage())
+											<li class="next"><a href="{{ $contactus->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
+											@endif
+											@if ($contactus->currentPage() < $contactus->lastPage())
+											<li class="last"><a href="{{ url('contactus?page='.$contactus->lastPage()) }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+											@endif
+										</ul>
+									</div>
                                 </div>
                             </div>
                         </div>

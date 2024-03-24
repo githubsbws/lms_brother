@@ -73,7 +73,9 @@
 								</div>
 								รายละเอียดเงื่อนไขการใช้งาน
 								<div class="row">
-									<textarea class="tinymce" name="conditions_detail" id="conditions_detail" aria-hidden="true">{{$conditions->conditions_detail}}</textarea>
+									
+									<div id="microtextbox-cms-detail" style="height: 1000px"></div>
+									{{-- <textarea class="tinymce" name="conditions_detail" id="conditions_detail" aria-hidden="true">{{$conditions->conditions_detail}}</textarea> --}}
 								</div>
 
 								<br/>
@@ -113,7 +115,25 @@
 		<!-- // Footer END -->
 
 	</div>
+	@php
+    $text = htmlspecialchars_decode(htmlspecialchars_decode($conditions->conditions_detail));
+	@endphp
 
+   <script>
+	const text = '{!! $text !!}'
+	const mtextboxConfig = {
+		target: [
+			{
+				id: 'microtextbox-cms-detail',
+				name: 'conditions_detail',
+				options: {
+					placeholder: "",
+					body: '{!! $text !!}'
+				},
+			}
+		],
+	}
+</script>
 </body>
 
 @endsection

@@ -1,7 +1,9 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-
+@php
+use App\Models\Coursegrouptesting;
+@endphp
     <body class="">
 
         <!-- Main Container Fluid -->
@@ -191,6 +193,9 @@
                                                 {{-- แก้ไข --}}
                                                 @foreach ($course_online as $item)
                                                     @if ($item->active == 'y')
+                                                    @php
+                                                    $chktest = Coursegrouptesting::where('course_id',$item->course_id)->get();
+                                                    @endphp
                                                         <tr class="items[]">
                                                             <td class="checkbox-column"><input class="select-on-check"
                                                                     value="176" id="chk_0" type="checkbox"
@@ -238,8 +243,8 @@
                                                 @if ($course_online->currentPage() < $course_online->lastPage())
                                                 <li class="next"><a href="{{ $course_online->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
                                                 @endif
-                                                @if ($course_online->currentPage() == $course_online->lastPage())
-                                                <li class="last"><a href="{{ $course_online->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+                                                @if ($course_online->currentPage() < $course_online->lastPage())
+                                                <li class="last"><a href="{{ url('courseonline?page='.$course_online->lastPage()) }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
                                                 @endif
                                             </ul>
                                         </div>

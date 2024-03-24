@@ -1,6 +1,7 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+<link rel="stylesheet" crossorigin href="/assets/index-CNiHm67Y.css">
 <body class="">
 
 	<!-- Main Container Fluid -->
@@ -73,7 +74,9 @@
 								</div>
 								รายละเอียดเกี่ยวกับเรา
 								<div class="row">
-									<textarea class="tinymce" name="about_detail" id="about_detail" aria-hidden="true">{{$about_detail->about_detail}}</textarea>
+									
+									<div id="microtextbox-cms-detail" style="height:300px"></div>
+									{{-- <textarea class="tinymce" name="about_detail" id="about_detail" aria-hidden="true">{!! htmlspecialchars_decode($about_detail->about_detail) !!}</textarea> --}}
 								</div>
 
 								<br/>
@@ -114,7 +117,26 @@
 		<!-- // Footer END -->
 
 	</div>
+	@php
+    $text = htmlspecialchars_decode(htmlspecialchars_decode($about_detail->about_detail));
+	@endphp
 
+   <script>
+	const text = '{!! $text !!}'
+	const mtextboxConfig = {
+		target: [
+			{
+				id: 'microtextbox-cms-detail',
+				name: 'about_detail',
+				options: {
+					placeholder: "",
+					body: '{!! $text !!}'
+				},
+			}
+		],
+	}
+</script>
+<script type="module" crossorigin src="/assets/index-BL4sPiOY.js"></script>
 </body>
 
 @endsection

@@ -49,7 +49,7 @@
 								<div class="row">
 									<h3>รายละเอียดเกี่ยวกับเรา</h3>
 								</div>
-								{!! htmlspecialchars_decode($about_detail->about_detail) !!}
+								{!! htmlspecialchars_decode(htmlspecialchars_decode($about_detail->about_detail)) !!}
 								<br/>
 
 								<div class="row buttons">

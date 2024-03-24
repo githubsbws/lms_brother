@@ -4,16 +4,15 @@
             <div class="col-sm-6 col-md-2">
                 <h4 class="text-headline text-light" style="font-size: 24px;">Corporate</h4>
                 <ul class="list-unstyled" style="font-size: 1.4rem;">
-                    <li><a href="/lms_brother_docker/lms/app/index.php/about/index">เกี่ยวกับบริษัท</a></li>
-                    <li><a href="/lms_brother_docker/lms/app/index.php/conditions/index">เงื่อนไขการใช้งาน</a></li>
-                    <li><a href="/lms_brother_docker/lms/app/index.php/contactus/index">ติดต่อเรา</a></li>
+                    <li><a href="{{route('about')}}">เกี่ยวกับบริษัท</a></li>
+                    <li><a href="{{route('conditions')}}">เงื่อนไขการใช้งาน</a></li>
+                    <li><a href="{{route('contactus_f')}}">ติดต่อเรา</a></li>
                 </ul>
             </div>
             <div class="col-sm-6 col-md-2">
                 <h4 class="text-headline text-light" style="font-size: 24px;">เกี่ยวกับการเรียน</h4>
                 <ul class="list-unstyled" style="font-size: 1.4rem;">
-                    <li><a href="/lms_brother_docker/lms/app/index.php/course/index">หลักสูตร</a></li>
-                    <li><a href="/lms_brother_docker/lms/app/index.php/user/registration">สมัครสมาชิก</a></li>
+                    <li><a href="{{route('course')}}">หลักสูตร</a></li>
                 </ul>
             </div>
             <div class="col-xs-12 col-md-3">

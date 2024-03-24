@@ -4,13 +4,87 @@
 @php
 use App\Models\Downloadcategoty;
 use App\Models\DownloadFile;
+
 @endphp
+<style>
+  .page-cover {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+.image-slider {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.slide {
+    display: none; /* ซ่อนรูปทั้งหมดเมื่อไม่ใช้งาน */
+    width: 100%;
+}
+
+.slide img {
+    width: 100%;
+}
+
+.prev,
+.next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.prev {
+    left: 10px;
+}
+
+.next {
+    right: 10px;
+}
+</style>
 <body>
   
     <div class="page-cover">
-        <img src="{{asset('assets/images/screen1.png')}}" alt="">
+      <div class="image-slider">
+        @foreach($img as $item)
+            <div class="slide">
+                <a href="{{ $item->imgslide_link }}">
+                    <img src="{{asset('images/uploads/imgslides/'.$item->imgslide_picture)}}" alt="" width="100%">
+                </a>
+            </div>
+        @endforeach
+      </div>
+      @if(count($img) > 1)
+      <button class="prev" onclick="moveSlide(-1)">&#9664; </button>
+      <button class="next" onclick="moveSlide(1)"> &#9654;</button>
+      @else
+    
+      @endif
     </div>
-
+    <script>
+      var slideIndex = 1;
+      showSlides(slideIndex);
+  
+      function moveSlide(n) {
+          showSlides(slideIndex += n);
+      }
+  
+      function showSlides(n) {
+          var slides = document.getElementsByClassName("slide");
+          if (n > slides.length) { slideIndex = 1 }
+          if (n < 1) { slideIndex = slides.length }
+          for (var i = 0; i < slides.length; i++) {
+              slides[i].style.display = "none";
+          }
+          slides[slideIndex - 1].style.display = "block";
+      }
+  </script>
     <div class="container">
         <div class="page-section-heading">
             <div class="row">
@@ -214,10 +288,10 @@ use App\Models\DownloadFile;
 
                     <div class="group-link">
                         <div class="depart-well-regis">
-                            <a href="/lms_brother_docker/lms/app/index.php/contactus/index"> ติดต่อเรา </a>
+                            <a href="{{route('contactus_f')}}"> ติดต่อเรา </a>
                         </div>
                         <div class="depart">
-                            <a href="/lms_brother_docker/lms/app/index.php/conditions/index"> เงื่อนไขการใช้งาน </a>
+                            <a href="{{route('conditions')}}"> เงื่อนไขการใช้งาน </a>
                         </div>
                     </div>
                 </div> <!-- end con 4 -->

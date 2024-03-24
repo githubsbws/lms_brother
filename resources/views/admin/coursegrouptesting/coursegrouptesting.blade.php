@@ -2,7 +2,8 @@
 @section('title', 'Admin')
 @section('content')
 @php
-use App\Models\Grouptesting;
+use App\Models\Course;
+use App\Models\Question;
 @endphp
 <body class="">
 
@@ -26,7 +27,7 @@ use App\Models\Grouptesting;
 			<!-- <div class="span-19"> -->
 				<div id="content">
 					<ul class="breadcrumb">
-						<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li>ระบบชุดข้อสอบบทเรียนออนไลน์</li>
+						<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li>ระบบชุดข้อสอบหลักสูตร</li>
 					</ul><!-- breadcrumbs -->
 					<div class="separator bottom"></div>
 	
@@ -40,7 +41,7 @@ use App\Models\Grouptesting;
 								<div class="search-form">
 									<div class="wide form">
 										<form id="SearchFormAjax" action="/admin/index.php/grouptesting/index" method="get">
-											<div class="row"><label>ชื่อบทเรียนออนไลน์</label><input class="span6" name="Grouptesting[lesson_search]" id="Grouptesting_lesson_search" type="text"></div>
+											<div class="row"><label>ชื่อหลักสูตร</label><input class="span6" name="Grouptesting[lesson_search]" id="Grouptesting_lesson_search" type="text"></div>
 											<div class="row"><label>ชื่อชุด</label><input class="span6" name="Grouptesting[group_title]" id="Grouptesting_group_title" type="text" maxlength="255"></div>
 											<div class="row"><button class="btn btn-primary btn-icon glyphicons search"><i></i> ค้นหา</button></div>
 										</form>
@@ -50,7 +51,7 @@ use App\Models\Grouptesting;
 						</div>
 						<div class="widget" style="margin-top: -1px;">
 							<div class="widget-head">
-								<h4 class="heading glyphicons show_thumbnails_with_lines"><i></i> ระบบชุดข้อสอบบทเรียนออนไลน์</h4>
+								<h4 class="heading glyphicons show_thumbnails_with_lines"><i></i> ระบบชุดข้อสอบหลักสูตร</h4>
 							</div>
 							<div class="widget-body">
 								<div class="separator bottom form-inline small">
@@ -85,9 +86,12 @@ use App\Models\Grouptesting;
 											<thead>
 												<tr>
 													<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
-													<th id="Grouptesting-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/grouptesting/index?Grouptesting_sort=lesson_id">หัวข้อชุดข้อสอบ</a></th>
-													<th id="Grouptesting-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/grouptesting/index?Grouptesting_sort=group_title">ชื่อชุดข้อสอบหลักสูตร</a></th>
-													<th id="Grouptesting-grid_c3">รายละเอียดย่อ</th>
+													<th id="Grouptesting-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/grouptesting/index?Grouptesting_sort=lesson_id">ชื่อหลักสูตร</a></th>
+													<th id="Grouptesting-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/grouptesting/index?Grouptesting_sort=group_title">ชื่อชุด</a></th>
+													<th id="Grouptesting-grid_c3">จำนวนข้อ</th>
+													<th id="Grouptesting-grid_c4">&nbsp;</th>
+													<th id="Grouptesting-grid_c5">&nbsp;</th>
+													<th id="Grouptesting-grid_c6">&nbsp;</th>
 													<th class="button-column" id="Grouptesting-grid_c7">จัดการ</th>
 												</tr>
 												<tr class="filters">
@@ -104,14 +108,17 @@ use App\Models\Grouptesting;
 											<tbody>
 												@foreach ($coursegrouptesting as $item)
 												@php
-												$group = Grouptesting::where('group_id',$item->group_id)->first();
+												$question = Question::where('group_id',$item->group_id)->get();
 												@endphp
 												<tr class="odd selectable">
 													<td class="checkbox-column"><input class="select-on-check" value="254" id="chk_0" type="checkbox" name="chk[]"></td>
-													<td style="width:230px">{{ $group->group_title}}</td>
-													<td style="width:230px">{!! htmlspecialchars_decode($item->ques_title) !!}</td>
-													<td>{!! htmlspecialchars_decode($item->ques_explain) !!}</td>						
-													<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="/admin/index.php/grouptesting/254"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('grouptesting_edit',$item->group_id)}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('grouptesting_delete',$item->group_id )}}"><i></i></a></td>
+													<td style="width:230px">{{$item->course_title}}</td>
+													<td>{{$item->group_title}}</td>
+													<td style="width:65px;text-align:center">{{ count($question) }}</td>
+													<td width="120px"><a class="btn btn-success btn-icon" href="/admin/index.php/question/import/254">Import excel</a></td>
+													<td width="100px"><a class="btn btn-primary btn-icon" href="{{ route('group_question.create',['id' => $item->group_id]) }}">เพิ่มข้อสอบ</a></td>
+													<td width="120px"><a class="btn btn-primary btn-icon" href="{{ route('group.question',['id' => $item->group_id])}}">จัดการข้อสอบ</a></td>
+													<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('grouptesting.detail',['id' => $item->group_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('grouptesting.edit',['id' =>$item->group_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('grouptesting_delete',$item->group_id )}}"><i></i></a></td>
 												</tr>
 											</tbody>
 											

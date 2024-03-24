@@ -28,6 +28,28 @@
 				</ul>
 				<!-- breadcrumbs -->
 				<div class="separator bottom"></div>
+				<script>
+					tinymce.init({
+						selector: ".tinymce",
+						theme: "modern",
+						width: 680,
+						height: 300,
+						plugins: [
+							"advlist autolink link image lists charmap print preview hr anchor pagebreak",
+							"searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
+							"table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
+						],
+						toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
+						toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
+						image_advtab: true,
+				
+						external_filemanager_path: "{{asset('filemanager_f')}}",
+						filemanager_title: "Responsive Filemanager",
+						external_plugins: {
+							"filemanager": "{{asset('filemanager_f/plugin.min.js')}}"
+						}
+					});
+				</script>
 				<div class="innerLR">
                     <div class="widget widget-tabs border-bottom-none">
                         <div class="widget-head">
@@ -62,7 +84,9 @@
 
                                     <div class="row">
                                         <label for="question_THdetails" class="required">แก้ไขรายละเอียดหัวข้อ<span class="required">*</span></label>
-                                        <textarea class="span8" name="instructions" id="question_THdetails" rows="6">{{$survey_headers->instructions}}</textarea>
+										{{-- {!! htmlspecialchars_decode($survey_headers->instructions) !!} --}}
+										<div id="microtextbox-cms-detail" style="height: 1000px"></div>
+                                        {{-- <textarea class="span8 tinymce" name="instructions" id="question_THdetails" rows="6">{!! htmlspecialchars_decode($survey_headers->instructions) !!}</textarea> --}}
                                     </div>
 									@error('instructions')
 										<div class="my-2">
@@ -108,6 +132,24 @@
 		<!-- // Footer END -->
 
 	</div>
+	@php
+    $text = htmlspecialchars_decode(htmlspecialchars_decode($survey_headers->instructions));
+	@endphp
 
+   <script>
+	var text = {!! json_encode($text) !!};
+	const mtextboxConfig = {
+		target: [
+			{
+				id: 'microtextbox-cms-detail',
+				name: 'instructions',
+				options: {
+					placeholder: text,
+					body: text
+				},
+			}
+		],
+	}
+</script>
 </body>
 @endsection
