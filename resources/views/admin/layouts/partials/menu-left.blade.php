@@ -24,7 +24,7 @@ use App\Models\Permission;
             <?php
             $user_id = Auth::id(); //Auth::id()
             $getUser = Users::where('id',$user_id)->first();
-            $accessControl = Permission::where('group_id',$getUser->group)->where('active',1)->get();
+            $accessControl = Permission::where('group_id',$getUser->group_id)->where('active',1)->get();
 			$menu_array = [];
             ?>
 			<ul id="yw4">
@@ -279,7 +279,7 @@ use App\Models\Permission;
                             <li><a href="{{url('report_loguserstatus')}}">2.) รายงานผลการสมัครสมาชิก (ผู้เรียน)</a></li>
                             <li><a href="{{url('report_course')}}">3.) รายงานภาพรวมของหลักสูตร</a></li>
                             <li><a href="report-bycoursedetail.php">4.) รายงานการฝึกอบรมหลักสูตร</a></li>
-                            <li><a href="{{url('report_byuser')}}">5..) รายงานติดตามผู้เรียน</a></li>
+                            <li><a href="{{url('report_byuser')}}">5.) รายงานติดตามผู้เรียน</a></li>
                             <li><a href="report-logquestioncourse.php">6.) รายงานแบบสอบถามสำหรับหลักสูตร</a></li>
                             <li><a href="report-logquestionall.php">7.) รายงานภาพรวมแบบสอบถาม</a></li>
                             <li><a href="{{url('report_reset')}}">8.) รายงานการรีเซตหลักสูตร</a></li>

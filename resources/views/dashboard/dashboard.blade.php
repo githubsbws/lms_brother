@@ -153,7 +153,7 @@ use App\Models\Ques_ans;
                                                     
                                                     $score = Score::where('lesson_id',$les->id)->where('user_id',Auth::user()->id)->where('score_past','y')->where('active','y')->orderBy('update_date','DESC')->get();
                                                     
-                                                    $quest = Ques_ans::where('lesson_id',$les->id)->where('user_id',Auth::user()->id)->first();
+                                                    $quest = Ques_ans::where('user_id',Auth::user()->id)->first();
                                                     @endphp
                                                     
                                                     <tr>

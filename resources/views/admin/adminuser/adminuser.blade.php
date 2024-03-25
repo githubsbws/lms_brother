@@ -91,7 +91,7 @@
                                                     <th id="Pgroup-grid_c2">ตำแหน่ง</th>
 													<th id="Pgroup-grid_c2" style="width: 400px">Email</th>
 													<th id="Pgroup-grid_c2" style="width: 250px">ระดับสิทธิ์</th>
-													<th class="button-column" id="Pgroup-grid_c3">จัดการ</th>
+													<th class="button-column" id="Pgroup-grid_c3">ยกเลิกสิทธิ์</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -101,12 +101,11 @@
                                                         <td>{{ $index +1 }}</td>
                                                         <td>{{ $item->Profiles->Fullname() }}</td>
                                                         <td>{{ $item->Profiles->identification }}</td>
-                                                        <td>{{ $item->Position->position_title }}</td>
+                                                        <td>{{ @$item->Position->position_title ? $item->Position->position_title : "-" }}</td>
                                                         <td>{{ $item->email }}</td>
                                                         <td>{{ $item->PermissionGroup->group_name }}</td>
-                                                        <td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด " href=""><i></i></a>
-                                                            <a class="btn-action glyphicons pencil btn-success" title="แก้ไข {{$item->id}}" href="{{url('adminuser_edit',$item->id)}}"><i></i></a>
-                                                            <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ {{$item->id}}" href="{{url('adminuser_delete',$item->id)}}" onclick="return confirm('Are you Delete {{$item->email}}?')"><i></i></a></td>
+                                                        <td style="width: 90px;" class="center">
+                                                            <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ {{$item->id}}" href="{{url('adminuser_cancle',$item->id)}}" onclick="return confirm('Are you Delete {{$item->email}}?')"><i></i></a></td>
                                                     </tr>
 												@endforeach
 											</tbody>

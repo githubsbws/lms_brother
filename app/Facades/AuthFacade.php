@@ -14,7 +14,7 @@ class AuthFacade extends Facade
 
     public static function useradmin()
     {
-        if (Auth::check() && Auth::user()->isAdmin()) {
+        if (Auth::check() && Auth::user()->isAdmin_group() || Auth::user()->isAdmin()) {
             return Auth::user();
         }
         return null;

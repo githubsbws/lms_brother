@@ -35,9 +35,15 @@ class Users extends AuthenticatableUser implements Authenticatable
     {
         return $this->superuser;
     }
+    public function isAdmin_group()
+    {
+        return $this->group_id;
+    }
     public function Position()
     {
-        return $this->belongsTo(Position::class,'position_id','id');
+       
+        return $this->belongsTo(Position::class,'position_id','id');   
+        
     }
     public function PermissionGroup()
     {

@@ -100,7 +100,7 @@ class AdminController extends Controller
             
             if (!$user || $password != $user->password) {
                 // Authentication failed
-                
+                // dd($user);
                 return back()->withErrors(['username' => 'Invalid credentials'])->withInput($request->only('username'));
             }
             else{
@@ -108,6 +108,7 @@ class AdminController extends Controller
             Auth::login($user);
 
             $userAdmin = AuthFacade::useradmin();
+            // dd($userAdmin);
             
             if($userAdmin){
                 return redirect()->intended('admin');
@@ -3126,7 +3127,7 @@ class AdminController extends Controller
             //dd($userRole);
             if(!$userRole->group)
             {
-                $userRole->update(['group' => $request->group_role]);
+                $userRole->update(['group_id' => $request->group_role]);
             }else{
                 $userRole->group = $request->group_role;
                 $userRole->save();
@@ -3195,6 +3196,18 @@ class AdminController extends Controller
                 'status'=>'0'
             ];
             DB::table('users')->where('id',$id)->update($adminuser_delete);
+            return redirect()->route('adminuser');
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
+    function adminuser_cancle($id){
+        if(AuthFacade::useradmin()){
+            $adminuser_cancle=[
+                'group_id'=> null
+            ];
+            DB::table('users')->where('id',$id)->update($adminuser_cancle);
             return redirect()->route('adminuser');
         }else{
             return redirect()->route('login.admin');

@@ -407,6 +407,7 @@ Route::post('/adminuser_insert',[AdminController::class,'adminuser_insert'])->na
 Route::post('/adminuser_update/{id}',[AdminController::class,'adminuser_update'])->name('adminuser_update');
 Route::get('/adminuser_delete/{id}',[AdminController::class,'adminuser_delete'])->name('adminuser_delete');
 Route::get('/adminuser_edit/{id}',[AdminController::class,'adminuser_edit'])->name('adminuser_edit');
+Route::get('/adminuser_cancle/{id}',[AdminController::class,'adminuser_cancle'])->name('adminuser_cancle');
 //
 
 
