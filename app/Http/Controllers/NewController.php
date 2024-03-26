@@ -16,8 +16,8 @@ class NewController extends Controller
         }else{
             $news = News::join('profiles','profiles.user_id','=','news.update_by')->where('active','y')->orderBy('create_date','DESC')->paginate(5);
         }
-
-         return view("news.News",['news' =>$news]); 
+        $news_desc = News::join('profiles','profiles.user_id','=','news.update_by')->where('active','y')->orderBy('create_date','DESC')->limit(5)->get();
+         return view("news.News",['news' =>$news,'news_desc' => $news_desc]); 
     }
 
     function new_detail($id){

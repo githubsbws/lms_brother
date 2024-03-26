@@ -92,7 +92,7 @@
                                 <div class="panel-heading">
                                     <h4 class="panel-title" style="font-weight: bold;">ข่าวล่าสุด</h4>
                                 </div>
-                                @foreach($news as $new)
+                                @foreach($news_desc as $new)
                                 <ul class="list-group list-group-menu">
                                     <li class="list-group-item">
                                         <a href="{{ route('new_detail', ['id' => $new->cms_id]) }}"><i class="fa fa-chevron-right fa-fw"></i> {{ $new->cms_title }}</a>

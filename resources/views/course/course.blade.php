@@ -46,46 +46,55 @@
                             @if ($course_detail->count() > 0)
                             <div class="row" data-toggle="isotope" style="position: relative; ">
                                 @foreach ($course_detail as $item)
-                                <div class="item col-xs-12 col-sm-6 col-lg-4" style="position: absolute; left: 0px; top: 0px;">
-                                    <div class="panel panel-default paper-shadow" data-z="0.5" style="z-index:99;">
-                                        <div class="cover overlay cover-image-full hover">
-                                            <span class="img icon-block height-150 bg-primary"></span>
-                                            <a href="{{ route('course.detail', ['id' => $item->course_id]) }}" class="padding-none overlay overlay-full icon-block bg-primary">
-                                                <span class="v-center">
-                                                    <img src="{{asset('images/uploads/courseonline/'.$item->course_id.'/thumb/'.$item->course_picture)}}" style="height: 150px">
-                                                    
-                                                </span>
-                                            </a>
-                                            <a href="{{ route('course.detail', ['id' => $item->course_id]) }}" class="overlay overlay-full overlay-hover overlay-bg-white">
-                                                <span class="v-center">
-                                                    <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
-                                                </span>
-                                            </a>
-                                        </div>
-                                        <div class="expandable expandable-indicator-white expandable-trigger">
-                                            <div class="expandable-content">
-                                                <div class="panel-body">
-                                                    <h4 class="text-headline margin-v-0-10" style="font-size: 23px;"><a href="{{ route('course.detail', ['id' => $item->course_id]) }}">{{ $item->course_title }}</a> </h4>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="news-box gridalicious" data-toggle="gridalicious">
+        
+                                        <div class="galcolumn" id="item02grJH" style="width: 95.7983%; padding-left: 15px; padding-bottom: 15px; float: left; box-sizing: border-box;">
+                                            <div class="panel panel-default paper-shadow" data-z="0.5" style="z-index:99;">
+                                                <div class="cover overlay cover-image-full hover">
+                                                    <span class="img icon-block height-150 bg-primary"></span>
+                                                    <a href="{{ route('course.detail', ['id' => $item->course_id]) }}" class="padding-none overlay overlay-full icon-block bg-primary">
+                                                        <span class="v-center">
+                                                            @if($item->course_picture != null)
+                                                            <img src="{{asset('images/uploads/courseonline/'.$item->course_id.'/thumb/'.$item->course_picture)}}" style="height: 150px">
+                                                            @else
+                                                            <img src="{{asset('themes/bws/images/logo_course2.png')}}" style="height: 150px">
+                                                            @endif
+                                                        </span>
+                                                    </a>
+                                                    <a href="{{ route('course.detail', ['id' => $item->course_id]) }}" class="overlay overlay-full overlay-hover overlay-bg-white">
+                                                        <span class="v-center">
+                                                            <span class="btn btn-circle btn-primary btn-lg"><i class="fa fa-graduation-cap"></i></span>
+                                                        </span>
+                                                    </a>
                                                 </div>
-                                                <hr class="margin-none">
-                                                <div class="panel-body">
-                                                    <p style="font-size: 1.5rem;color: rgb(20, 20, 20);">{{ $item->course_short_title}}</p>
-    
-                                                    <div class="media v-middle">
-                                                        <div class="media-left">
-                                                            <img src="{{asset('images/uploads/teacher/24/thumb/12012016115549_Picture.JPG')}}" style="width: 150px" class="img-circle">
+                                                <div class="expandable expandable-indicator-white expandable-trigger">
+                                                    <div class="expandable-content">
+                                                        <div class="panel-body">
+                                                            <h4 class="text-headline margin-v-0-10" style="font-size: 23px;"><a href="{{ route('course.detail', ['id' => $item->course_id]) }}">{{ $item->course_title }}</a> </h4>
                                                         </div>
-                                                        <div class="media-body">
-                                                            <h4><a href="">{{ $item->teacher_name }}</a>
-                                                                <br>
-                                                            </h4>
-                                                            <span style="font-size: 19px;">ชื่อวิทยากร</span>
+                                                        <hr class="margin-none">
+                                                        <div class="panel-body">
+                                                            <p style="font-size: 1.5rem;color: rgb(20, 20, 20);">{{ $item->course_short_title}}</p>
+            
+                                                            <div class="media v-middle">
+                                                                <div class="media-left">
+                                                                    <img src="{{asset('images/uploads/teacher/24/thumb/12012016115549_Picture.JPG')}}" style="width: 150px" class="img-circle">
+                                                                </div>
+                                                                <div class="media-body">
+                                                                    <h4><a href="">{{ $item->teacher_name }}</a>
+                                                                        <br>
+                                                                    </h4>
+                                                                    <span style="font-size: 19px;">ชื่อวิทยากร</span>
+                                                                </div>
+                                                            </div>
                                                         </div>
+                                                        <div class="expandable-indicator"><i></i></div>
                                                     </div>
                                                 </div>
-                                                <div class="expandable-indicator"><i></i></div>
                                             </div>
                                         </div>
+                                        <div id="clear2grJH" style="clear: both; height: 0px; width: 0px; display: block;"></div>
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -142,9 +151,15 @@
                                                                 <span
                                                                     class="overlay overlay-full padding-none icon-block s90 bg-default">
                                                                     <span class="v-center">
+                                                                        @if($cs->course_picture != null)
                                                                         <img src="{{asset('images/uploads/courseonline/'.$cs->course_id.'/small/'.$cs->course_picture)}}"
                                                                             style="height: 90px; width: 90px;"
                                                                             class="img-responsive">
+                                                                        @else
+                                                                        <img src="{{asset('themes/bws/images/logo_course2.png')}}"
+                                                                            style="height: 90px; width: 90px;"
+                                                                            class="img-responsive">
+                                                                        @endif
                                                                     </span>
                                                                 </span>
                                                                 <a href="{{ route('course.detail', ['id' => $cs->course_id]) }}"
