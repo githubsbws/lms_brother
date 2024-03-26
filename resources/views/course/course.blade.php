@@ -101,7 +101,7 @@
                                 @endforeach
                             </div>
                             @else
-                            <p>ไม่พบคอร์สที่ตรงกับคำค้นหา</p>
+                            <p>ไม่พบคอร์สที่ตรงกัน</p>
                             @endif
                             {{-- จบแก้ไข --}}
                         </div>
@@ -138,7 +138,7 @@
 
                                 <div class="slick-list draggable" tabindex="0">
                                     <div class="slick-track" style="opacity: 1; ">
-                                        @foreach($course_detail as $cs)
+                                        @foreach($course_recom as $cs)
                                         <div class="item slick-slide slick-cloned" index="-1" style="width: 264px;">
                                             <div class="panel panel-default paper-shadow box-course" data-z="0.5"
                                                 data-hover-z="1" data-animated="">
