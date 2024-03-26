@@ -80,7 +80,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="">Email</label>
-                                                    <input type="email" value="{{ $user->email ?? null }}">
+                                                    <input type="email" name="email" value="{{ $user->email ?? null }}">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="">เบอร์โทรศัพท์</label>

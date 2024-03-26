@@ -132,7 +132,7 @@ use App\Models\Permission;
                     </li>
                 @endif
                 @if (in_array(13, $menu_array) || $getUser->superuser == 1)
-                    <li class="hasSubmenu glyphicons eye_open"><a data-toggle="collapse" href="#OrgChart"><span class="label label-primary">6</span><i></i><span>ระบบจัดการระดับชั้นการเรียน (Organization)</span></a>
+                    <li class="hasSubmenu glyphicons eye_open"><a data-toggle="collapse" href="#OrgChart"><span class="label label-primary">6</span><i></i><span>ระบบจัดการระดับชั้นการเรียน </span></a>
                         <ul class=" collapse " id="OrgChart">
                             {{-- <li><a href="{{ url('/orgchart_create') }}">เพิ่มระดับชั้นการเรียน</a></li> --}}
                             <li><a href="{{ url('/orgchart') }}">จัดการระดับชั้นการเรียน</a></li>

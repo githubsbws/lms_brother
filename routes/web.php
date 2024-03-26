@@ -431,6 +431,7 @@ Route::get('/pgroup_edit/{pgroup_id}',[AdminController::class,'pgroup_edit'])->n
 //chockker
 //user-get
 Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin');
+Route::get('/user_admin_search',[AdminController::class,'user_admin'])->name('user_admin.search');
 Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel');
 Route::get('/useradmin_view/{id}',[AdminController::class,'userAdminView'])->name('user_view');
 Route::get('/useradmin_edit/{id}',[AdminController::class,'userAdminEdit'])->name('user_edit');

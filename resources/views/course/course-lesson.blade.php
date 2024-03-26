@@ -732,5 +732,18 @@ use App\Models\File;
         </div>
     </div>
     @endforeach
+    <script>
+    document.addEventListener('contextmenu', event => event.preventDefault()); // Prevent right-click menu
+    document.addEventListener('keydown', event => { // Prevent keyboard shortcuts
+      if (event.ctrlKey && (event.key === 'S' || event.key === 's')) {
+        event.preventDefault();
+      }
+    });
+    document.addEventListener('mousedown', event => { // Prevent mouse down event
+      if (event.button === 2) {
+        event.preventDefault();
+      }
+    });
+  </script>
 </body>
 @endsection

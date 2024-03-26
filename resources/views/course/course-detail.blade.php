@@ -10,7 +10,7 @@
                     <div class="media v-middle">
                         <div class="media-left">
                             <span class="icon-block s60 bg-default">
-                                <img src="{{asset('images/uploads/courseonline'.$course_detail->course_id.'/small/'.$course_detail->course_picture)}}"
+                                <img src="{{asset('images/uploads/courseonline/'.$course_detail->course_id.'/thumb/'.$course_detail->course_picture)}}"
                                     style="height: 60px;" class="img-responsive">
                             </span>
                         </div>

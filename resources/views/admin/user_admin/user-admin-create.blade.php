@@ -103,7 +103,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="">Email</label>
-                                                    <input type="email">
+                                                    <input type="email"name="email">
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="">เบอร์โทรศัพท์</label>

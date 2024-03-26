@@ -111,7 +111,7 @@
 	<script src="theme/scripts/demo/resizable.js?1365412901"></script><!--<![endif]-->
 
 	<!-- Bootstrap Image Gallery -->
-	<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
+	<!-- <script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script> -->
 	<script src="bootstrap/extend/bootstrap-image-gallery/js/bootstrap-image-gallery.min.js" type="text/javascript"></script>
 
 	<script>

@@ -108,7 +108,7 @@ class AdminController extends Controller
             Auth::login($user);
 
             $userAdmin = AuthFacade::useradmin();
-            // dd($userAdmin);
+            // dd($userAdmin->toArray());
             
             if($userAdmin){
                 return redirect()->intended('admin');
@@ -3351,13 +3351,39 @@ class AdminController extends Controller
     }
     //
 
-    function user_admin(){
+    function user_admin(Request $request){
         if(AuthFacade::useradmin()){
-            $query = Users::with('Profiles')
+                $company = Company::get();
+                $division = Division::get();
+                $course_name = $request->input('fname');
+                $division_s = $request->input('division');
+                $company_s = $request->input('company');
+                if(isset($course_name) && !empty($course_name)) {
+                    $query = Users::where('username','like',"%$course_name%")
                 ->where('status', '1')
                 ->where('del_status', 0)
-                ->paginate($this->limit);
-            return view("admin.user_admin.user-admin", compact('query'));
+                ->paginate(10);
+                // dd($course_name);
+                // dd($query);
+                }elseif(isset($division_s) && !empty($division_s)){
+                    $query = Users::where('division_id',$division_s)
+                    ->where('status', '1')
+                    ->where('del_status', 0)
+                    ->paginate(10);
+    
+                } elseif(isset($company_s) && !empty($company_s)){
+                    $query = Users::where('company_id',$company_s)
+                ->where('status', '1')
+                ->where('del_status', 0)
+                ->paginate(10);
+    
+                }else {
+                    $query = Users::where('status', '1')
+                ->where('del_status', 0)
+                ->paginate(10);
+                }
+                // dd($query->toArray());
+            return view("admin.user_admin.user-admin",['company' => $company,'division' => $division,'query' => $query]);
         }else{
             return redirect()->route('login.admin');
         }
@@ -3414,6 +3440,7 @@ class AdminController extends Controller
             $user->create_at = now()->format('Y-m-d H:i:s');
             $user->_token = $request->_token;
             $user->save();
+            // dd($user->toArray());
 
             $profile = new Profiles();
             $profile->user_id = $user->id;

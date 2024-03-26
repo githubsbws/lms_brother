@@ -33,6 +33,46 @@
 					<!-- Box -->
 					<div class="hero-unit well">
 						<h1>รายชื่อสมาชิก</h1>
+						<div class="widget" data-toggle="collapse-widget" data-collapse-closed="true">
+							<div class="widget-head">
+								<h4 class="heading  glyphicons search"><i></i>ค้นหาขั้นสูง</h4>
+								<span class="collapse-toggle"></span>
+							</div>
+							
+								<div class="search-form">
+									<div class="wide form">
+										<form id="SearchFormAjax" action="{{route('user_admin.search')}}" method="get">
+											<div class="row">
+												<label>username</label>
+												<input class="span6" name="fname" type="text" maxlength="255">
+											</div>
+											<div class="row">
+												<label>บริษัท</label>
+												<select name="company" id="company">
+													<option value=""></option>
+													@foreach($company as $com)
+														<option value="{{@$com->company_id}}">{{@$com->company_title}}</option>
+													@endforeach
+												</select>
+											</div>
+											<div class="row">
+												<label>แผนก</label>
+												<select name="division" id="division">
+													<option value=""></option>
+													@foreach($division as $div)
+														<option value="{{@$div->id}}">{{@$div->dep_title}}</option>
+													@endforeach
+												</select>
+											</div>
+											<div class="row">
+												<button type="submit" class="btn btn-primary btn-icon glyphicons search"><i></i> ค้นหา</button>
+											</div>
+											<br>
+										</form>
+									</div>
+								</div>
+							
+						</div>
 						<hr class="separator">
 						<!-- Row -->
 						<div class="content">
@@ -50,6 +90,7 @@
 													<thead class="thead-dark">
 														<tr>
 															<th scope="col">ลำดับ</th>
+															<th scope="col">username</th>
 															<th scope="col">ชื่อ นามสกุล</th>
 															<th scope="col">เลขบัตรประชาชน</th>
 															<th scope="col">email</th>
@@ -63,16 +104,25 @@
 														{{-- @dump($data->profile); --}}
 															<tr>
 																<td>
-																	@if (method_exists($query, 'firstItem'))
-																		{{ $query->firstItem() + $loop->index }}
-																	@else
-																		{{ $index + 1 }}
-																	@endif
+																	{{ $data->id }}
 																</td>
-																<td>{{ @$data->Profiles->firstname }} {{ @$data->Profiles->lastname }}</td>
-																<td>{{ @$data->Profiles->identification }}</td>
-																<td>{{ @$data->email }}</td>
-																<td>{{ @$data->Profiles->advisor_email1 }}</td>
+																<td>{{ $data->username }}</td>
+																@if($data->Profiles != null)
+																<td>{{ $data->Profiles->firstname }} {{ $data->Profiles->lastname }}</td>
+																@else
+																<td>-</td>
+																@endif
+																@if($data->Profiles != null)
+																<td>{{ $data->Profiles->identification }}</td>
+																@else
+																<td>-</td>
+																@endif
+																<td>{{ $data->email }}</td>
+																@if($data->Profiles != null)
+																<td>{{ $data->Profiles->advisor_email1 }}</td>
+																@else
+																<td>-</td>
+																@endif
                                                                 <td>
                                                                     <a href="{{ route('permission_add',['id'=> $data->id]) }}" class="btn btn-info"><i class="bi bi-joystick"></i></a>
                                                                 </td>
@@ -85,16 +135,27 @@
 														@endforeach
 													</tbody>
 												</table>
+												<div class="pagination pull-right">
+													<ul class="pagination margin-top-none" id="yw0">
+														<li class="first "><a href="{{url('user_admin')}}">&lt;&lt; หน้าแรก</a></li>
+														@if ($query->currentPage() > 1)
+														<li class="previous "><a href="{{ $query->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+														@endif
+														@for ($i = max(1, $query->currentPage() - 3); $i <= min($query->lastPage(), $query->currentPage() + 3); $i++)
+														<li class="page"><a href="{{ $query->url($i) }}" class="pagination-link {{ ($i == $query->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
+														@endfor
+														@if ($query->currentPage() < $query->lastPage())
+														<li class="next"><a href="{{ $query->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
+														@endif
+														@if ($query->currentPage() < $query->lastPage())
+														<li class="last"><a href="{{ url('user_admin?page='.$query->lastPage()) }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+														@endif
+													</ul>
+												</div>
 											</div>
 										</div>
 									</div>
-									<div class="pagination-main mt-3">
-										<nav>
-											<ul class="pagination justify-content-end">
-												{{ $query->links()}}
-											</ul>
-										</nav>
-									</div>
+									
 								</div>
 
 							</div>
