@@ -2,12 +2,14 @@
 @section('title', 'Course')
 @section('content')
 @php
+use App\Models\Manage;
 use App\Models\Lesson;
 use App\Models\Learn;
 use App\Models\LearnFile;
 use App\Models\Score;
 use App\Models\Grouptesting;
 use App\Models\File;
+use App\Models\Teacher;
 @endphp
 <style type="text/css">
     .video-js {
@@ -80,6 +82,12 @@ use App\Models\File;
 
     .menu_li_padding {
         padding: 10px 15px !important;
+    }
+    .collapse {
+    background-color: #f9f9f9; /* สีพื้นหลังขณะที่ถูกย่อหรือขยาย */
+    }
+    .panel-collapse{
+        padding-left: 20px;
     }
 
 
@@ -268,6 +276,7 @@ use App\Models\File;
                                                                 // console.log(data);
                                                                 // console.log(learn_id);
                                                                 $('#imageCheck' + data.no).html(data.image);
+                                                                window.location.reload();
                                                         });
                                                     });
                                                     function preventSeek(event) {
@@ -473,6 +482,7 @@ use App\Models\File;
                         $files = File::where(['lesson_id' => $list->id,'active' =>'y'])->orderBy('id','ASC')->get();
                         @endphp
                         <div class="list-group collapse in" id="curriculum-2">
+                            @if(count($files) == 1)
                             <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
                                 
                                 <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
@@ -499,47 +509,77 @@ use App\Models\File;
                                         <div class="width-100 text-right text-caption">10:00 min</div>
                                     </div> -->
                                 </div>
-                            </a>
-                            @if(count($files) > 1)
-                            @foreach($files as $fsa)
-                            @php
-                            $sta = LearnFile::where(['file_id' => $fsa->id,'user_id_file' =>Auth::user()->id])->first();           
-                            @endphp
-                            @if($track->id == $fsa->id)
-
-                            @else
-                            <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id,'files' => $fsa->id]) }}">
+                                @else
+                                <a href="#lesson{{ $list->id }}" class="list-group collapse in" data-toggle="collapse">
                                 
-                                <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id,'files' =>$fsa->id]) }}">
-                                    <div class="media-left">
-                                                <li class="text-crt"></li>
-                                    </div>
-                                    <div class="media-body">
-                                        @php
-                                        // dd($sta->toArray());
-                                        if($sta == null){
-                                            echo "<i class='fa fa-fw fa-circle text-grey-300'></i>";
-                                        }else{
-                                           
-                                                if($sta->learn_file_status == "s"){
-                                                    echo "<i class='fa fa-fw fa-circle text-green-300'></i>";
-                                                }else{
-                                                    echo "<i class='fa fa-fw fa-circle text-orange-300'></i>";
+                                    <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id]) }}">
+                                        <div class="media-left">
+                                                    <li class="text-crt"></li>
+                                        </div>
+                                        <div class="media-body">
+                                            @php
+                                            if($sta->isEmpty()){
+                                                echo "<i class='fa fa-fw fa-circle text-grey-300'></i>";
+                                            }else{
+                                                foreach($sta as $status){
+                                                    if($status->lesson_status == "pass"){
+                                                        echo "<i class='fa fa-fw fa-circle text-green-300'></i>";
+                                                    }else{
+                                                        echo "<i class='fa fa-fw fa-circle text-orange-300'></i>";
+                                                    }
                                                 }
-                                            
-                                        }
-                                        @endphp
-                                        {{ $list->title }} : {{ $fsa->file_name}}
-                                       
+                                            }
+                                            @endphp
+                                           {{ $list->title }}
+                                        </div>
+                                        <!-- <div class="media-right">
+                                            <div class="width-100 text-right text-caption">10:00 min</div>
+                                        </div> -->
                                     </div>
-                                    <!-- <div class="media-right">
-                                        <div class="width-100 text-right text-caption">10:00 min</div>
-                                    </div> -->
-                                </div>
+                                @endif
                             </a>
-                            @endif
-                            @endforeach
-                            @endif
+                            <div id="lesson{{ $list->id }}" class="panel-collapse collapse">
+                                @if(count($files) > 1)
+                                @foreach($files as $fsa)
+                                @php
+                                $sta = LearnFile::where(['file_id' => $fsa->id,'user_id_file' =>Auth::user()->id])->first();           
+                                @endphp
+                                @if($track->id == $fsa->id)
+
+                                @else
+                                <a href="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id,'files' => $fsa->id]) }}">
+                                    
+                                    <div class="list-group-item media active" data-target="{{ route('course.lesson', ['course_id' => $list->course_id,'id' => $list->id,'files' =>$fsa->id]) }}">
+                                        <div class="media-left">
+                                                    <li class="text-crt"></li>
+                                        </div>
+                                        <div class="media-body">
+                                            @php
+                                            // dd($sta->toArray());
+                                            if($sta == null){
+                                                echo "<i class='fa fa-fw fa-circle text-grey-300'></i>";
+                                            }else{
+                                            
+                                                    if($sta->learn_file_status == "s"){
+                                                        echo "<i class='fa fa-fw fa-circle text-green-300'></i>";
+                                                    }else{
+                                                        echo "<i class='fa fa-fw fa-circle text-orange-300'></i>";
+                                                    }
+                                                
+                                            }
+                                            @endphp
+                                            {{ $fsa->file_name}}
+                                        
+                                        </div>
+                                        <!-- <div class="media-right">
+                                            <div class="width-100 text-right text-caption">10:00 min</div>
+                                        </div> -->
+                                    </div>
+                                </a>
+                                @endif
+                                @endforeach
+                                @endif
+                            </div>
                         </div>
                         @endforeach
                     </div>
@@ -557,8 +597,6 @@ use App\Models\File;
                             <div class="panel-body list-group">
                                 <ul class="list-group list-group-menu">
                                     <li class="list-group-item active"><a class="link-text-color" href="{{ route('course.lesson', ['course_id' => $course_id,'id' => $lesson_id]) }}">บทเรียน</a>
-                                    </li>
-                                    <li class="list-group-item"><a class="link-text-color" href="{{url('webboard')}}">เว็บบอร์ดของหลักสูตร</a>
                                     </li>
                                 </ul>
                             </div>
@@ -601,7 +639,7 @@ use App\Models\File;
                                         
                                     </li>
                                     <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
-                                        ผลการสอบก่อนเรียน,ผลการสอบหลังเรียน<br>
+                                        ผลการสอบก่อนเรียน<br>
                                         @php
                                         $score = Score::where('lesson_id',$lesson_id)->where('user_id',Auth::user()->id)->where('active','y')->orderBy('update_date','DESC')->first();
                                         if(!$score){
@@ -688,6 +726,35 @@ use App\Models\File;
                                             @endphp
                                         </span>
                                     </li>
+                                    
+                                    <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
+                                        ผลการสอบหลังเรียน<br>
+                                        @php
+                                        $learn_chk = LearnFile::where('file_id', $file_id->id)
+                                                    ->where('learn_file_status', 's')
+                                                    ->where('user_id_file', Auth::user()->id)
+                                                    ->first();
+
+                                                if ($learn_chk) {
+                                                    $ptest = Manage::where(['type' => 'post', 'id' => $lesson_id, 'active' => 'y'])->first();
+                                                    if ($ptest) {
+                                                        $score_chk = Score::where('type', 'post')
+                                                            ->where('lesson_id', $lesson_id)
+                                                            ->where('user_id', Auth::user()->id)
+                                                            ->where('active', 'y')
+                                                            ->orderBy('update_date', 'DESC')
+                                                            ->first();
+
+                                                        if (!$score_chk) {
+                                                            echo '<p style="font-weight: normal;color: #045BAB;"><a href="' . route("course.coursequestion", ['course_id' => $course_id, 'id' => $lesson_id]) . '" style="cursor: pointer;">ทำแบบทดสอบหลังเรียน</a></p>';
+                                                        }
+                                                    }
+                                                    echo '<p style="font-weight: normal;color: #045BAB;">ไม่มีแบบทดสอบหลังเรียน</p>';
+                                                }else{
+                                                    echo '<p style="font-weight: normal;color: #045BAB;">-</p>';
+                                                }
+                                        @endphp
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -700,16 +767,25 @@ use App\Models\File;
                         <div class="panel-heading panel-collapse-trigger collapse in" data-toggle="collapse" data-target="#338482d2-9782-f9f0-f7c9-4e51b69d603e" aria-expanded="true" style="">
                             <h4 class="panel-title" style="font-size: 22px;font-weight: bold;">ผู้สอน</h4>
                         </div>
-
-
+                        @php
+                        $teacher = Teacher::where('teacher_id',$course_detail->course_lecturer)->first();
+                        @endphp
                         <div id="338482d2-9782-f9f0-f7c9-4e51b69d603e" class="collapse in">
                             <div class="panel-body">
                                 <div class="media v-middle">
                                     <div class="media-left">
+                                        @if($teacher)
+                                        <img class="img-circle width-40" src="{{asset('images/uploads/teacher/'.$teacher->teacher_id.'/thumb/'.$teacher->teacher_picture)}}">
+                                        @else
                                         <img class="img-circle width-40" src="{{asset('themes/bws/images/default-avatar.png')}}" alt="No Image">
+                                        @endif
                                     </div>
                                     <div class="media-body">
-                                        <h4 class="text-title margin-none"><a href="#">{{ $course_detail->teacher_name}}</a>
+                                        @if($teacher)
+                                        <h4 class="text-title margin-none"><a href="#">{{ $teacher->teacher_name}}</a>
+                                        @else
+                                        <h4>-</h4>
+                                        @endif
                                         </h4>
                                         <span class="caption text-light">ชื่อวิทยากร</span>
                                     </div>
@@ -719,7 +795,11 @@ use App\Models\File;
                                 <div class="expandable expandable-indicator-white expandable-trigger">
                                     <div class="expandable-content">
                                         <p></p>
-                                        <p><label id="lblPositionInfo">Expert - Technical Support Engineer</label></p>
+                                        @if($teacher)
+                                        <p><label id="lblPositionInfo">{!! htmlspecialchars_decode($teacher->teacher_detail) !!}</label></p>
+                                        @else
+                                        <p> - </p>
+                                        @endif
                                         <p></p>
                                         <div class="expandable-indicator"><i></i></div>
                                     </div>
