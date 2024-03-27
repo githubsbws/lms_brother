@@ -66,7 +66,7 @@
 										<table class="table table-striped table-bordered table-condensed dataTable table-primary js-table-sortable ui-sortable">
 											<thead>
 												<tr>
-													<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
+													
 													<th id="News-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_title">ชื่อ</a></th>
 													<th id="News-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_short_title">นามสกุล</a></th>
 													<th id="News-grid_c3"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_short_title">อีเมลล์</a></th>
@@ -77,7 +77,7 @@
 													<th class="button-column" id="News-grid_c4">จัดการ</th>
 												</tr>
 												<tr class="filters">
-													<td>&nbsp;</td>
+													
 													<td><input name="News[cms_title]" type="text" maxlength="250"></td>
 													<td><input name="News[cms_short_title]" type="text"></td>
 													<td>&nbsp;</td>
@@ -87,7 +87,7 @@
 											<tbody>
 												@foreach ($reportproblem as $item)
 												<tr class="odd selectable">
-													<td class="checkbox-column"><input class="select-on-check" value="78" id="chk_0" type="checkbox" name="chk[]"></td>
+													
 													<td>{{ $item->firstname}}</td>
 													<td>{{ $item->lastname}}</td>
 													<td >{{$item->email}}</td>
@@ -99,7 +99,7 @@
 													<td >ตอบกลับเสร็จสิ้น</td>
 													@endif
 													<td >{{$item->answer}}</td>
-													<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="#"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="#"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="#"><i></i></a></td>
+													<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('reportproblem.detail',['id' =>$item->id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('reportproblem.edit',['id' =>$item->id])}}"><i></i></a></td>
 												</tr>
 												@endforeach
 											</tbody>
@@ -116,13 +116,11 @@
 												@if ($reportproblem->currentPage() < $reportproblem->lastPage())
 												<li class="next"><a href="{{ $reportproblem->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
 												@endif
-												@if ($reportproblem->currentPage() == $reportproblem->lastPage())
-												<li class="last"><a href="{{ $reportproblem->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+												@if ($reportproblem->currentPage() < $reportproblem->lastPage())
+												<li class="last"><a href="{{ url('reportproblem?page='.$reportproblem->lastPage()) }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
 												@endif
 											</ul>
 										</div>
-										<div class="keys" style="display:none" title="/admin/index.php/News/index"><span>78</span><span>77</span><span>74</span><span>72</span><span>71</span><span>70</span><span>68</span><span>67</span><span>66</span><span>65</span></div>
-										<input type="hidden" name="News[news_per_page]" value="">
 									</div>
 								</div>
 							</div>

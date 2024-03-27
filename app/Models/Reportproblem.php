@@ -16,7 +16,8 @@ class Reportproblem extends Model
     protected $fillable = [
 
     ];
-
+    public $timestamps = false;
+    
     const CREATED_AT = 'create_date'; // Custom created_at column
     const UPDATED_AT = 'update_date'; // Custom update_at column
 

@@ -1,6 +1,11 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+@php
+use App\Models\Teacher;
+
+$teacher = Teacher::where('id',$course_detail->course_lecturer)->first();
+@endphp
 <style>
 	.switch {
   position: relative;
@@ -154,8 +159,8 @@ input:checked + .slider:before {
                                             <label for="CourseOnline_course_lecturer">ชื่อวิยากร</label>
                                             <select class="span8" name="teacher_name"
                                                 id="CourseOnline_course_lecturer">
-                                                @if( $course_detail->teacher_name != null)
-                                                <option value="{{ $course_detail->teacher_name }}">{{ $course_detail->teacher_name}}</option>
+                                                @if( $teacher != null)
+                                                <option value="{{ $teacher->teacher_id }}">{{ $teacher->teacher_name}}</option>
                                                 @else
                                                 <option value="">-</option>
                                                 @endif

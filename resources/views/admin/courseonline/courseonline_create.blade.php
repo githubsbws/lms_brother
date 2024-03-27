@@ -141,7 +141,7 @@ input:checked + .slider:before {
                                             <label for="CourseOnline_course_lecturer">ชื่อวิยากร</label>  <select class="span8" name="teacher_name"
                                             id="CourseOnline_course_lecturer">
                                             @foreach($teacher as $t)
-                                            <option value="{{ $t->teacher_name }}">{{ $t->teacher_name}}</option>
+                                            <option value="{{ $t->teacher_id }}">{{ $t->teacher_name}}</option>
                                             @endforeach
                                         </select><span style="margin:0;"
                                                 class="btn-action single glyphicons circle_question_mark"><i></i></span>

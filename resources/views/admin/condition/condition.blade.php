@@ -109,7 +109,7 @@
 												<td class="checkbox-column"><input class="select-on-check" value="1" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td>{!! htmlspecialchars_decode($condition->conditions_title)  !!}</td>
 												<td>{!! htmlspecialchars_decode(htmlspecialchars_decode($condition->conditions_detail))  !!}</td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('condition.detail',['id'=>$condition->conditions_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('condition.update',['id'=>$condition->conditions_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="/admin/index.php/conditions/delete/1"><i></i></a></td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('condition.detail',['id'=>$condition->conditions_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('condition.update',['id'=>$condition->conditions_id])}}"><i></i></a> </td>
 											</tr>
 											@endforeach
 										</tbody>
@@ -124,9 +124,7 @@
 					<!-- Options -->
 					<div class="separator top form-inline small">
 						<!-- With selected actions -->
-						<div class="buttons pull-left">
-							<a class="btn btn-primary btn-icon glyphicons circle_minus" onclick="return multipleDeleteNews('/admin/index.php/conditions/MultiDelete','conditions-grid');" href="#"><i></i> ลบข้อมูลทั้งหมด</a>
-						</div>
+						
 						<!-- // With selected actions END -->
 						<div class="clearfix"></div>
 					</div>

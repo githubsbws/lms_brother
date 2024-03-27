@@ -1,7 +1,12 @@
 @extends('layout/mainlayout')
 @section('title', 'Course')
 @section('content')
+@php
+use App\Models\Teacher;
 
+
+$teacher = Teacher::where('teacher_id',$course_detail->course_lecturer)->first();
+@endphp
     <body>
         <div id="content">
             {{-- แก้ไข --}}
@@ -58,10 +63,11 @@
                                         <!-- <i class="fa fa-clock-o fa-fw"></i> 4 ชั่วโมง &nbsp; -->
                                         <i class="fa fa-calendar fa-fw"></i> {{ $course_detail->update_date }} <br><br>
                                         <i class="fa fa-user fa-fw"></i> วิทยากร
-                                        : {{ $course_detail->teacher_name}} <!-- <br/>
-                                                        <i class="fa fa-mortar-board fa-fw"></i> จำนวนผู้เข้าเรียน : 50
-                                                        <br/>
-                                                        <i class="fa fa-check fa-fw"></i> จำนวนผู้เรียนผ่าน : 30 -->
+                                        @if($teacher != null)
+                                        : {{ $teacher->teacher_name}} 
+                                        @else
+                                        : -
+                                        @endif
                                     </p>
                                 </div>
                                 @if ($course_detail->active == 'y')

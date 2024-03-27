@@ -95,6 +95,7 @@ class AdminController extends Controller
                 'password' => 'required',
             ]);
             $password = md5($request->password);
+            // dd($password);
             
             $user = Users::join('profiles','profiles.user_id','=','users.id')->where('username', $request->username)->first();
             
@@ -571,6 +572,7 @@ class AdminController extends Controller
     }
     function document_create(Request $request){
         if(AuthFacade::useradmin()){
+            $document_title = Downloadtitle::where('active','y')->get();
             $document_type = Downloadcategoty::where('active','y')->get();
             if ($request->isMethod('post')) { // ตรวจสอบว่าเป็นการร้องขอ POST หรือไม่
                 $document_cate = Downloadcategoty::where('download_id',$request->input('download_cate'))->first();
@@ -608,10 +610,23 @@ class AdminController extends Controller
                 
                 return redirect()->route('document')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
             }
-            return view("admin.document.document_create",['document_type' => $document_type]);
+            return view("admin.document.document_create",['document_type' => $document_type,'document_title' => $document_title]);
         }else{
             return redirect()->route('login.admin');
         }
+    }
+    public function getDocumentTypes(Request $request, $titleId)
+    {
+        if($titleId){
+            $documentTypes = Downloadcategoty::where('title_id', $titleId)->where('active', 'y')->get();
+
+            if ($documentTypes->isEmpty()) {
+                return response()->json(['error' => 'No document types found for the provided titleId'], 404);
+            }
+            return response()->json($documentTypes);
+        }
+        // Assuming 'download_id' is the foreign key linking document types to titles
+        return response()->json(['error' => 'No titleId provided'], 400);
     }
     function document_edit($id,Request $request){
         if(AuthFacade::useradmin()){
@@ -827,7 +842,7 @@ class AdminController extends Controller
                 $validator = Validator::make($request->all(), [
                     'cms_title' => 'required|string', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
                     'cms_short_title' =>'required|string',
-                    'cms_detail' =>'required|string'
+                    'cms_detail' =>'required|string|max:4294967295'
 
                 ]);
                 // dd($validator);
@@ -1098,7 +1113,7 @@ class AdminController extends Controller
 
                 $course_update = Course::findById($id);
                 $course_update->cate_id = $request->input('cate_id');
-                $course_update->teacher_name = $request->input('teacher_name');
+                $course_update->course_lecturer = $request->input('teacher_name');
                 $course_update->course_title = $request->input('course_title');
                 $course_update->course_short_title = htmlspecialchars($request->input('course_short_title'));
                 $course_update->course_detail = htmlspecialchars($request->input('course_detail'));
@@ -1161,7 +1176,7 @@ class AdminController extends Controller
 
                 $course_update = new Course;
                 $course_update->cate_id = $request->input('cate_id');
-                $course_update->teacher_name = $request->input('teacher_name');
+                $course_update->course_lecturer = $request->input('teacher_name');
                 $course_update->course_title = $request->input('course_title');
                 $course_update->course_short_title = htmlspecialchars($request->input('course_short_title'));
                 $course_update->course_note = $request->input('course_note');
@@ -1731,7 +1746,7 @@ class AdminController extends Controller
                 }
                 // กรณีที่ไม่มีการส่งค่า id มา
                 // คุณสามารถตัดสินใจปฏิเสธคำขอหรือดำเนินการอื่น ๆ ตามที่ต้องการได้
-                return response()->json(['success' => true]);       
+                return $manage;       
             }
             return view("admin.grouptesting.grouptesting_plan",['group' => $group,'group_active' => $group_active,'type'=>$type,'id' => $id]);
         }else{
@@ -2802,6 +2817,40 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             $reportproblem = Reportproblem::paginate(10);
             return view("admin.report.reportproblem",['reportproblem' => $reportproblem]);
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    function reportproblem_edit(Request $request,$id){
+        if(AuthFacade::useradmin()){
+            $reportproblem = Reportproblem::where('id',$id)->first();
+            if($request->isMethod('post')){
+                $validator = Validator::make($request->all(), [
+                    'answer' => 'required|string' // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
+                ]);
+                
+                if ($validator->fails()) {
+                    
+                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
+                }
+
+                $report_update = Reportproblem::findById($id);
+                $report_update->answer = $request->input('answer');
+                $report_update->status = 'success';
+                $report_update->accept_report_date = now();
+                $report_update->save();
+
+                return redirect()->route('reportproblem')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
+            }
+            return view("admin.report.reportproblem_edit",['reportproblem' => $reportproblem]);
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    function reportproblem_detail($id){
+        if(AuthFacade::useradmin()){
+            $reportproblem = Reportproblem::where('id',$id)->first();
+            return view("admin.report.reportproblem_detail",['reportproblem' => $reportproblem]);
         }else{
             return redirect()->route('login.admin');
         }

@@ -48,6 +48,7 @@ class CourseController extends Controller
         $domain = '15';
         if(Auth::check()){
         $ptest = Manage::where(['type' => 'pre','id' => $id,'active' =>'y'])->first();
+        
         $chk_score = Score::where(['lesson_id'=>$id,'user_id'=>Auth::user()->id,'active'=>'y','course_id'=>$course_id])->orderBy('update_date','DESC')->first();
         // dd($chk_score->toArray());
         if($chk_score == null){

@@ -5,6 +5,7 @@ use App\Models\Profiles;
 
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\InsertController;
 use App\Http\Controllers\VedioController;
 use App\Http\Controllers\UpvedioController;
@@ -51,6 +52,10 @@ Route::post('logins', [LoginController::class,'login'])->name('logins');
 Route::post('logout', [LoginController::class,'logout'])->name('logout');
 Route::get('profile',[ProfileController::class,'index'])->name('profile');
 
+Route::get('forget_pass',[ForgotPasswordController::class,'testResetPasswordEmailSent'])->name('forget.pass');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])
+    ->name('password.email');
+
 // Route::get('/admin', function () {
 //     return view('admin/index/index');
 // });
@@ -58,6 +63,7 @@ Route::get('admin',[AdminController::class,'admin'])->name('admin');
 Route::get('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
 Route::post('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
 Route::post('logoutadmin', [AdminController::class,'logoutadmin'])->name('logout.admin');
+
 
 // Route::group(['middleware' => ['auth']], function () {
 //     Route::get('/admin', 'AdminController@index');
@@ -370,6 +376,12 @@ Route::post('usability_delete',[AdminController::class,'usability_delete'])->nam
 
 Route::get('/reportproblem',[AdminController::class,'reportproblem'])->name('reportproblem');
 
+Route::get('/reportproblem_detail/{id}',[AdminController::class,'reportproblem_detail'])->name('reportproblem.detail');
+
+Route::get('/reportproblem_edit/{id}',[AdminController::class,'reportproblem_edit'])->name('reportproblem.edit');
+Route::post('/reportproblem_edit/{id}',[AdminController::class,'reportproblem_edit'])->name('reportproblem.edit');
+
+
 Route::get('/faqtype',[AdminController::class,'faqtype'])->name('faqtype');
 
 Route::get('faqtype_detail/{id}',[AdminController::class,'faqtype_detail'])->name('faqtype.detail');
@@ -474,6 +486,8 @@ Route::get('document_downloadfile/{id}',[AdminController::class,'document_downlo
 
 Route::get('document_create',[AdminController::class,'document_create'])->name('document.create');
 Route::post('document_create',[AdminController::class,'document_create'])->name('document.create');
+
+Route::get('/getDocumentTypes/{titleId}', [AdminController::class, 'getDocumentTypes']);
 
 Route::get('document_detail/{id}',[AdminController::class,'document_detail'])->name('document.detail');
 

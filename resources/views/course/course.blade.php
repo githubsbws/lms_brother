@@ -1,7 +1,9 @@
 @extends('layout/mainlayout')
 @section('title', 'Course')
 @section('content')
-
+@php
+use App\Models\Teacher;
+@endphp
     <body>
         <div id="content">
             <div class="parallax overflow-hidden page-section bg-blue-300" style="background-color: cornflowerblue">
@@ -46,6 +48,9 @@
                             @if ($course_detail->count() > 0)
                             <div class="row" data-toggle="isotope" style="position: relative; ">
                                 @foreach ($course_detail as $item)
+                                @php
+                                $teacher = Teacher::where('teacher_id',$item->course_lecturer)->first();
+                                @endphp
                                 <div class="col-lg-6 col-md-6">
                                     <div class="news-box gridalicious" data-toggle="gridalicious">
         
@@ -79,10 +84,18 @@
             
                                                             <div class="media v-middle">
                                                                 <div class="media-left">
-                                                                    <img src="{{asset('images/uploads/teacher/24/thumb/12012016115549_Picture.JPG')}}" style="width: 150px" class="img-circle">
+                                                                    @if($teacher != null)
+                                                                    <img src="{{asset('images/uploads/teacher/'.$teacher->teacher_id.'/thumb/'.$teacher->teacher_picture)}}" style="width: 150px" class="img-circle">
+                                                                    @else
+                                                                    <img src="{{asset('themes/bws/images/logo_course2.png')}}" style="width: 150px" class="img-circle">
+                                                                    @endif
                                                                 </div>
                                                                 <div class="media-body">
-                                                                    <h4><a href="">{{ $item->teacher_name }}</a>
+                                                                    @if($teacher != null)
+                                                                    <h4><a href="">{{ $teacher->teacher_name }}</a>
+                                                                    @else
+                                                                    <h4>-</h4>
+                                                                    @endif
                                                                         <br>
                                                                     </h4>
                                                                     <span style="font-size: 19px;">ชื่อวิทยากร</span>

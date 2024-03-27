@@ -49,4 +49,5 @@ class Users extends AuthenticatableUser implements Authenticatable
     {
         return $this->hasOne(Pgroup::class,'id','group_id');
     }
+    
 }

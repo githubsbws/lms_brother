@@ -23,7 +23,7 @@
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="{{url('news')}}">ระบบข่าวสารและกิจกรรม</a></li> » <li>เพิ่มข่าวสารและกิจกรรม</li>
+					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="{{url('news')}}">ระบบข่าวสารและกิจกรรม</a></li> » <li>แก้ไขข่าวสารและกิจกรรม</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
 				<script>
@@ -79,7 +79,7 @@
 									</div>
 
 									<div class="row">
-										<label for="News_cms_detail">เนื้อหาข่าว</label>
+										<label for="News_cms_detail">เนื้อหาข่าว <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> รูปภาพควรมีขนาดไม่เกิน 700 KB</label>
 										{{-- {!!  htmlspecialchars_decode(htmlspecialchars_decode($news->cms_detail)) !!} --}}
 										<div id="microtextbox-cms-detail" style="height: 1000px"></div>
 										{{-- <textarea rows="6" cols="50" class="span8 tinymce" name="cms_detail" id="cms_detail" aria-hidden="true">{!! htmlspecialchars_decode($news->cms_detail) !!}</textarea> --}}
@@ -191,7 +191,8 @@
 				name: 'cms_detail',
 				options: {
 					placeholder: "",
-					body: '{!! $text !!}'
+					body: '{!! $text !!}',
+					maxlength: 4294967295
 					
 				},
 			}

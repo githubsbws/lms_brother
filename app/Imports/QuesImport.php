@@ -45,21 +45,25 @@ class QuesImport implements ToModel, WithHeadingRow//ToCollection,
             $ques_type = '3';
         }
         if(substr($row['choice_1'], 0, 1) == '*'){
+            $row['choice_1'] = substr($row['choice_1'], 1);
             $choice_answer_1 = '1';
         } else {
             $choice_answer_1 = '2';
         }
         if(substr($row['choice_2'], 0, 1) == '*'){
+            $row['choice_2'] = substr($row['choice_2'], 1);
             $choice_answer_2 = '1';
         } else {
             $choice_answer_2 = '2';
         }
         if(substr($row['choice_3'], 0, 1) == '*'){
+            $row['choice_3'] = substr($row['choice_3'], 1);
             $choice_answer_3 = '1';
         } else {
             $choice_answer_3 = '2';
         }
         if(substr($row['choice_4'], 0, 1) == '*'){
+            $row['choice_4'] = substr($row['choice_4'], 1);
             $choice_answer_4 = '1';
         } else {
             $choice_answer_4 = '2';

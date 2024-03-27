@@ -1,4 +1,4 @@
-@extends('admin/layouts/mainlayout')
+@extends('admin.layouts.mainlayout')
 @section('title', 'Admin')
 @section('content')
 
@@ -42,12 +42,25 @@
                                 <form enctype="multipart/form-data" id="faq_edit" action="{{route('document.create')}}" method="post">
                                     @csrf
                                     <div class="row">
-										<label for="Grouptesting_lesson_id" class="required">ประเภทเอกสาร <span class="required">*</span></label> <select class="span8" name="download_cate" id="download_cate">
+										<label for="Grouptesting_lesson_id" class="required">หัวข้อเอกสาร <span class="required">*</span></label> 
+                                        <select class="span8" name="title" id="document_title_select">
+                                                <option value="">--- เลือกชื่อเอกสาร ---</option>
+                                                @foreach ($document_title as $title)
+                                                    <option value="{{ $title->title_id }}">{{ $title->title_name }}</option>
+                                                @endforeach
+										</select>
+                                         <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<div class="error help-block">
+											<div class="label label-important" id="Grouptesting_lesson_id_em_" style="display:none"></div>
+										</div>
+									</div>
+                                    <div class="row">
+										<label for="Grouptesting_lesson_id" class="required">ประเภทเอกสาร <span class="required">*</span></label> 
+                                        <select class="span8" name="download_cate" id="document_type_select">
 											<option value="">--- ประเภทเอกสาร ---</option>
-											@foreach ($document_type as $item)
-											<option value="{{ $item->download_id}}">{{$item->download_name}}</option>
-											@endforeach
-										</select> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+                                        <!-- ตัวเลือกประเภทเอกสารจะถูกเติมโดยอัตโนมัติ -->
+										</select>
+                                         <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
 										<div class="error help-block">
 											<div class="label label-important" id="Grouptesting_lesson_id_em_" style="display:none"></div>
 										</div>
@@ -112,7 +125,43 @@
         <!-- // Footer END -->
 
     </div>
-
+    <script>
+        // ฟังก์ชันเพื่อเรียกและเติมตัวเลือกประเภทเอกสารตามชื่อที่เลือก
+        function populateDocumentTypes() {
+            var titleId = document.getElementById('document_title_select').value;
+            var documentTypeSelect = document.getElementById('document_type_select');
+            
+            // เคลียร์ตัวเลือกที่มีอยู่ก่อนหน้า
+            documentTypeSelect.innerHTML = '<option value="">--- ประเภทเอกสาร ---</option>';
+    
+            // สร้าง URL ใหม่โดยใช้ชื่อที่เลือก
+           
+            console.log(titleId)
+    
+            // เรียกข้อมูลประเภทเอกสารตามชื่อที่เลือก
+            fetch('{{ url("getDocumentTypes") }}/' + titleId)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // เพื่อตรวจสอบว่าได้รับข้อมูลแล้วหรือยัง
+    
+                    // เติมตัวเลือกประเภทเอกสาร
+                    data.forEach(item => {
+                        var option = document.createElement('option');
+                        option.value = item.download_id;
+                        option.text = item.download_name;
+                        documentTypeSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching document types:', error);
+                });
+        }
+    
+        // แนบตัวฟังก์ชันไปยังเลือกชื่อ
+        document.getElementById('document_title_select').addEventListener('change', populateDocumentTypes);
+    </script>
+    
+    
 </body>
 
 @endsection
