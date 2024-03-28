@@ -11,6 +11,13 @@ class Zoom extends Model
     protected $table = 'zoom';
 
     protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'active'
+    ];
+
+    const CREATED_AT = 'created_date'; // Custom created_at column
+    const UPDATED_AT = 'updated_date'; // Custom update_at column
     
     public static function findById($id)
     {

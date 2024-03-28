@@ -582,6 +582,9 @@ Route::get('/generation_delete/{id}',[AdminController::class,'generation_delete'
 // ----- Classroom
 Route::get('classroom',[AdminController::class,'classroom'])->name('classroom');
 
+Route::get('/classroom_create',[AdminController::class,'classroom_create'])->name('classroom_create');
+Route::post('/classroom_create',[AdminController::class,'classroom_create'])->name('classroom_create');
+
 Route::get('/classroom_edit/{id}',[AdminController::class,'classroom_edit'])->name('classroom_edit');
 
 Route::get('/classroom_delete/{id}',[AdminController::class,'classroom_delete'])->name('classroom_delete');

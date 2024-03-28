@@ -140,7 +140,12 @@ use App\Models\Permission;
                     </li>
                 @endif
                 @if (in_array(14, $menu_array) || $getUser->superuser == 1)
-				    <li class="hasSubmenu glyphicons refresh"><a href="{{ url('/classroom') }}"><i></i><span>จัดการระบบห้องเรียนออนไลน์</span></a></li>
+				    <li class="hasSubmenu glyphicons refresh"><a data-toggle="collapse" href="#Refresh"><i></i><span>จัดการระบบห้องเรียนออนไลน์</span></a>
+                        <ul class=" collapse " id="Refresh">
+                            <li><a href="{{ url('/classroom') }}">จัดการระบบห้องเรียนออนไลน์</a></li>
+                            <li><a href="{{ url('/classroom_create') }}">เพิ่มห้องเรียนออนไลน์</a></li>
+                        </ul>
+                    </li>
                 @endif
                 {{-- @if (in_array(15, $menu_array) || $getUser->superuser == 1)
                     <li class="hasSubmenu glyphicons print"><a data-toggle="collapse" href="#CheckLecture"><i></i><span>ระบบตรวจข้อสอบบรรยาย</span></a>

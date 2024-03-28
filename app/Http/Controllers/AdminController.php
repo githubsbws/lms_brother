@@ -67,6 +67,7 @@ use App\Models\QSection;
 use App\Models\QQuestion;
 use App\Models\QChoice;
 use App\Models\Ques_ans;
+use App\Models\Zoom;
 
 use App\Models\AdminMenu;
 // use App\Models\Company;
@@ -1517,7 +1518,6 @@ class AdminController extends Controller
                         return redirect()->back()->withErrors($validator)->withInput(); 
                     }
                     $doc_update = FileDoc::where('lesson_id',$id)->first();
-                    $doc_part = FileDoc::where('lesson_id','<',$id)->first();
                     // dd($doc_update->toArray());
                     if($doc_update == null){
                         $doc_new = new FileDoc;
@@ -4008,8 +4008,31 @@ class AdminController extends Controller
     }
     function classroom_create(Request $request){
         if(AuthFacade::useradmin()){
-            
-            return view("admin.Classroom.classroom-create",compact('zoom'));
+            if ($request->isMethod('post')){
+                $validator = Validator::make($request->all(), [
+                    'title'=>'required|string',
+                    'join_url' => 'required|string',
+                    'start_date' => 'required|string'
+
+                ]);
+                // dd($validator);
+                if ($validator->fails()) {
+                    
+                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
+                }
+                $zoom_create = new Zoom;
+                $zoom_create->title = $request->input('title');
+                $zoom_create->join_url = $request->input('join_url');
+                $zoom_create->duration = $request->input('duration');
+                $zoom_create->start_date = $request->input('start_date');
+                $zoom_create->created_by = Auth::user()->id;
+                $zoom_create->updated_by = Auth::user()->id;
+                $zoom_create->active = 'y';
+                $zoom_create->save();
+
+                return redirect()->route('classroom');
+            }
+            return view("admin.Classroom.classroom-create");
         }else{
             return redirect()->route('login.admin');
         } 
