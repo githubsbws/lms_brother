@@ -868,7 +868,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/news/'.$id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0775, true);
+                        mkdir($idFolder);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
