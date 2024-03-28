@@ -1482,7 +1482,7 @@ class AdminController extends Controller
 
                     $doc = $request->file('doc');
                     $doc_name = $doc->getClientOriginalName();
-                    dd($doc_name);
+                    // dd($doc_name);
                     $doc_update = FileDoc::where('lesson_id',$id)->first();
                     $doc_update->filename = $doc_name;
                     $doc_update->update_by = Auth::user()->id;
