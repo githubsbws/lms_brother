@@ -212,15 +212,7 @@
                         } else {
                             type = 'error';
                         }
-                        if (type != 'textarea') {
-                            var radiochecked = $(this).find("input:checked").length;
-                            if (!radiochecked) {
-                                alert('กรุณาเลือกคำตอบให้ครบ');
-                                $(this).find("input:" + type).first().focus();
-                                validate = false;
-                                return false;
-                            }
-                        }
+                        
                     });
                 }
                 return validate;

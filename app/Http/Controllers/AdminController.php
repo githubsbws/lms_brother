@@ -25,9 +25,8 @@ use App\Models\Faq_type;
 use App\Models\Pgroup;
 use App\Models\Pgroupcondition;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\UserImport;
 use App\Imports\QuesImport;
-
+use App\Imports\UsersImport;
 use App\Models\About;
 use App\Models\Captcha;
 use App\Models\Conditions;
@@ -3578,9 +3577,9 @@ class AdminController extends Controller
 
 
             ]);
-
+            // dd( $request->file('import_excel'));
             Excel::import(new UsersImport, $request->file('import_excel'));
-
+            
             return redirect()->back()->with('success', 'Excel imported successfully!');
         }else{
             return redirect()->route('login.admin');

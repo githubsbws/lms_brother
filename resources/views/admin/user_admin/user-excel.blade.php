@@ -63,7 +63,7 @@
                                     </form>
                                     <div class="span4">
                                         <h4>แบบฟอร์มรูปแบบนำเข้าสมาชิก</h4>
-                                        <a href="#"
+                                        <a href="{{asset('images/uploads/templete_import_users_new.xlsx')}}"
                                            class="glyphicons download_alt"><i></i>Download Excel</a>
                                     </div>
                                 </div>

@@ -110,13 +110,13 @@ class CourseController extends Controller
                 $org_chart_ids = Orgchart::where('id',Auth::user()->department_id)->where('active', 'y')->pluck('id');
             }elseif(Auth::user()->department_id == 1){
                 $org_chart_ids = Orgchart::where('active', 'y')->pluck('id');
+                
             }
             else{
                 $org_chart_ids = Orgchart::where('id','0')->where('active', 'y')->pluck('id');   
             }
 
         $orgcourse = Orgcourse::whereIn('orgchart_id', $org_chart_ids)->where('active', 'y')->pluck('course_id');
-
         $query = $request->input('search_text');
 
         if($query){
@@ -124,6 +124,7 @@ class CourseController extends Controller
         }else{
             $course_detail = Course::join('category','category.cate_id','=','course_online.cate_id')->whereIn('course_id',$orgcourse)->where('course_online.active','y')->orderBy('course_id', 'desc')->paginate(6);
         }
+        
         $course_recom = Course::where('recommend','y')->where('active','y')->orderBy('course_id', 'desc')->limit(5)->get(); 
         return view("course.course",['course_detail' =>$course_detail,'course_recom' => $course_recom]);
     }else{

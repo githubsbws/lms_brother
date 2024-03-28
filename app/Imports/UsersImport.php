@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Carbon\Carbon;
 
-class UsersImport implements ToModel, WithHeadingRow//ToCollection,
+class UsersImport implements ToModel, WithHeadingRow
 {
     //use Importable,SkipsFailures;
     /**
