@@ -482,6 +482,9 @@ Route::get('/student_photo',[AdminController::class,'student_photo'])->name('stu
 Route::get('/capture',[AdminController::class,'capture'])->name('capture');
 
 Route::get('/document',[AdminController::class,'document'])->name('document');
+
+Route::post('document/per_page',[AdminController::class,'document']);
+
 Route::get('document_downloadfile/{id}',[AdminController::class,'document_downloadfile'])->name('document.downloadfile');
 
 Route::get('document_create',[AdminController::class,'document_create'])->name('document.create');
@@ -497,6 +500,8 @@ Route::post('document_edit/{id}',[AdminController::class,'document_edit'])->name
 Route::get('document_delete/{id}',[AdminController::class,'document_delete'])->name('document.delete');
 
 Route::get('document_type',[AdminController::class,'document_type'])->name('document.type');
+
+Route::post('document_type/per_page',[AdminController::class,'document_type']);
 
 Route::get('document_type_detail/{id}',[AdminController::class,'document_type_detail'])->name('document_type.detail');
 

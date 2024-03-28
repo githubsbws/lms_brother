@@ -561,10 +561,13 @@ class AdminController extends Controller
         }
     }
     //
-    function document(){
+    function document(Request $request){
         if(AuthFacade::useradmin()){
             $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->paginate(10);
-
+            $perPage = $request->input('per_page');
+            if($perPage){
+                $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->paginate($perPage);
+            }
             return view("admin.document.document",['document' =>$document]);
         }else{
             return redirect()->route('login.admin');
@@ -645,7 +648,7 @@ class AdminController extends Controller
                 // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
                 if ($request->hasFile('filedoc')) {
                     $fileExtension = $request->file('filedoc')->extension();
-            
+                    dd($fileExtension);
                     if ($fileExtension !== 'pdf') {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
                         return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
@@ -709,9 +712,13 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
-    function document_type(){
+    function document_type(Request $request){
         if(AuthFacade::useradmin()){
-            $document_type = Downloadcategoty::where('active','y')->get();
+            $document_type = Downloadcategoty::where('active','y')->paginate(10);
+            $perPage = $request->input('per_page');
+            if($perPage){
+                $document_type = Downloadcategoty::where('active','y')->paginate($perPage);
+            }
             return view("admin.document.document_type",['document_type' =>$document_type]);
         }else{
             return redirect()->route('login.admin');
