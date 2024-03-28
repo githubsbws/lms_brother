@@ -691,15 +691,16 @@ class AdminController extends Controller
     function document_downloadfile($id,Request $request){
             // Retrieve the file information from the database
             $file = DownloadFileDoc::where('filedoc_id',$id)->first();
+            $doc_name = strtolower($file->filedocname);
             // Check if the file exists
             // dd($file->toArray());
             // Construct the full file path
-            $file_path = public_path('images/uploads/filedoc/'.$file->filedocname);
+            $file_path = public_path('images/uploads/filedoc/'.$doc_name);
 
 
             // Check if the file actually exists on the server
             if (file_exists($file_path)) {
-                return response()->download($file_path, $file->filedoc_name);
+                return response()->download($file_path, $doc_name);
             } else {
                 echo "<script>alert('ไม่พบไฟล์'); window.location.href = '/document';</script>";
             }

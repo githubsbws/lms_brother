@@ -128,12 +128,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					{{-- @foreach ($zoom as $item)
-					@if($item->active === 'y') --}}
-					<tr class="odd selectable">
-						<td width="20" class="checkbox-column"><input class="select-on-check" value="50" id="chk_0" type="checkbox" name="chk[]"></td>
-						<td width="110"></td>			
-					</tr>
+					@foreach ($courseOnline as $courses)
+						<tr class="odd selectable">
+							<td width="20" class="checkbox-column"><input class="select-on-check" value="{{ $courses->course_id}}" id="chk_0" type="checkbox" name="chk[]"></td>
+							<td width="110">{{ $courses->course_title }}</td>			
+						</tr>
+					@endforeach
 				</tbody>
 			</table></p>
 		  </div>
