@@ -595,21 +595,21 @@ class AdminController extends Controller
 
                 $document->file_id = $document_file->file_id;
                 // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
-                if ($request->hasFile('filedoc')) {
-                    $fileExtension = $request->file('filedoc')->extension();
-                    dd($fileExtension);
-                    if ($fileExtension !== 'pdf') {
-                        // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
-                        return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
-                    }
+                if($request->file('filedoc')){
                     $doc = $request->file('filedoc');
                     $docname = $doc->getClientOriginalName();
                     $document->filedocname = $docname;
-                    
-                    $idFolder = public_path('images/uploads/filedoc/');
-                    
-                    $doc->move($idFolder, $docname);
-    
+
+                    $fileExtension = $request->file('filedoc')->extension();
+
+                    if ($fileExtension !== 'pdf') {
+                        // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
+                        return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
+                    }else{
+                        $idFolder = public_path('images/uploads/filedoc/');
+                        $doc->move($idFolder, $docname);
+                    }
+                    $document->save();
                 }
                 // dd($document->toArray());
                 $document->save();
@@ -649,26 +649,24 @@ class AdminController extends Controller
                 $document_file->download_id = $request->input('download_cate');
                 $document_file->save();
                 // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
-                if ($request->hasFile('filedoc')) {
-                    $fileExtension = $request->file('filedoc')->extension();
-                    dd($fileExtension);
-                    if ($fileExtension !== 'pdf') {
-                        // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
-                        return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
-                    }
+                if($request->file('filedoc')){
                     $doc = $request->file('filedoc');
                     $docname = $doc->getClientOriginalName();
                     $document->filedocname = $docname;
-                    
-                    $idFolder = public_path('images/uploads/filedoc/');
-                    
-                    $doc->move($idFolder, $docname);
-                    
-                    
+
+                    $fileExtension = $request->file('filedoc')->extension();
+
+                    if ($fileExtension !== 'pdf') {
+                        // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
+                        return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
+                    }else{
+                        $idFolder = public_path('images/uploads/filedoc/');
+                        $doc->move($idFolder, $docname);
+                    }
+                    $document->save();
                 }
                 // dd($document->toArray());
                 $document->save();
-                
                 return redirect()->route('document')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
             }
             return view("admin.document.document_edit",['document' =>$document,'document_type' =>$document_type,'document_cate' =>$document_cate]);
@@ -829,7 +827,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/news/'.$news_create->cms_id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0775, true);
+                        mkdir($idFolder);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม
