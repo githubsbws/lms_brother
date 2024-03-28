@@ -700,7 +700,7 @@ class AdminController extends Controller
 
             // Check if the file actually exists on the server
             if (file_exists($file_path)) {
-                return response()->download($file_path, $file->filedoc_name);
+                return response()->download($file_path, $doc_name);
             } else {
                 echo "<script>alert('ไม่พบไฟล์'); window.location.href = '/document';</script>";
             }
