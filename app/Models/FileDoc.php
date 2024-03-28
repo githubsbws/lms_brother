@@ -17,7 +17,8 @@ class FileDoc extends Model
         'lesson_id',
         'filename' ,
         'file_name',
-        'active'
+        'active',
+        'file_position'
     ];
     
     const CREATED_AT = 'create_date'; // Custom created_at column

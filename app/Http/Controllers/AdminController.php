@@ -1488,11 +1488,23 @@ class AdminController extends Controller
                     }
                     $doc_update = FileDoc::where('lesson_id',$id)->first();
                     $doc_part = FileDoc::where('lesson_id','<',$id)->first();
-                    dd($doc_update->toArray());
-                    $doc_update->file_position = "1";
-                    $doc_update->filename = $doc_name;
-                    $doc_update->update_by = Auth::user()->id;
-                    $doc_update->save();
+                    // dd($doc_update->toArray());
+                    if($doc_update == null){
+                        $doc_new = new FileDoc;
+                        $doc_new->file_position = "1";
+                        $doc_new->file_name = $lesson->title;
+                        $doc_new->filename = $doc_name;
+                        $doc_new->length = '2.00';
+                        $doc_new->create_by = Auth::user()->id;
+                        $doc_new->update_by = Auth::user()->id;
+                        $doc_new->active = 'y';
+                        $doc_new->save();
+                    }else{
+                        $doc_update->file_position = "1";
+                        $doc_update->filename = $doc_name;
+                        $doc_update->update_by = Auth::user()->id;
+                        $doc_update->save();
+                    }
 
                     $idFolder = public_path('images/uploads/filedoc/');
                     if (!file_exists($idFolder)) {
