@@ -1488,7 +1488,7 @@ class AdminController extends Controller
                     }
                     $doc_update = FileDoc::where('lesson_id',$id)->first();
                     $doc_part = FileDoc::where('lesson_id','<',$id)->first();
-                    $doc_update->position = $doc_part->position++;
+                    $doc_update->position = $doc_part->file_position++;
                     $doc_update->filename = $doc_name;
                     $doc_update->update_by = Auth::user()->id;
                     $doc_update->save();
