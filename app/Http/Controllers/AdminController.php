@@ -579,10 +579,13 @@ class AdminController extends Controller
             $document_type = Downloadcategoty::where('active','y')->get();
             if ($request->isMethod('post')) { // ตรวจสอบว่าเป็นการร้องขอ POST หรือไม่
                 $document_cate = Downloadcategoty::where('download_id',$request->input('download_cate'))->first();
-
+                if(!$document_cate){
+                    return back()->with('error');
+                }
                 $document = new DownloadFileDoc;
                 $document->filedoc_name = $request->input('filedoc_name');
                 $document->active = 'y';
+                
 
                 $document_file = new DownloadFile;
                 $document_file->download_id = $document_cate->download_id;
