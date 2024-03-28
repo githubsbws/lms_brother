@@ -600,6 +600,9 @@ class AdminController extends Controller
                     $docname = $doc->getClientOriginalName();
                     $document->filedocname = $docname;
 
+                    var_dump($request->file('filedoc'));
+                    exit();
+
                     $fileExtension = $request->file('filedoc')->extension();
 
                     if ($fileExtension !== 'pdf') {
