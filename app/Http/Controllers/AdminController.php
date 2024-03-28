@@ -600,10 +600,7 @@ class AdminController extends Controller
                     $docname = $doc->getClientOriginalName();
                     $document->filedocname = $docname;
 
-                    var_dump($request->file('filedoc'));
-                    exit();
-
-                    $fileExtension = $request->file('filedoc')->extension();
+                    $fileExtension = strtolower(end(preg_split('/-/', $docname)));
 
                     if ($fileExtension !== 'pdf') {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
@@ -657,7 +654,8 @@ class AdminController extends Controller
                     $docname = $doc->getClientOriginalName();
                     $document->filedocname = $docname;
 
-                    $fileExtension = $request->file('filedoc')->extension();
+                    $fileExtension = strtolower(end(preg_split('/-/', $docname)));
+                    // $fileExtension = $request->file('filedoc')->extension();
 
                     if ($fileExtension !== 'pdf') {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
