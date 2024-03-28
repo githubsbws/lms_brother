@@ -4085,17 +4085,67 @@ class AdminController extends Controller
     function captcha(){
         if(AuthFacade::useradmin()){
             // อัปเดตเป็นชื่อตารางที่ถูกต้อง 'config_captcha'
-            $captcha = Captcha::where('capt_active','y')->paginate(10);
+            $captcha = Captcha::where('capt_hide','0')->paginate(10);
             $courseOnline = Course::where('active','y')->get();
             return view("admin.captcha.captcha_2",compact('captcha','courseOnline'));
         }else{
             return redirect()->route('login.admin');
         } 
     }
-    function captcha_edit($capid){
+    function captcha_course(Request $request){
+        if(AuthFacade::useradmin()){
+            if ($request->input('data-id')) {
+                // รับค่าที่ส่งมาจากฟอร์ม
+                $dataId = $request->input('data-id');
+                $dataUrl = $request->input('chk');
+
+                foreach ($dataUrl as $chkValue) {
+                    $reset = Course::findById($chkValue);
+                    if($reset){
+                        $reset->course_point = $dataId;
+                        $reset->save();
+                        
+                    }
+                }
+                return redirect()->route('captcha');
+            }
+            
+        }else{
+            return redirect()->route('login.admin');
+        } 
+    }
+    function captcha_edit(Request $request,$capid){
         if(AuthFacade::useradmin()){
             $captcha = Captcha::get()->where('capid',$capid)->first();
+            if ($request->isMethod('post')){
+                $validator = Validator::make($request->all(), [
+                    'capt_name'=>'required|string',
+                    'type' => 'required|string',
+                    'capt_times' => 'required|string'
+                ]);
+                // dd($request);
+                if ($validator->fails()) {
+                    
+                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
+                }
+                $cap = Captcha::findById($capid);
+                $cap->capt_name = $request->input('capt_name');
+                $cap->type = $request->input('type');
+                $cap->capt_times = $request->input('capt_times');
+                $cap->updated_by = Auth::user()->id;
+                $cap->save();
+
+                return redirect()->route('captcha');
+            }
             return view("admin.captcha.captcha-edit",compact('captcha'));
+        }else{
+            return redirect()->route('login.admin');
+        } 
+    }
+    function captcha_detail($capid){
+        if(AuthFacade::useradmin()){
+            $captcha = Captcha::get()->where('capid',$capid)->first();
+            return view("admin.captcha.captcha-detail",compact('captcha'));
         }else{
             return redirect()->route('login.admin');
         } 
@@ -4148,31 +4198,41 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         } 
     }
-    function captcha_delete(Request $request,$capid) {
+    function captcha_y($capid,$capt_active) {
         if(AuthFacade::useradmin()){
-            $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
-            if ($request->has('capt_active') ) {
-                $captcha_delete = [
-                    'capt_active' => 'y',
-                    'updated_at' => $currentTime,
-                    'created_at'=>"1"
-                ];
-                $captcha_survey = Captcha::where(['capid'=>$request->capid])->first();
-                $captcha_survey->fill($Captcha_delete);
-                $captcha_survey->save();
+            $cap = Captcha::findById($capid);
+            if($cap){
+                $cap->capt_active = $capt_active;
+                $cap->save();
+
                 return redirect()->route('captcha');
             }
-            else {
-                $captcha_delete = [
-                    'capt_active' => 'n',
-                    'updated_at' => $currentTime,
-                    'created_at'=>"1"
-                ];
-                $captcha_survey  = Captcha::where(['capid'=>$request->capid])->first();
-                $captcha_survey->fill($captcha_delete);
-                $captcha_survey->save();
+        }else{
+            return redirect()->route('login.admin');
+        } 
+    }
+    function captcha_n($capid,$capt_active) {
+        if(AuthFacade::useradmin()){
+            $cap = Captcha::findById($capid);
+            if($cap){
+                $cap->capt_active = $capt_active;
+                $cap->save();
+                
                 return redirect()->route('captcha');
             }
+        }else{
+            return redirect()->route('login.admin');
+        } 
+    }
+    function captcha_delete($capid) {
+        if(AuthFacade::useradmin()){
+           $cap = Captcha::findById($capid);
+           if($cap){
+            $cap->capt_hide = '1';
+            $cap->save();
+            
+            return redirect()->route('captcha');
+        }
         }else{
             return redirect()->route('login.admin');
         } 

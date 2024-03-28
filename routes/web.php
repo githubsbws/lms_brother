@@ -594,13 +594,22 @@ Route::post('/classroom_update/{id}',[AdminController::class,'classroom_update']
 // ----- Captcha
 Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha');
 
+Route::post('/captcha_course/{id?}',[AdminController::class,'captcha_course'])->name('captcha.course');
+
 Route::get('/captcha_create',[AdminController::class,'captcha_create'])->name('captcha_create');
 
 Route::post('/captcha_insert',[AdminController::class,'captcha_insert'])->name('captcha_insert');
 
+Route::get('/captcha_detail/{capid}',[AdminController::class,'captcha_detail'])->name('captcha_detail');
+
 Route::get('/captcha_edit/{capid}',[AdminController::class,'captcha_edit'])->name('captcha_edit');
+Route::post('/captcha_edit/{capid}',[AdminController::class,'captcha_edit'])->name('captcha_edit');
 
 Route::get('/captcha_delete/{capid}',[AdminController::class,'captcha_delete'])->name('captcha_delete');
+
+Route::get('/captcha_n/{capid}/{capt_active}',[AdminController::class,'captcha_n'])->name('captcha_n');
+
+Route::get('/captcha_y/{capid}/{capt_active}',[AdminController::class,'captcha_y'])->name('captcha_y');
 
 Route::post('/captcha_update/{capid}',[AdminController::class,'captcha_update'])->name('captcha_update');
 

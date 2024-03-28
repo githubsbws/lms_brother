@@ -14,17 +14,17 @@ class Captcha extends Model
 
     protected $prefix = '';
 
-    protected $primaryKey = 'cap_id';
+    protected $primaryKey = 'capid';
     
     protected $fillable = [
         'cap_active'
         
     ];
-    const CREATED_AT = 'create_date'; // Custom created_at column
-    const UPDATED_AT = 'update_date'; // Custom update_at column
+    const CREATED_AT = 'created_date'; // Custom created_at column
+    const UPDATED_AT = 'updated_date'; // Custom update_at column
 
     public static function findById($id)
     {
-        return static::where('cap_id', $id)->first();
+        return static::where('capid', $id)->first();
     }
 }

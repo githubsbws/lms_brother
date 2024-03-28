@@ -34,36 +34,33 @@
 						<hr class="separator">
 						<!-- Row -->
 						<div class="form">
-                            <form enctype="multipart/form-data" id="captcha-form" action="{{route('captcha_edit',$captcha->capid)}}" method="post">
-                                @csrf
-                                <p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
                                 <div class="row">
-                                    <label for="capt_name" class="required">ชื่อเงื่อนไข<span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="capt_name" id="capt_name" type="text" value="{{$captcha->capt_name}}" ><span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+                                    <label for="capt_name" class="required">ชื่อเงื่อนไข<span class="required"></span></label>
+									<h4>{{$captcha->capt_name}}</h4>
                                     <div class="error help-block">
                                         <div class="label label-important" id="News_cms_title_em_" style="display:none"></div>
                                     </div>
                                 </div>
     
                                 <div class="row">
-                                    <label for="type" class="required">ชนิด<span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="type" id="type"  type="text"  value="{{$captcha->type}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+                                    <label for="type" class="required">ชนิด<span class="required"></span></label> 
+									<h4>{{$captcha->type}}</h4>
                                     <div class="error help-block">
                                         <div class="label label-important" id="type" style="display:none"></div>
                                     </div>
                                 </div>
 
                                 <div class="row">
-                                    <label for="capt_times" class="required">ระยะเวลาการแสดงแคปช่า<span class="required">*</span></label> <input size="60" maxlength="250" class="span8" name="capt_times" id="capt_times" type="number" value="{{$captcha->capt_times}}" > <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+                                    <label for="capt_times" class="required">ระยะเวลาการแสดงแคปช่า<span class="required"></span></label> 
+									<h4>{{$captcha->capt_times}}</h4>
+									
                                     <div class="error help-block">
                                         <div class="label label-important" id="capt_times" style="display:none"></div>
                                     </div>
                                 </div>
     
     
-                            </div>
-                            <div class="row buttons">
-                                <button class="btn btn-primary btn-icon glyphicons ok_2"><i></i>บันทึกข้อมูล</button>
-                            </div>
-                        </form>
+                            </div>  
                             <!-- // Row END -->
     
                         </div>
