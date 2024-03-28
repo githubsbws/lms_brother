@@ -1483,16 +1483,16 @@ class AdminController extends Controller
                     $doc = $request->file('doc');
                     $doc_name = $doc->getClientOriginalName();
 
+                    $doc_update = FileDoc::where('lesson_id',$id)->first();
+                    $doc_update->filename = $doc_name;
+                    $doc_update->update_by = Auth::user()->id;
+                    $doc_update->save();
+
                     $idFolder = public_path('images/uploads/filedoc/');
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder);
                     }
                     $doc->move($idFolder, $doc_name);
-
-                    $doc_update = FileDoc::where('lesson_id',$id)->first();
-                    $doc_update->filename = $doc_name;
-                    $doc_update->update_by = Auth::user()->id;
-                    $doc_update->save();
                 }
                 
                 if($request->file('image')){
@@ -3938,6 +3938,14 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             $zoom =DB::table('zoom')->get();
             return view("admin.Classroom.Classroom",compact('zoom'));
+        }else{
+            return redirect()->route('login.admin');
+        } 
+    }
+    function classroom_create(Request $request){
+        if(AuthFacade::useradmin()){
+            
+            return view("admin.Classroom.classroom-create",compact('zoom'));
         }else{
             return redirect()->route('login.admin');
         } 
