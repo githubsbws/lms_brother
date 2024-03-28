@@ -829,13 +829,18 @@ class AdminController extends Controller
                 if($request->file('image')){
                     $image = $request->file('image');
 
-                    $idFolder = public_path('images/uploads/news/'.$news_create->cms_id.'/original/');
+                    $idFolder = public_path('images/uploads/news/'.$news_create->cms_id);
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder);
+
+                        $idFolder2 = public_path('images/uploads/news/'.$news_create->cms_id.'/original/');
+                        if (!file_exists($idFolder2)) {
+                            mkdir($idFolder2);
+                        }
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม
-                    $image->move($idFolder, $imageName);
+                    $image->move($idFolder2, $imageName);
 
                     
                 }
@@ -1499,18 +1504,24 @@ class AdminController extends Controller
                         $doc_new->update_by = Auth::user()->id;
                         $doc_new->active = 'y';
                         $doc_new->save();
+
+                        $idFolder = public_path('images/uploads/filedoc/');
+                        if (!file_exists($idFolder)) {
+                            mkdir($idFolder);
+                        }
+                        $doc->move($idFolder, $doc_name);
                     }else{
                         $doc_update->file_position = "1";
                         $doc_update->filename = $doc_name;
                         $doc_update->update_by = Auth::user()->id;
                         $doc_update->save();
-                    }
 
-                    $idFolder = public_path('images/uploads/filedoc/');
-                    if (!file_exists($idFolder)) {
-                        mkdir($idFolder);
+                        $idFolder = public_path('images/uploads/filedoc/');
+                        if (!file_exists($idFolder)) {
+                            mkdir($idFolder);
+                        }
+                        $doc->move($idFolder, $doc_name);
                     }
-                    $doc->move($idFolder, $doc_name);
                 }
                 
                 if($request->file('image')){
