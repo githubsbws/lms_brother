@@ -600,9 +600,10 @@ class AdminController extends Controller
                     $docname = $doc->getClientOriginalName();
                     $document->filedocname = $docname;
 
-                    $fileExtension = $request->file('filedoc')->extension();
+                    $tmp = explode('.', $docname);
+                    $fileExtension = end($tmp);
 
-                    if ($fileExtension !== 'pdf') {
+                    if (strtolower($fileExtension) !== 'pdf') {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
                         return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
                     }else{
@@ -3605,7 +3606,7 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             $request->validate([
                 'imgslide_link'=>'required|url|max:76',
-                'imgslide_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:255',
+                'imgslide_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             ]);
             $date=new DateTime('Asia/Bangkok');
             // $dir="upload/";
@@ -3620,7 +3621,7 @@ class AdminController extends Controller
                 'active'=>'y'                   //default
             ];
             DB::table('imgslide')->insert($imgslide_data);
-            $request->imgslide_picture->move(public_path('storage/Imgslides'),$imageName);
+            // $request->imgslide_picture->move(public_path('storage/Imgslides'),$imageName);
 
                 $idFolder = public_path('images/uploads/imgslides');
                 if (!file_exists($idFolder)) {
@@ -3661,7 +3662,7 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             $request->validate([
                 'imgslide_link'=>'required|url|max:76',
-                'imgslide_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1000',
+                'imgslide_picture' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             ]);
             
             $imgslide_data=[
