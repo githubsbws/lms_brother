@@ -842,7 +842,7 @@ class AdminController extends Controller
                 $validator = Validator::make($request->all(), [
                     'cms_title' => 'required|string', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
                     'cms_short_title' =>'required|string',
-                    'cms_detail' =>'required|string|max:4294967295'
+                    'cms_detail' =>'required|string'
 
                 ]);
                 // dd($validator);

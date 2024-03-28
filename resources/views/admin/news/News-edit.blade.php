@@ -191,8 +191,7 @@
 				name: 'cms_detail',
 				options: {
 					placeholder: "",
-					body: '{!! $text !!}',
-					maxlength: 4294967295
+					body: '{!! $text !!}'
 					
 				},
 			}
