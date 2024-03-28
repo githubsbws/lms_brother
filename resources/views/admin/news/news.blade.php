@@ -103,7 +103,7 @@
                                             @if($item->active === 'y')
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="78" id="chk_0" type="checkbox" name="chk[]"></td>
-												<td width="110"><img src="{{asset('images/uploads/news/'.$item->cms_id.'/small/'.$item->cms_picture)}}"></td>
+												<td width="110"><img src="{{asset('images/uploads/news/'.$item->cms_id.'/original/'.$item->cms_picture)}}"></td>
 												<td>{{$item->cms_title}}</td>
 												<td style="width:450px; vertical-align:top;">{{$item->cms_short_title}}</td>
 												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('news.detail',['id'=>$item->cms_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('news_edit',$item->cms_id)}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('news_delete',$item->cms_id)}}"><i></i></a></td>
