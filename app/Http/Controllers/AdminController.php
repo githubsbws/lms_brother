@@ -600,7 +600,7 @@ class AdminController extends Controller
                     $docname = $doc->getClientOriginalName();
                     $document->filedocname = $docname;
 
-                    $fileExtension = strtolower(end(preg_split('/-/', $docname)));
+                    $fileExtension = $request->file('filedoc')->extension();
 
                     if ($fileExtension !== 'pdf') {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
@@ -654,10 +654,12 @@ class AdminController extends Controller
                     $docname = $doc->getClientOriginalName();
                     $document->filedocname = $docname;
 
-                    $fileExtension = strtolower(end(preg_split('/-/', $docname)));
+                    $tmp = explode('.', $docname);
+                    $fileExtension = end($tmp);
+
                     // $fileExtension = $request->file('filedoc')->extension();
 
-                    if ($fileExtension !== 'pdf') {
+                    if (strtolower($fileExtension) !== 'pdf') {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
                         return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
                     }else{
@@ -3988,7 +3990,8 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             // อัปเดตเป็นชื่อตารางที่ถูกต้อง 'config_captcha'
             $captcha = Captcha::where('capt_active','y')->paginate(10);
-            return view("admin.captcha.captcha_2",['captcha' => $captcha]);
+            $courseOnline = Course::where('active','y')->get();
+            return view("admin.captcha.captcha_2",compact('captcha','courseOnline'));
         }else{
             return redirect()->route('login.admin');
         } 
