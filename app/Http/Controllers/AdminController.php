@@ -826,7 +826,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/news/'.$news_create->cms_id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 777, true);
+                        mkdir($idFolder, 0775, true);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม
@@ -868,7 +868,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/news/'.$id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 777, true);
+                        mkdir($idFolder, 0775, true);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
