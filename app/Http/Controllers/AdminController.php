@@ -876,14 +876,19 @@ class AdminController extends Controller
                 if($request->file('image')){
                     $image = $request->file('image');
 
-                    $idFolder = public_path('images/uploads/news/'.$id.'/original/');
+                    $idFolder = public_path('images/uploads/news/'.$id);
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder);
+
+                        $idFolder2 = public_path('images/uploads/news/'.$id.'/original/');
+                        if (!file_exists($idFolder2)) {
+                            mkdir($idFolder2);
+                        }
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
                     $imageName = $image->getClientOriginalName();
-                    $image->move($idFolder, $imageName);
+                    $image->move($idFolder2, $imageName);
 
                     $news_update->cms_picture = $imageName;
                     
@@ -978,13 +983,18 @@ class AdminController extends Controller
                     $imageName = $image->getClientOriginalName();
                     $category_update->cate_image = $imageName;
 
-                    $idFolder = public_path('images/uploads/category/'.$category_update->cate_id.'/original/');
+                    $idFolder = public_path('images/uploads/category/'.$category_update->cate_id);
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder);
+
+                        $idFolder2 = public_path('images/uploads/category/'.$category_update->cate_id.'/original/');
+                        if (!file_exists($idFolder2)) {
+                            mkdir($idFolder2);
+                        }
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
-                    $image->move($idFolder, $imageName);
+                    $image->move($idFolder2, $imageName);
 
                     
                     
@@ -1032,14 +1042,19 @@ class AdminController extends Controller
                 if($request->file('image')){
                     $image = $request->file('image');
 
-                    $idFolder = public_path('images/uploads/category/'.$id.'/original/');
+                    $idFolder = public_path('images/uploads/category/'.$id);
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder);
+
+                        $idFolder2 = public_path('images/uploads/category/'.$id.'/orignal/');
+                        if (!file_exists($idFolder2)) {
+                            mkdir($idFolder2);
+                        }
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
                     $imageName = $image->getClientOriginalName();
-                    $image->move($idFolder, $imageName);
+                    $image->move($idFolder2, $imageName);
 
                     $category_update->cate_image = $imageName;
                     
@@ -1146,14 +1161,19 @@ class AdminController extends Controller
                 if($request->file('image')){
                     $image = $request->file('image');
 
-                    $idFolder = public_path('images/uploads/course/'.$id.'/original/');
+                    $idFolder = public_path('images/uploads/course/'.$id);
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder);
+
+                        $idFolder2 = public_path('images/uploads/course/'.$id.'/original/');
+                        if (!file_exists($idFolder2)) {
+                            mkdir($idFolder2);
+                        }
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
                     $imageName = $image->getClientOriginalName();
-                    $image->move($idFolder, $imageName);
+                    $image->move($idFolder2, $imageName);
 
                     $course_update->cate_image = $imageName;
                     
@@ -1217,14 +1237,19 @@ class AdminController extends Controller
                     $imageName = $image->getClientOriginalName();
                     $course_update->course_picture = $imageName;
 
-                    $idFolder = public_path('images/uploads/courseonline/'.$course_update->course_id.'/original/');
+                    $idFolder = public_path('images/uploads/courseonline/'.$course_update->course_id);
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder);
+
+                        $idFolder2 = public_path('images/uploads/courseonline/'.$course_update->course_id.'/original/');
+                        if (!file_exists($idFolder2)) {
+                            mkdir($idFolder2);
+                        }
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
                     
-                    $image->move($idFolder, $imageName);
+                    $image->move($idFolder2, $imageName);
 
                     
                     
@@ -1527,14 +1552,19 @@ class AdminController extends Controller
                 if($request->file('image')){
                     $image = $request->file('image');
 
-                    $idFolder = public_path('images/uploads/lesson/'.$id.'/original/');
+                    $idFolder = public_path('images/uploads/lesson/'.$id);
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder);
+
+                        $idFolder2 = public_path('images/uploads/lesson/'.$id.'/original/');
+                        if (!file_exists($idFolder2)) {
+                            mkdir($idFolder2);
+                        }
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
                     $imageName = $image->getClientOriginalName();
-                    $image->move($idFolder, $imageName);
+                    $image->move($idFolder2, $imageName);
 
                     $lesson_update->image = $imageName;
                     
@@ -1655,14 +1685,19 @@ class AdminController extends Controller
                 if($request->file('image')){
                     
 
-                    $idFolder = public_path('images/uploads/lesson/'.$lesson_create->id.'/original/');
+                    $idFolder = public_path('images/uploads/lesson/'.$lesson_create->id);
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder);
+
+                        $idFolder2 = public_path('images/uploads/lesson/'.$lesson_create->id.'/original/');
+                        if (!file_exists($idFolder2)) {
+                            mkdir($idFolder2);
+                        }
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
                 
-                    $image->move($idFolder, $imageName);
+                    $image->move($idFolder2, $imageName);
 
                     $lesson_create->image = $imageName;
                     
