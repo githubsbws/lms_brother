@@ -648,7 +648,7 @@ class AdminController extends Controller
                 // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
                 if ($request->hasFile('filedoc')) {
                     $fileExtension = $request->file('filedoc')->extension();
-                    dd($fileExtension);
+                    // dd($fileExtension);
                     if ($fileExtension !== 'pdf') {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
                         return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
@@ -970,7 +970,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/category/'.$category_update->cate_id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
@@ -1024,7 +1024,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/category/'.$id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
@@ -1138,7 +1138,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/course/'.$id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
@@ -1209,7 +1209,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/courseonline/'.$course_update->course_id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
@@ -1448,7 +1448,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/lesson/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
                     $filename->move($idFolder, $file_name);
 
@@ -1480,7 +1480,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/filedoc/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
                     $doc->move($idFolder, $doc_name);
 
@@ -1495,7 +1495,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/lesson/'.$id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
@@ -1583,7 +1583,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/lesson/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
                     $filename->move($idFolder, $file_name);
                     //---------------------------------------//
@@ -1613,7 +1613,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/filedoc/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
                     $doc->move($idFolder, $doc_name);
                     //-----------------------------------------//
@@ -1623,7 +1623,7 @@ class AdminController extends Controller
 
                     $idFolder = public_path('images/uploads/lesson/'.$lesson_create->id.'/original/');
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0755, true);
+                        mkdir($idFolder);
                     }
 
                     // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
@@ -3619,7 +3619,7 @@ class AdminController extends Controller
 
                 $idFolder = public_path('images/uploads/imgslides');
                 if (!file_exists($idFolder)) {
-                    mkdir($idFolder, 0755, true);
+                    mkdir($idFolder);
                 }
                 
             $request->imgslide_picture->move($idFolder,$imageName); 
@@ -3670,7 +3670,7 @@ class AdminController extends Controller
 
                 $idFolder = public_path('images/uploads/imgslides');
                 if (!file_exists($idFolder)) {
-                    mkdir($idFolder, 0755, true);
+                    mkdir($idFolder);
                 }
 
                 // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
