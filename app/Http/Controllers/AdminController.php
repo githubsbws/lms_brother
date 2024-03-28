@@ -4097,14 +4097,37 @@ class AdminController extends Controller
             if ($request->input('data-id')) {
                 // รับค่าที่ส่งมาจากฟอร์ม
                 $dataId = $request->input('data-id');
-                $dataUrl = $request->input('chk');
-
-                foreach ($dataUrl as $chkValue) {
-                    $reset = Course::findById($chkValue);
-                    if($reset){
-                        $reset->course_point = $dataId;
-                        $reset->save();
-                        
+                $checkedIds = $request->input('chk');
+                $uncheckedIds = $request->input('chk_unchecked');
+                if ($request->has('chk')) {
+                    // หาค่าที่ตรงกันระหว่าง $checkedIds และ $uncheckedIds
+                    $intersectIds = array_intersect($checkedIds, $uncheckedIds);
+                    
+                    // ถ้ามีค่าที่ตรงกัน ให้ลบค่านั้นออกจาก $uncheckedIds
+                    if (!empty($intersectIds)) {
+                        $uncheckedIds = array_diff($uncheckedIds, $intersectIds);
+                    }
+                } else {
+                    // ถ้าไม่มีค่าจาก chk ให้กำหนด $checkedIds เป็น array เปล่า
+                    $checkedIds = [];
+                }
+                if (!empty($uncheckedIds)) {
+                    foreach ($uncheckedIds as $chkValue) {
+                        $reset = Course::findById($chkValue);
+                        if($reset){
+                            $reset->course_point = null;
+                            $reset->save();
+                        }
+                    }
+                }
+                if ($checkedIds !== null) {
+                    // ดำเนินการกับ checkbox ที่ถูกติ๊กที่นี่
+                    foreach ($checkedIds as $chkValue) {
+                        $reset = Course::findById($chkValue);
+                        if($reset){
+                            $reset->course_point = $dataId;
+                            $reset->save();
+                        }
                     }
                 }
                 return redirect()->route('captcha');
@@ -4120,7 +4143,7 @@ class AdminController extends Controller
             if ($request->isMethod('post')){
                 $validator = Validator::make($request->all(), [
                     'capt_name'=>'required|string',
-                    'type' => 'required|string',
+                    
                     'capt_times' => 'required|string'
                 ]);
                 // dd($request);
@@ -4130,7 +4153,7 @@ class AdminController extends Controller
                 }
                 $cap = Captcha::findById($capid);
                 $cap->capt_name = $request->input('capt_name');
-                $cap->type = $request->input('type');
+                $cap->type = null;
                 $cap->capt_times = $request->input('capt_times');
                 $cap->updated_by = Auth::user()->id;
                 $cap->save();
@@ -4170,28 +4193,17 @@ class AdminController extends Controller
     }
     function captcha_insert(Request $request){
         if(AuthFacade::useradmin()){
-            $currentTime = Carbon::now('Asia/Bangkok')->toDateTimeString();
-            $captcha_data=[
-                'capt_name'=>$request->capt_name,
-                'type'=>$request->type,
-                'capt_times'=>$request->capt_times,
-                'capt_time_random'=>'10',
-                'capt_time_back'=>'10',
-                'capt_wait_time'=>'10',
-                'capt_hide'=>'1',
-                'capt_active'=>'y',
-                'created_by'=>'1',
-                'updated_by'=>'1',
-                'slide'=>'10',
-                'prev_slide'=>'999',
-                'domain_id'=>'35',
-                'capt_time_random2'=>'2',
-                'capt_time_random3'=>'3',
-                'created_date'=> $currentTime ,
-                'updated_date'=>$currentTime
-            ];
             $survey = new Captcha;
-            $survey->fill($captcha_data);
+            $survey->capt_name = $request->input('capt_name');
+            $survey->type = null;
+            $survey->capt_times = $request->input('capt_times');
+            $survey->capt_time_random = '10';
+            $survey->capt_time_back = '10';
+            $survey->capt_wait_time = '10';
+            $survey->capt_hide = '0';
+            $survey->created_by = Auth::user()->id;
+            $survey->updated_by = Auth::user()->id;
+            $survey->capt_active ='y';
             $survey->save();
             return redirect()->route('captcha');
         }else{

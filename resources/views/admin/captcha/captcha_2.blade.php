@@ -1,6 +1,9 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+@php
+use App\Models\Course;
+@endphp
 <body class="">
 
 	<!-- Main Container Fluid -->
@@ -33,6 +36,7 @@
 						<div class="widget-head">
 							<h4 class="heading glyphicons show_thumbnails_with_lines"><i></i> จัดการระบบCaptcha</h4>
 						</div>
+						<a type="button" class="btn btn-primary" href="{{route('captcha_create')}}">เพิ่มแคปช่า</a>
 						<div class="widget-body">
 							<div class="separator bottom form-inline small">
 								<span class="pull-right">
@@ -59,6 +63,8 @@
 												</th>
 												<th id="about-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/about/index?About_sort=about_title">ชื่อเงื่อนไข</a>
 												</th>
+												<th id="about-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/about/index?About_sort=about_title">ชื่อหลักสูตร</a>
+												</th>
 												<th id="about-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/about/index?About_sort=about_title">เลือกหลักสูตร</a>
 												</th>
 												<th id="about-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/about/index?About_sort=about_title">สถานะ</a>
@@ -68,10 +74,22 @@
 										</thead>
 										<tbody>
 											@foreach($captcha as $cap)
+											@php
+											$course = Course::where('course_point',$cap->capid)->get();
+											@endphp
 												<tr class="items[]_2">
 													<td class="checkbox-column"><input class="select-on-check" value="{{$cap->capid}}" id="chk_{{$loop->iteration}}" type="checkbox" name="chk[]"></td>
 													<td>{{$cap->capid}}</td>
 													<td>{{$cap->capt_name}}</td>
+													<td>
+														@if(count($course) > 0)
+															@foreach($course as $c)
+																{{$c->course_title}}
+															@endforeach
+														@else
+															ยังไม่ได้เลือกหลักสูตร
+														@endif
+													</td>
 													<td style="width:450px; vertical-align:top;">
 														<button type="button" class="btn btn-primary" data-id="{{ $cap->capid }}" data-toggle="modal" data-target=".bd-example-modal-lg">เลือกหลักสูตร</button>
 													</td>
@@ -138,7 +156,11 @@
 							<tbody>
 								@foreach ($courseOnline as $courses)
 									<tr class="odd selectable">
-										<td width="20" class="checkbox-column"><input class="select-on-check" value="{{ $courses->course_id}}" id="chk_course_{{$loop->iteration}}" type="checkbox" name="chk[]"></td>
+										<td width="20" class="checkbox-column">
+											<input class="select-on-check" value="{{ $courses->course_id }}" id="chk_course_{{ $loop->iteration }}" type="checkbox" name="chk[]" {{ $courses->course_point ? 'checked' : '' }}>
+
+											<input type="hidden" name="chk_unchecked[]" value="{{ $courses->course_id }}" {{ $courses->course_point ? '' : 'checked' }}>
+										</td>
 										<td width="110">{{ $courses->course_title }}</td>            
 									</tr>
 								@endforeach

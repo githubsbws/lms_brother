@@ -260,14 +260,14 @@ use App\Models\Permission;
                         </ul>
                     </li>
                 @endif --}}
-                @if (in_array(29, $menu_array) || $getUser->superuser == 1)
+                {{-- @if (in_array(29, $menu_array) || $getUser->superuser == 1)
                     <li class="hasSubmenu glyphicons user_add"><a data-toggle="collapse" href="#generation"><i></i><span>ระบบจัดการรุ่นผู้เรียน</span></a>
                         <ul class=" collapse " id="generation">
 
                             <li><a href="{{ url('/generation') }}">จัดการรุ่นผู้เรียน</a></li>
                         </ul>
                     </li>
-                @endif
+                @endif --}}
                 {{-- @if (in_array(30, $menu_array) || $getUser->superuser == 1)
                     <li class="hasSubmenu glyphicons print"><a data-toggle="collapse" href="#Passcours"><i></i><span>ระบบพิมพ์ใบประกาศนียบัตร</span></a>
                         <ul class=" collapse " id="Passcours">
