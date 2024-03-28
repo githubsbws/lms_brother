@@ -648,7 +648,7 @@ class AdminController extends Controller
                 // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
                 if ($request->hasFile('filedoc')) {
                     $fileExtension = $request->file('filedoc')->extension();
-                    // dd($fileExtension);
+                    dd($fileExtension);
                     if ($fileExtension !== 'pdf') {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
                         return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
