@@ -22,7 +22,7 @@ class QHeader extends Model
     
     public $timestamps = false;
 
-    public static function fingById($id)
+    public static function findById($id)
     {
         return static::where('survey_header_id', $id)->first();
     }

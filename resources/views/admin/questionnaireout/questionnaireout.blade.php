@@ -35,19 +35,12 @@
 						</div>
 						<div class="widget-body">
 							<div class="separator bottom form-inline small">
-								<span class="pull-right" style="margin-left: 10px;">
+								{{-- <span class="pull-right" style="margin-left: 10px;">
 									<a class="btn btn-primary btn-icon glyphicons circle_plus" href="{{ url('/questionnaireout_create') }}"><i></i> เพิ่มหัวข้อ</a>
-								</span>
+								</span> --}}
 								<span class="pull-right">
 									<label class="strong">แสดงแถว:</label>
-									<select class="selectpicker" data-style="btn-default btn-small" onchange="$.updateGridView('FaqType-grid', 'news_per_page', this.value)" name="news_per_page" id="news_per_page" style="display: none;">
-										<option value="">ค่าเริ่มต้น (10)</option>
-										<option value="10">10</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-										<option value="200">200</option>
-										<option value="250">250</option>
-									</select>
+									
 									<div class="btn-group bootstrap-select"><button class="btn dropdown-toggle clearfix btn-default btn-small" data-toggle="dropdown" id="news_per_page"><span class="filter-option pull-left">ค่าเริ่มต้น (10)</span>&nbsp;<span class="caret"></span></button>
 										<div class="dropdown-menu" role="menu">
 											<ul style="max-height: none; overflow-y: auto;">

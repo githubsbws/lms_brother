@@ -14,6 +14,7 @@ class QChoice extends Model
     protected $prefix = '';
     protected $primaryKey = 'option_choice_id';
     protected $fillable = [
+        'question_id',
         'option_choice_name',
         'option_choice_type'
     ];

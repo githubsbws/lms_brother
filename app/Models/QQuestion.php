@@ -14,6 +14,8 @@ class QQuestion extends Model
     protected $prefix = '';
     protected $primaryKey = 'question_id';
     protected $fillable = [
+        'survey_section_id',
+        'input_type_id',
         'question_name',
         'answer_required_yn',
         'allow_multiple_option_answers_yn' 

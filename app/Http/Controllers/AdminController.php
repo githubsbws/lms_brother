@@ -27,6 +27,8 @@ use App\Models\Pgroupcondition;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\QuesImport;
 use App\Imports\UsersImport;
+use App\Imports\QuestionnaireImport;
+
 use App\Models\About;
 use App\Models\Captcha;
 use App\Models\Conditions;
@@ -2127,9 +2129,8 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
-    public function questionnaireout_excel(Request $request,$id){
+    public function questionnaireout_excel(Request $request){
         if(AuthFacade::useradmin()){
-            $group = Grouptesting::where('group_id',$id)->first();
             if ($request->isMethod('post')) {
                 $request->validate([
                     'import_excel' =>
@@ -2142,15 +2143,16 @@ class AdminController extends Controller
         
                 ]);
         
-                $excel = Excel::import(new QuesImport($id), $request->file('import_excel'));
+                $excel = Excel::import(new QuestionnaireImport, $request->file('import_excel'));
+                // dd($excel);
 
                 // dd($excel);
         
                 // return redirect()->back()->with('success', 'Excel imported successfully!');
-                return redirect()->route('grouptesting');
+                return redirect()->route('questionnaireout');
             }
             
-            return view("admin.grouptesting.ques_excel",['group' => $group]);
+            return view("admin.questionnaireout.questionnaireout_excel");
         }else{
             return redirect()->route('login.admin');
         }

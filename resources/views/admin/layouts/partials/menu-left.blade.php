@@ -126,7 +126,7 @@ use App\Models\Permission;
                 @if (in_array(12, $menu_array) || $getUser->superuser == 1)
                     <li class="hasSubmenu glyphicons notes"><a data-toggle="collapse" href="#Questionnaireout"> <span class="label label-primary">5</span> <i></i><span>แบบประเมินผลการฝึกอบรม</span></a>
                         <ul class=" collapse " id="Questionnaireout">
-                            <li><a href="{{ url('/questionnaireout_create') }}">เพิ่มแบบสอบถาม</a></li>
+                            <li><a href="{{ url('/questionnaireout_excel') }}">เพิ่มแบบสอบถาม</a></li>
                             <li><a href="{{ url('/questionnaireout') }}">จัดการแบบสอบถาม</a></li>
                         </ul>
                     </li>

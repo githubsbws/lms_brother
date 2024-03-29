@@ -13,14 +13,16 @@ class QSection extends Model
     protected $table = 'q_survey_sections';
     protected $prefix = '';
     protected $primaryKey = 'survey_section_id';
+
     protected $fillable = [
+        'survey_header_id',
         'section_title',
         'section_required_yn'
     ];
     
     public $timestamps = false;
 
-    public static function fingById($id)
+    public static function findById($id)
     {
         return static::where('survey_section_id', $id)->first();
     }
