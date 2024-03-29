@@ -21,7 +21,7 @@
             <!-- Content -->
             <div id="content">
                 <ul class="breadcrumb">
-                    <li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="/admin/index.php/faq/index">เอกสารและประเภทเอกสาร</a></li> »
+                    <li><a href="{{route('admin')}}">หน้าหลัก</a></li> » <li><a >เอกสารและประเภทเอกสาร</a></li> »
                     <li>เพิ่มเอกสาร</li>
                 </ul><!-- breadcrumbs -->
                 <div class="separator bottom"></div>

@@ -23,7 +23,7 @@
 			<!-- <div class="span-19"> -->
 				<div id="content">
 					<ul class="breadcrumb">
-						<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="{{ url('/adminuser')}}">ข้อมูลกลุ่มผู้ดูแลระบบ</a></li> » <li>รายชื่อกลุ่มผู้ดูแลระบบ</li>
+						<li><a href="{{route('admin')}}">หน้าหลัก</a></li> » <li><a href="{{ url('/adminuser')}}">ข้อมูลกลุ่มผู้ดูแลระบบ</a></li> » <li>รายชื่อกลุ่มผู้ดูแลระบบ</li>
 					</ul>
 					<!-- breadcrumbs -->
 					<div class="separator bottom"></div>

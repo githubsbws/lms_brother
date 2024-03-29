@@ -26,7 +26,7 @@ use App\Models\DownloadFile;
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li>ระบบเอกสาร</li>
+					<li><a href="{{route('admin')}}">หน้าหลัก</a></li> » <li>ระบบเอกสาร</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
 				<!---->
@@ -60,26 +60,50 @@ use App\Models\DownloadFile;
 								
 								<span class="pull-right">
 									<label class="strong">แสดงแถว:</label>
-									<select class="selectpicker" data-style="btn-default btn-small" onchange="$.updateGridView('Faq-grid', 'news_per_page', this.value)" name="news_per_page" id="news_per_page" style="display: none;">
-										<option value="">ค่าเริ่มต้น (10)</option>
-										<option value="10">10</option>
-										<option value="50">50</option>
-										<option value="100">100</option>
-										<option value="200">200</option>
-										<option value="250">250</option>
-									</select>
-									<div class="btn-group bootstrap-select"><button class="btn dropdown-toggle clearfix btn-default btn-small" data-toggle="dropdown" id="news_per_page"><span class="filter-option pull-left">ค่าเริ่มต้น (10)</span>&nbsp;<span class="caret"></span></button>
-										<div class="dropdown-menu" role="menu">
-											<ul style="max-height: none; overflow-y: auto;">
-												<li rel="0"><a tabindex="-1" href="#">ค่าเริ่มต้น (10)</a></li>
-												<li rel="1"><a tabindex="-1" href="#">10</a></li>
-												<li rel="2"><a tabindex="-1" href="#">50</a></li>
-												<li rel="3"><a tabindex="-1" href="#">100</a></li>
-												<li rel="4"><a tabindex="-1" href="#">200</a></li>
-												<li rel="5"><a tabindex="-1" href="#">250</a></li>
-											</ul>
-										</div>
+									<div class="btn-group bootstrap-select">
+										<select class="btn dropdown-toggle clearfix btn-default btn-small" name="per_page" id="per_page">
+											<option value="10">ค่าเริ่มต้น (10)</option>
+											<option value="50">50</option>
+											<option value="100">100</option>
+											<option value="200">200</option>
+											<option value="250">250</option>
+										</select>
 									</div>
+									<script>
+										// สร้างฟังก์ชันเพื่อรับค่า CSRF token จาก meta tag ในหน้า HTML
+										function getCsrfToken() {
+											var metaTag = document.querySelector('meta[name="csrf-token"]');
+											if (metaTag) {
+												return metaTag.content;
+											}
+											return '';
+										}
+									
+										document.getElementById('per_page').addEventListener('change', function() {
+											var selectedValue = this.value;
+									
+											// ดึงค่า CSRF token
+											var csrfToken = getCsrfToken();
+											
+											// ส่งค่าไปยัง Controller โดยใช้ fetch API พร้อมกับ CSRF token
+											fetch('{{ url("document/per_page") }}', {
+												method: 'POST',
+												headers: {
+													'Content-Type': 'multipart/form-data',
+													'X-CSRF-TOKEN': csrfToken
+												},
+												body: JSON.stringify({ per_page: selectedValue })
+											})
+											.then(function (response) {
+												console.log(response);
+												// window.location.reload();
+												// จัดการเมื่อได้รับการตอบกลับจาก Controller
+											})
+											.catch(function (error) {
+												console.error('เกิดข้อผิดพลาด:', error);
+											});
+										});
+									</script>
 								</span>
 							</div>
 							<div class="clear-div"></div>

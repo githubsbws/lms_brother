@@ -27,7 +27,7 @@ use App\Models\Question;
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li>ระบบชุดข้อสอบบทเรียนออนไลน์</li>
+					<li><a href="{{route('admin')}}">หน้าหลัก</a></li> » <li>ระบบชุดข้อสอบบทเรียนออนไลน์</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
 
@@ -109,8 +109,9 @@ use App\Models\Question;
 										<thead>
 											<tr>
 												<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
-												<th id="Grouptesting-grid"><a class="sort-link" style="color:white;" href="/admin/index.php/grouptesting/index?Grouptesting_sort=lesson_id">ชื่อบทเรียนออนไลน์</a></th>
-												<th id="Grouptesting-grid"><a class="sort-link" style="color:white;" href="/admin/index.php/grouptesting/index?Grouptesting_sort=group_title">ชื่อชุด</a></th>
+												<th id="Grouptesting-grid"><a class="sort-link" style="color:white;">ชื่อบทเรียนออนไลน์</a></th>
+												<th id="Grouptesting-grid"><a class="sort-link" style="color:white;" >ชื่อชุด</a></th>
+												<th id="Grouptesting-grid"><a class="sort-link" style="color:white;" >จัดดการ</a></th>
 											</tr>
 										</thead>
 										<tbody>
@@ -119,6 +120,7 @@ use App\Models\Question;
 												<td class="checkbox-column"><input class="select-on-check" value="254" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td style="width:230px">{{$item->title}}</td>
 												<td>{{$item->group_title}}</td>
+												<td style="width: 90px;" class="center"><a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('grouptesting_plan.delete',$item->group_id )}}"><i></i></a></td>
 											</tr>
 										</tbody>
 										

@@ -20,7 +20,7 @@
             <!-- Content -->
             <div id="content">
                 <ul class="breadcrumb">
-                    <li><a href="/admin/index.php">หน้าหลัก</a></li> » <li>ติดต่อเรา</li>
+                    <li><a href="{{route('admin')}}">หน้าหลัก</a></li> » <li>ติดต่อเรา</li>
                 </ul><!-- breadcrumbs -->
                 <div class="separator bottom"></div>
 

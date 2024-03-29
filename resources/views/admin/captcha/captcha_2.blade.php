@@ -27,7 +27,7 @@ use App\Models\Captcha;
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li>ระบบเกี่ยวกับเรา</li>
+					<li><a href="{{route('admin')}}">หน้าหลัก</a></li> » <li>ระบบเกี่ยวกับเรา</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
 

@@ -265,6 +265,8 @@ Route::get('grouptesting/{id?}/{type?}',[AdminController::class,'grouptesting'])
 Route::get('grouptesting_plan/{id?}/{type?}',[AdminController::class,'grouptesting_plan'])->name('grouptesting.plan');
 Route::post('grouptesting_plan/{id?}/{type?}',[AdminController::class,'grouptesting_plan'])->name('grouptesting.plan');
 
+Route::get('grouptesting_plan_delete/{id?}',[AdminController::class,'grouptesting_plan_delete'])->name('grouptesting_plan.delete');
+
 Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
 Route::post('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
 

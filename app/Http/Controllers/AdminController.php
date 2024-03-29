@@ -1832,6 +1832,19 @@ class AdminController extends Controller
         }
     }
     //
+    function grouptesting_plan_delete($id){
+        if(AuthFacade::useradmin()){
+            $grouptesting_del=[
+                'active'=>'n'
+            ];
+            $grouptesting = Grouptesting::findById($id);
+            $grouptesting->update($grouptesting_del);
+
+            return back();
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
 
     function grouptesting_edit(Request $request, $id){
         if(AuthFacade::useradmin()){

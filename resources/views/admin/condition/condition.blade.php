@@ -23,7 +23,7 @@
 			<!-- <div class="span-19"> -->
 			<div id="content">
 				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li>ระบบเงื่อนไขการใช้งาน</li>
+					<li><a href="{{route('admin')}}">หน้าหลัก</a></li> » <li>ระบบเงื่อนไขการใช้งาน</li>
 				</ul><!-- breadcrumbs -->
 				<div class="separator bottom"></div>
 
