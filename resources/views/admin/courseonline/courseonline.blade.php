@@ -3,6 +3,7 @@
 @section('content')
 @php
 use App\Models\Coursegrouptesting;
+use App\Models\Teacher;
 @endphp
     <body class="">
 
@@ -195,6 +196,7 @@ use App\Models\Coursegrouptesting;
                                                     @if ($item->active == 'y')
                                                     @php
                                                     $chktest = Coursegrouptesting::where('course_id',$item->course_id)->get();
+                                                    $teacher = Teacher::where('teacher_id',$item->course_lecturer)->first();
                                                     @endphp
                                                         <tr class="items[]">
                                                             <td class="checkbox-column"><input class="select-on-check"
@@ -205,7 +207,11 @@ use App\Models\Coursegrouptesting;
                                                                     alt="{{ $item->course_picture }}"></td>
                                                             <td>{{ $item->course_title }}</td>
                                                             <td style="width:130px">{{ $item->cate_title }}</td>
-                                                            <td width="150">{{ $item->teacher_name}}</td>
+                                                            @if($teacher != null)
+                                                            <td width="150">{{ $teacher->teacher_name}}</td>
+                                                            @else
+                                                            <td width="150">-</td>
+                                                            @endif
                                                             <td style="text-align: center; width:50px;" class="row_move">
                                                                 <a  class="glyphicons move btn-action btn-inverse"><i></i></a>
                                                             </td>

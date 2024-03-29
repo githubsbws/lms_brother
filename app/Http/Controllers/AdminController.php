@@ -1754,7 +1754,7 @@ class AdminController extends Controller
                 $grouptesting_create->step_id = '1';
                 $grouptesting_create->create_by = Auth::user()->id;
                 $grouptesting_create->update_by = Auth::user()->id;
-                $grouptesting_create->active = 'y';
+                $grouptesting_create->active = 'n';
                 $grouptesting_create->save();
 
                 return redirect()->route('grouptesting')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
@@ -1774,12 +1774,12 @@ class AdminController extends Controller
                 $manage = Manage::where('id', $id)->where('type', $type)->first();
                 // ตรวจสอบว่า $manage ไม่เป็น null ก่อนที่จะดำเนินการต่อ
                 if($manage !== null){
-                    $grouptesting = Grouptesting::where('lesson_id', $manage->id)->where('active', 'y')->paginate(10);
+                    $grouptesting = Grouptesting::where('lesson_id', $manage->id)->paginate(10);
                 } else {
-                    $grouptesting = Grouptesting::where('active','y')->paginate(10);
+                    $grouptesting = Grouptesting::paginate(10);
                 }
             } else {
-                $grouptesting = Grouptesting::where('active','y')->paginate(10);
+                $grouptesting = Grouptesting::paginate(10);
             }
             
             return view("admin.grouptesting.grouptesting",['grouptesting' => $grouptesting]);

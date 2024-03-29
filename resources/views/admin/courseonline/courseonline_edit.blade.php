@@ -4,7 +4,7 @@
 @php
 use App\Models\Teacher;
 
-$teacher = Teacher::where('id',$course_detail->course_lecturer)->first();
+// $teacher = Teacher::where('id',$course_detail->course_lecturer)->first();
 @endphp
 <style>
 	.switch {
@@ -159,13 +159,13 @@ input:checked + .slider:before {
                                             <label for="CourseOnline_course_lecturer">ชื่อวิยากร</label>
                                             <select class="span8" name="teacher_name"
                                                 id="CourseOnline_course_lecturer">
-                                                @if( $teacher != null)
+                                                {{-- @if( $teacher != null)
                                                 <option value="{{ $teacher->teacher_id }}">{{ $teacher->teacher_name}}</option>
                                                 @else
                                                 <option value="">-</option>
-                                                @endif
+                                                @endif --}}
                                                 @foreach($teacher as $t)
-                                                <option value="{{ $t->teacher_name }}">{{ $t->teacher_name}}</option>
+                                                <option value="{{ $t->teacher_id }}">{{ $t->teacher_name}}</option>
                                                 @endforeach
                                             </select>
                                             <span style="margin:0;"
