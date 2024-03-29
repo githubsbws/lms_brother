@@ -3,8 +3,9 @@
 @section('content')
 @php
 use App\Models\Teacher;
-
-$teacher = Teacher::where('id',$course_detail->course_lecturer)->first();
+// dd($course_detail->course_lecturer);
+$teachers = Teacher::where('teacher_id',$course_detail->course_lecturer)->first();
+// dd($teacher);
 @endphp
 <style>
 	.switch {
@@ -159,8 +160,8 @@ input:checked + .slider:before {
                                             <label for="CourseOnline_course_lecturer">ชื่อวิยากร</label>
                                             <select class="span8" name="teacher_name"
                                                 id="CourseOnline_course_lecturer">
-                                                @if( $teacher != null)
-                                                <option value="{{ $teacher->teacher_id }}">{{ $teacher->teacher_name}}</option>
+                                                @if( $teachers != null)
+                                                <option value="{{ $teachers->teacher_id }}">{{ $teachers->teacher_name}}</option>
                                                 @else
                                                 <option value="">-</option>
                                                 @endif
