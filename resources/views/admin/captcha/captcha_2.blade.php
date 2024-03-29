@@ -3,6 +3,7 @@
 @section('content')
 @php
 use App\Models\Course;
+use App\Models\Captcha;
 @endphp
 <body class="">
 
@@ -74,9 +75,10 @@ use App\Models\Course;
 										</thead>
 										<tbody>
 											@foreach($captcha as $cap)
-											@php
-											$course = Course::where('course_point',$cap->capid)->get();
-											@endphp
+												@php
+												$course = Course::where('course_point',$cap->capid)->get();
+												$dataId = $cap->capid;
+												@endphp
 												<tr class="items[]_2">
 													<td class="checkbox-column"><input class="select-on-check" value="{{$cap->capid}}" id="chk_{{$loop->iteration}}" type="checkbox" name="chk[]"></td>
 													<td>{{$cap->capid}}</td>
@@ -104,7 +106,7 @@ use App\Models\Course;
 														<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('captcha_delete',$cap->capid)}}"><i></i></a>
 													</td>
 												</tr>
-											@endforeach
+												@endforeach
 										</tbody>
 									</table>
 								</div>
@@ -155,9 +157,10 @@ use App\Models\Course;
 							</thead>
 							<tbody>
 								@foreach ($courseOnline as $courses)
+									
 									<tr class="odd selectable">
 										<td width="20" class="checkbox-column">
-											<input class="select-on-check" value="{{ $courses->course_id }}" id="chk_course_{{ $loop->iteration }}" type="checkbox" name="chk[]" {{ $courses->course_point ? 'checked' : '' }}>
+											<input class="select-on-check" value="{{ $courses->course_id }}" id="chk_course_{{ $loop->iteration }}" type="checkbox" name="chk[]" {{ $courses->course_point  ? 'checked' : '' }}>
 
 											<input type="hidden" name="chk_unchecked[]" value="{{ $courses->course_id }}" {{ $courses->course_point ? '' : 'checked' }}>
 										</td>
@@ -185,6 +188,15 @@ use App\Models\Course;
 				document.getElementById('dataIdField').value = id;
 				// กำหนดค่า ID ลงในแอตทริบิวต์ action ของฟอร์ม
 				document.getElementById('scoreForm').action = '{{route("captcha.course")}}';
+			});
+		});
+		$(document).ready(function(){
+			// เมื่อคลิกที่ปุ่ม "เลือกหลักสูตร"
+			$(".open-modal").click(function(){
+				// ดึงค่า data-id จากปุ่ม
+				var dataId = $(this).data("id");
+				// เปิด modal ที่เกี่ยวข้องโดยใช้ data-id เป็นเงื่อนไข
+				$(".modal[data-id='" + dataId + "']").modal("show");
 			});
 		});
 	</script>

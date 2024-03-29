@@ -302,6 +302,9 @@ Route::post('coursegrouptesting_create',[AdminController::class,'coursegrouptest
 //new p
 Route::get('/questionnaireout',[AdminController::class,'questionnaireout'])->name('questionnaireout');
 
+Route::get('/questionnaireout_excel',[AdminController::class,'questionnaireout_excel'])->name('questionnaireout.excel');
+Route::post('/questionnaireout_excel',[AdminController::class,'questionnaireout_excel'])->name('questionnaireout.excel');
+
 Route::get('/questionnaireout_exam/{id}',[AdminController::class,'questionnaireout_exam'])->name('questionnaireout.exam');
 Route::post('/questionnaireout_exam/{id}',[AdminController::class,'questionnaireout_exam'])->name('questionnaireout.Answer');
 

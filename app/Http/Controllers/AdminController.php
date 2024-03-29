@@ -2127,6 +2127,35 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
+    public function questionnaireout_excel(Request $request,$id){
+        if(AuthFacade::useradmin()){
+            $group = Grouptesting::where('group_id',$id)->first();
+            if ($request->isMethod('post')) {
+                $request->validate([
+                    'import_excel' =>
+                    ['required','file','mimes:xlsx, xls'],
+                    [
+                        'import_excel.required' => 'คุณยังไม่ได้ Uploadfile',
+                        'import_excel.mimes' => 'กรุณาใช้ไฟล์สกุล xlsx xls'
+                    ]
+        
+        
+                ]);
+        
+                $excel = Excel::import(new QuesImport($id), $request->file('import_excel'));
+
+                // dd($excel);
+        
+                // return redirect()->back()->with('success', 'Excel imported successfully!');
+                return redirect()->route('grouptesting');
+            }
+            
+            return view("admin.grouptesting.ques_excel",['group' => $group]);
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    //new p
     function questionnaireout_plan(Request $request, $id){
         if(AuthFacade::useradmin()){
             $lesson_id = $id;
@@ -4098,28 +4127,7 @@ class AdminController extends Controller
                 // รับค่าที่ส่งมาจากฟอร์ม
                 $dataId = $request->input('data-id');
                 $checkedIds = $request->input('chk');
-                $uncheckedIds = $request->input('chk_unchecked');
-                if ($request->has('chk')) {
-                    // หาค่าที่ตรงกันระหว่าง $checkedIds และ $uncheckedIds
-                    $intersectIds = array_intersect($checkedIds, $uncheckedIds);
-                    
-                    // ถ้ามีค่าที่ตรงกัน ให้ลบค่านั้นออกจาก $uncheckedIds
-                    if (!empty($intersectIds)) {
-                        $uncheckedIds = array_diff($uncheckedIds, $intersectIds);
-                    }
-                } else {
-                    // ถ้าไม่มีค่าจาก chk ให้กำหนด $checkedIds เป็น array เปล่า
-                    $checkedIds = [];
-                }
-                if (!empty($uncheckedIds)) {
-                    foreach ($uncheckedIds as $chkValue) {
-                        $reset = Course::findById($chkValue);
-                        if($reset){
-                            $reset->course_point = null;
-                            $reset->save();
-                        }
-                    }
-                }
+                
                 if ($checkedIds !== null) {
                     // ดำเนินการกับ checkbox ที่ถูกติ๊กที่นี่
                     foreach ($checkedIds as $chkValue) {
