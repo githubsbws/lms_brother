@@ -217,7 +217,7 @@ input:checked + .slider:before {
                                         <div class="row">
                                             <label for="CourseOnline_course_detail" class="required">รายละเอียด <span
                                                     class="required">*</span></label>
-                                                    {!! htmlspecialchars_decode($course_detail->course_detail) !!}
+                                                    
                                                 <div id="microtextbox-cms-detail" style="height: 600px"></div>
                                             {{-- <textarea rows="6" cols="50" class="span8 tinymce" name="course_detail"
                                                 id="CourseOnline_course_detail" aria-hidden="true" style="">{!!  htmlspecialchars_decode($course_detail->course_detail) !!}</textarea> --}}
@@ -374,6 +374,7 @@ input:checked + .slider:before {
          @endphp
      
         <script>
+
          const mtextboxConfig = {
              target: [
                  {
@@ -381,6 +382,7 @@ input:checked + .slider:before {
                      name: 'course_detail',
                      options: {
                         placeholder: "",
+                        body: '{!! $text !!}'
                      },
                  }
              ],
