@@ -202,6 +202,7 @@ input:checked + .slider:before {
                                             <label for="CourseOnline_course_short_title" class="required">รายละเอียดย่อ
                                                 <span class="required">*</span>
                                             </label>
+                                            
                                             <textarea rows="6" cols="50" class="span8" name="course_short_title"
                                                 id="CourseOnline_course_short_title">{!!  htmlspecialchars_decode($course_detail->course_short_title) !!}</textarea>
                                             <span style="margin:0;"
@@ -216,6 +217,7 @@ input:checked + .slider:before {
                                         <div class="row">
                                             <label for="CourseOnline_course_detail" class="required">รายละเอียด <span
                                                     class="required">*</span></label>
+                                                    {!! htmlspecialchars_decode($course_detail->course_detail) !!}
                                                 <div id="microtextbox-cms-detail" style="height: 600px"></div>
                                             {{-- <textarea rows="6" cols="50" class="span8 tinymce" name="course_detail"
                                                 id="CourseOnline_course_detail" aria-hidden="true" style="">{!!  htmlspecialchars_decode($course_detail->course_detail) !!}</textarea> --}}
@@ -372,7 +374,6 @@ input:checked + .slider:before {
          @endphp
      
         <script>
-         const text = '{!! $text !!}'
          const mtextboxConfig = {
              target: [
                  {
@@ -380,7 +381,6 @@ input:checked + .slider:before {
                      name: 'course_detail',
                      options: {
                         placeholder: "",
-                        body: '{!! $text !!}'
                      },
                  }
              ],
