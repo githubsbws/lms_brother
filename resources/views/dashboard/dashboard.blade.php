@@ -23,6 +23,7 @@ use App\Models\Ques_ans;
             thead {
                 background-color: #42A5F5;
             }
+            
         </style>
         <div class="parallax overflow-hidden page-section bg-blue-300">
             <div class="container parallax-layer" data-opacity="true" style="transform: translate3d(0px, 0px, 0px); opacity: 1;">
@@ -41,10 +42,10 @@ use App\Models\Ques_ans;
         <div class="container">
             <div class="page-section">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-lg-6 col-sm-12">
                         <div class="row" data-toggle="isotope" style="position: relative; height: 790.713px;">
                             
-                            <div class="item col-xs-12 col-lg-6" style="position: absolute; left: 580px; top: 0px;">
+                            <div class="item col-12" style="position: absolute; left: 580px; top: 0px;">
                                 <div class="panel panel-primary paper-shadow" data-z="0.5">
                                     <div class="panel-heading">
                                         <h4 class="margin-none" style="color: white;font-weight: bold;">หลักสูตร</h4>
@@ -108,7 +109,7 @@ use App\Models\Ques_ans;
 
                         </div>
                     </div>
-                    <div class="col-xs-12">
+                    <div class="col-lg-6 col-sm-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h4 class="margin-none" style="color: white;font-weight: bold;">ผลการเรียน</h4>
