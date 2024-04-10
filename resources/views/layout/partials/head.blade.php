@@ -38,7 +38,7 @@ use App\Models\Usability;
     <title>Brother E-learning System</title>
     <link href="{{asset('themes/bws/js/vender/video-js/video-js.css')}}" rel="stylesheet">
     <link href="{{asset('themes/bws/js/vender/video-js/video-js.min.css')}}" rel="stylesheet">
-    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- <link href="themes/bws/css/vendor.min.css" rel="stylesheet">
     <link href="themes/bws/css/theme-core.css" rel="stylesheet">
     <link href="themes/bws/css/module-essentials.min.css" rel="stylesheet" />

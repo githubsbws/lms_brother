@@ -10,7 +10,7 @@ use App\Http\Controllers\InsertController;
 use App\Http\Controllers\VedioController;
 use App\Http\Controllers\UpvedioController;
 use App\Http\Middleware\Authenticate;
-
+use App\Http\Controllers\ImageController;
 // -------
 use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\CourseController;
@@ -120,6 +120,8 @@ Route::get('course/LearnVdo/{id}/{learn_id}/{counter}',[CourseController::class,
 Route::get('course/question/{course_id}/{id}',[CourseController::class,'coursequestion'])->name('course.coursequestion');
 Route::get('course/question/{group}',[CourseController::class,'coursequestion'])->name('course.question');
 Route::get('download/{id}',[CourseController::class,'downloadfile'])->name('course.downloadfile');
+Route::get('course/images', [CourseController::class, 'store'])->name('images.store');
+Route::post('course/images', [CourseController::class, 'store'])->name('images.store');
 // choice
 Route::post('/choiceAnswer/{id}',[ChoiceController::class,'choiceAnswer'])->name('choice.Answer');
 // ----- dashboard

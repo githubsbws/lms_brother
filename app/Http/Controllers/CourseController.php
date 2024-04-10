@@ -17,6 +17,7 @@ use App\Models\Orgchart;
 use App\Models\Orgcourse;
 use App\Models\File;
 use App\Models\Grouptesting;
+use App\Models\Images;
 use Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -244,6 +245,26 @@ class CourseController extends Controller
        
     }
     // course create to 
-    
+    public function store(Request $request)
+    {
+        $chk = Images::where(['user_id' => Auth::user()->id,'image_time' => $request->input('time') ,'lesson_id' => $request->input('lesson'),'file_id' =>$request->input('file_id')])->first();
+        if($chk != null){
+            return response()->json(['message' => 'Image have been save'], 200);
+        }else{
+            // บันทึกข้อมูลลงในฐานข้อมูล
+            $image = new Images();
+            $image->image_time = $request->input('time'); // เปลี่ยนจาก 'image' เป็น 'time'
+            $image->image_picture = $request->input('image');
+            $image->user_id = Auth::user()->id;
+            $image->lesson_id = $request->input('lesson');
+            $image->file_id =  $request->input('file_id');
+            $image->active =  'y';
+            $image->save();
+
+            
+
+            return response()->json(['message' => 'Image saved successfully'], 200);
+        }
+    }
 
 }
