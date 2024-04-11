@@ -313,7 +313,7 @@
 
                                                                 var currentTime = Math.floor(myPlayer2.currentTime()); // แปลงเป็นมิลลิวินาที
 
-                                                                // console.log(currentTime)
+                                                                console.log(currentTime)
 
                                                                 // ถ้าผ่านไป 1 นาที
                                                                 if (currentTime !== 0 && currentTime % 60 === 0) {
@@ -322,7 +322,7 @@
                                                                     // รีเซ็ตเวลาเริ่มต้น
                                                                     startTime = currentTime;
 
-                                                                    // console.log('send')
+                                                                    console.log('send')
                                                                 }
                                                             }
 
@@ -344,11 +344,11 @@
 
                                                                 var canvas = document.createElement('canvas');
                                                                 var ctx = canvas.getContext('2d');
-                                                                canvas.width = 150;
-                                                                canvas.height = 150;
+                                                                canvas.width = 80;
+                                                                canvas.height = 80;
 
                                                                 // วาดภาพจากวิดีโอไปยัง Canvas
-                                                                ctx.drawImage(video, 0, 0, 150, 150);
+                                                                ctx.drawImage(video, 0, 0, 80, 80);
                                                                 var image = canvas.toDataURL('image/png');
 
                                                                 var route = "{{ route('images.store') }}"; // นี่คือเส้นทางของ Laravel Route
@@ -361,7 +361,10 @@
                                                                     console.error('CSRF token not found.');
                                                                     return;
                                                                 }
-
+                                                                console.log(image)
+                                                                console.log(currentTime)
+                                                                console.log(lesson)
+                                                                console.log(file_id)
                                                                 fetch(route, {
                                                                         method: 'POST',
                                                                         headers: {
@@ -376,7 +379,7 @@
                                                                         })
                                                                     })
                                                                     .then(response => {
-
+                                                                        console.log(response)
                                                                         if (!response.ok) {
                                                                             throw new Error('Failed to save image');
                                                                         }
@@ -1033,7 +1036,7 @@
                 </div>
             </div>
         @endforeach
-        {{-- <script>
+        <script>
     document.addEventListener('contextmenu', event => event.preventDefault()); // Prevent right-click menu
     document.addEventListener('keydown', event => { // Prevent keyboard shortcuts
       if (event.ctrlKey && (event.key === 'S' || event.key === 's')) {
@@ -1045,6 +1048,6 @@
         event.preventDefault();
       }
     });
-  </script> --}}
+  </script>
     </body>
 @endsection
