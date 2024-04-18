@@ -276,6 +276,7 @@
                                                                     @foreach ($images as $img)
                                                                         @php
                                                                             $allTimesFromDatabase[] = $img->image_time;
+                                                                            $img_time = ($img->image_time / 60);
                                                                         @endphp
                                                                         <li>
                                                                             <img id="slide1_0"
@@ -283,7 +284,7 @@
                                                                                 style=""
                                                                                 data-time="{{ $img->image_time }}"
                                                                                 src="{{ $img->image_picture }}"
-                                                                                onclick="sendTime('{{ $img->image_time }}')">
+                                                                                onclick="sendTime('{{ $img->image_time }}')"><a onclick="sendTime('{{ $img->image_time }}')" style="cursor: pointer">นาทีที่ {{ $img_time }}</a>
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
