@@ -4336,17 +4336,34 @@ class AdminController extends Controller
             $course_name = $request->input('course_name');
 
             if(isset($course_name) && !empty($course_name)) {
-                $course = Course::where('course_id',$course_name)
+                $course = Lesson::where('course_id',$course_name)
                             ->where('active', 'y')
                             ->orderBy('course_id', 'DESC')
                             ->paginate(10);
             } else {
-                $course = Course::where('active', 'y')
+                $course = Lesson::where('active', 'y')
                             ->orderBy('course_id', 'DESC')
                             ->paginate(10);
             }
 
             return view("admin.report.report_course", ['course' => $course]);
+        }else{
+            return redirect()->route('login.admin');
+        } 
+    }
+    function report_lesson($id) {
+        if(AuthFacade::useradmin()){
+            // $query = $request->input('cate');
+                $user = Users::join('profiles','profiles.user_id','=','users.id')
+                        ->where('status', '1')
+                        ->orderBy('id', 'DESC')
+                        ->paginate(50);
+                $lesson = Lesson::where('course_id',$id)
+                            ->where('active', 'y')
+                            ->orderBy('course_id', 'DESC')
+                            ->get();
+
+            return view("admin.report.report_lesson", ['lesson' => $lesson,'user' => $user,'id' => $id]);
         }else{
             return redirect()->route('login.admin');
         } 

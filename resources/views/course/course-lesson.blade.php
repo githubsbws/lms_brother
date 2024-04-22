@@ -37,10 +37,7 @@
             background: #666;
         }
 
-        .vjs-progress-control {
-            display: none;
-        }
-
+        
         .split-me-container {
             position: absolute;
             top: 3em;
@@ -204,8 +201,14 @@
                                                         asset('images/icon_checkbox.png') .
                                                         '" alt="ยังไม่ได้เรียน" title="ยังไม่ได้เรียน" style="margin-bottom: 8px;">';
                                                 }
+                                                $displayStyle = ($learn_sta != null && $learn_sta->learn_file_status == 's') ? 'block' : 'none';
                                             }
                                         @endphp
+                                        <style>
+                                            .vjs-progress-control {
+                                                display: {{ $displayStyle }};
+                                            }
+                                        </style>
                                         <div class="panel panel-default">
 
                                             <div class="panel-heading" role="tab" id="heading{{ $file_id->id }}">
@@ -284,7 +287,7 @@
                                                                                 style=""
                                                                                 data-time="{{ $img->image_time }}"
                                                                                 src="{{ $img->image_picture }}"
-                                                                                onclick="sendTime('{{ $img->image_time }}')"><a onclick="sendTime('{{ $img->image_time }}')" style="cursor: pointer">นาทีที่ {{ $img_time }}</a>
+                                                                                onclick="sendTime('{{ $img->image_time }}')"><a onclick="sendTime('{{ $img->image_time }}')"  style="cursor: pointer; color: white;">นาทีที่ {{ $img_time }}</a>
                                                                         </li>
                                                                     @endforeach
                                                                 </ul>
@@ -417,6 +420,8 @@
                                                             var link = '{{ url('course.LearnVdo') }}';
                                                             var id = '{{ $file_id->id }}';
                                                             var learn_id = '{{ $learn_id }}';
+                                                            
+                                                           
 
                                                             console.log(id)
                                                             console.log(learn_id)

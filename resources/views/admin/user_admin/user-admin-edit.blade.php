@@ -1,7 +1,11 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-
+@php
+use App\Models\Company;
+use App\Models\Division;
+use App\Models\Position;
+@endphp
 <body class="">
 
 	<!-- Main Container Fluid -->
@@ -87,21 +91,51 @@
                                                     <input type="text" name="phone" value="{{ $user->Profiles->phone ?? null }}">
                                                 </div>
                                                 <div class="col-md-6">
+                                                    @php
+                                                    $user_com = Company::find($user->company_id);
+                                                    @endphp
                                                     <label for="">company</label>
                                                     <select name="company" id="company">
+                                                        @if($user_com != null)
+                                                        <option value="{{$user_com->company_id}}">{{ $user_com->company_title}}</option>
+                                                        @else
                                                         <option value="">---เลือก---</option>
+                                                        @endif
                                                         @foreach ( $company as $comp )
                                                             <option value="{{ $comp->company_id }}">{{ $comp->company_title }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-md-6">
+                                                    @php
+                                                    $user_position = Position::find($user->position_id)
+                                                    @endphp
                                                     <label for="">ตำแหน่ง</label>
-                                                    <select name="position" id="position"></select>
+                                                    @if($user_position != null)
+
+                                                    <select name="position" id="position">
+                                                        <option value="{{$user_position->id}}">{{ $user_position->position_title}}</option>
+                                                    </select>
+                                                    @else
+                                                    <select name="position" id="position">
+                                                        
+                                                    </select>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-6">
+                                                    @php
+                                                    $user_division = Division::find($user->division_id)
+                                                    @endphp
                                                     <label for="">division</label>
-                                                    <select name="division" id="division"></select>
+                                                    @if($user_division != null)
+                                                    <select name="division" id="division">
+                                                        <option value="{{$user_division->id}}">{{ $user_division->dep_title}}</option>
+                                                    </select>
+                                                    @else
+                                                    <select name="division" id="division">
+                                                        
+                                                    </select>
+                                                    @endif
                                                 </div>
                                                 <input type="hidden" name="id" value="{{ $user->id }}">
                                                 <br>

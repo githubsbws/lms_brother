@@ -280,14 +280,14 @@ use App\Models\Permission;
                 @if (in_array(31, $menu_array) || $getUser->superuser == 1)
                     <li class="hasSubmenu glyphicons print"><a data-toggle="collapse" href="#Report"><i></i><span>ระบบ Report</span></a>
                         <ul class=" collapse " id="Report">
-                            <li><a href="{{url('report_logallregister')}}">1.) รายงานภาพรวมการสมัครสมาชิก</a></li>
-                            <li><a href="{{url('report_loguserstatus')}}">2.) รายงานผลการสมัครสมาชิก (ผู้เรียน)</a></li>
-                            <li><a href="{{url('report_course')}}">3.) รายงานภาพรวมของหลักสูตร</a></li>
+                            {{-- <li><a href="{{url('report_logallregister')}}">1.) รายงานภาพรวมการสมัครสมาชิก</a></li>
+                            <li><a href="{{url('report_loguserstatus')}}">2.) รายงานผลการสมัครสมาชิก (ผู้เรียน)</a></li> --}}
+                            <li><a href="{{url('report_course')}}">1.) รายงานภาพรวมของหลักสูตร</a></li>
                             {{-- <li><a href="report-bycoursedetail.php">4.) รายงานการฝึกอบรมหลักสูตร</a></li> --}}
-                            <li><a href="{{url('report_byuser')}}">5.) รายงานติดตามผู้เรียน</a></li>
-                            <li><a href="report-logquestioncourse.php">6.) รายงานแบบสอบถามสำหรับหลักสูตร</a></li>
+                            {{-- <li><a href="{{url('report_byuser')}}">2.) รายงานติดตามผู้เรียน</a></li> --}}
+                            {{-- <li><a href="report-logquestioncourse.php">6.) รายงานแบบสอบถามสำหรับหลักสูตร</a></li> --}}
                             {{-- <li><a href="report-logquestionall.php">7.) รายงานภาพรวมแบบสอบถาม</a></li> --}}
-                            <li><a href="{{url('report_reset')}}">8.) รายงานการรีเซตหลักสูตร</a></li>
+                            {{-- <li><a href="{{url('report_reset')}}">8.) รายงานการรีเซตหลักสูตร</a></li> --}}
                         </ul>
                     </li>
                 @endif

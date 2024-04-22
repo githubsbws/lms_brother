@@ -649,6 +649,8 @@ Route::get('report_userseach',[AdminController::class,'report_loguserstatus'])->
 Route::get('report_course',[AdminController::class,'report_course'])->name('report.course');
 Route::get('report_courseseach',[AdminController::class,'report_course'])->name('report.coursesearch');
 
+Route::get('report_lesson/{id}',[AdminController::class,'report_lesson'])->name('report.lesson');
+
 Route::get('report_byuser',[AdminController::class,'report_byuser'])->name('report.byuser');
 Route::get('report_byuserseach',[AdminController::class,'report_byuser'])->name('report.byusersearch');
 

@@ -155,14 +155,14 @@
 					</div>
 
 					<!-- Options -->
-					<div class="separator top form-inline small">
+					{{-- <div class="separator top form-inline small">
 						<!-- With selected actions -->
 						<div class="buttons pull-left">
 							<a class="btn btn-primary btn-icon glyphicons circle_minus" onclick="return multipleDeleteNews('/admin/index.php/Usability/MultiDelete','Usability-grid');" href="#"><i></i> ลบข้อมูลทั้งหมด</a>
 						</div>
 						<!-- // With selected actions END -->
 						<div class="clearfix"></div>
-					</div>
+					</div> --}}
 					<!-- // Options END -->
 
 				</div>

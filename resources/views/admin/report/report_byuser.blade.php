@@ -2,11 +2,13 @@
 @section('title', 'Admin')
 @section('content')
 @php
+use App\Models\Profiles;
 use App\Models\Division;
 use App\Models\Company;
 use App\Models\Learn;
 use App\Models\Orgcourse;
 use App\Models\Course;
+use App\Models\Score;
 @endphp
 <body class="">
 
@@ -47,7 +49,7 @@ use App\Models\Course;
 												<label>username</label>
 												<input class="span6" name="fname" type="text" maxlength="255">
 											</div>
-											<div class="row">
+											{{-- <div class="row">
 												<label>บริษัท</label>
 												<select name="company" id="company">
 													<option value=""></option>
@@ -64,7 +66,7 @@ use App\Models\Course;
 														<option value="{{$div->id}}">{{$div->dep_title}}</option>
 													@endforeach
 												</select>
-											</div>
+											</div> --}}
 											<div class="row">
 												<button type="submit" class="btn btn-primary btn-icon glyphicons search"><i></i> ค้นหา</button>
 											</div>
@@ -83,15 +85,17 @@ use App\Models\Course;
 										<tr>
 											<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
 											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_title">username</a></th>
+											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_title">ชื่อ</a></th>
 											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_title">บริษัท</a></th>
 											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">แผนก</a></th>
-											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">หลักสูตรที่เรียน</a></th>
-											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">ความคืบหน้า</a></th>
+											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">แบบทดสอบก่อนเรียน</a></th>
+											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">บทเรียน</a></th>
 										</tr>
 									</thead>
 									<tbody>
 										@foreach ($user as $item)
 											@php
+												$profile = Profiles::find($item->id);
 												$companys = Company::find($item->company_id);
 												$divisions = Division::find($item->division_id);
 												$learn = Learn::where('user_id', $item->id)->get();
@@ -103,16 +107,24 @@ use App\Models\Course;
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="" id="chk_0" type="checkbox" name="chk[]"></td>
 												<td>{{ $item->username }}</td>
+												@if($profile != null)
+												<td>{{ $profile->firstname }} {{ $profile->lastname }}</td>
+												@else
+												<td> - </td>
+												@endif
 												<td>{{ $companys ? $companys->company_title : '-' }}</td>
 												<td>{{ $divisions ? $divisions->dep_title : '-' }}</td>
 												<td>
+
+												</td>
+												{{-- <td>
 													<a href="#" onclick="showSweetAlert('{{ json_encode($learnCourseCounts) }}', '{{ json_encode($courses) }}')" class="btn btn-{{ $learn->isNotEmpty() ? 'success' : 'dark' }}">หลักสูตร</a>
 												</td>
-												<td>{{ $learnCourseCounts->count() }}  / {{ $orgcourseCount }}</td>
+												<td>{{ $learnCourseCounts->count() }}  / {{ $orgcourseCount }}</td> --}}
 											</tr>
 										@endforeach
 
-										<script>
+										{{-- <script>
 											function showSweetAlert(learnCourseCounts, courses) {
 											var coursesCount = JSON.parse(learnCourseCounts);
 											var coursesData = JSON.parse(courses);
@@ -140,7 +152,7 @@ use App\Models\Course;
 												buttons: true,
 											});
 										}
-										</script>
+										</script> --}}
 									
 									</tbody>
 								</table>
