@@ -69,6 +69,7 @@
 													<th id="News-grid_c1">Controller</th>
 													<th id="News-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_title">action</a></th>
 													<th id="News-grid_c3"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_short_title">user</a></th>
+													<th id="News-grid_c3"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_short_title">วันที่</a></th>
 												</tr>
 												<tr class="filters">
 													<td>&nbsp;</td>
@@ -85,6 +86,7 @@
 													<td>{{ $item->controller}}</td>
 													<td>{{ $item->action}}</td>
 													<td >{{$item->username}}</td>
+													<td >{{$item->create_date}}</td>
 												</tr>
 												@endforeach
 											</tbody>

@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 
 
@@ -50,22 +51,23 @@ class LoginController extends Controller
             'username' => 'required|validate_username',
             'password' => 'required',
         ]);
-        $password = md5($request->password);
-        // check users
-        $user = Users::join('profiles','profiles.user_id','=','users.id')->where('username', $request->username)->first();
-        // dd($user->firstname);
-        if (!$user || $password != $user->password) {
-            // Authentication failed
-            
-            return back()->withErrors(['username' => 'Invalid credentials'])->withInput($request->only('username'));
-        }
-        else{
-            // Login success
-        Auth::login($user);
 
-        return redirect()->intended('index');
+        // เข้ารหัสรหัสผ่าน
+        $password = $request->password;
+
+        // ตรวจสอบข้อมูลผู้ใช้
+        $user = Users::join('profiles', 'profiles.user_id', '=', 'users.id')->where('username', $request->username)->first();
+
+        // ตรวจสอบความถูกต้องของรหัสผ่าน
+        if (!$user || !Hash::check($password, $user->password)) {
+            // Authentication failed
+            return back()->withErrors(['username' => 'Invalid credentials'])->withInput($request->only('username'));
+        } else {
+            // Login success
+            Auth::login($user);
+
+            return redirect()->intended('index');
         }
-        
     }
     public function logout()
     {

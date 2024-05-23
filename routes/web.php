@@ -50,11 +50,12 @@ Route::get('/', [IndexController::class,'index'])->name('index');
 Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
 Route::post('logins', [LoginController::class,'login'])->name('logins');
 Route::post('logout', [LoginController::class,'logout'])->name('logout');
-Route::get('profile',[ProfileController::class,'index'])->name('profile');
 
-Route::get('forget_pass',[ForgotPasswordController::class,'testResetPasswordEmailSent'])->name('forget.pass');
-Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])
-    ->name('password.email');
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.forgot');
+Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
+Route::get('forgot-pass',[ForgotPasswordController::class,'forgotPass'])->name('forgot.pass');
+Route::get('profile',[ProfileController::class,'index'])->name('profile');
 
 // Route::get('/admin', function () {
 //     return view('admin/index/index');
@@ -108,7 +109,6 @@ Route::get('logout_t',[LoginLController::class,'logout_t'])->name('logout_t');
 // ----- index
 Route::get('index/my',[IndexController::class,'index'])->name('index');
 // ----- Forgot
-Route::get('forgot-pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
 Route::post('/lms_brother_docker/lms/app/index/user/recovery',[ForgotController::class,'forgotRecovery'])->name('forgot.recovery');
 // ----- course
 Route::get('course',[CourseController::class,'course'])->name('course');

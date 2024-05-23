@@ -14,35 +14,21 @@
                                 <h1>ลืมรหัสผ่าน</h1>
                             </div>
                             <div class="form">
-                                <form class="form-horizontal" action="/lms_brother_docker/lms/app/index/user/recovery"
-                                    method="post">
+                                <form class="form-horizontal" action="{{ route('password.forgot') }}" method="post">
                                     @csrf
-                                    <!-- <div class="row">
-  <p class="hint"></p>
- </div> -->
                                     <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-3 control-label"><label
-                                                for="UserRecoveryForm_login_or_email">Username หรือ
-                                                อีเมลล์</label></label>
+                                        <label for="inputEmail3" class="col-sm-3 control-label">
+                                            <label for="UserRecoveryForm_login_or_email">Username หรือ อีเมลล์</label>
+                                        </label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" placeholder="Username"
-                                                name="UserRecoveryForm[login_or_email]"
-                                                id="UserRecoveryForm_login_or_email" type="text">
+                                            <input class="form-control" placeholder="Username หรือ อีเมลล์" name="login_or_email" id="UserRecoveryForm_login_or_email" type="text">
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
-                                            <input class="btn btn-primary" type="submit" name="yt0"
-                                                value="รีเซ็ตรหัสผ่าน">
+                                            <input class="btn btn-primary" type="submit" value="รีเซ็ตรหัสผ่าน">
                                         </div>
                                     </div>
-                                   {{-- เพิ่ม --}}
-                                    @if (session('show'))
-                                        <div class="alert alert-danger">
-                                            <label for="">รหัสผ่าน คือ </label>{{ session('show') }}
-                                        </div>
-                                    @endif
                                 </form>
                             </div><!-- form -->
                         </div>
