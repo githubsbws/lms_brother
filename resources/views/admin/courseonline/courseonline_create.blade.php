@@ -226,7 +226,7 @@ input:checked + .slider:before {
                                                         <span class="fileupload-new">Select file</span>
                                                         <span class="fileupload-exists">Change</span>
                                                         <input id="ytNews_cms_picture" type="hidden" name="cate_image">
-                                                        <input name="image" id="imageInput"  type="file" >
+                                                        <input name="image" id="imageInput"  type="file" accept="image/*">
                                                     </span>
                                                     <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
                                                     {{-- <input type="file" id="imageInput" name="image"> --}}
@@ -255,6 +255,7 @@ input:checked + .slider:before {
                                                     });
                                                 </script>
                                             </div>
+                                        </div>
                                         <div class="row">
                                             <font color="#990000">
                                                 <span style="margin:0;"

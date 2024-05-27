@@ -47,6 +47,16 @@
     
     
 </head>
+<style>
+    .input-error {
+        color: white;
+        background-color: red;
+        padding: 5px;
+        margin-top: 5px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+</style>
 <body class="login">
 
 <!-- Wrapper -->
@@ -78,6 +88,13 @@
                                 <button class="btn btn-block btn-primary"><i></i>เข้าสู่ระบบ</button>
                             </div>
                         </div>
+                        @error('username')
+                            <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                    <span class="{{ $errors->has('username') ? 'input-error' : '' }}">{{ $message }}</span>
+                                </div>
+                            </div>
+                        @enderror
                     </div>
             </div>
 

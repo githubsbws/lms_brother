@@ -104,7 +104,9 @@ class AdminController extends Controller
             if (!$user || $password != $user->password) {
                 // Authentication failed
                 // dd($user);
-                return back()->withErrors(['username' => 'Invalid credentials'])->withInput($request->only('username'));
+                sleep(10);
+
+                return back()->withErrors(['username' => 'ผู้ใช้งานไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง'])->withInput($request->only('username'));
             }
             else{
                 // Login success
@@ -116,7 +118,7 @@ class AdminController extends Controller
             if($userAdmin){
                 return redirect()->intended('admin');
             }else{
-                return back()->withErrors(['username' => 'Invalid credentials'])->withInput($request->only('username'));
+                return back()->withErrors(['username' => 'ผู้ใช้งานไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง'])->withInput($request->only('username'));
             }
             
             }
@@ -1204,6 +1206,7 @@ class AdminController extends Controller
                     'course_title' =>'required|string',
                     'course_short_title'=>'required|string',
                     'course_detail'=>'required|string',
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
 
                 ]);
                 $teacher = Teacher::where('teacher_name',$request->input('teacher_name'))->first();

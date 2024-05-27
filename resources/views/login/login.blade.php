@@ -1,5 +1,14 @@
 @extends('layout/mainlayout')
 @section('content')
+<style>
+    .error-message {
+        color: red;
+        font-size: 0.9em;
+    }
+    .input-error {
+        border: 1px solid red;
+    }
+</style>
 <body>
 
     <div class="container">
@@ -11,6 +20,15 @@
                             <div class="col-xs-12" align="center">
                                 <h1>เข้าสู่ระบบ</h1>
                             </div>
+                            @if ($errors->any())
+                                    <div>
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                             <div class="form">
                                 <form class="form-horizontal" action="{{ route('login') }}" method="post">
                                     @csrf
@@ -22,6 +40,9 @@
                                             <input class="form-control" placeholder="Username"
                                                 name="UserLogin[username]" id="UserLogin_username" type="text">
                                         </div>
+                                        @error('username')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label"><label for="UserLogin_password"
@@ -33,12 +54,7 @@
                                                 name="UserLogin[password]" id="UserLogin_password" type="password">
                                         </div>
                                     </div><br>
-                                    {{-- เพิ่ม --}}
-                                    @if (session('error'))
-                                        <div class="alert alert-danger">
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif
+                                    
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
                                             <p class="hint">

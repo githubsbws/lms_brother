@@ -40,6 +40,9 @@ class ContactusController extends Controller
                 $contact_new->active = 'y';
                 $contact_new->save();
                 // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
+
+                sleep(10);
+                
                 return redirect()->route('contactus_f')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
             }
 

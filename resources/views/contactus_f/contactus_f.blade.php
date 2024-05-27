@@ -21,6 +21,21 @@
                     background-color: #F0F0F0;
                     border-color: #E2E9E6;
                 }
+                
+                .col {
+                    margin-right: 10px; /* Adjust spacing between the columns as needed */
+                }
+                .col input {
+                    width: 100%; /* Ensure the inputs take up the full width of their column */
+                }
+                .btn-action {
+                    margin-left: auto; /* Push the button to the right end */
+                }
+                .error {
+                    display: flex;
+                    flex-direction: column;
+                    margin-top: 5px;
+                }
             </style>
             <div class="parallax overflow-hidden page-section bg-blue-300">
                 <div class="container parallax-layer" data-opacity="true">
@@ -41,17 +56,21 @@
                         <form enctype="multipart/form-data" id="news-form" action="{{route('contactus_f')}}" method="post">
                             @csrf
                             <div class="row">
-                                <label for="News_cms_title" class="required">ชื่อ - นามสกุล ผู้ติดต่อ <span class="required">*</span></label> <br>
-                                <input size="60" maxlength="250" class="span8" name="contact_by_name" id="contact_by_name" type="text" > 
-                                <input size="60" maxlength="250" class="span8" name="contact_by_surname" id="contact_by_surname" type="text" >
+                                <label for="contact_by_name" class="required">ชื่อ - นามสกุล ผู้ติดต่อ <span class="required">*</span></label> <br>
+                                <div class="col">
+                                    <input class="form-control" size="60" maxlength="250" name="contact_by_name" id="contact_by_name" type="text" placeholder="ชื่อ"> 
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" size="60" maxlength="250" name="contact_by_surname" id="contact_by_surname" type="text" placeholder="นามสกุล"> 
+                                </div>
                                 <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
                                 <div class="error help-block">
-                                    <div class="label label-important" id="News_cms_title_em_" style="display:none"></div>
+                                    <div class="label label-important" id="contact_by_name_em_" style="display:none"></div>
                                 </div>
                             </div>
                             <div class="row">
                                 <label for="News_cms_title" class="required">อีเมลล์ผู้ติดต่อ <span class="required">*</span></label> <br>
-                                <input size="60" maxlength="250" class="span8" name="contact_by_email" id="contact_by_email" type="email" > 
+                                <input size="60" maxlength="250" class="form-control" name="contact_by_email" id="contact_by_email" type="email" placeholder="อีเมลล์ผู้ติดต่อ"> 
                                 <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
                                 <div class="error help-block">
                                     <div class="label label-important" id="News_cms_title_em_" style="display:none"></div>
@@ -59,7 +78,7 @@
                             </div>
                             <div class="row">
                                 <label for="News_cms_title" class="required">เบอร์โทรผู้ติดต่อ <span class="required">*</span></label> <br>
-                                <input size="60" maxlength="20" class="span8" name="contact_by_tel" id="contact_by_tel" type="text" > 
+                                <input size="60" maxlength="20" class="form-control" name="contact_by_tel" id="contact_by_tel" type="text" placeholder="เบอร์โทรผู้ติดต่อ"> 
                                 <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
                                 <div class="error help-block">
                                     <div class="label label-important" id="News_cms_title_em_" style="display:none"></div>
@@ -67,7 +86,7 @@
                             </div>
                             <div class="row">
                                 <label for="News_cms_title" class="required">หัวข้อเรื่อง <span class="required">*</span></label> <br>
-                                <input size="60" maxlength="250" class="span8" name="contact_by_subject" id="contact_by_subject" type="text" > 
+                                <input size="60" maxlength="250" class="form-control" name="contact_by_subject" id="contact_by_subject" type="text" > 
                                 <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
                                 <div class="error help-block">
                                     <div class="label label-important" id="News_cms_title_em_" style="display:none"></div>
@@ -75,7 +94,7 @@
                             </div>
                             <div class="row">
                                 <label for="News_cms_title" class="required">รายละเอียด <span class="required">*</span></label> <br>
-                                <textarea rows="6" cols="50" class="span8" name="contact_by_detail" id="contact_by_detail" aria-hidden="true"></textarea>
+                                <textarea rows="6" cols="50" class="form-control" name="contact_by_detail" id="contact_by_detail" aria-hidden="true"></textarea>
                                 <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
                                 <div class="error help-block">
                                     <div class="label label-important" id="News_cms_title_em_" style="display:none"></div>

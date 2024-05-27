@@ -61,7 +61,9 @@ class LoginController extends Controller
         // ตรวจสอบความถูกต้องของรหัสผ่าน
         if (!$user || !Hash::check($password, $user->password)) {
             // Authentication failed
-            return back()->withErrors(['username' => 'Invalid credentials'])->withInput($request->only('username'));
+            sleep(10);
+
+            return back()->withErrors(['username' => 'ผู้ใช้งานไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง'])->withInput($request->only('username'));
         } else {
             // Login success
             Auth::login($user);

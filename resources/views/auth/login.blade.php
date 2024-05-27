@@ -1,5 +1,15 @@
 @extends('layout/mainlayout')
 @section('content')
+<style>
+    .input-error {
+        color: white;
+        background-color: red;
+        padding: 5px;
+        margin-top: 5px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+</style>
 <body>
 
     <div class="container">
@@ -20,7 +30,7 @@
                                                     class="required">*</span></label></label>
                                         <div class="col-sm-9">
                                             <input class="form-control" placeholder="Username"
-                                                name="username" id="username" type="text">
+                                                name="username" id="username" type="text" value="{{ old('username') }}">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -34,11 +44,7 @@
                                         </div>
                                     </div><br>
                                     {{-- เพิ่ม --}}
-                                    @if (session('error'))
-                                        <div class="alert alert-danger">
-                                            {{ session('error') }}
-                                        </div>
-                                    @endif
+                                   
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
                                             <p class="hint">
@@ -63,12 +69,15 @@
                                                 value="เข้าสู่ระบบ">
                                         </div>
                                     </div>
+                                    @error('username')
+                                        <div class="form-group">
+                                            <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                                <span class="{{ $errors->has('username') ? 'input-error' : '' }}">{{ $message }}</span>
+                                            </div>
+                                        </div>
+                                    @enderror
                                 </form>
-                                @if($errors->any())
-                                    <div class="alert alert-danger">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
+                               
                             </div><!-- form -->
                         </div>
                     </div>
