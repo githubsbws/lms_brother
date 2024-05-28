@@ -59,7 +59,7 @@ class LoginController extends Controller
         $user = Users::join('profiles', 'profiles.user_id', '=', 'users.id')->where('username', $request->username)->first();
 
         // ตรวจสอบความถูกต้องของรหัสผ่าน
-        if (!$user || !Hash::check($password, $user->password)) {
+        if (!$user || !Hash::check($password, $user->password)  || md5($password) == $user->password) {
             // Authentication failed
             sleep(10);
 
