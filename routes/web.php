@@ -235,6 +235,7 @@ Route::get('courseonline_delete/{id}',[AdminController::class,'courseonline_dele
 
 //---- lesson
 Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
+Route::get('lesson_search',[AdminController::class,'lesson'])->name('lesson.search');
 
 Route::get('lesson_edit/{id}',[AdminController::class,'lesson_edit'])->name('lesson.edit');
 Route::post('lesson_edit/{id}',[AdminController::class,'lesson_edit'])->name('lesson.edit');

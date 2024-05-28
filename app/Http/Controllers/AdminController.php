@@ -11,6 +11,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
 use DateTime;
 use App\Facades\AuthFacade;
+use Illuminate\Support\Facades\Hash;
 
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
@@ -96,12 +97,12 @@ class AdminController extends Controller
                 'username' => 'required|validate_username',
                 'password' => 'required',
             ]);
-            $password = md5($request->password);
+            $password = $request->password;
             // dd($password);
             
             $user = Users::join('profiles','profiles.user_id','=','users.id')->where('username', $request->username)->first();
             
-            if (!$user || $password != $user->password) {
+            if (!$user || !Hash::check($password, $user->password)) {
                 // Authentication failed
                 // dd($user);
                 sleep(10);
@@ -1378,10 +1379,24 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
      }
-    function lesson(){
+    function lesson(Request $request){
         if(AuthFacade::useradmin()){
             $course_online = Course::where('active', 'y')->orderBy('sortOrder', 'desc')->get();
-            $lesson = Lesson::where('lesson.active', 'y')->paginate(10);
+
+            $course_id = $request->input('course_id');
+            $course_name = $request->input('title');
+            if(isset($course_id) && !empty($course_id)) {
+                $lesson = Lesson::where('course_id',$course_id)
+                        ->where('active', 'y')
+                        ->paginate(10);
+            }elseif(isset($course_name) && !empty($course_name)){
+                $lesson = Lesson::where('course_title','like',"%$course_name%")
+                        ->where('active', 'y')
+                        ->paginate(10);
+
+            }else {
+                $lesson = Lesson::where('lesson.active', 'y')->paginate(10);
+            }
             return view("admin.lesson.lesson",compact('course_online','lesson'));
         }else{
             return redirect()->route('login.admin');
