@@ -65,6 +65,11 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                            <span class="input-error">กรุณาเปลี่ยนรหัสผ่านก่อนเข้าใช้งาน 1 ครั้ง</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
                                             <input class="btn btn-primary" type="submit" name="yt0"
                                                 value="เข้าสู่ระบบ">
                                         </div>

@@ -1,7 +1,16 @@
 @extends('layout/mainlayout')
 @section('title', 'Brother e-learning')
 @section('content')
-
+<style>
+    .input-error {
+        color: white;
+        background-color: red;
+        padding: 5px;
+        margin-top: 5px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+</style>
 <body>
 
     <div class="container">
@@ -30,6 +39,22 @@
                                         </div>
                                     </div>
                                 </form>
+                                @if (session('status'))
+                                <div class="form-group">
+                                    <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                        <div class="alert alert-success">
+                                            {{ session('status') }}
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                                @error('login_or_email')
+                                    <div class="form-group">
+                                        <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                            <span class="{{ $errors->has('login_or_email') ? 'input-error' : '' }}">{{ $message }}</span>
+                                        </div>
+                                    </div>
+                                @enderror
                             </div><!-- form -->
                         </div>
                     </div>
