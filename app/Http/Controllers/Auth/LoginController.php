@@ -59,15 +59,19 @@ class LoginController extends Controller
         $user = Users::join('profiles', 'profiles.user_id', '=', 'users.id')->where('username', $request->username)->first();
 
         // ตรวจสอบความถูกต้องของรหัสผ่าน
-        if (!$user || !Hash::check($password, $user->password)  || md5($password) == $user->password) {
+        $passwordIsMD5 = preg_match('/^[a-f0-9]{32}$/', $user->password);
+
+        // Check password correctness
+        if (!$user || !Hash::check($password, $user->password)) {
             // Authentication failed
             sleep(10);
-
-            return back()->withErrors(['username' => 'ผู้ใช้งานไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง'])->withInput($request->only('username'));
+            return back()->withErrors(['username' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง'])->withInput($request->only('username'));
+        } elseif ($passwordIsMD5) {
+            // MD5 password detected
+            return back()->withErrors(['username' => 'กรุณาเปลี่ยนรหัสผ่านของคุณเป็นรหัสผ่านใหม่ที่ใช้รูปแบบที่ปลอดภัย'])->withInput($request->only('username'));
         } else {
             // Login success
             Auth::login($user);
-
             return redirect()->intended('index');
         }
     }
