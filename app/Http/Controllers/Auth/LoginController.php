@@ -62,12 +62,13 @@ class LoginController extends Controller
         $passwordIsMD5 = preg_match('/^[a-f0-9]{32}$/', $user->password);
 
         // Check password correctness
-        if (!$user || !Hash::check($password, $user->password)) {
+        if (!$user || (!Hash::check($password, $user->password) && !$passwordIsMD5)) {
             // Authentication failed
             sleep(10);
             return back()->withErrors(['username' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง'])->withInput($request->only('username'));
         } elseif ($passwordIsMD5) {
             // MD5 password detected
+            sleep(10);
             return back()->withErrors(['username' => 'กรุณาเปลี่ยนรหัสผ่านของคุณเป็นรหัสผ่านใหม่ที่ใช้รูปแบบที่ปลอดภัย'])->withInput($request->only('username'));
         } else {
             // Login success
