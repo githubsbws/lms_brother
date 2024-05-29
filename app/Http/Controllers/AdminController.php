@@ -3618,7 +3618,7 @@ class AdminController extends Controller
             ]);
             $user = new Users();
             $user->username = $request->username;
-            $user->password = md5($request->password);
+            $user->password = Hash::make($request->password);
             $user->email = $request->email ?? null;
             $user->company_id = $request->company ?? null;
             $user->division_id = $request->division ?? null;
@@ -3649,7 +3649,7 @@ class AdminController extends Controller
     public function userAdminUpdate(Request $request){
         if(AuthFacade::useradmin()){
             $user = Users::where('id',$request->id)->first();
-            $user->password = md5($request->password);
+            $user->password = Hash::make($request->password);
             $user->email = $request->email ?? null;
             $user->company_id = $request->company ?? null;
             $user->division_id = $request->division ?? null;

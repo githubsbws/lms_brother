@@ -69,7 +69,7 @@ class LoginController extends Controller
         } elseif ($passwordIsMD5) {
             // MD5 password detected
             sleep(10);
-            return back()->withErrors(['username' => 'กรุณาเปลี่ยนรหัสผ่านของคุณเป็นรหัสผ่านใหม่ที่ใช้รูปแบบที่ปลอดภัย'])->withInput($request->only('username'));
+            return back()->withErrors(['username' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง'])->withInput($request->only('username'));
         } else {
             // Login success
             Auth::login($user);
