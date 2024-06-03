@@ -97,12 +97,12 @@ class AdminController extends Controller
                 'username' => 'required|validate_username',
                 'password' => 'required',
             ]);
-            $password = md5($request->password);
+            $password = $request->password;
             // dd($password);
             
             $user = Users::join('profiles','profiles.user_id','=','users.id')->where('username', $request->username)->first();
             
-            if (!$user || $password !== $user->password) {
+            if (!$user || !Hash::check($password, $user->password)) {
                 // Authentication failed
                 // dd($user);
                 sleep(10);
