@@ -88,6 +88,17 @@
                 document.getElementById("password-special-status").innerHTML = "<p style='color:green;'>&#x2714;</p>";
             }
         }
+        function validatePassword() {
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('password-confirm').value;
+
+        if (password !== confirmPassword) {
+            alert('รหัสผ่านไม่ตรงกัน');
+            return false;
+        }
+
+        return true;
+    }
     </script>
 </body>
 @endsection
