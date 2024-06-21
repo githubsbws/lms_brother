@@ -185,6 +185,7 @@ use App\Models\Usability;
                                 <li>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
+                                        
                                     </form>
                                     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" ><i class="fa fa-sign-out"></i>
                                         ออกจากระบบ

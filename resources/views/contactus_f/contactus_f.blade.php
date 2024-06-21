@@ -78,7 +78,7 @@
                             </div>
                             <div class="row">
                                 <label for="News_cms_title" class="required">เบอร์โทรผู้ติดต่อ <span class="required">*</span></label> <br>
-                                <input size="60" maxlength="20" class="form-control" name="contact_by_tel" id="contact_by_tel" type="text" placeholder="เบอร์โทรผู้ติดต่อ"> 
+                                <input size="60" maxlength="20" class="form-control" name="contact_by_tel" id="contact_by_tel" type="number" placeholder="เบอร์โทรผู้ติดต่อ"> 
                                 <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
                                 <div class="error help-block">
                                     <div class="label label-important" id="News_cms_title_em_" style="display:none"></div>

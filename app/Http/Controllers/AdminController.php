@@ -1217,7 +1217,7 @@ class AdminController extends Controller
                     
                     return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
                 }
-
+                
                 $course_update = new Course;
                 $course_update->cate_id = $request->input('cate_id');
                 $course_update->course_lecturer = $request->input('teacher_name');
@@ -3332,9 +3332,10 @@ class AdminController extends Controller
                 'email' => 'required|max:39|email',
             ]);
             $date=new DateTime('Asia/Bangkok');
+            $password = Hash::make($request->password);
             $adminuser_data=[
                 'username'=>$request->username,
-                'password'=>$request->password,
+                'password'=>$password,
                 'email'=>$request->email,
                 'create_at'=>$date,
                 'lastvisit_at'=>$date,
@@ -3363,9 +3364,10 @@ class AdminController extends Controller
                 'email' => 'required|max:39|email',
             ]);
             $date=new DateTime('Asia/Bangkok');
+            $password = Hash::make($request->password);
             $adminuser_data=[
                 'username'=>$request->username,
-                'password'=>$request->password,
+                'password'=>$password,
                 'email'=>$request->email,
                 'lastvisit_at'=>$date,
                 'last_activity'=>$date,
