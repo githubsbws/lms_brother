@@ -70,7 +70,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
-                                            <div class="g-recaptcha" data-sitekey="6Le2CgAqAAAAAE3EFyWSAQz4U0hxOT-wpiJw4jky"></div>
+                                            <div class="g-recaptcha" data-sitekey="6Le3zv8pAAAAACNf85umY6OIKbJYQOJMzoLjR8ZK" data-action="LOGIN"></div>
                                         </div>
                                     </div>
                                    
@@ -96,6 +96,6 @@
             </div>
         </div>
     </div>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
 </body>
 @endsection
