@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
     ];
     
     protected $routeMiddleware = [   
-        'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,   
+        'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,
+        'recaptcha' => \App\Http\Middleware\VerifyRecaptcha::class, 
       ]; 
 }

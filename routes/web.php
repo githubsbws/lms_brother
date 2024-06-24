@@ -62,7 +62,7 @@ Route::get('profile',[ProfileController::class,'index'])->name('profile');
 // });
 Route::get('admin',[AdminController::class,'admin'])->name('admin');
 Route::get('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
-Route::post('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
+Route::post('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin')->middleware('recaptcha');
 Route::post('logoutadmin', [AdminController::class,'logoutadmin'])->name('logout.admin');
 
 

@@ -83,6 +83,9 @@
                        <input type="password" name="password" placeholder="Your password">
                        
                         <br><br>
+                        <div class="g-recaptcha" data-sitekey="6Le2CgAqAAAAAE3EFyWSAQz4U0hxOT-wpiJw4jky"></div>
+                        <br>
+                        
                         <div class="row-fluid">
                             <div class="span5 center">
                                 <button class="btn btn-block btn-primary"><i></i>เข้าสู่ระบบ</button>
@@ -103,5 +106,6 @@
         <div class="ribbon-wrapper"><div class="ribbon primary">Admin</div></div>
     </div>
 </div>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
