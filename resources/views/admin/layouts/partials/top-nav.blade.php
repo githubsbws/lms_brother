@@ -92,16 +92,16 @@
 					</li>
 					<li>
 						<span>
-							{{-- <form id="logout-form" action="{{ route('logout.admin') }}" method="POST" style="display: none;">
+							<form id="logout-form" action="{{ route('logout.admin') }}" method="POST" style="display: none;">
 								@csrf
 							</form>
 							<a class="btn btn-default btn-mini pull-right" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Sign
-								Out</a> --}}
+								Out</a>
 
-							<form id="logout-form" action="{{ route('logout.admin') }}" method="POST" style="display: none;">
+							{{-- <form id="logout-form" action="{{ route('logout.admin') }}" method="POST" style="display: none;">
 								@csrf
 								<button class="btn btn-default btn-mini pull-right" type="submit" >Sign Out</button>
-							</form>
+							</form> --}}
 							
 						</span>
 					</li>
