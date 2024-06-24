@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class UsersImport implements ToModel, WithHeadingRow
 {
@@ -32,7 +33,7 @@ class UsersImport implements ToModel, WithHeadingRow
             // ทำการอัพเดตข้อมูล User
             $user->update([
                 'username' =>  $row['username'],
-                'password' => md5($row['password']),
+                'password' => Hash::make($row['password']),
                 'email' => $row['email'],
                 'position_id' =>$positId->id,
                 'employee_id' =>$row['empcode'],
@@ -54,7 +55,7 @@ class UsersImport implements ToModel, WithHeadingRow
             // หากไม่พบ User ที่มี username เดียวกัน ให้สร้าง User ใหม่
             $user = Users::create([
                 'username' =>  $row['username'],
-                'password' => md5($row['password']),
+                'password' => Hash::make($row['password']),
                 'email' => $row['email'],
                 'position_id' =>$positId->id,
                 'employee_id' =>$row['empcode'],
