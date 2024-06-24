@@ -20,6 +20,7 @@
      RewriteCond %{REMOTE_ADDR} !^10\.242\.65\.100
      RewriteCond %{REMOTE_ADDR} !^10\.242\.51\.4
      RewriteCond %{REMOTE_ADDR} !^10\.81\.234\.18
+     RewriteCond %{REMOTE_ADDR} !^202\.183\.231\.100
      RewriteRule ^ - [F]
 
      RewriteCond %{REQUEST_URI} ^/loginadmin
@@ -28,6 +29,7 @@
      RewriteCond %{REMOTE_ADDR} !^10\.242\.65\.100
      RewriteCond %{REMOTE_ADDR} !^10\.242\.51\.4
      RewriteCond %{REMOTE_ADDR} !^10\.81\.234\.18
+     RewriteCond %{REMOTE_ADDR} !^202\.183\.231\.100
      RewriteRule ^ - [F]
 
     # Send Requests To Front Controller...
