@@ -13,18 +13,9 @@ class CheckSingleLogin
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-            $userId = Auth::id();
-
-            $currentSessionUserId = Session::get('single_login_user_id');
-
-            if ($currentSessionUserId !== null && $currentSessionUserId !== $userId) {
-                Auth::logout();
-                Session::flush();
-
-                return redirect()->route('login')->with('error', 'คุณได้ทำการเข้าสู่ระบบจากอุปกรณ์หรือเบราว์เซอร์อื่นแล้ว');
-            }
-
-            Session::put('single_login_user_id', $userId);
+            $user = Auth::user();
+            $user->online_status = true;
+            $user->save();
         }
 
         return $next($request);

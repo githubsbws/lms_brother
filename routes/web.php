@@ -48,7 +48,7 @@ use App\Http\Controllers\AdminController;
 Route::get('/', [IndexController::class,'index'])->name('index')->middleware('checkIdleTimeout', 'single_login');
 
 Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
-Route::post('logins', [LoginController::class,'login'])->name('logins')->middleware('checkIdleTimeout', 'single_login');
+Route::post('logins', [LoginController::class,'login'])->name('logins')->middleware('single_login');
 Route::post('logout', [LoginController::class,'logout'])->name('logout');
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.forgot');

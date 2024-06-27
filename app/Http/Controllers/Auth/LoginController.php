@@ -81,14 +81,27 @@ class LoginController extends Controller
             // MD5 password detected
             sleep(10);
             return back()->withErrors(['username' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง'])->withInput($request->only('username'));
-        } else {
+        } elseif($user->online_status == 1) {
             // Login success
+            sleep(10);
+
+            return back()->withErrors(['username' => 'มีผู้ใช้อยู่ในระบบจากเบราว์เซอร์อื่น'])->withInput($request->only('username'));
+        } else{
             Auth::login($user);
+
             return redirect()->intended('index');
         }
     }
-    public function logout()
+    public function logout(Request $request)
     {
+        $user = Auth::user();
+
+        // ตั้งค่า online_status เป็น false
+        if ($user) {
+            $user->online_status = 0;
+            $user->save();
+        }
+
         Auth::logout();
 
         // Redirect to the home page or any other desired page
