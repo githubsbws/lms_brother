@@ -45,22 +45,24 @@ use App\Http\Controllers\AdminController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', [IndexController::class,'index'])->name('index');
+Route::get('/', [IndexController::class,'index'])->name('index')->middleware('checkIdleTimeout', 'single_login');
 
 Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
-Route::post('logins', [LoginController::class,'login'])->name('logins')->middleware('recaptcha');
+Route::post('logins', [LoginController::class,'login'])->name('logins')->middleware('checkIdleTimeout', 'single_login');
 Route::post('logout', [LoginController::class,'logout'])->name('logout');
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.forgot');
 Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('/reset-password', [ForgotPasswordController::class, 'resetPassword'])->name('password.update');
 Route::get('forgot-pass',[ForgotPasswordController::class,'forgotPass'])->name('forgot.pass');
-Route::get('profile',[ProfileController::class,'index'])->name('profile');
+Route::get('profile',[ProfileController::class,'profile'])->name('profile');
+Route::get('repass',[ProfileController::class,'repass'])->name('repass');
+Route::post('repass',[ProfileController::class,'repass'])->name('repass');
 
 // Route::get('/admin', function () {
 //     return view('admin/index/index');
 // });
-Route::get('admin',[AdminController::class,'admin'])->name('admin');
+Route::get('admin',[AdminController::class,'admin'])->name('admin')->middleware('checkIdleTimeout');
 Route::get('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
 Route::post('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin')->middleware('recaptcha');
 Route::post('logoutadmin', [AdminController::class,'logoutadmin'])->name('logout.admin');
@@ -111,149 +113,149 @@ Route::get('index/my',[IndexController::class,'index'])->name('index');
 // ----- Forgot
 Route::post('/lms_brother_docker/lms/app/index/user/recovery',[ForgotController::class,'forgotRecovery'])->name('forgot.recovery');
 // ----- course
-Route::get('course',[CourseController::class,'course'])->name('course');
-Route::get('search', [CourseController::class, 'course']);
+Route::get('course',[CourseController::class,'course'])->name('course')->middleware('checkIdleTimeout');
+Route::get('search', [CourseController::class, 'course'])->middleware('checkIdleTimeout');
 // Route::get('detail',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('course/detail/{id}',[CourseController::class,'courseDetail'])->name('course.detail');
-Route::get('course/detail/{course_id}/lesson/{id}/{files?}',[CourseController::class,'courseLesson'])->name('course.lesson');
-Route::get('course/LearnVdo/{id}/{learn_id}/{counter}',[CourseController::class,'LearnVdo'])->name('course.LearnVdo');
-Route::get('course/question/{course_id}/{id}',[CourseController::class,'coursequestion'])->name('course.coursequestion');
-Route::get('course/question/{group}',[CourseController::class,'coursequestion'])->name('course.question');
-Route::get('download/{id}',[CourseController::class,'downloadfile'])->name('course.downloadfile');
-Route::get('course/images', [CourseController::class, 'store'])->name('images.store');
-Route::post('course/images', [CourseController::class, 'store'])->name('images.store');
+Route::get('course/detail/{id}',[CourseController::class,'courseDetail'])->name('course.detail')->middleware('checkIdleTimeout');
+Route::get('course/detail/{course_id}/lesson/{id}/{files?}',[CourseController::class,'courseLesson'])->name('course.lesson')->middleware('checkIdleTimeout');
+Route::get('course/LearnVdo/{id}/{learn_id}/{counter}',[CourseController::class,'LearnVdo'])->name('course.LearnVdo')->middleware('checkIdleTimeout');
+Route::get('course/question/{course_id}/{id}',[CourseController::class,'coursequestion'])->name('course.coursequestion')->middleware('checkIdleTimeout');
+Route::get('course/question/{group}',[CourseController::class,'coursequestion'])->name('course.question')->middleware('checkIdleTimeout');
+Route::get('download/{id}',[CourseController::class,'downloadfile'])->name('course.downloadfile')->middleware('checkIdleTimeout');
+Route::get('course/images', [CourseController::class, 'store'])->name('images.store')->middleware('checkIdleTimeout');
+Route::post('course/images', [CourseController::class, 'store'])->name('images.store')->middleware('checkIdleTimeout');
 // choice
-Route::post('/choiceAnswer/{id}',[ChoiceController::class,'choiceAnswer'])->name('choice.Answer');
+Route::post('/choiceAnswer/{id}',[ChoiceController::class,'choiceAnswer'])->name('choice.Answer')->middleware('checkIdleTimeout');
 // ----- dashboard
-Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard');
+Route::get('dashboard',[DashboardController::class,'dashboard'])->name('dashboard')->middleware('checkIdleTimeout');
 
-Route::get('download',[DownloadController::class,'download'])->name('download');
-Route::get('downloads/{id}',[DownloadController::class,'downloadfiles'])->name('download.downloadfiles');
+Route::get('download',[DownloadController::class,'download'])->name('download')->middleware('checkIdleTimeout');
+Route::get('downloads/{id}',[DownloadController::class,'downloadfiles'])->name('download.downloadfiles')->middleware('checkIdleTimeout');
 // ----- faq
-Route::get('faq_f',[FaqController::class,'faq_front'])->name('faq_front');
-Route::get('faq_f_seach', [FaqController::class, 'faq_front']);
+Route::get('faq_f',[FaqController::class,'faq_front'])->name('faq_front')->middleware('checkIdleTimeout');
+Route::get('faq_f_seach', [FaqController::class, 'faq_front'])->middleware('checkIdleTimeout');
 // ----- Forgot
-Route::get('forgot/pass',[ForgotController::class,'forgotPass'])->name('forgot.pass');
+Route::get('forgot/pass',[ForgotController::class,'forgotPass'])->name('forgot.pass')->middleware('checkIdleTimeout');
 // ----- index
-Route::get('index',[IndexController::class,'index'])->name('index');
+Route::get('index',[IndexController::class,'index'])->name('index')->middleware('checkIdleTimeout')->middleware('single_login');
 // ----- login
 // Route::get('logins',[LoginLController::class,'loginL'])->name('loginL.login');
 
 // ----- new
-Route::get('new',[NewController::class,'new'])->name('new');
-Route::get('new_detail/{id}',[NewController::class,'new_detail'])->name('new_detail');
-Route::get('new_search', [NewController::class, 'new']);
+Route::get('new',[NewController::class,'new'])->name('new')->middleware('checkIdleTimeout');
+Route::get('new_detail/{id}',[NewController::class,'new_detail'])->name('new_detail')->middleware('checkIdleTimeout');
+Route::get('new_search', [NewController::class, 'new'])->middleware('checkIdleTimeout');
 // ----- usability
-Route::get('usability_front/{id}',[UsabilityController::class,'usability_front'])->name('usability_front');
+Route::get('usability_front/{id}',[UsabilityController::class,'usability_front'])->name('usability_front')->middleware('checkIdleTimeout');
 // ----- virtualclassroom
-Route::get('virtualclassroom',[VirtualclassroomController::class,'virtualclassroom'])->name('virtualclassroom');
+Route::get('virtualclassroom',[VirtualclassroomController::class,'virtualclassroom'])->name('virtualclassroom')->middleware('checkIdleTimeout');
 // ----- WebboardController
-Route::get('about',[AboutController::class,'about'])->name('about');
+Route::get('about',[AboutController::class,'about'])->name('about')->middleware('checkIdleTimeout');
 
-Route::get('conditions',[ConditionController::class,'conditions'])->name('conditions');
+Route::get('conditions',[ConditionController::class,'conditions'])->name('conditions')->middleware('checkIdleTimeout');
 
-Route::get('contactus_f',[ContactusController::class,'contactus_f'])->name('contactus_f');
-Route::post('contactus_f',[ContactusController::class,'contactus_f'])->name('contactus_f');
+Route::get('contactus_f',[ContactusController::class,'contactus_f'])->name('contactus_f')->middleware('checkIdleTimeout');
+Route::post('contactus_f',[ContactusController::class,'contactus_f'])->name('contactus_f')->middleware('checkIdleTimeout');
 
 
 
 
 
 // ----- admin src
-Route::get('/aboutus',[AdminController::class,'aboutus'])->name('aboutus');
-Route::get('aboutus_create',[AdminController::class,'aboutus_create'])->name('aboutus.create');
-Route::post('aboutus_create',[AdminController::class,'aboutus_create'])->name('aboutus.create');
+Route::get('/aboutus',[AdminController::class,'aboutus'])->name('aboutus')->middleware('checkIdleTimeout');
+Route::get('aboutus_create',[AdminController::class,'aboutus_create'])->name('aboutus.create')->middleware('checkIdleTimeout');
+Route::post('aboutus_create',[AdminController::class,'aboutus_create'])->name('aboutus.create')->middleware('checkIdleTimeout');
 
-Route::get('aboutus_detail/{id}',[AdminController::class,'aboutus_detail'])->name('aboutus.detail');
-Route::get('aboutus_update/{id}',[AdminController::class,'aboutus_update'])->name('aboutus.update');
-Route::post('aboutus_update/{id}',[AdminController::class,'aboutus_update'])->name('aboutus.update');
-Route::get('aboutus_delete/{id}',[AdminController::class,'aboutus_delete'])->name('aboutus.delete');
+Route::get('aboutus_detail/{id}',[AdminController::class,'aboutus_detail'])->name('aboutus.detail')->middleware('checkIdleTimeout');
+Route::get('aboutus_update/{id}',[AdminController::class,'aboutus_update'])->name('aboutus.update')->middleware('checkIdleTimeout');
+Route::post('aboutus_update/{id}',[AdminController::class,'aboutus_update'])->name('aboutus.update')->middleware('checkIdleTimeout');
+Route::get('aboutus_delete/{id}',[AdminController::class,'aboutus_delete'])->name('aboutus.delete')->middleware('checkIdleTimeout');
 
-Route::get('/condition',[AdminController::class,'condition'])->name('condition');
-Route::get('condition_detail/{id}',[AdminController::class,'condition_detail'])->name('condition.detail');
-Route::get('condition_update/{id}',[AdminController::class,'condition_update'])->name('condition.update');
-Route::post('condition_update/{id}',[AdminController::class,'condition_update'])->name('condition.update');
+Route::get('/condition',[AdminController::class,'condition'])->name('condition')->middleware('checkIdleTimeout');
+Route::get('condition_detail/{id}',[AdminController::class,'condition_detail'])->name('condition.detail')->middleware('checkIdleTimeout');
+Route::get('condition_update/{id}',[AdminController::class,'condition_update'])->name('condition.update')->middleware('checkIdleTimeout');
+Route::post('condition_update/{id}',[AdminController::class,'condition_update'])->name('condition.update')->middleware('checkIdleTimeout');
 
-Route::get('/setting',[AdminController::class,'setting'])->name('setting');
-Route::post('setting_update/{id}',[AdminController::class,'setting_update'])->name('setting.update');
+Route::get('/setting',[AdminController::class,'setting'])->name('setting')->middleware('checkIdleTimeout');
+Route::post('setting_update/{id}',[AdminController::class,'setting_update'])->name('setting.update')->middleware('checkIdleTimeout');
 
-Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus');
-Route::get('contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create');
-Route::get('contactus_view/{id}',[AdminController::class,'contactus_view'])->name('contactus.view');
+Route::get('/contactus',[AdminController::class,'contactus'])->name('contactus')->middleware('checkIdleTimeout');
+Route::get('contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create')->middleware('checkIdleTimeout');
+Route::get('contactus_view/{id}',[AdminController::class,'contactus_view'])->name('contactus.view')->middleware('checkIdleTimeout');
 
-Route::get('/contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create');
+Route::get('/contactus_create',[AdminController::class,'contactus_create'])->name('contactus_create')->middleware('checkIdleTimeout');
 
-Route::post('/contactus_insert',[AdminController::class,'contactus_insert'])->name('contactus_insert');
+Route::post('/contactus_insert',[AdminController::class,'contactus_insert'])->name('contactus_insert')->middleware('checkIdleTimeout');
 
-Route::get('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus.edit_page');
-Route::post('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus.edit_page');
+Route::get('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus.edit_page')->middleware('checkIdleTimeout');
+Route::post('/contactus_edit_page/{id}',[AdminController::class,'contactus_edit_page'])->name('contactus.edit_page')->middleware('checkIdleTimeout');
 
-Route::post('/contactus_edit/{id}',[AdminController::class,'contactus_edit'])->name('contactus_edit');
+Route::post('/contactus_edit/{id}',[AdminController::class,'contactus_edit'])->name('contactus_edit')->middleware('checkIdleTimeout');
 
-Route::get('/contactus_delete/{id}',[AdminController::class,'contactus_delete'])->name('contactus_delete');
+Route::get('/contactus_delete/{id}',[AdminController::class,'contactus_delete'])->name('contactus_delete')->middleware('checkIdleTimeout');
 
 //  new p
-Route::get('/video_create',[AdminController::class,'video_create'])->name('video_create');
-Route::get('/video',[AdminController::class,'video'])->name('video');
-Route::get('video_detail/{vdo_id}',[AdminController::class,'video_detail'])->name('video.detail');
-Route::post('/video_insert',[AdminController::class,'video_insert'])->name('video_insert');
-Route::get('/video_edit/{vdo_id}',[AdminController::class,'video_edit'])->name('video_edit');
-Route::post('/video_update/{vdo_id}',[AdminController::class,'video_update'])->name('video_update');
-Route::get('/video_delete/{vdo_id}',[AdminController::class,'video_delete'])->name('video_delete');
+Route::get('/video_create',[AdminController::class,'video_create'])->name('video_create')->middleware('checkIdleTimeout');
+Route::get('/video',[AdminController::class,'video'])->name('video')->middleware('checkIdleTimeout');
+Route::get('video_detail/{vdo_id}',[AdminController::class,'video_detail'])->name('video.detail')->middleware('checkIdleTimeout');
+Route::post('/video_insert',[AdminController::class,'video_insert'])->name('video_insert')->middleware('checkIdleTimeout');
+Route::get('/video_edit/{vdo_id}',[AdminController::class,'video_edit'])->name('video_edit')->middleware('checkIdleTimeout');
+Route::post('/video_update/{vdo_id}',[AdminController::class,'video_update'])->name('video_update')->middleware('checkIdleTimeout');
+Route::get('/video_delete/{vdo_id}',[AdminController::class,'video_delete'])->name('video_delete')->middleware('checkIdleTimeout');
 //
 
 //---- category
-Route::get('/category',[AdminController::class,'category'])->name('category');
+Route::get('/category',[AdminController::class,'category'])->name('category')->middleware('checkIdleTimeout');
 
-Route::get('category_create',[AdminController::class,'category_create'])->name('category.create');
-Route::post('category_create',[AdminController::class,'category_create'])->name('category.create');
+Route::get('category_create',[AdminController::class,'category_create'])->name('category.create')->middleware('checkIdleTimeout');
+Route::post('category_create',[AdminController::class,'category_create'])->name('category.create')->middleware('checkIdleTimeout');
 
-Route::get('category_detail/{id}',[AdminController::class,'category_detail'])->name('category.detail');
+Route::get('category_detail/{id}',[AdminController::class,'category_detail'])->name('category.detail')->middleware('checkIdleTimeout');
 
-Route::get('category_edit/{id}',[AdminController::class,'category_edit'])->name('category.edit');
-Route::post('category_edit/{id}',[AdminController::class,'category_edit'])->name('category.edit');
+Route::get('category_edit/{id}',[AdminController::class,'category_edit'])->name('category.edit')->middleware('checkIdleTimeout');
+Route::post('category_edit/{id}',[AdminController::class,'category_edit'])->name('category.edit')->middleware('checkIdleTimeout');
 
-Route::get('category_delete/{id}',[AdminController::class,'category_delete'])->name('category.delete');
+Route::get('category_delete/{id}',[AdminController::class,'category_delete'])->name('category.delete')->middleware('checkIdleTimeout');
 
-Route::get('category_openshow/{id}',[AdminController::class,'category_openshow'])->name('category.openshow');
+Route::get('category_openshow/{id}',[AdminController::class,'category_openshow'])->name('category.openshow')->middleware('checkIdleTimeout');
 
 //---- end category
 
 //---- courseoline
-Route::get('courseonline',[AdminController::class,'courseonline'])->name('courseonline');
-Route::get('courseonline_create',[AdminController::class,'courseonline_create'])->name('courseonline.create');
-Route::post('courseonline_create',[AdminController::class,'courseonline_create'])->name('courseonline.create');
+Route::get('courseonline',[AdminController::class,'courseonline'])->name('courseonline')->middleware('checkIdleTimeout');
+Route::get('courseonline_create',[AdminController::class,'courseonline_create'])->name('courseonline.create')->middleware('checkIdleTimeout');
+Route::post('courseonline_create',[AdminController::class,'courseonline_create'])->name('courseonline.create')->middleware('checkIdleTimeout');
 
-Route::get('courseonline_detail/{id}',[AdminController::class,'courseonline_detail'])->name('courseonline.detail');
+Route::get('courseonline_detail/{id}',[AdminController::class,'courseonline_detail'])->name('courseonline.detail')->middleware('checkIdleTimeout');
 
-Route::get('courseonline_edit/{id}',[AdminController::class,'courseonline_edit'])->name('courseonline.edit');
-Route::post('courseonline_edit/{id}',[AdminController::class,'courseonline_edit'])->name('courseonline.edit');
+Route::get('courseonline_edit/{id}',[AdminController::class,'courseonline_edit'])->name('courseonline.edit')->middleware('checkIdleTimeout');
+Route::post('courseonline_edit/{id}',[AdminController::class,'courseonline_edit'])->name('courseonline.edit')->middleware('checkIdleTimeout');
 
-Route::get('courseonline_delete/{id}',[AdminController::class,'courseonline_delete'])->name('courseonline.delete');
+Route::get('courseonline_delete/{id}',[AdminController::class,'courseonline_delete'])->name('courseonline.delete')->middleware('checkIdleTimeout');
 
 //---- end courseoline
 
 //---- lesson
-Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson');
-Route::get('lesson_search',[AdminController::class,'lesson'])->name('lesson.search');
+Route::get('/lesson',[AdminController::class,'lesson'])->name('lesson')->middleware('checkIdleTimeout');
+Route::get('lesson_search',[AdminController::class,'lesson'])->name('lesson.search')->middleware('checkIdleTimeout');
 
-Route::get('lesson_edit/{id}',[AdminController::class,'lesson_edit'])->name('lesson.edit');
-Route::post('lesson_edit/{id}',[AdminController::class,'lesson_edit'])->name('lesson.edit');
+Route::get('lesson_edit/{id}',[AdminController::class,'lesson_edit'])->name('lesson.edit')->middleware('checkIdleTimeout');
+Route::post('lesson_edit/{id}',[AdminController::class,'lesson_edit'])->name('lesson.edit')->middleware('checkIdleTimeout');
 
-Route::get('lesson_create',[AdminController::class,'lesson_create'])->name('lesson.create');
-Route::post('lesson_create',[AdminController::class,'lesson_create'])->name('lesson.create');
+Route::get('lesson_create',[AdminController::class,'lesson_create'])->name('lesson.create')->middleware('checkIdleTimeout');
+Route::post('lesson_create',[AdminController::class,'lesson_create'])->name('lesson.create')->middleware('checkIdleTimeout');
 
-Route::get('lesson_detail/{id}',[AdminController::class,'lesson_detail'])->name('lesson.detail');
+Route::get('lesson_detail/{id}',[AdminController::class,'lesson_detail'])->name('lesson.detail')->middleware('checkIdleTimeout');
 
-Route::get('lesson_delete/{id}',[AdminController::class,'lesson_delete'])->name('lesson.delete');
+Route::get('lesson_delete/{id}',[AdminController::class,'lesson_delete'])->name('lesson.delete')->middleware('checkIdleTimeout');
 
-Route::get('lesson_delete_video/{id}',[AdminController::class,'lesson_delete_video'])->name('lesson_video.delete');
+Route::get('lesson_delete_video/{id}',[AdminController::class,'lesson_delete_video'])->name('lesson_video.delete')->middleware('checkIdleTimeout');
 
-Route::post('lesson_move',[AdminController::class,'lesson_move'])->name('lesson.move');
+Route::post('lesson_move',[AdminController::class,'lesson_move'])->name('lesson.move')->middleware('checkIdleTimeout');
 
-Route::get('downloadlesson/{id}',[AdminController::class,'downloadfile'])->name('lesson.downloadfile');
+Route::get('downloadlesson/{id}',[AdminController::class,'downloadfile'])->name('lesson.downloadfile')->middleware('checkIdleTimeout');
 
-Route::get('filemanagers/{id?}', [AdminController::class,'filemanagers'])->name('filemanagers');
+Route::get('filemanagers/{id?}', [AdminController::class,'filemanagers'])->name('filemanagers')->middleware('checkIdleTimeout');
 
 // Route::get('/lession-create',[LessonController::class,'lessioncreate'])->name('lession-create');
 // Route::post('/admin/index.php/Lesson/create',[LessonController::class,'lessioncreateto'])->name('lession-create-to');
@@ -263,93 +265,93 @@ Route::get('filemanagers/{id?}', [AdminController::class,'filemanagers'])->name(
 // Route::get('/admin/index.php/lesson/{id}',[LessonController::class,'lessiondet'])->name('lession-det');
 //----end lesson
 
-Route::get('grouptesting/{id?}/{type?}',[AdminController::class,'grouptesting'])->name('grouptesting');
+Route::get('grouptesting/{id?}/{type?}',[AdminController::class,'grouptesting'])->name('grouptesting')->middleware('checkIdleTimeout');
 
-Route::get('grouptesting_plan/{id?}/{type?}',[AdminController::class,'grouptesting_plan'])->name('grouptesting.plan');
-Route::post('grouptesting_plan/{id?}/{type?}',[AdminController::class,'grouptesting_plan'])->name('grouptesting.plan');
+Route::get('grouptesting_plan/{id?}/{type?}',[AdminController::class,'grouptesting_plan'])->name('grouptesting.plan')->middleware('checkIdleTimeout');
+Route::post('grouptesting_plan/{id?}/{type?}',[AdminController::class,'grouptesting_plan'])->name('grouptesting.plan')->middleware('checkIdleTimeout');
 
-Route::get('grouptesting_plan_delete/{id?}',[AdminController::class,'grouptesting_plan_delete'])->name('grouptesting_plan.delete');
+Route::get('grouptesting_plan_delete/{id?}',[AdminController::class,'grouptesting_plan_delete'])->name('grouptesting_plan.delete')->middleware('checkIdleTimeout');
 
-Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
-Route::post('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
+Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create')->middleware('checkIdleTimeout');
+Route::post('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create')->middleware('checkIdleTimeout');
 
-Route::get('/group_question_create/{id?}',[AdminController::class,'group_question_create'])->name('group_question.create');
-Route::post('/group_question_create/{id?}',[AdminController::class,'group_question_create'])->name('group_question.create');
+Route::get('/group_question_create/{id?}',[AdminController::class,'group_question_create'])->name('group_question.create')->middleware('checkIdleTimeout');
+Route::post('/group_question_create/{id?}',[AdminController::class,'group_question_create'])->name('group_question.create')->middleware('checkIdleTimeout');
 
-Route::get('/group_question/{id?}',[AdminController::class,'group_question'])->name('group_question');
+Route::get('/group_question/{id?}',[AdminController::class,'group_question'])->name('group_question')->middleware('checkIdleTimeout');
 
-Route::get('/group_question_detail/{id?}',[AdminController::class,'group_question_detail'])->name('ques.detail');
+Route::get('/group_question_detail/{id?}',[AdminController::class,'group_question_detail'])->name('ques.detail')->middleware('checkIdleTimeout');
 
-Route::get('/group_question_edit/{id?}',[AdminController::class,'group_question_edit'])->name('ques.edit');
+Route::get('/group_question_edit/{id?}',[AdminController::class,'group_question_edit'])->name('ques.edit')->middleware('checkIdleTimeout');
 
-Route::post('/group_question_edit/{id?}',[AdminController::class,'group_question_edit'])->name('ques.edit');
+Route::post('/group_question_edit/{id?}',[AdminController::class,'group_question_edit'])->name('ques.edit')->middleware('checkIdleTimeout');
 
-Route::get('/group_question_delete/{id?}',[AdminController::class,'group_question_delete'])->name('ques.delete');
+Route::get('/group_question_delete/{id?}',[AdminController::class,'group_question_delete'])->name('ques.delete')->middleware('checkIdleTimeout');
 
-Route::get('/group_question_excel/{id}',[AdminController::class,'group_question_excel'])->name('ques.excel');
-Route::post('/group_question_excel/{id}',[AdminController::class,'group_question_excel'])->name('ques.excel');
+Route::get('/group_question_excel/{id}',[AdminController::class,'group_question_excel'])->name('ques.excel')->middleware('checkIdleTimeout');
+Route::post('/group_question_excel/{id}',[AdminController::class,'group_question_excel'])->name('ques.excel')->middleware('checkIdleTimeout');
 
 
-Route::get('/grouptesting_edit/{id}',[AdminController::class,'grouptesting_edit'])->name('grouptesting.edit');
-Route::post('/grouptesting_edit/{id}',[AdminController::class,'grouptesting_edit'])->name('grouptesting.edit');
+Route::get('/grouptesting_edit/{id}',[AdminController::class,'grouptesting_edit'])->name('grouptesting.edit')->middleware('checkIdleTimeout');
+Route::post('/grouptesting_edit/{id}',[AdminController::class,'grouptesting_edit'])->name('grouptesting.edit')->middleware('checkIdleTimeout');
 
-Route::get('/grouptesting_delete/{id}',[AdminController::class,'grouptesting_delete'])->name('grouptesting.delete');
+Route::get('/grouptesting_delete/{id}',[AdminController::class,'grouptesting_delete'])->name('grouptesting.delete')->middleware('checkIdleTimeout');
 
-Route::get('/grouptesting_detail/{id}',[AdminController::class,'grouptesting_detail'])->name('grouptesting.detail');
+Route::get('/grouptesting_detail/{id}',[AdminController::class,'grouptesting_detail'])->name('grouptesting.detail')->middleware('checkIdleTimeout');
 
-Route::get('coursegrouptesting/{id?}',[AdminController::class,'coursegrouptesting'])->name('coursegrouptesting');
+Route::get('coursegrouptesting/{id?}',[AdminController::class,'coursegrouptesting'])->name('coursegrouptesting')->middleware('checkIdleTimeout');
 
-Route::get('coursegrouptesting_plan/{id?}',[AdminController::class,'coursegrouptesting_plan'])->name('coursegrouptesting.plan');
+Route::get('coursegrouptesting_plan/{id?}',[AdminController::class,'coursegrouptesting_plan'])->name('coursegrouptesting.plan')->middleware('checkIdleTimeout');
 
-Route::get('coursegrouptesting_create',[AdminController::class,'coursegrouptesting_create'])->name('coursegrouptesting.create');
-Route::post('coursegrouptesting_create',[AdminController::class,'coursegrouptesting_create'])->name('coursegrouptesting.create');
+Route::get('coursegrouptesting_create',[AdminController::class,'coursegrouptesting_create'])->name('coursegrouptesting.create')->middleware('checkIdleTimeout');
+Route::post('coursegrouptesting_create',[AdminController::class,'coursegrouptesting_create'])->name('coursegrouptesting.create')->middleware('checkIdleTimeout');
 
 //new p
-Route::get('/questionnaireout',[AdminController::class,'questionnaireout'])->name('questionnaireout');
+Route::get('/questionnaireout',[AdminController::class,'questionnaireout'])->name('questionnaireout')->middleware('checkIdleTimeout');
 
-Route::get('/questionnaireout_excel',[AdminController::class,'questionnaireout_excel'])->name('questionnaireout.excel');
-Route::post('/questionnaireout_excel',[AdminController::class,'questionnaireout_excel'])->name('questionnaireout.excel');
+Route::get('/questionnaireout_excel',[AdminController::class,'questionnaireout_excel'])->name('questionnaireout.excel')->middleware('checkIdleTimeout');
+Route::post('/questionnaireout_excel',[AdminController::class,'questionnaireout_excel'])->name('questionnaireout.excel')->middleware('checkIdleTimeout');
 
-Route::get('/questionnaireout_exam/{id}',[AdminController::class,'questionnaireout_exam'])->name('questionnaireout.exam');
-Route::post('/questionnaireout_exam/{id}',[AdminController::class,'questionnaireout_exam'])->name('questionnaireout.Answer');
+Route::get('/questionnaireout_exam/{id}',[AdminController::class,'questionnaireout_exam'])->name('questionnaireout.exam')->middleware('checkIdleTimeout');
+Route::post('/questionnaireout_exam/{id}',[AdminController::class,'questionnaireout_exam'])->name('questionnaireout.Answer')->middleware('checkIdleTimeout');
 
-Route::get('/questionnaireout_plan/{id?}',[AdminController::class,'questionnaireout_plan'])->name('questionnaireout.plan');
-Route::post('/questionnaireout_plan/{id?}/{header_id?}',[AdminController::class,'questionnaireout_plan'])->name('questionnaireout.plan');
+Route::get('/questionnaireout_plan/{id?}',[AdminController::class,'questionnaireout_plan'])->name('questionnaireout.plan')->middleware('checkIdleTimeout');
+Route::post('/questionnaireout_plan/{id?}/{header_id?}',[AdminController::class,'questionnaireout_plan'])->name('questionnaireout.plan')->middleware('checkIdleTimeout');
 
-Route::get('/questionnaireout_create',[AdminController::class,'questionnaireout_create'])->name('questionnaireout_create');
-Route::post('/questionnaireout_create',[AdminController::class,'questionnaireout_create'])->name('questionnaireout.create');
-Route::post('/questionnaireout_insert',[AdminController::class,'questionnaireout_insert'])->name('questionnaireout_insert');
-Route::get('/questionnaireout_edit/{survey_header_id}',[AdminController::class,'questionnaireout_edit'])->name('questionnaireout_edit');
-Route::post('/questionnaireout_update/{survey_header_id}',[AdminController::class,'questionnaireout_update'])->name('questionnaireout_update');
-Route::get('/questionnaireout_delete/{survey_header_id}',[AdminController::class,'questionnaireout_delete'])->name('questionnaireout_delete');
+Route::get('/questionnaireout_create',[AdminController::class,'questionnaireout_create'])->name('questionnaireout_create')->middleware('checkIdleTimeout');
+Route::post('/questionnaireout_create',[AdminController::class,'questionnaireout_create'])->name('questionnaireout.create')->middleware('checkIdleTimeout');
+Route::post('/questionnaireout_insert',[AdminController::class,'questionnaireout_insert'])->name('questionnaireout_insert')->middleware('checkIdleTimeout');
+Route::get('/questionnaireout_edit/{survey_header_id}',[AdminController::class,'questionnaireout_edit'])->name('questionnaireout_edit')->middleware('checkIdleTimeout');
+Route::post('/questionnaireout_update/{survey_header_id}',[AdminController::class,'questionnaireout_update'])->name('questionnaireout_update')->middleware('checkIdleTimeout');
+Route::get('/questionnaireout_delete/{survey_header_id}',[AdminController::class,'questionnaireout_delete'])->name('questionnaireout_delete')->middleware('checkIdleTimeout');
 //
 
 //new p
-Route::get('/orgchart',[AdminController::class,'orgchart'])->name('orgchart');
-Route::post('/orgchart',[AdminController::class,'orgchart'])->name('orgchart');
+Route::get('/orgchart',[AdminController::class,'orgchart'])->name('orgchart')->middleware('checkIdleTimeout');
+Route::post('/orgchart',[AdminController::class,'orgchart'])->name('orgchart')->middleware('checkIdleTimeout');
 
-Route::get('/orgchart_ifram',[AdminController::class,'orgchart_ifram'])->name('orgchart.ifram');
-Route::post('/orgchart_ifram', [AdminController::class,'orgchart_ifram'])->name('orgchart.ifram.post');
+Route::get('/orgchart_ifram',[AdminController::class,'orgchart_ifram'])->name('orgchart.ifram')->middleware('checkIdleTimeout');
+Route::post('/orgchart_ifram', [AdminController::class,'orgchart_ifram'])->name('orgchart.ifram.post')->middleware('checkIdleTimeout');
 
-Route::post('/orgchart_new',[AdminController::class,'orgchart_new'])->name('orgchart.new');
+Route::post('/orgchart_new',[AdminController::class,'orgchart_new'])->name('orgchart.new')->middleware('checkIdleTimeout');
 
-Route::post('/orgchart_delete',[AdminController::class,'orgchart_delete'])->name('orgchart.delete');
+Route::post('/orgchart_delete',[AdminController::class,'orgchart_delete'])->name('orgchart.delete')->middleware('checkIdleTimeout');
 
-Route::post('/orgchart_edit',[AdminController::class,'orgchart_edit'])->name('orgchart.edit');
+Route::post('/orgchart_edit',[AdminController::class,'orgchart_edit'])->name('orgchart.edit')->middleware('checkIdleTimeout');
 
-Route::get('/orgchart_saveorgchart',[AdminController::class,'orgchart_saveorgchart'])->name('orgchart.saveorgchart');
-Route::post('/orgchart_saveorgchart',[AdminController::class,'orgchart_saveorgchart'])->name('orgchart.saveorgchart');
+Route::get('/orgchart_saveorgchart',[AdminController::class,'orgchart_saveorgchart'])->name('orgchart.saveorgchart')->middleware('checkIdleTimeout');
+Route::post('/orgchart_saveorgchart',[AdminController::class,'orgchart_saveorgchart'])->name('orgchart.saveorgchart')->middleware('checkIdleTimeout');
 
-Route::get('/orgchart_users/{org_id}',[AdminController::class,'orgchart_users'])->name('orgchart.users');
-Route::post('/orgchart_adduser/{org_id}',[AdminController::class,'orgchart_adduser'])->name('orgchart.adduser');
-Route::post('/orgchart_unuser/{org_id}',[AdminController::class,'orgchart_unuser'])->name('orgchart.unuser');
+Route::get('/orgchart_users/{org_id}',[AdminController::class,'orgchart_users'])->name('orgchart.users')->middleware('checkIdleTimeout');
+Route::post('/orgchart_adduser/{org_id}',[AdminController::class,'orgchart_adduser'])->name('orgchart.adduser')->middleware('checkIdleTimeout');
+Route::post('/orgchart_unuser/{org_id}',[AdminController::class,'orgchart_unuser'])->name('orgchart.unuser')->middleware('checkIdleTimeout');
 
-Route::get('/orgchart_unactive/{id}/{org_id}',[AdminController::class,'orgchart_unactive'])->name('orgchart.unactive');
-Route::get('/orgchart_active/{id}/{org_id}',[AdminController::class,'orgchart_active'])->name('orgchart.active');
+Route::get('/orgchart_unactive/{id}/{org_id}',[AdminController::class,'orgchart_unactive'])->name('orgchart.unactive')->middleware('checkIdleTimeout');
+Route::get('/orgchart_active/{id}/{org_id}',[AdminController::class,'orgchart_active'])->name('orgchart.active')->middleware('checkIdleTimeout');
 
-Route::get('/orgchart_control/{id}',[AdminController::class,'orgchart_control'])->name('orgchart.control');
-Route::post('/orgchart_y/{id}',[AdminController::class,'orgchart_y'])->name('orgchart.y');
-Route::post('/orgchart_n/{id}',[AdminController::class,'orgchart_n'])->name('orgchart.n');
+Route::get('/orgchart_control/{id}',[AdminController::class,'orgchart_control'])->name('orgchart.control')->middleware('checkIdleTimeout');
+Route::post('/orgchart_y/{id}',[AdminController::class,'orgchart_y'])->name('orgchart.y')->middleware('checkIdleTimeout');
+Route::post('/orgchart_n/{id}',[AdminController::class,'orgchart_n'])->name('orgchart.n')->middleware('checkIdleTimeout');
 
 
 // Route::get('/orgchart_create',[AdminController::class,'orgchart_create'])->name('orgchart_create');
@@ -359,303 +361,303 @@ Route::post('/orgchart_n/{id}',[AdminController::class,'orgchart_n'])->name('org
 // Route::get('/orgchart_delete/{orgchart_id}',[AdminController::class,'orgchart_delete'])->name('orgchart_delete');
 //
 
-Route::get('/checklecture',[AdminController::class,'checklecture'])->name('checklecture');
+Route::get('/checklecture',[AdminController::class,'checklecture'])->name('checklecture')->middleware('checkIdleTimeout');
 
-Route::get('/coursecheck',[AdminController::class,'coursecheck'])->name('coursecheck');
+Route::get('/coursecheck',[AdminController::class,'coursecheck'])->name('coursecheck')->middleware('checkIdleTimeout');
 
-Route::get('/certificate',[AdminController::class,'certificate'])->name('certificate');
+Route::get('/certificate',[AdminController::class,'certificate'])->name('certificate')->middleware('checkIdleTimeout');
 
-Route::get('/signnature',[AdminController::class,'signnature'])->name('signnature');
+Route::get('/signnature',[AdminController::class,'signnature'])->name('signnature')->middleware('checkIdleTimeout');
 
-Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha');
+Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha')->middleware('checkIdleTimeout');
 
-Route::get('/usability',[AdminController::class,'usability'])->name('usability');
+Route::get('/usability',[AdminController::class,'usability'])->name('usability')->middleware('checkIdleTimeout');
 
-Route::get('usability_detail/{id}',[AdminController::class,'usability_detail'])->name('usability.detail');
+Route::get('usability_detail/{id}',[AdminController::class,'usability_detail'])->name('usability.detail')->middleware('checkIdleTimeout');
 
-Route::get('usability_edit/{id}',[AdminController::class,'usability_edit'])->name('usability.edit');
-Route::post('usability_edit/{id}',[AdminController::class,'usability_edit'])->name('usability.edit');
+Route::get('usability_edit/{id}',[AdminController::class,'usability_edit'])->name('usability.edit')->middleware('checkIdleTimeout');
+Route::post('usability_edit/{id}',[AdminController::class,'usability_edit'])->name('usability.edit')->middleware('checkIdleTimeout');
 
-Route::get('usability_create',[AdminController::class,'usability_create'])->name('usability.create');
-Route::post('usability_create',[AdminController::class,'usability_create'])->name('usability.create');
+Route::get('usability_create',[AdminController::class,'usability_create'])->name('usability.create')->middleware('checkIdleTimeout');
+Route::post('usability_create',[AdminController::class,'usability_create'])->name('usability.create')->middleware('checkIdleTimeout');
 
-Route::get('usability_delete',[AdminController::class,'usability_delete'])->name('usability.delete');
-Route::post('usability_delete',[AdminController::class,'usability_delete'])->name('usability.delete');
+Route::get('usability_delete',[AdminController::class,'usability_delete'])->name('usability.delete')->middleware('checkIdleTimeout');
+Route::post('usability_delete',[AdminController::class,'usability_delete'])->name('usability.delete')->middleware('checkIdleTimeout');
 
-Route::get('/reportproblem',[AdminController::class,'reportproblem'])->name('reportproblem');
+Route::get('/reportproblem',[AdminController::class,'reportproblem'])->name('reportproblem')->middleware('checkIdleTimeout');
 
-Route::get('/reportproblem_detail/{id}',[AdminController::class,'reportproblem_detail'])->name('reportproblem.detail');
+Route::get('/reportproblem_detail/{id}',[AdminController::class,'reportproblem_detail'])->name('reportproblem.detail')->middleware('checkIdleTimeout');
 
-Route::get('/reportproblem_edit/{id}',[AdminController::class,'reportproblem_edit'])->name('reportproblem.edit');
-Route::post('/reportproblem_edit/{id}',[AdminController::class,'reportproblem_edit'])->name('reportproblem.edit');
+Route::get('/reportproblem_edit/{id}',[AdminController::class,'reportproblem_edit'])->name('reportproblem.edit')->middleware('checkIdleTimeout');
+Route::post('/reportproblem_edit/{id}',[AdminController::class,'reportproblem_edit'])->name('reportproblem.edit')->middleware('checkIdleTimeout');
 
 
-Route::get('/faqtype',[AdminController::class,'faqtype'])->name('faqtype');
+Route::get('/faqtype',[AdminController::class,'faqtype'])->name('faqtype')->middleware('checkIdleTimeout');
 
-Route::get('faqtype_detail/{id}',[AdminController::class,'faqtype_detail'])->name('faqtype.detail');
+Route::get('faqtype_detail/{id}',[AdminController::class,'faqtype_detail'])->name('faqtype.detail')->middleware('checkIdleTimeout');
 
-Route::get('/faqtype_create',[AdminController::class,'faqtype_create'])->name('faqtype_create');
+Route::get('/faqtype_create',[AdminController::class,'faqtype_create'])->name('faqtype_create')->middleware('checkIdleTimeout');
 
-Route::post('/faqtype_insert',[AdminController::class,'faqtype_insert'])->name('faqtype_insert');
+Route::post('/faqtype_insert',[AdminController::class,'faqtype_insert'])->name('faqtype_insert')->middleware('checkIdleTimeout');
 
-Route::get('/faqtype_edit_page/{id}',[AdminController::class,'faqtype_edit_page'])->name('faqtype_edit_page');
+Route::get('/faqtype_edit_page/{id}',[AdminController::class,'faqtype_edit_page'])->name('faqtype_edit_page')->middleware('checkIdleTimeout');
 
-Route::post('/faqtype_edit/{id}',[AdminController::class,'faqtype_edit'])->name('faqtype_edit');
+Route::post('/faqtype_edit/{id}',[AdminController::class,'faqtype_edit'])->name('faqtype_edit')->middleware('checkIdleTimeout');
 
-Route::get('/faqtype_delete/{id}',[AdminController::class,'faqtype_delete'])->name('faqtype_delete');
+Route::get('/faqtype_delete/{id}',[AdminController::class,'faqtype_delete'])->name('faqtype_delete')->middleware('checkIdleTimeout');
 
-Route::get('/learnreset_resetuser',[AdminController::class,'learnreset_resetuser'])->name('learnreset_resetuser');
+Route::get('/learnreset_resetuser',[AdminController::class,'learnreset_resetuser'])->name('learnreset_resetuser')->middleware('checkIdleTimeout');
 
-Route::get('/learnreset_resetuser_insert',[AdminController::class,'learnreset_resetuser_insert'])->name('learnreset_resetuser_insert');
+Route::get('/learnreset_resetuser_insert',[AdminController::class,'learnreset_resetuser_insert'])->name('learnreset_resetuser_insert')->middleware('checkIdleTimeout');
 
-Route::get('/faq',[AdminController::class,'faq'])->name('faq');
-Route::get('faq_detail/{id}',[AdminController::class,'faq_detail'])->name('faq.detail');
+Route::get('/faq',[AdminController::class,'faq'])->name('faq')->middleware('checkIdleTimeout');
+Route::get('faq_detail/{id}',[AdminController::class,'faq_detail'])->name('faq.detail')->middleware('checkIdleTimeout');
 
-Route::get('/faq_create',[AdminController::class,'faq_create'])->name('faq_create');
+Route::get('/faq_create',[AdminController::class,'faq_create'])->name('faq_create')->middleware('checkIdleTimeout');
 
-Route::post('/faq_insert',[AdminController::class,'faq_insert'])->name('faq_insert');
+Route::post('/faq_insert',[AdminController::class,'faq_insert'])->name('faq_insert')->middleware('checkIdleTimeout');
 
-Route::get('/faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name('faq_edit_page');
-Route::post('faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name('faq.edit');
+Route::get('/faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name('faq_edit_page')->middleware('checkIdleTimeout');
+Route::post('faq_edit_page/{id}',[AdminController::class,'faq_edit_page'])->name('faq.edit')->middleware('checkIdleTimeout');
 
-Route::post('/faq_edit/{id}',[AdminController::class,'faq_edit'])->name('faq_edit');
+Route::post('/faq_edit/{id}',[AdminController::class,'faq_edit'])->name('faq_edit')->middleware('checkIdleTimeout');
 
-Route::get('/faq_delete/{id}',[AdminController::class,'faq_delete'])->name('faq_delete');
+Route::get('/faq_delete/{id}',[AdminController::class,'faq_delete'])->name('faq_delete')->middleware('checkIdleTimeout');
 // new p
-Route::get('/adminuser',[AdminController::class,'adminuser'])->name('adminuser');
-Route::post('/adminuser_insert',[AdminController::class,'adminuser_insert'])->name('adminuser_insert');
-Route::post('/adminuser_update/{id}',[AdminController::class,'adminuser_update'])->name('adminuser_update');
-Route::get('/adminuser_delete/{id}',[AdminController::class,'adminuser_delete'])->name('adminuser_delete');
-Route::get('/adminuser_edit/{id}',[AdminController::class,'adminuser_edit'])->name('adminuser_edit');
-Route::get('/adminuser_cancle/{id}',[AdminController::class,'adminuser_cancle'])->name('adminuser_cancle');
+Route::get('/adminuser',[AdminController::class,'adminuser'])->name('adminuser')->middleware('checkIdleTimeout');
+Route::post('/adminuser_insert',[AdminController::class,'adminuser_insert'])->name('adminuser_insert')->middleware('checkIdleTimeout');
+Route::post('/adminuser_update/{id}',[AdminController::class,'adminuser_update'])->name('adminuser_update')->middleware('checkIdleTimeout');
+Route::get('/adminuser_delete/{id}',[AdminController::class,'adminuser_delete'])->name('adminuser_delete')->middleware('checkIdleTimeout');
+Route::get('/adminuser_edit/{id}',[AdminController::class,'adminuser_edit'])->name('adminuser_edit')->middleware('checkIdleTimeout');
+Route::get('/adminuser_cancle/{id}',[AdminController::class,'adminuser_cancle'])->name('adminuser_cancle')->middleware('checkIdleTimeout');
 //
 
 
-Route::post('/adminuser_permission_insert/{id}',[AdminController::class,'adminuser_permission_insert'])->name('permission_insert');
-Route::get('/adminuser_permission_add/{id}',[AdminController::class,'adminuser_permission_add'])->name('permission_add');
+Route::post('/adminuser_permission_insert/{id}',[AdminController::class,'adminuser_permission_insert'])->name('permission_insert')->middleware('checkIdleTimeout');
+Route::get('/adminuser_permission_add/{id}',[AdminController::class,'adminuser_permission_add'])->name('permission_add')->middleware('checkIdleTimeout');
 // new p
-Route::get('/pgroup',[AdminController::class,'pgroup'])->name('pgroup');
-Route::get('/pgroup_create',[AdminController::class,'pgroup_create'])->name('pgroup_create');
-Route::post('/pgroup_insert',[AdminController::class,'pgroup_insert'])->name('pgroup_insert');
-Route::post('/pgroup_update/{pgroup_id}',[AdminController::class,'pgroup_update'])->name('pgroup_update');
-Route::get('/pgroup_delete/{pgroup_id}',[AdminController::class,'pgroup_delete'])->name('pgroup_delete');
-Route::get('/pgroup_edit/{pgroup_id}',[AdminController::class,'pgroup_edit'])->name('pgroup_edit');
+Route::get('/pgroup',[AdminController::class,'pgroup'])->name('pgroup')->middleware('checkIdleTimeout');
+Route::get('/pgroup_create',[AdminController::class,'pgroup_create'])->name('pgroup_create')->middleware('checkIdleTimeout');
+Route::post('/pgroup_insert',[AdminController::class,'pgroup_insert'])->name('pgroup_insert')->middleware('checkIdleTimeout');
+Route::post('/pgroup_update/{pgroup_id}',[AdminController::class,'pgroup_update'])->name('pgroup_update')->middleware('checkIdleTimeout');
+Route::get('/pgroup_delete/{pgroup_id}',[AdminController::class,'pgroup_delete'])->name('pgroup_delete')->middleware('checkIdleTimeout');
+Route::get('/pgroup_edit/{pgroup_id}',[AdminController::class,'pgroup_edit'])->name('pgroup_edit')->middleware('checkIdleTimeout');
 //
 
 //old
-// Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin');
-// Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel');
-// Route::post('/userexcel/import', [AdminController::class,'importExcel'])->name('import.excel');
-// Route::get('/user_admin_create',[AdminController::class,'user_admin_create'])->name('user_admin.create');
+// Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin')->middleware('checkIdleTimeout');
+// Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel')->middleware('checkIdleTimeout');
+// Route::post('/userexcel/import', [AdminController::class,'importExcel'])->name('import.excel')->middleware('checkIdleTimeout');
+// Route::get('/user_admin_create',[AdminController::class,'user_admin_create'])->name('user_admin.create')->middleware('checkIdleTimeout');
 
 //chockker
 //user-get
-Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin');
-Route::get('/user_admin_search',[AdminController::class,'user_admin'])->name('user_admin.search');
-Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel');
-Route::get('/useradmin_view/{id}',[AdminController::class,'userAdminView'])->name('user_view');
-Route::get('/useradmin_edit/{id}',[AdminController::class,'userAdminEdit'])->name('user_edit');
-Route::get('/useradmin_create',[AdminController::class,'userAdminCreate'])->name('user_create');
-Route::get('/useradmin_delete/{id}',[AdminController::class,'userAdminDelete'])->name('user_delete');
+Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin')->middleware('checkIdleTimeout');
+Route::get('/user_admin_search',[AdminController::class,'user_admin'])->name('user_admin.search')->middleware('checkIdleTimeout');
+Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel')->middleware('checkIdleTimeout');
+Route::get('/useradmin_view/{id}',[AdminController::class,'userAdminView'])->name('user_view')->middleware('checkIdleTimeout');
+Route::get('/useradmin_edit/{id}',[AdminController::class,'userAdminEdit'])->name('user_edit')->middleware('checkIdleTimeout');
+Route::get('/useradmin_create',[AdminController::class,'userAdminCreate'])->name('user_create')->middleware('checkIdleTimeout');
+Route::get('/useradmin_delete/{id}',[AdminController::class,'userAdminDelete'])->name('user_delete')->middleware('checkIdleTimeout');
 //user-post
-Route::post('/useradmin_update',[AdminController::class,'userAdminUpdate'])->name('user_update');
-Route::post('/useradmin_insert',[AdminController::class,'userAdminInsert'])->name('user_insert');
-Route::post('/userexcel/import', [AdminController::class,'importExcel'])->name('import.excel');
+Route::post('/useradmin_update',[AdminController::class,'userAdminUpdate'])->name('user_update')->middleware('checkIdleTimeout');
+Route::post('/useradmin_insert',[AdminController::class,'userAdminInsert'])->name('user_insert')->middleware('checkIdleTimeout');
+Route::post('/userexcel/import', [AdminController::class,'importExcel'])->name('import.excel')->middleware('checkIdleTimeout');
 // js
-Route::get('/useradmin_create/company_selector/{id}', [AdminController::class,'companySelector'])->name('company_selector');
+Route::get('/useradmin_create/company_selector/{id}', [AdminController::class,'companySelector'])->name('company_selector')->middleware('checkIdleTimeout');
 // chockker
 
-Route::get('/coursefield',[AdminController::class,'coursefield'])->name('coursefield');
+Route::get('/coursefield',[AdminController::class,'coursefield'])->name('coursefield')->middleware('checkIdleTimeout');
 
 // new p
-Route::get('/imgslide',[AdminController::class,'imgslide'])->name('imgslide');
-Route::get('imgslide_detail/{id}',[AdminController::class,'imgslide_detail'])->name('imgslide.detail');
-Route::get('/imgslide_create',[AdminController::class,'imgslide_create'])->name('imgslide_create');
-Route::post('/imgslide_insert',[AdminController::class,'imgslide_insert'])->name('imgslide_insert');
-Route::post('/imgslide_update/{imgslide_id}',[AdminController::class,'imgslide_update'])->name('imgslide_update');
-Route::get('/imgslide_delete/{imgslide_id}',[AdminController::class,'imgslide_delete'])->name('imgslide_delete');
-Route::get('/imgslide_edit/{imgslide_id}',[AdminController::class,'imgslide_edit'])->name('imgslide_edit');
+Route::get('/imgslide',[AdminController::class,'imgslide'])->name('imgslide')->middleware('checkIdleTimeout');
+Route::get('imgslide_detail/{id}',[AdminController::class,'imgslide_detail'])->name('imgslide.detail')->middleware('checkIdleTimeout');
+Route::get('/imgslide_create',[AdminController::class,'imgslide_create'])->name('imgslide_create')->middleware('checkIdleTimeout');
+Route::post('/imgslide_insert',[AdminController::class,'imgslide_insert'])->name('imgslide_insert')->middleware('checkIdleTimeout');
+Route::post('/imgslide_update/{imgslide_id}',[AdminController::class,'imgslide_update'])->name('imgslide_update')->middleware('checkIdleTimeout');
+Route::get('/imgslide_delete/{imgslide_id}',[AdminController::class,'imgslide_delete'])->name('imgslide_delete')->middleware('checkIdleTimeout');
+Route::get('/imgslide_edit/{imgslide_id}',[AdminController::class,'imgslide_edit'])->name('imgslide_edit')->middleware('checkIdleTimeout');
 //
 
-Route::get('/librarytype',[AdminController::class,'librarytype'])->name('librarytype');
+Route::get('/librarytype',[AdminController::class,'librarytype'])->name('librarytype')->middleware('checkIdleTimeout');
 
-Route::get('/libraryfile',[AdminController::class,'libraryfile'])->name('libraryfile');
+Route::get('/libraryfile',[AdminController::class,'libraryfile'])->name('libraryfile')->middleware('checkIdleTimeout');
 
-Route::get('/coursenotification',[AdminController::class,'coursenotification'])->name('coursenotification');
+Route::get('/coursenotification',[AdminController::class,'coursenotification'])->name('coursenotification')->middleware('checkIdleTimeout');
 
-Route::get('/passcourse',[AdminController::class,'passcourse'])->name('passcourse');
+Route::get('/passcourse',[AdminController::class,'passcourse'])->name('passcourse')->middleware('checkIdleTimeout');
 
-Route::get('/student_photo',[AdminController::class,'student_photo'])->name('student_photo');
+Route::get('/student_photo',[AdminController::class,'student_photo'])->name('student_photo')->middleware('checkIdleTimeout');
 
-Route::get('/capture',[AdminController::class,'capture'])->name('capture');
+Route::get('/capture',[AdminController::class,'capture'])->name('capture')->middleware('checkIdleTimeout');
 
-Route::get('/document',[AdminController::class,'document'])->name('document');
+Route::get('/document',[AdminController::class,'document'])->name('document')->middleware('checkIdleTimeout');
 
-Route::post('document/per_page',[AdminController::class,'document']);
+Route::post('document/per_page',[AdminController::class,'document'])->middleware('checkIdleTimeout');
 
-Route::get('document_downloadfile/{id}',[AdminController::class,'document_downloadfile'])->name('document.downloadfile');
+Route::get('document_downloadfile/{id}',[AdminController::class,'document_downloadfile'])->name('document.downloadfile')->middleware('checkIdleTimeout');
 
-Route::get('document_create',[AdminController::class,'document_create'])->name('document.create');
-Route::post('document_create',[AdminController::class,'document_create'])->name('document.create');
+Route::get('document_create',[AdminController::class,'document_create'])->name('document.create')->middleware('checkIdleTimeout');
+Route::post('document_create',[AdminController::class,'document_create'])->name('document.create')->middleware('checkIdleTimeout');
 
-Route::get('/getDocumentTypes/{titleId}', [AdminController::class, 'getDocumentTypes']);
+Route::get('/getDocumentTypes/{titleId}', [AdminController::class, 'getDocumentTypes'])->middleware('checkIdleTimeout');
 
-Route::get('document_detail/{id}',[AdminController::class,'document_detail'])->name('document.detail');
+Route::get('document_detail/{id}',[AdminController::class,'document_detail'])->name('document.detail')->middleware('checkIdleTimeout');
 
-Route::get('document_edit/{id}',[AdminController::class,'document_edit'])->name('document.edit');
-Route::post('document_edit/{id}',[AdminController::class,'document_edit'])->name('document.edit');
+Route::get('document_edit/{id}',[AdminController::class,'document_edit'])->name('document.edit')->middleware('checkIdleTimeout');
+Route::post('document_edit/{id}',[AdminController::class,'document_edit'])->name('document.edit')->middleware('checkIdleTimeout');
 
-Route::get('document_delete/{id}',[AdminController::class,'document_delete'])->name('document.delete');
+Route::get('document_delete/{id}',[AdminController::class,'document_delete'])->name('document.delete')->middleware('checkIdleTimeout');
 
-Route::get('document_type',[AdminController::class,'document_type'])->name('document.type');
+Route::get('document_type',[AdminController::class,'document_type'])->name('document.type')->middleware('checkIdleTimeout');
 
-Route::post('document_type/per_page',[AdminController::class,'document_type']);
+Route::post('document_type/per_page',[AdminController::class,'document_type'])->middleware('checkIdleTimeout');
 
-Route::get('document_type_detail/{id}',[AdminController::class,'document_type_detail'])->name('document_type.detail');
+Route::get('document_type_detail/{id}',[AdminController::class,'document_type_detail'])->name('document_type.detail')->middleware('checkIdleTimeout');
 
-Route::get('document_type_create',[AdminController::class,'document_type_create'])->name('document_type.create');
-Route::post('document_type_create',[AdminController::class,'document_type_create'])->name('document_type.create');
+Route::get('document_type_create',[AdminController::class,'document_type_create'])->name('document_type.create')->middleware('checkIdleTimeout');
+Route::post('document_type_create',[AdminController::class,'document_type_create'])->name('document_type.create')->middleware('checkIdleTimeout');
 
-Route::get('document_type_edit/{id}',[AdminController::class,'document_type_edit'])->name('document_type.edit');
-Route::post('document_type_edit/{id}',[AdminController::class,'document_type_edit'])->name('document_type.edit');
+Route::get('document_type_edit/{id}',[AdminController::class,'document_type_edit'])->name('document_type.edit')->middleware('checkIdleTimeout');
+Route::post('document_type_edit/{id}',[AdminController::class,'document_type_edit'])->name('document_type.edit')->middleware('checkIdleTimeout');
 
-Route::get('document_type_delete/{id}',[AdminController::class,'document_type_delete'])->name('document_type.delete');
+Route::get('document_type_delete/{id}',[AdminController::class,'document_type_delete'])->name('document_type.delete')->middleware('checkIdleTimeout');
 
-Route::get('/document_create',[AdminController::class,'document_create'])->name('document_create');
+Route::get('/document_create',[AdminController::class,'document_create'])->name('document_create')->middleware('checkIdleTimeout');
 
-Route::get('/document_index_type',[AdminController::class,'document_index_type'])->name('document_index_type');
+Route::get('/document_index_type',[AdminController::class,'document_index_type'])->name('document_index_type')->middleware('checkIdleTimeout');
 
-Route::post('/document_insert',[AdminController::class,'document_insert'])->name('document_insert');
+Route::post('/document_insert',[AdminController::class,'document_insert'])->name('document_insert')->middleware('checkIdleTimeout');
 
-Route::get('/document_delete/{usa_id}',[AdminController::class,'document_delete'])->name('document_delete');
+Route::get('/document_delete/{usa_id}',[AdminController::class,'document_delete'])->name('document_delete')->middleware('checkIdleTimeout');
 
-Route::get('/document_edit/{usa_id}',[AdminController::class,'document_edit'])->name('document_edit');
+Route::get('/document_edit/{usa_id}',[AdminController::class,'document_edit'])->name('document_edit')->middleware('checkIdleTimeout');
 
-Route::post('/document_update/{usa_id}',[AdminController::class,'document_update'])->name('document_update');
+Route::post('/document_update/{usa_id}',[AdminController::class,'document_update'])->name('document_update')->middleware('checkIdleTimeout');
 
-Route::get('/news',[AdminController::class,'news'])->name('news');
-Route::get('news_detail/{id}',[AdminController::class,'news_detail'])->name('news.detail');
+Route::get('/news',[AdminController::class,'news'])->name('news')->middleware('checkIdleTimeout');
+Route::get('news_detail/{id}',[AdminController::class,'news_detail'])->name('news.detail')->middleware('checkIdleTimeout');
 
-Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create');
-Route::post('news_create',[AdminController::class,'news_create'])->name('news.create');
+Route::get('/news_create',[AdminController::class,'news_create'])->name('news_create')->middleware('checkIdleTimeout');
+Route::post('news_create',[AdminController::class,'news_create'])->name('news.create')->middleware('checkIdleTimeout');
 
-Route::post('/news_insert',[AdminController::class,'news_insert'])->name('news_insert');
+Route::post('/news_insert',[AdminController::class,'news_insert'])->name('news_insert')->middleware('checkIdleTimeout');
 
-Route::get('/news_edit/{cms_id}',[AdminController::class,'news_edit'])->name('news_edit');
-Route::post('/news_edit/{cms_id}',[AdminController::class,'news_edit'])->name('news.edit');
+Route::get('/news_edit/{cms_id}',[AdminController::class,'news_edit'])->name('news_edit')->middleware('checkIdleTimeout');
+Route::post('/news_edit/{cms_id}',[AdminController::class,'news_edit'])->name('news.edit')->middleware('checkIdleTimeout');
 
-Route::get('/news_delete/{cms_id}',[AdminController::class,'news_delete'])->name('news_delete');
+Route::get('/news_delete/{cms_id}',[AdminController::class,'news_delete'])->name('news_delete')->middleware('checkIdleTimeout');
 
-Route::post('/news_update/{cms_id}',[AdminController::class,'news_update'])->name('news_update');
+Route::post('/news_update/{cms_id}',[AdminController::class,'news_update'])->name('news_update')->middleware('checkIdleTimeout');
 
-Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting');
+Route::get('/grouptesting',[AdminController::class,'grouptesting'])->name('grouptesting')->middleware('checkIdleTimeout');
 
-// Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create');
+// Route::get('/grouptesting_create',[AdminController::class,'grouptesting_create'])->name('grouptesting_create')->middleware('checkIdleTimeout');
 
-Route::post('/grouptesting_insert',[AdminController::class,'grouptesting_insert'])->name('grouptesting_insert');
+Route::post('/grouptesting_insert',[AdminController::class,'grouptesting_insert'])->name('grouptesting_insert')->middleware('checkIdleTimeout');
 
-Route::get('/grouptesting_delete/{group_id}',[AdminController::class,'grouptesting_delete'])->name('grouptesting_delete');
+Route::get('/grouptesting_delete/{group_id}',[AdminController::class,'grouptesting_delete'])->name('grouptesting_delete')->middleware('checkIdleTimeout');
 
-Route::get('/grouptesting_edit/{group_id}',[AdminController::class,'grouptesting_edit'])->name('grouptesting_edit');
+Route::get('/grouptesting_edit/{group_id}',[AdminController::class,'grouptesting_edit'])->name('grouptesting_edit')->middleware('checkIdleTimeout');
 
-Route::post('/grouptesting_update/{group_id}',[AdminController::class,'grouptesting_update'])->name('grouptesting_update');
+Route::post('/grouptesting_update/{group_id}',[AdminController::class,'grouptesting_update'])->name('grouptesting_update')->middleware('checkIdleTimeout');
 
-Route::get('/question',[AdminController::class,'question'])->name('question');
+Route::get('/question',[AdminController::class,'question'])->name('question')->middleware('checkIdleTimeout');
 
-Route::get('/question_create',[AdminController::class,'question_create'])->name('question_create');
+Route::get('/question_create',[AdminController::class,'question_create'])->name('question_create')->middleware('checkIdleTimeout');
 
-Route::post('/question_insert',[AdminController::class,'question_insert'])->name('question_insert');
+Route::post('/question_insert',[AdminController::class,'question_insert'])->name('question_insert')->middleware('checkIdleTimeout');
 
-Route::get('/question_edit_page/{id}',[AdminController::class,'question_edit_page'])->name('question_edit_page');
+Route::get('/question_edit_page/{id}',[AdminController::class,'question_edit_page'])->name('question_edit_page')->middleware('checkIdleTimeout');
 
-Route::post('/question_edit/{id}',[AdminController::class,'question_edit'])->name('question_edit');
+Route::post('/question_edit/{id}',[AdminController::class,'question_edit'])->name('question_edit')->middleware('checkIdleTimeout');
 
-Route::get('/question_delete/{id}',[AdminController::class,'question_delete'])->name('question_delete');
+Route::get('/question_delete/{id}',[AdminController::class,'question_delete'])->name('question_delete')->middleware('checkIdleTimeout');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('checkIdleTimeout');
 
 
-Route::get('/generation',[AdminController::class,'generation'])->name('generation');
+Route::get('/generation',[AdminController::class,'generation'])->name('generation')->middleware('checkIdleTimeout');
 
-Route::get('/generation_create',[AdminController::class,'generation_create'])->name('generation_create');
+Route::get('/generation_create',[AdminController::class,'generation_create'])->name('generation_create')->middleware('checkIdleTimeout');
 
-Route::post('/generation_insert',[AdminController::class,'generation_insert'])->name('generation_insert');
+Route::post('/generation_insert',[AdminController::class,'generation_insert'])->name('generation_insert')->middleware('checkIdleTimeout');
 
-Route::get('/generation_edit_page/{id}',[AdminController::class,'generation_edit_page'])->name('generation_edit_page');
+Route::get('/generation_edit_page/{id}',[AdminController::class,'generation_edit_page'])->name('generation_edit_page')->middleware('checkIdleTimeout');
 
-Route::post('/generation_edit/{id}',[AdminController::class,'generation_edit'])->name('generation_edit');
+Route::post('/generation_edit/{id}',[AdminController::class,'generation_edit'])->name('generation_edit')->middleware('checkIdleTimeout');
 
-Route::get('/generation_delete/{id}',[AdminController::class,'generation_delete'])->name('generation_delete');
+Route::get('/generation_delete/{id}',[AdminController::class,'generation_delete'])->name('generation_delete')->middleware('checkIdleTimeout');
 
 // ----- Classroom
-Route::get('classroom',[AdminController::class,'classroom'])->name('classroom');
+Route::get('classroom',[AdminController::class,'classroom'])->name('classroom')->middleware('checkIdleTimeout');
 
-Route::get('/classroom_create',[AdminController::class,'classroom_create'])->name('classroom_create');
-Route::post('/classroom_create',[AdminController::class,'classroom_create'])->name('classroom_create');
+Route::get('/classroom_create',[AdminController::class,'classroom_create'])->name('classroom_create')->middleware('checkIdleTimeout');
+Route::post('/classroom_create',[AdminController::class,'classroom_create'])->name('classroom_create')->middleware('checkIdleTimeout');
 
-Route::get('/classroom_edit/{id}',[AdminController::class,'classroom_edit'])->name('classroom_edit');
+Route::get('/classroom_edit/{id}',[AdminController::class,'classroom_edit'])->name('classroom_edit')->middleware('checkIdleTimeout');
 
-Route::get('/classroom_delete/{id}',[AdminController::class,'classroom_delete'])->name('classroom_delete');
+Route::get('/classroom_delete/{id}',[AdminController::class,'classroom_delete'])->name('classroom_delete')->middleware('checkIdleTimeout');
 
-Route::post('/classroom_update/{id}',[AdminController::class,'classroom_update'])->name('classroom_update');
+Route::post('/classroom_update/{id}',[AdminController::class,'classroom_update'])->name('classroom_update')->middleware('checkIdleTimeout');
 
 // ----- Captcha
-Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha');
+Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha')->middleware('checkIdleTimeout');
 
-Route::post('/captcha_course/{id?}',[AdminController::class,'captcha_course'])->name('captcha.course');
+Route::post('/captcha_course/{id?}',[AdminController::class,'captcha_course'])->name('captcha.course')->middleware('checkIdleTimeout');
 
-Route::get('/captcha_create',[AdminController::class,'captcha_create'])->name('captcha_create');
+Route::get('/captcha_create',[AdminController::class,'captcha_create'])->name('captcha_create')->middleware('checkIdleTimeout');
 
-Route::post('/captcha_insert',[AdminController::class,'captcha_insert'])->name('captcha_insert');
+Route::post('/captcha_insert',[AdminController::class,'captcha_insert'])->name('captcha_insert')->middleware('checkIdleTimeout');
 
-Route::get('/captcha_detail/{capid}',[AdminController::class,'captcha_detail'])->name('captcha_detail');
+Route::get('/captcha_detail/{capid}',[AdminController::class,'captcha_detail'])->name('captcha_detail')->middleware('checkIdleTimeout');
 
-Route::get('/captcha_edit/{capid}',[AdminController::class,'captcha_edit'])->name('captcha_edit');
-Route::post('/captcha_edit/{capid}',[AdminController::class,'captcha_edit'])->name('captcha_edit');
+Route::get('/captcha_edit/{capid}',[AdminController::class,'captcha_edit'])->name('captcha_edit')->middleware('checkIdleTimeout');
+Route::post('/captcha_edit/{capid}',[AdminController::class,'captcha_edit'])->name('captcha_edit')->middleware('checkIdleTimeout');
 
-Route::get('/captcha_delete/{capid}',[AdminController::class,'captcha_delete'])->name('captcha_delete');
+Route::get('/captcha_delete/{capid}',[AdminController::class,'captcha_delete'])->name('captcha_delete')->middleware('checkIdleTimeout');
 
-Route::get('/captcha_n/{capid}/{capt_active}',[AdminController::class,'captcha_n'])->name('captcha_n');
+Route::get('/captcha_n/{capid}/{capt_active}',[AdminController::class,'captcha_n'])->name('captcha_n')->middleware('checkIdleTimeout');
 
-Route::get('/captcha_y/{capid}/{capt_active}',[AdminController::class,'captcha_y'])->name('captcha_y');
+Route::get('/captcha_y/{capid}/{capt_active}',[AdminController::class,'captcha_y'])->name('captcha_y')->middleware('checkIdleTimeout');
 
-Route::post('/captcha_update/{capid}',[AdminController::class,'captcha_update'])->name('captcha_update');
+Route::post('/captcha_update/{capid}',[AdminController::class,'captcha_update'])->name('captcha_update')->middleware('checkIdleTimeout');
 
-Route::get('/logadmin',[AdminController::class,'logadmin'])->name('logadmin');
+Route::get('/logadmin',[AdminController::class,'logadmin'])->name('logadmin')->middleware('checkIdleTimeout');
 
-Route::get('/logusers',[AdminController::class,'logusers'])->name('logusers');
+Route::get('/logusers',[AdminController::class,'logusers'])->name('logusers')->middleware('checkIdleTimeout');
 
-Route::get('/logapprove',[AdminController::class,'logapprove'])->name('logapprove');
+Route::get('/logapprove',[AdminController::class,'logapprove'])->name('logapprove')->middleware('checkIdleTimeout');
 
-Route::get('/logapporvepersonal',[AdminController::class,'logapporvepersonal'])->name('logapporvepersonal');
+Route::get('/logapporvepersonal',[AdminController::class,'logapporvepersonal'])->name('logapporvepersonal')->middleware('checkIdleTimeout');
 
-Route::get('/logregister',[AdminController::class,'logregister'])->name('logregister');
+Route::get('/logregister',[AdminController::class,'logregister'])->name('logregister')->middleware('checkIdleTimeout');
 
-Route::get('learnreset',[AdminController::class,'learnreset'])->name('learnreset');
+Route::get('learnreset',[AdminController::class,'learnreset'])->name('learnreset')->middleware('checkIdleTimeout');
 
-Route::get('learnreset_course/{id}',[AdminController::class,'learnreset_course'])->name('learnreset.course');
-Route::post('learnreset_course/{id}',[AdminController::class,'learnreset_course'])->name('learnreset.course');
+Route::get('learnreset_course/{id}',[AdminController::class,'learnreset_course'])->name('learnreset.course')->middleware('checkIdleTimeout');
+Route::post('learnreset_course/{id}',[AdminController::class,'learnreset_course'])->name('learnreset.course')->middleware('checkIdleTimeout');
 
-Route::get('learnreset_score/{id}',[AdminController::class,'learnreset_score'])->name('learnreset.score');
-Route::post('learnreset_score/{id}',[AdminController::class,'learnreset_score'])->name('learnreset.score');
+Route::get('learnreset_score/{id}',[AdminController::class,'learnreset_score'])->name('learnreset.score')->middleware('checkIdleTimeout');
+Route::post('learnreset_score/{id}',[AdminController::class,'learnreset_score'])->name('learnreset.score')->middleware('checkIdleTimeout');
 
-Route::post('learnreset_reset/{id?}',[AdminController::class,'learnreset_reset'])->name('learnreset.reset');
+Route::post('learnreset_reset/{id?}',[AdminController::class,'learnreset_reset'])->name('learnreset.reset')->middleware('checkIdleTimeout');
 
-Route::get('report_logallregister',[AdminController::class,'report_logallregister'])->name('report.allregister');
-Route::get('report_seach',[AdminController::class,'report_logallregister'])->name('report.search');
+Route::get('report_logallregister',[AdminController::class,'report_logallregister'])->name('report.allregister')->middleware('checkIdleTimeout');
+Route::get('report_seach',[AdminController::class,'report_logallregister'])->name('report.search')->middleware('checkIdleTimeout');
 
-Route::get('report_loguserstatus',[AdminController::class,'report_loguserstatus'])->name('report.alluserstatus');
-Route::get('report_userseach',[AdminController::class,'report_loguserstatus'])->name('report.usersearch');
+Route::get('report_loguserstatus',[AdminController::class,'report_loguserstatus'])->name('report.alluserstatus')->middleware('checkIdleTimeout');
+Route::get('report_userseach',[AdminController::class,'report_loguserstatus'])->name('report.usersearch')->middleware('checkIdleTimeout');
 
-Route::get('report_course',[AdminController::class,'report_course'])->name('report.course');
-Route::get('report_courseseach',[AdminController::class,'report_course'])->name('report.coursesearch');
+Route::get('report_course',[AdminController::class,'report_course'])->name('report.course')->middleware('checkIdleTimeout');
+Route::get('report_courseseach',[AdminController::class,'report_course'])->name('report.coursesearch')->middleware('checkIdleTimeout');
 
-Route::get('report_lesson/{id}',[AdminController::class,'report_lesson'])->name('report.lesson');
+Route::get('report_lesson/{id}',[AdminController::class,'report_lesson'])->name('report.lesson')->middleware('checkIdleTimeout');
 
-Route::get('report_byuser',[AdminController::class,'report_byuser'])->name('report.byuser');
-Route::get('report_byuserseach',[AdminController::class,'report_byuser'])->name('report.byusersearch');
+Route::get('report_byuser',[AdminController::class,'report_byuser'])->name('report.byuser')->middleware('checkIdleTimeout');
+Route::get('report_byuserseach',[AdminController::class,'report_byuser'])->name('report.byusersearch')->middleware('checkIdleTimeout');
 
-Route::get('report_reset',[AdminController::class,'report_reset'])->name('report.reset');
-Route::get('report_resetseach',[AdminController::class,'report_reset'])->name('report.resetsearch');
+Route::get('report_reset',[AdminController::class,'report_reset'])->name('report.reset')->middleware('checkIdleTimeout');
+Route::get('report_resetseach',[AdminController::class,'report_reset'])->name('report.resetsearch')->middleware('checkIdleTimeout');
 
-Route::get('fetch-courses-and-lessons', [AdminController::class, 'fetchCoursesAndLessons']);
+Route::get('fetch-courses-and-lessons', [AdminController::class, 'fetchCoursesAndLessons'])->middleware('checkIdleTimeout');

@@ -21,7 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        // \App\Http\Middleware\SecurityHeaders::class,
+        \App\Http\Middleware\SecurityHeaders::class,
     ];
 
     /**
@@ -71,5 +71,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [   
         'optimizeImages' => \Spatie\LaravelImageOptimizer\Middlewares\OptimizeImages::class,
         'recaptcha' => \App\Http\Middleware\VerifyRecaptcha::class, 
+        'checkIdleTimeout' => \App\Http\Middleware\CheckIdleTimeout::class,
+        'single_login' => \App\Http\Middleware\CheckSingleLogin::class,
       ]; 
 }

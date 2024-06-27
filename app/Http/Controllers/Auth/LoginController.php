@@ -24,6 +24,12 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+        $this->middleware('checkIdleTimeout'); // Middleware ตรวจสอบ Session Idle Timeout
+        $this->middleware('single_login')->only('login'); // Middleware จำกัดการเข้าถึงเพียงคนเดียว
+    }
 
     use AuthenticatesUsers;
 
@@ -59,13 +65,18 @@ class LoginController extends Controller
         $user = Users::join('profiles', 'profiles.user_id', '=', 'users.id')->where('username', $request->username)->first();
 
         // ตรวจสอบความถูกต้องของรหัสผ่าน
-        $passwordIsMD5 = preg_match('/^[a-f0-9]{32}$/', $user->password);
+        if($user){
+            $passwordIsMD5 = preg_match('/^[a-f0-9]{32}$/', $user->password);
+        }
 
         // Check password correctness
-        if (!$user || (!Hash::check($password, $user->password))) {
+        if (!$user) {
             // Authentication failed
             sleep(10);
-            return back()->withErrors(['username' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง'])->withInput($request->only('username'));
+            return back()->withErrors(['username' => 'ชื่อผู้ใช้ไม่มีในระบบ กรุณาลองอีกครั้ง'])->withInput($request->only('username'));
+        } elseif(!Hash::check($password, $user->password)){
+            sleep(10);
+            return back()->withErrors(['username' => 'รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง'])->withInput($request->only('password'));
         } elseif ($passwordIsMD5) {
             // MD5 password detected
             sleep(10);
