@@ -18,11 +18,18 @@ class CheckSessionExpired
      */
     public function handle($request, Closure $next)
     {
-        if (Session::isExpired() && Auth::check()) {
-            // Trigger the event for session end
-            event(new SessionEnded(Auth::user()));
-            Auth::logout();
-            Session::flush();
+        if (Auth::check()) {
+            $lastActivity = Session::get('lastActivityTime');
+            $lifetime = config('session.lifetime') * 60; // Convert minutes to seconds
+
+            if ($lastActivity && (time() - $lastActivity) > $lifetime) {
+                // Trigger the event for session end
+                event(new SessionEnded(Auth::id()));
+                Auth::logout();
+                Session::flush();
+            } else {
+                Session::put('lastActivityTime', time());
+            }
         }
 
         return $next($request);
