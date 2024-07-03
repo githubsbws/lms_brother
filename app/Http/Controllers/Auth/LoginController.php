@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -53,60 +54,59 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         // ตรวจสอบข้อมูลเข้าสู่ระบบ
-        $request->validate([
-            'username' => 'required|validate_username',
-            'password' => 'required',
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => [
+                'required',
+                'min:8', // ต้องมีความยาวอย่างน้อย 8 ตัวอักษร
+                function ($attribute, $value, $fail) use ($request) {
+                    // ตรวจสอบว่า password ไม่เป็นตัวเลขเดียวกันทั้งหมด
+                    if (preg_match('/(\d)\1{7,}/', $value)) {
+                        $fail('รหัสผ่านไม่สามารถเป็นตัวเลขเดียวกันซ้ำกันได้');
+                    }
+        
+                    // ตรวจสอบว่า password มีอักษรพิเศษอย่างน้อย 1 ตัว
+                    if (!preg_match('/[^a-zA-Z0-9]/', $value)) {
+                        $fail('รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว');
+                    }
+                },
+            ],
         ]);
-
-        // เข้ารหัสรหัสผ่าน
-        $password = $request->password;
-
-        // ตรวจสอบข้อมูลผู้ใช้
-        $user = Users::join('profiles', 'profiles.user_id', '=', 'users.id')->where('username', $request->username)->first();
-
-        // ตรวจสอบความถูกต้องของรหัสผ่าน
-        if($user){
-            $passwordIsMD5 = preg_match('/^[a-f0-9]{32}$/', $user->password);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput($request->only('username'));
         }
+        // ตรวจสอบความถูกต้องของข้อมูลผู้ใช้งาน
+        $credentials = $request->only('username', 'password');
+        if (Auth::attempt($credentials)) {
+            // Authentication passed
 
-        // Check password correctness
-        if (!$user) {
+            // เก็บ _token ลงในฐานข้อมูล
+            $user = Auth::user();
+            $user->_token = $request->session()->get('_token'); // หรือดึงจาก $request->_token ตามที่ถูกต้อง
+            $user->save();
+
+            return redirect()->intended('/index');
+        } else {
             // Authentication failed
-            sleep(10);
-            return back()->withErrors(['username' => 'ชื่อผู้ใช้ไม่มีในระบบ กรุณาลองอีกครั้ง'])->withInput($request->only('username'));
-        } elseif(!Hash::check($password, $user->password)){
-            sleep(10);
-            return back()->withErrors(['username' => 'รหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง'])->withInput($request->only('password'));
-        } elseif ($passwordIsMD5) {
-            // MD5 password detected
-            sleep(10);
-            return back()->withErrors(['username' => 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองอีกครั้ง'])->withInput($request->only('username'));
-        } 
-        // elseif($user->online_status == 1) {
-        //     // Login success
-        //     sleep(10);
-
-        //     return back()->withErrors(['username' => 'มีผู้ใช้อยู่ในระบบจากเบราว์เซอร์อื่น'])->withInput($request->only('username'));
-        // } 
-        else{
-            Auth::login($user);
-
-            return redirect()->intended('index');
+            return back()->withErrors(['username' => 'username or password i incorrect']);
         }
     }
     public function logout(Request $request)
-    {
+{
+    // ตรวจสอบการ login และหากเข้าสู่ระบบอยู่ให้ตั้งค่า online_status เป็น false
+    if (Auth::check()) {
         $user = Auth::user();
-
-        // ตั้งค่า online_status เป็น false
-        if ($user) {
-            $user->online_status = 0;
-            $user->save();
-        }
-
-        Auth::logout();
-
-        // Redirect to the home page or any other desired page
-        return redirect('/');
+        $user->online_status = 0;
+        $user->save();
     }
+
+    // ลบ Cookie 'api_token'
+    cookie()->forget('api_token');
+
+    // ทำการ logout ผู้ใช้จากระบบ
+    Auth::logout();
+
+    // Redirect ไปยังหน้าแรกหรือหน้าอื่น ๆ ตามที่ต้องการ
+    return redirect('/');
+}
 }

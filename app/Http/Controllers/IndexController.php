@@ -19,6 +19,7 @@ class IndexController extends Controller
       $news = News::where('active','y')->limit(4)->get();
       $download = Downloadtitle::where('active','y')->get();
       $img = Imgslide::where('active','y')->get();
+      
       return view("index.index",[
         'news' => $news,   
         'download' => $download,

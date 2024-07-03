@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckTokenValidity;
+use App\Http\Middleware\CheckTokenValidityAdmin;
 use App\Models\Profiles;
 
 use App\Http\Controllers\EditController;
@@ -45,11 +47,15 @@ use App\Http\Controllers\AdminController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::middleware([CheckTokenValidity::class])->group(function () {
 Route::get('/', [IndexController::class,'index'])->name('index')->middleware('checkIdleTimeout', 'single_login');
 
+
 Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
-Route::post('logins', [LoginController::class,'login'])->name('logins')->middleware('single_login');
-Route::post('logout', [LoginController::class,'logout'])->name('logout');
+
+    Route::post('logins', [LoginController::class,'login'])->name('logins')->middleware('single_login');
+    Route::post('logout', [LoginController::class,'logout'])->name('logout');
+
 
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink'])->name('password.forgot');
 Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
@@ -62,10 +68,9 @@ Route::post('repass',[ProfileController::class,'repass'])->name('repass');
 // Route::get('/admin', function () {
 //     return view('admin/index/index');
 // });
-Route::get('admin',[AdminController::class,'admin'])->name('admin')->middleware('checkIdleTimeout');
-Route::get('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
-Route::post('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin')->middleware('recaptcha');
-Route::post('logoutadmin', [AdminController::class,'logoutadmin'])->name('logout.admin');
+
+
+
 
 
 // Route::group(['middleware' => ['auth']], function () {
@@ -157,11 +162,17 @@ Route::get('conditions',[ConditionController::class,'conditions'])->name('condit
 Route::get('contactus_f',[ContactusController::class,'contactus_f'])->name('contactus_f')->middleware('checkIdleTimeout');
 Route::post('contactus_f',[ContactusController::class,'contactus_f'])->name('contactus_f')->middleware('checkIdleTimeout');
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('checkIdleTimeout');
 
-
-
+});
 
 // ----- admin src
+Route::middleware([CheckTokenValidityAdmin::class])->group(function () {
+Route::get('admin',[AdminController::class,'admin'])->name('admin')->middleware('checkIdleTimeout');
+Route::get('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
+Route::post('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin');
+// Route::post('loginadmin',[AdminController::class,'loginadmin'])->name('login.admin')->middleware('recaptcha');
+Route::post('logoutadmin', [AdminController::class,'logoutadmin'])->name('logout.admin');
 Route::get('/aboutus',[AdminController::class,'aboutus'])->name('aboutus')->middleware('checkIdleTimeout');
 Route::get('aboutus_create',[AdminController::class,'aboutus_create'])->name('aboutus.create')->middleware('checkIdleTimeout');
 Route::post('aboutus_create',[AdminController::class,'aboutus_create'])->name('aboutus.create')->middleware('checkIdleTimeout');
@@ -574,7 +585,6 @@ Route::post('/question_edit/{id}',[AdminController::class,'question_edit'])->nam
 
 Route::get('/question_delete/{id}',[AdminController::class,'question_delete'])->name('question_delete')->middleware('checkIdleTimeout');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('checkIdleTimeout');
 
 
 Route::get('/generation',[AdminController::class,'generation'])->name('generation')->middleware('checkIdleTimeout');
@@ -661,3 +671,4 @@ Route::get('report_reset',[AdminController::class,'report_reset'])->name('report
 Route::get('report_resetseach',[AdminController::class,'report_reset'])->name('report.resetsearch')->middleware('checkIdleTimeout');
 
 Route::get('fetch-courses-and-lessons', [AdminController::class, 'fetchCoursesAndLessons'])->middleware('checkIdleTimeout');
+});
