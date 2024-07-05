@@ -98,17 +98,6 @@ class AdminController extends Controller
                 'password' => [
                     'required',
                     'min:8', // ต้องมีความยาวอย่างน้อย 8 ตัวอักษร
-                    function ($attribute, $value, $fail) use ($request) {
-                        // ตรวจสอบว่า password ไม่เป็นตัวเลขเดียวกันทั้งหมด
-                        if (preg_match('/(\d)\1{7,}/', $value)) {
-                            $fail('รหัสผ่านไม่สามารถเป็นตัวเลขเดียวกันซ้ำกันได้');
-                        }
-            
-                        // ตรวจสอบว่า password มีอักษรพิเศษอย่างน้อย 1 ตัว
-                        if (!preg_match('/[^a-zA-Z0-9]/', $value)) {
-                            $fail('รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว');
-                        }
-                    },
                 ],
             ]);
             if ($validator->fails()) {
@@ -3393,40 +3382,26 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             $validator = Validator::make($request->all(), [
                 'username' => 'required',
-                'password' => [
-                    'required',
-                    'min:8', // ต้องมีความยาวอย่างน้อย 8 ตัวอักษร
-                    function ($attribute, $value, $fail) use ($request) {
-                        // ตรวจสอบว่า password ไม่เป็นตัวเลขเดียวกันทั้งหมด
-                        if (preg_match('/(\d)\1{7,}/', $value)) {
-                            $fail('รหัสผ่านไม่สามารถเป็นตัวเลขเดียวกันซ้ำกันได้');
-                        }
-            
-                        // ตรวจสอบว่า password มีอักษรพิเศษอย่างน้อย 1 ตัว
-                        if (!preg_match('/[^a-zA-Z0-9]/', $value)) {
-                            $fail('รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว');
-                        }
-                    },
-                ],
-                'email' => 'required|max:39|email',
+                'password' => 'required | min:8 | confirmed | regex:/^(?=.*[^\w\d]).+$/ | regex:/^(?!(\d)\1{7,}).+$/'
             ]);
-        
+           
             // ถ้า validation ไม่ผ่าน กลับไปยังหน้า login form พร้อมแสดง errors
             if ($validator->fails()) {
-                return back()->withErrors($validator)->withInput($request->only('username'));
+                return back()->withErrors($validator)->withInput($request->only('password'));
             }
-            $date=new DateTime('Asia/Bangkok');
-            $password = Hash::make($request->password);
-            $adminuser_data=[
-                'username'=>$request->username,
-                'password'=>$password,
-                'email'=>$request->email,
-                'lastvisit_at'=>$date,
-                'last_activity'=>$date,
-                'status'=>'1'
-            ];
-            DB::table('users')->where('id',$id)->update($adminuser_data);
-            return redirect()->route('adminuser');
+            
+                $date=new DateTime('Asia/Bangkok');
+                $password = Hash::make($request->password);
+                $adminuser_data=[
+                    'username'=>$request->username,
+                    'password'=>$password,
+                    'email'=>$request->email,
+                    'lastvisit_at'=>$date,
+                    'last_activity'=>$date,
+                    'status'=>'1'
+                ];
+                DB::table('users')->where('id',$id)->update($adminuser_data);
+                return redirect()->route('adminuser');
         }else{
             return redirect()->route('login.admin');
         }
@@ -3663,13 +3638,31 @@ class AdminController extends Controller
     }
     public function userAdminInsert(Request $request){
         if(AuthFacade::useradmin()){
-            $request->validate([
+            $validator = Validator::make($request->all(), [
                 'username' => 'required',
-                'password' => 'required|min:8',
+                'password' => [
+                    'required',
+                    'min:8', // ต้องมีความยาวอย่างน้อย 8 ตัวอักษร
+                    function ($attribute, $value, $fail) use ($request) {
+                        // ตรวจสอบว่า password ไม่เป็นตัวเลขเดียวกันทั้งหมด
+                        if (preg_match('/(\d)\1{7,}/', $value)) {
+                            $fail('รหัสผ่านไม่สามารถเป็นตัวเลขเดียวกันซ้ำกันได้');
+                        }
+            
+                        // ตรวจสอบว่า password มีอักษรพิเศษอย่างน้อย 1 ตัว
+                        if (!preg_match('/[^a-zA-Z0-9]/', $value)) {
+                            $fail('รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว');
+                        }
+                    },
+                ],
                 'firstname' => 'required',
                 'lastname' => 'required',
                 'identification' => 'required|min:13|max:13'
             ]);
+            // ถ้า validation ไม่ผ่าน กลับไปยังหน้า login form พร้อมแสดง errors
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput($request->only('username'));
+            }
             $user = new Users();
             $user->username = $request->username;
             $user->password = Hash::make($request->password);
@@ -3702,6 +3695,27 @@ class AdminController extends Controller
 
     public function userAdminUpdate(Request $request){
         if(AuthFacade::useradmin()){
+            $validator = Validator::make($request->all(), [
+                'password' => [
+                    'required',
+                    'min:8', // ต้องมีความยาวอย่างน้อย 8 ตัวอักษร
+                    function ($attribute, $value, $fail) use ($request) {
+                        // ตรวจสอบว่า password ไม่เป็นตัวเลขเดียวกันทั้งหมด
+                        if (preg_match('/(\d)\1{7,}/', $value)) {
+                            $fail('รหัสผ่านไม่สามารถเป็นตัวเลขเดียวกันซ้ำกันได้');
+                        }
+            
+                        // ตรวจสอบว่า password มีอักษรพิเศษอย่างน้อย 1 ตัว
+                        if (!preg_match('/[^a-zA-Z0-9]/', $value)) {
+                            $fail('รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว');
+                        }
+                    },
+                ],
+            ]);
+            // ถ้า validation ไม่ผ่าน กลับไปยังหน้า login form พร้อมแสดง errors
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput($request->only('password'));
+            }
             $user = Users::where('id',$request->id)->first();
             $user->password = Hash::make($request->password);
             $user->email = $request->email ?? null;

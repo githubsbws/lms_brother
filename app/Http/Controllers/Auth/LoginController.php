@@ -59,17 +59,6 @@ class LoginController extends Controller
             'password' => [
                 'required',
                 'min:8', // ต้องมีความยาวอย่างน้อย 8 ตัวอักษร
-                function ($attribute, $value, $fail) use ($request) {
-                    // ตรวจสอบว่า password ไม่เป็นตัวเลขเดียวกันทั้งหมด
-                    if (preg_match('/(\d)\1{7,}/', $value)) {
-                        $fail('รหัสผ่านไม่สามารถเป็นตัวเลขเดียวกันซ้ำกันได้');
-                    }
-        
-                    // ตรวจสอบว่า password มีอักษรพิเศษอย่างน้อย 1 ตัว
-                    if (!preg_match('/[^a-zA-Z0-9]/', $value)) {
-                        $fail('รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว');
-                    }
-                },
             ],
         ]);
         if ($validator->fails()) {

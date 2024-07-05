@@ -79,7 +79,13 @@ use App\Models\Position;
                                                         <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                                     </div>
                                                 </div>
-
+                                                @error('password')
+                                                <div class="form-group">
+                                                    <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                                        <span class="{{ $errors->has('password') ? 'input-error' : '' }}" style="color:red;">{{ $message }}</span>
+                                                    </div>
+                                                </div>
+                                            @enderror
                                                 <div class="col-md-6">
                                                     <label for="">คำนำหน้าชื่อ</label>
                                                     <select name="title" id="title">
