@@ -44,7 +44,7 @@ class ForgotPasswordController extends Controller
                     ->first();
 
         if (!$user) {
-            return back()->withErrors(['login_or_email' => 'ไม่พบผู้ใช้']);
+            return back()->withErrors(['login_or_email' => 'หากพบผู้ใช้งาน ระบบจะส่งลิงค์สำหรับรีเซ็ตรหัสผ่านให้']);
         }
 
         $token = Str::random(60);
@@ -76,17 +76,21 @@ class ForgotPasswordController extends Controller
         'token' => 'required',
         'password' => [
             'required',
-            'min:8', // ต้องมีความยาวอย่างน้อย 8 ตัวอักษร
-            'confirmed', // ใช้การยืนยัน password_confirmation field
+            'min:8',
             function ($attribute, $value, $fail) use ($request) {
                 // ตรวจสอบว่า password ไม่เป็นตัวเลขเดียวกันทั้งหมด
                 if (preg_match('/(\d)\1{7,}/', $value)) {
                     $fail('รหัสผ่านไม่สามารถเป็นตัวเลขเดียวกันซ้ำกันได้');
                 }
-    
+                
                 // ตรวจสอบว่า password มีอักษรพิเศษอย่างน้อย 1 ตัว
                 if (!preg_match('/[^a-zA-Z0-9]/', $value)) {
                     $fail('รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว');
+                }
+                
+                // ตรวจสอบว่า password มีตัวอักษรทั้งพิมพ์เล็กและพิมพ์ใหญ่อย่างน้อย 1 ตัว
+                if (!preg_match('/[a-z]/', $value) || !preg_match('/[A-Z]/', $value)) {
+                    $fail('รหัสผ่านต้องมีตัวอักษรทั้งพิมพ์เล็กและพิมพ์ใหญ่อย่างน้อย 1 ตัว');
                 }
             },
         ],
