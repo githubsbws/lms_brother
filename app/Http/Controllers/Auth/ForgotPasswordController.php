@@ -44,7 +44,7 @@ class ForgotPasswordController extends Controller
                     ->first();
 
         if (!$user) {
-            return back()->withErrors(['login_or_email' => 'หากพบผู้ใช้งาน ระบบจะส่งลิงค์สำหรับรีเซ็ตรหัสผ่านให้']);
+            return back()->with('status', 'เราได้ส่งลิงก์รีเซ็ตรหัสผ่านไปยังอีเมลของคุณแล้ว!');
         }
 
         $token = Str::random(60);
