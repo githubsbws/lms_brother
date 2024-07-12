@@ -571,15 +571,50 @@ class AdminController extends Controller
     function document(Request $request){
         if(AuthFacade::useradmin()){
             $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->paginate(10);
+            $type = Downloadtitle::where('active','y')->orderBy('title_id','DESC')->get();
             $perPage = $request->input('per_page');
+            if($request->has('document_type')) {
+                $documentType = $request->input('document_type');
+                
+                if($documentType !== '0'){
+                     // ดึงข้อมูล category ที่ตรงกับ document_type
+                $categories = Downloadcategoty::where('active', 'y')
+                ->whereIn('title_id', (array) $documentType)
+                ->pluck('download_id');
+    
+                // ดึงไฟล์ที่ตรงกับ category
+                $files = DownloadFile::where('active', 'y')
+                    ->whereIn('download_id', $categories)
+                    ->pluck('file_id');
+        
+                // ดึงเอกสารที่ตรงกับไฟล์
+                $document = DownloadFileDoc::where('active', 'y')
+                    ->whereIn('file_id', $files)
+                    ->orderBy('filedoc_id', 'DESC')
+                    ->get();
+        
+                
+                    $html = view('admin.document.document_table_body', compact('document'))->render();
+            
+                    return response()->json([
+                        'html' => $html
+                    ]);
+                }else{
+                    $document = DownloadFileDoc::where('active', 'y')
+                    ->orderBy('filedoc_id', 'DESC')
+                    ->paginate(10);
+                }
+            } 
             if($perPage){
                 $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->paginate($perPage);
             }
-            return view("admin.document.document",['document' =>$document]);
+            
+            return view("admin.document.document",['document' =>$document,'type' =>$type]);
         }else{
             return redirect()->route('login.admin');
         }
     }
+
     function document_create(Request $request){
         if(AuthFacade::useradmin()){
             $document_title = Downloadtitle::where('active','y')->get();

@@ -113,57 +113,91 @@ use App\Models\DownloadFile;
 										<thead>
 											<tr>
 												<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
-												<th id="News-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_title">ประเภทเอกสาร</a></th>
-												<th id="News-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_title">ชื่อไฟล์</a></th>
-												<th id="News-grid_c3"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_short_title">ไฟล์ที่ดาว์นโหลด</a></th>
-												<th class="button-column" id="News-grid_c4">จัดการ</th>
+												<th><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_title">ประเภทเอกสาร</a></th>
+												<th><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_title">ชื่อไฟล์</a></th>
+												<th><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_short_title">ไฟล์ที่ดาวน์โหลด</a></th>
+												<th class="button-column">จัดการ</th>
 											</tr>
 											<tr class="filters">
 												<td>&nbsp;</td>
+												<td>
+													<form>
+													<select name="document_type" id="document_type">
+														<option value="0"> - </option>
+														@foreach($type as $t)
+															<option value="{{ $t->title_id }}">{{ $t->title_name }}</option>
+														@endforeach
+													</select>
+													</form>
+												</td>
 												<td>&nbsp;</td>
-												<td><input name="News[cms_title]" type="text" maxlength="250"></td>
-												<td><input name="News[cms_short_title]" type="text"></td>
+												<td><input id="cms_title_filter" name="News[cms_title]" type="text" maxlength="250"></td>
+												<td><input id="cms_short_title_filter" name="News[cms_short_title]" type="text"></td>
 												<td>&nbsp;</td>
 											</tr>
 										</thead>
-										<tbody>
+										<tbody id="document_table_body">
 											@foreach ($document as $item)
-											@php
-											$document_type = DownloadFile::join('download_categoty','download_categoty.download_id','=','download_file.download_id')->where('file_id',$item->file_id)->get();
-											@endphp
-											<tr class="odd selectable">
-												<td class="checkbox-column"><input class="select-on-check" value="78" id="chk_0" type="checkbox" name="chk[]"></td>
-												@if($document_type->isEmpty())
-												<td>-</td>
-												@endif
-												@foreach($document_type as $type)
-												
-												<td>{{ $type->download_name}}</td>
-												
-												@endforeach
-												<td>{{$item->filedoc_name}}</td>
-												<td style="width:450px; vertical-align:top;"><a href="{{ route('document.downloadfile', ['id' => $item->filedoc_id]) }}" >{{$item->filedocname}}</a></td>
-												<td style="width: 90px;" class="center"><a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{route('document.detail',['id' => $item->filedoc_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{route('document.edit',['id' => $item->filedoc_id])}}"><i></i></a> <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{route('document.delete',['id' => $item->filedoc_id])}}" onclick="return confirm('คุณต้องการลบเอกสาร {{$item->filedoc_name}} หรือไม่?')"><i></i></a></td>
-											</tr>
+												@php
+													$document_type = DownloadFile::join('download_categoty', 'download_categoty.download_id', '=', 'download_file.download_id')->where('file_id', $item->file_id)->get();
+												@endphp
+												<tr class="odd selectable">
+													<td class="checkbox-column"><input class="select-on-check" value="78" id="chk_{{ $loop->index }}" type="checkbox" name="chk[]"></td>
+													<td>
+														@if($document_type->isEmpty())
+															-
+														@endif
+														@foreach($document_type as $type)
+															{{ $type->download_name }}
+														@endforeach
+													</td>
+													<td>{{ $item->filedoc_name }}</td>
+													<td style="width:450px; vertical-align:top;"><a href="{{ route('document.downloadfile', ['id' => $item->filedoc_id]) }}">{{ $item->filedocname }}</a></td>
+													<td style="width: 90px;" class="center">
+														<a class="btn-action glyphicons eye_open btn-info" title="ดูรายละเอียด" href="{{ route('document.detail', ['id' => $item->filedoc_id]) }}"><i></i></a>
+														<a class="btn-action glyphicons pencil btn-success" title="แก้ไข" href="{{ route('document.edit', ['id' => $item->filedoc_id]) }}"><i></i></a>
+														<a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" href="{{ route('document.delete', ['id' => $item->filedoc_id]) }}" onclick="return confirm('คุณต้องการลบเอกสาร {{ $item->filedoc_name }} หรือไม่?')"><i></i></a>
+													</td>
+												</tr>
 											@endforeach
 										</tbody>
 									</table>
 									<div class="pagination pull-right">
-										<ul class="pagination margin-top-none" id="yw0">
-											<li class="first "><a href="{{url('document')}}">&lt;&lt; หน้าแรก</a></li>
-											@if ($document->currentPage() > 1)
-											<li class="previous "><a href="{{ $document->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
-											@endif
-											@for ($i = max(1, $document->currentPage() - 3); $i <= min($document->lastPage(), $document->currentPage() + 3); $i++)
-											<li class="page"><a href="{{ $document->url($i) }}" class="pagination-link {{ ($i == $document->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
-											@endfor
-											@if ($document->currentPage() < $document->lastPage())
-											<li class="next"><a href="{{ $document->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
-											@endif
-											@if ($document->currentPage() == $document->lastPage())
-											<li class="last"><a href="{{ $document->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
-											@endif
-										</ul>
+										@if ($document->lastPage() > 1)
+											<ul class="pagination margin-top-none" id="yw0">
+												<li class="first"><a href="{{ url('document') }}">&lt;&lt; หน้าแรก</a></li>
+												@if ($document->currentPage() > 1)
+													<li class="previous"><a href="{{ $document->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
+												@endif
+									
+												@php
+													$start = max(1, $document->currentPage() - 3);
+													$end = min($document->lastPage(), $document->currentPage() + 3);
+												@endphp
+									
+												@if ($start > 1)
+													<li class="page"><a href="{{ $document->url(1) }}" class="pagination-link">1</a></li>
+													<li class="disabled"><span>...</span></li>
+												@endif
+									
+												@for ($i = $start; $i <= $end; $i++)
+													<li class="page"><a href="{{ $document->url($i) }}" class="pagination-link {{ ($i == $document->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
+												@endfor
+									
+												@if ($end < $document->lastPage())
+													<li class="disabled"><span>...</span></li>
+													<li class="page"><a href="{{ $document->url($document->lastPage()) }}" class="pagination-link">{{ $document->lastPage() }}</a></li>
+												@endif
+									
+												@if ($document->currentPage() < $document->lastPage())
+													<li class="next"><a href="{{ $document->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
+												@endif
+									
+												@if ($document->currentPage() == $document->lastPage())
+													<li class="last"><a href="{{ $document->url($document->lastPage()) }}" class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
+												@endif
+											</ul>
+										@endif
 									</div>
 									<div class="keys" style="display:none" title="#"><span>35</span><span>34</span></div>
 									<input type="hidden" name="Faq[news_per_page]" value="">
@@ -206,6 +240,34 @@ use App\Models\DownloadFile;
 		<!-- // Footer END -->
 
 	</div>
-
+	
+	<script>
+		$(document).ready(function() {
+			// Handle change event of document_type dropdown
+			$('#document_type').change(function() {
+				var documentType = $(this).val();
+				fetchDocuments(documentType);
+			});
+		
+			// Function to fetch documents based on document type
+			function fetchDocuments(documentType) {
+				$.ajax({
+					url: '{{ route('document') }}',
+					type: 'GET',
+					dataType: 'json', // รับค่าเป็น JSON
+					data: {
+						document_type: documentType
+					},
+					success: function(response) {
+						$('#document_table_body').html(response.html); // เปลี่ยน HTML ใน document_table_body
+						$('#yw0').html(response.pagination); // เปลี่ยน HTML ของ Pagination
+					},
+					error: function(xhr) {
+						console.log('Error fetching documents: ' + xhr.responseText);
+					}
+				});
+			}
+		});
+		</script>
 </body>
 @endsection
