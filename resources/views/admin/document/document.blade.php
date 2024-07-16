@@ -43,8 +43,8 @@ use App\Models\DownloadFile;
 						<div class="widget-body collapse" style="height: 0px;">
 							<div class="search-form">
 								<div class="wide form">
-									<form id="SearchFormAjax" action="/admin/index.php/faq/index" method="get">
-										<div class="row"><label>เอกสาร</label><input class="span6" name="Faq[faq_THtopic]" id="Faq_faq_THtopic" type="text" maxlength="250"></div>
+									<form id="SearchFormAjax" action="{{ route('document.search.name')}}" method="get">
+										<div class="row"><label>ชื่อไฟล์เอกสาร</label><input class="span6" name="doc_name" id="Faq_faq_THtopic" type="text" maxlength="250"></div>
 										<div class="row"><button class="btn btn-primary btn-icon glyphicons search"><i></i> ค้นหา</button></div>
 									</form>
 								</div>

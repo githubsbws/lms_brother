@@ -573,6 +573,7 @@ class AdminController extends Controller
             $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->paginate(10);
             $type = Downloadtitle::where('active','y')->orderBy('title_id','DESC')->get();
             $perPage = $request->input('per_page');
+            $query = $request->input('doc_name');
             if($request->has('document_type')) {
                 $documentType = $request->input('document_type');
                 
@@ -603,7 +604,16 @@ class AdminController extends Controller
                     $document = DownloadFileDoc::where('active', 'y')
                     ->orderBy('filedoc_id', 'DESC')
                     ->paginate(10);
+
+                    $html = view('admin.document.document_table_body', compact('document'))->render();
+
+                    return response()->json([
+                        'html' => $html
+                    ]);
                 }
+            } 
+            if($query && !empty($query)) {
+                $document = DownloadFileDoc::where('filedoc_name', 'like', "%$query%")->paginate(10);
             } 
             if($perPage){
                 $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->paginate($perPage);

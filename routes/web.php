@@ -508,6 +508,8 @@ Route::post('document/per_page',[AdminController::class,'document'])->middleware
 
 Route::get('/document/document_type',[AdminController::class,'searchByDocumentType'])->name('document.search.type');
 
+Route::get('/document/document_name',[AdminController::class,'document'])->name('document.search.name');
+
 Route::get('document_downloadfile/{id}',[AdminController::class,'document_downloadfile'])->name('document.downloadfile')->middleware('checkIdleTimeout');
 
 Route::get('document_create',[AdminController::class,'document_create'])->name('document.create')->middleware('checkIdleTimeout');
