@@ -155,9 +155,22 @@
 											</div>
 										</div>
 									</div>
-									
-								</div>
+									@if (session('status'))
+									<div class="alert alert-success">
+										{{ session('status') }}
+									</div>
+									@endif
+									<div class="separator top form-inline small">
+										<!-- With selected actions -->
+										<div class="buttons pull-left">
+											<a class="btn btn-primary"    href="{{ route('update.user.status') }}" onclick="showSweetAlert(event)"><i></i> ลบข้อมูลทั้งหมด</a>
+										</div>
+										<!-- // With selected actions END -->
+										<div class="clearfix"></div>
+									</div>
 
+								</div>
+								
 							</div>
 
 							<!-- Column -->
@@ -209,6 +222,28 @@
                 if (result.isConfirmed) {
                     window.location.href = deleteUrl;
                     Swal.fire('ลบข้อมูลเรียบร้อย', '', 'success');
+                }
+            });
+        }
+    </script>
+	<script>
+        function showSweetAlert(event) {
+            event.preventDefault(); // ป้องกันไม่ให้ลิงก์ทำงานตามปกติ
+
+            Swal.fire({
+                title: 'ต้องการลบข้อมูลทั้งหมดใช่หรือไม่?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ใช่, ลบ!',
+                cancelButtonText: 'ยกเลิก',
+                dangerMode: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // นำทางไปยัง URL ของลิงก์
+                    window.location.href = event.target.href;
+                } else {
+                    // ผู้ใช้ยกเลิกการลบข้อมูล
+                    Swal.fire('ยกเลิกการลบข้อมูล!');
                 }
             });
         }

@@ -3,6 +3,7 @@
 @section('content')
 @php
 use App\Models\Learn;
+use App\Models\Lesson;
 use App\Models\Course;
 @endphp
 <body class="">
@@ -66,25 +67,22 @@ use App\Models\Course;
 										<tr>
 											<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
 											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_title">ชื่อหลักสูตร</a></th>
-											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">ชื่อบทเรียน</a></th>
 											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">จำนวนผู้เรียน</a></th>
 										</tr>
 									</thead>
 									<tbody>
 										@foreach ($course as $cs)
 										@php
-										$co = Course::find($cs->course_id);
-										$learn = Learn::where('lesson_id',$cs->id)->get();
+										$learn = Learn::where('course_id',$cs->course_id)->get();
 										@endphp
 										<tr class="odd selectable">
 											
 											<td class="checkbox-column"><input class="select-on-check" value="" id="chk_0" type="checkbox" name="chk[]"></td>
-											@if($co != null)
-											<td><a href="{{ route('report.lesson',['id' => $co->course_id])}}">{{ $co->course_title }}</a></td>
+											@if($cs != null)
+											<td><a href="{{ route('report.lesson',['id' => $cs->course_id])}}">{{ $cs->course_title }}</a></td>
 											@else
 											<td> - </td>
 											@endif
-											<td>{{ $cs->title }}</td>
 											<td>{{ count($learn) }}</td>
 										</tr>
 										@endforeach

@@ -1,6 +1,10 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" rel="stylesheet" >
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @php
 use App\Models\Score;
 use App\Models\Learn;
@@ -111,8 +115,24 @@ use App\Models\Lesson;
 											@endif
 										</ul>
 									</div>
+									@if (session('status'))
+									<div class="alert alert-success">
+										{{ session('status') }}
+									</div>
+									@endif
 									<div class="keys" style="display:none" title="/admin/index.php/Grouptesting/index"><span>254</span><span>253</span><span>249</span><span>248</span><span>247</span><span>246</span><span>245</span><span>244</span><span>243</span><span>242</span></div>
 									<input type="hidden" name="Grouptesting[news_per_page]" value="">
+									<div class="separator top form-inline small">
+										<!-- With selected actions -->
+										<div class="buttons pull-left">
+											<a class="btn btn-primary"    href="{{ route('update.learnreset.status') }}" onclick="showSweetAlert(event)"><i></i> ลบข้อมูลทั้งหมด</a>
+										</div>
+										
+										<!-- // With selected actions END -->
+										<div class="clearfix"></div>
+										
+									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -122,6 +142,7 @@ use App\Models\Lesson;
 		</div>
 	</div>
 		<div class="clearfix"></div>
+		
 		<!-- // Sidebar menu & content wrapper END -->
 		<div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" hidden>
 			<div class="modal-dialog" role="document">
@@ -178,6 +199,28 @@ use App\Models\Lesson;
 				var url = $(this).data('url');
 				$("#myModals2 iframe").attr("src", url);
 			});
+		</script>
+		<script>
+			function showSweetAlert(event) {
+				event.preventDefault(); // ป้องกันไม่ให้ลิงก์ทำงานตามปกติ
+	
+				Swal.fire({
+					title: 'ต้องการลบข้อมูลทั้งหมดใช่หรือไม่?',
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonText: 'ใช่, ลบ!',
+					cancelButtonText: 'ยกเลิก',
+					dangerMode: true,
+				}).then((result) => {
+					if (result.isConfirmed) {
+						// นำทางไปยัง URL ของลิงก์
+						window.location.href = event.target.href;
+					} else {
+						// ผู้ใช้ยกเลิกการลบข้อมูล
+						Swal.fire('ยกเลิกการลบข้อมูล!');
+					}
+				});
+			}
 		</script>
 </body>
 @endsection

@@ -37,6 +37,7 @@ class UsersImport implements ToModel, WithHeadingRow
                 'email' => $row['email'],
                 'position_id' =>$positId->id,
                 'employee_id' =>$row['empcode'],
+                'department_id' =>$row['org_id'],
                 // ทำการอัพเดตคอลัมน์อื่นๆ ตามต้องการ
             ]);
 
@@ -60,6 +61,7 @@ class UsersImport implements ToModel, WithHeadingRow
                 'position_id' =>$positId->id,
                 'employee_id' =>$row['empcode'],
                 'create_at' => Carbon::now(),
+                'department_id' =>$row['org_id'],
                 'activkey' => md5(microtime().$row['password']),
                 // สร้างคอลัมน์อื่นๆ ของ User ตามต้องการ
             ]);

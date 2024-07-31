@@ -43,9 +43,9 @@ use App\Models\Company;
 											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">Name</a></th>
 											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">User group</a></th>
 											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">Organization Name</a></th>
-											<th colspan="3" style="text-align: center;"><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">PRE</a></th>
-											<th colspan="{{ count($lesson)}}" style="text-align: center;"><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">Lesson</a></th>
-											<th colspan="3" style="text-align: center;"><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">POST</a></th>
+											<th colspan="3" style="text-align: center;"><a class="sort-link" style="color:white;">PRE</a></th>
+											<th colspan="{{ count($lesson)}}" style="text-align: center;"><a class="sort-link" style="color:white;" >Lesson</a></th>
+											<th colspan="3" style="text-align: center;"><a class="sort-link" style="color:white;">POST</a></th>
 											<th><a class="sort-link" style="color:white;" href="/admin/index.php/vdo/index?Vdo_sort=vdo_path">Pass</a></th>
 										</tr>
 										<tr>
@@ -151,7 +151,7 @@ use App\Models\Company;
 								<div class="separator top form-inline small">
 									<!-- With selected actions -->
 									<div class="buttons pull-left">
-										<a class="btn btn-primary"  href="#"><i></i> Export Excel</a>
+										<a class="btn btn-primary"   href="{{ route('export.users', $id) }}"><i></i> Export Excel</a>
 									</div>
 									<!-- // With selected actions END -->
 									<div class="clearfix"></div>

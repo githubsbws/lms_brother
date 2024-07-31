@@ -88,6 +88,13 @@ use App\Models\Orgchart;
                         <div class="clear-div"></div>
                         <div class="overflow-table">
                             <div style="margin-top: -1px;" id="FaqType-grid" class="grid-view">
+                                <form action="{{ route('orgchart.search', ['org_id' => $org_id]) }}" method="GET">
+                                    @csrf
+                                <div class="filter-form">
+                                    <input type="text" name="filter_username" id="filter_username" value="{{ request()->input('filter_username') }}" placeholder="ค้นหาผู้ใช้">
+                                    <button class="btn btn-primary btn-icon glyphicons search" type="submit"><i></i>ค้นหา</button>
+                                </div>
+                            </form>
                             <form action="{{ route('orgchart.adduser',['org_id' => $org_id]) }}" method="POST">
                                 @csrf
                                 <table class="table table-striped table-bordered table-condensed dataTable table-primary js-table-sortable ui-sortable">

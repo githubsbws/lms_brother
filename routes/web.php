@@ -356,6 +356,7 @@ Route::post('/orgchart_saveorgchart',[AdminController::class,'orgchart_saveorgch
 Route::get('/orgchart_users/{org_id}',[AdminController::class,'orgchart_users'])->name('orgchart.users')->middleware('checkIdleTimeout');
 Route::post('/orgchart_adduser/{org_id}',[AdminController::class,'orgchart_adduser'])->name('orgchart.adduser')->middleware('checkIdleTimeout');
 Route::post('/orgchart_unuser/{org_id}',[AdminController::class,'orgchart_unuser'])->name('orgchart.unuser')->middleware('checkIdleTimeout');
+Route::get('orgchart_users_search/{org_id}', [AdminController::class, 'orgchart_users'])->name('orgchart.search');
 
 Route::get('/orgchart_unactive/{id}/{org_id}',[AdminController::class,'orgchart_unactive'])->name('orgchart.unactive')->middleware('checkIdleTimeout');
 Route::get('/orgchart_active/{id}/{org_id}',[AdminController::class,'orgchart_active'])->name('orgchart.active')->middleware('checkIdleTimeout');
@@ -465,6 +466,8 @@ Route::get('/pgroup_edit/{pgroup_id}',[AdminController::class,'pgroup_edit'])->n
 //user-get
 Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin')->middleware('checkIdleTimeout');
 Route::get('/user_admin_search',[AdminController::class,'user_admin'])->name('user_admin.search')->middleware('checkIdleTimeout');
+Route::get('/update-user-status', [AdminController::class, 'updateUserStatus'])->name('update.user.status');
+
 Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel')->middleware('checkIdleTimeout');
 Route::get('/useradmin_view/{id}',[AdminController::class,'userAdminView'])->name('user_view')->middleware('checkIdleTimeout');
 Route::get('/useradmin_edit/{id}',[AdminController::class,'userAdminEdit'])->name('user_edit')->middleware('checkIdleTimeout');
@@ -648,6 +651,7 @@ Route::get('/logapporvepersonal',[AdminController::class,'logapporvepersonal'])-
 Route::get('/logregister',[AdminController::class,'logregister'])->name('logregister')->middleware('checkIdleTimeout');
 
 Route::get('learnreset',[AdminController::class,'learnreset'])->name('learnreset')->middleware('checkIdleTimeout');
+Route::get('/update-learnreset-status', [AdminController::class, 'updateLearnresetStatus'])->name('update.learnreset.status');
 
 Route::get('learnreset_course/{id}',[AdminController::class,'learnreset_course'])->name('learnreset.course')->middleware('checkIdleTimeout');
 Route::post('learnreset_course/{id}',[AdminController::class,'learnreset_course'])->name('learnreset.course')->middleware('checkIdleTimeout');
@@ -667,6 +671,8 @@ Route::get('report_course',[AdminController::class,'report_course'])->name('repo
 Route::get('report_courseseach',[AdminController::class,'report_course'])->name('report.coursesearch')->middleware('checkIdleTimeout');
 
 Route::get('report_lesson/{id}',[AdminController::class,'report_lesson'])->name('report.lesson')->middleware('checkIdleTimeout');
+Route::get('/export-lessons/{id}', [AdminController::class, 'exportLessons'])->name('export.lessons');
+Route::get('/export-users/{id}', [AdminController::class, 'exportUsers'])->name('export.users');
 
 Route::get('report_byuser',[AdminController::class,'report_byuser'])->name('report.byuser')->middleware('checkIdleTimeout');
 Route::get('report_byuserseach',[AdminController::class,'report_byuser'])->name('report.byusersearch')->middleware('checkIdleTimeout');

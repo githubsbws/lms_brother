@@ -29,6 +29,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\QuesImport;
 use App\Imports\UsersImport;
 use App\Imports\QuestionnaireImport;
+use App\Exports\LessonsExport;
+use App\Exports\UsersExport;
 
 use App\Models\About;
 use App\Models\Captcha;
@@ -2566,16 +2568,38 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
-    function orgchart_users(Request $request,$id){
-        if(AuthFacade::useradmin()){
-            $org_id = $id;
-            $user = Users::where('status','1')->where('department_id','!=',$org_id)->paginate(10);
-            $user_chart = Users::where('status','1')->where('department_id',$org_id)->paginate(10);
-            return view("admin.orgchart.orgchart_users",['org_id' => $org_id,'user' => $user,'user_chart' => $user_chart]);
-        }else{
-            return redirect()->route('login.admin');
+    public function orgchart_users(Request $request, $id)
+{
+    if (AuthFacade::useradmin()) {
+        $org_id = $id;
+        $filterUsername = $request->input('filter_username');
+
+        // Base query for users
+        $query = Users::where('status', '1')
+                      ->where('department_id', '!=', $org_id);
+
+        // Apply filter if provided
+        if ($filterUsername) {
+            $query->where('username', 'like', '%' . $filterUsername . '%');
         }
+
+        // Paginate filtered or non-filtered results
+        $user = $query->paginate(50);
+
+        // Fetch users in the department for the given org_id
+        $user_chart = Users::where('status', '1')
+                           ->where('department_id', $org_id)
+                           ->paginate(10);
+
+        return view("admin.orgchart.orgchart_users", [
+            'org_id' => $org_id,
+            'user' => $user,
+            'user_chart' => $user_chart
+        ]);
+    } else {
+        return redirect()->route('login.admin');
     }
+}
     function orgchart_unuser(Request $request,$org_id){
         if(AuthFacade::useradmin()){
             if ($request->has('selected_users')) {
@@ -3649,7 +3673,14 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
-
+    public function updateUserStatus()
+    {
+        // อัปเดตสถานะของผู้ใช้ทั้งหมดเป็น 0
+        Users::query()->delete();
+    
+        // อาจจะ redirect ไปยังหน้าอื่นพร้อมกับข้อความยืนยัน
+        return redirect()->route('user_admin')->with('status', 'ข้อมูลผู้ใช้ทั้งหมดถูกลบแล้ว');
+    }
     function userAdminView($id){
         if(AuthFacade::useradmin()){
             $query = Users::with('Profiles')
@@ -4039,7 +4070,7 @@ class AdminController extends Controller
 
     function learnreset(){
         if(AuthFacade::useradmin()){
-            $users = Users::join('profiles','profiles.user_id','=','users.id')->where('users.del_status','0')->paginate(10);
+            $users = Users::join('profiles','profiles.user_id','=','users.id')->where('users.status','1')->paginate(10);
             // $score =Score::where('active','y')->paginate(10);
             // $learnreset =DB::table('score')->get();
             return view("admin.learnreset.learnreset",compact('users'));
@@ -4047,6 +4078,17 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
+
+    public function updateLearnresetStatus()
+    {
+        // อัปเดตสถานะของผู้ใช้ทั้งหมดเป็น 0
+        Learn::query()->delete();
+        
+        Score::query()->delete();
+        // อาจจะ redirect ไปยังหน้าอื่นพร้อมกับข้อความยืนยัน
+        return redirect()->route('learnreset')->with('status', 'ข้อมูลผู้ใช้ทั้งหมดถูกลบแล้ว');
+    }
+
     function learnreset_course(Request $request,$id){
         if(AuthFacade::useradmin()){
             $learn = Learn::where('user_id',$id)->where('lesson_active','y')->get();
@@ -4477,12 +4519,12 @@ class AdminController extends Controller
             $course_name = $request->input('course_name');
 
             if(isset($course_name) && !empty($course_name)) {
-                $course = Lesson::where('course_id',$course_name)
+                $course = Course::where('course_id',$course_name)
                             ->where('active', 'y')
                             ->orderBy('course_id', 'DESC')
                             ->paginate(10);
             } else {
-                $course = Lesson::where('active', 'y')
+                $course = Course::where('active', 'y')
                             ->orderBy('course_id', 'DESC')
                             ->paginate(10);
             }
@@ -4509,6 +4551,22 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         } 
     }
+
+    public function exportUsers($id)
+    {
+        $users = Users::join('profiles', 'profiles.user_id', '=', 'users.id')
+                      ->where('status', '1')
+                      ->orderBy('id', 'DESC')
+                      ->get();
+        $course = Course::where('course_id',$id)->first();
+        $lessons = Lesson::where('course_id', $id)
+                         ->where('active', 'y')
+                         ->orderBy('course_id', 'DESC')
+                         ->get();
+    
+        return Excel::download(new UsersExport($id, $users, $lessons), $course->course_title.'.xlsx');
+    }
+
     function report_reset(Request $request) {
         if(AuthFacade::useradmin()){
             // $query = $request->input('cate');
