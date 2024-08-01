@@ -26,7 +26,7 @@
                                     @csrf
                                     <div class="form-group">
                                         <label for="inputEmail3" class="col-sm-3 control-label"><label
-                                                for="UserLogin_username" class="required">ชื่อผู้ใช้ <span
+                                                for="UserLogin_username" class="required">username / email <span
                                                     class="required">*</span></label></label>
                                         <div class="col-sm-9">
                                             <input class="form-control" placeholder="Username"
@@ -68,11 +68,11 @@
                                             <span class="input-error">กรุณาเปลี่ยนรหัสผ่านก่อนเข้าใช้งาน 1 ครั้ง</span>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    {{-- <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
                                             <div class="g-recaptcha" data-sitekey="6Le3zv8pAAAAACNf85umY6OIKbJYQOJMzoLjR8ZK" data-action="LOGIN"></div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                    
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
@@ -96,6 +96,6 @@
             </div>
         </div>
     </div>
-    <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+    {{-- <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script> --}}
 </body>
 @endsection

@@ -97,7 +97,7 @@ class ForgotPasswordController extends Controller
     ]);
     
     if ($validator->fails()) {
-        return back()->withErrors($validator)->withInput($request->only('username'));
+        return back()->withErrors($validator)->withInput($request->only('password'));
     }
     $passwordReset = PasswordReset::where('token', $request->input('token'))->first();
 

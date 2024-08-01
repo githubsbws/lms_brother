@@ -61,15 +61,26 @@ class LoginController extends Controller
                 'min:8', // ต้องมีความยาวอย่างน้อย 8 ตัวอักษร
             ],
         ]);
+
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput($request->only('username'));
         }
-        // ตรวจสอบความถูกต้องของข้อมูลผู้ใช้งาน
-        $credentials = $request->only('username', 'password');
+
+        // ตรวจสอบว่าข้อมูลที่กรอกมาเป็น email หรือไม่
+        $usernameInput = $request->input('username');
+        $isEmail = filter_var($usernameInput, FILTER_VALIDATE_EMAIL);
+
+        // สร้างข้อมูล credentials
+        if ($isEmail) {
+            // ถ้าเป็น email, ตรวจสอบกับฟิลด์ email ในฐานข้อมูล
+            $credentials = ['email' => $usernameInput, 'password' => $request->input('password')];
+        } else {
+            // ถ้าไม่ใช่ email, ตรวจสอบกับฟิลด์ username ในฐานข้อมูล
+            $credentials = ['username' => $usernameInput, 'password' => $request->input('password')];
+        }
+
         if (Auth::attempt($credentials)) {
             // Authentication passed
-
-            // เก็บ _token ลงในฐานข้อมูล
             $user = Auth::user();
             $user->_token = $request->session()->get('_token'); // หรือดึงจาก $request->_token ตามที่ถูกต้อง
             $user->save();
@@ -77,7 +88,7 @@ class LoginController extends Controller
             return redirect()->intended('/index');
         } else {
             // Authentication failed
-            return back()->withErrors(['username' => 'username or password i incorrect']);
+            return back()->withErrors(['username' => 'username or password is incorrect']);
         }
     }
     public function logout(Request $request)
