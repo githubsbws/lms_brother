@@ -1,7 +1,16 @@
 @extends('layout/mainlayout')
 @section('title', 'Brother e-learning')
 @section('content')
-
+<style>
+    .input-error {
+        color: white;
+        background-color: red;
+        padding: 5px;
+        margin-top: 5px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+</style>
 <body>
 
     <div class="container">
@@ -55,10 +64,13 @@
                                             <span id="password-special-status"></span>
                                         </div>
                                     </div>
+                                    
                                     @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                        <div class="form-group">
+                                            <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                                <span class="{{ $errors->has('password') ? 'input-error' : '' }}">{{ $message }}</span>
+                                            </div>
+                                        </div>
                                     @enderror
                                     <div class="row mb-0">
                                         <div class="col-md-6 offset-md-4">
