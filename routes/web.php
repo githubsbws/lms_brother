@@ -362,6 +362,8 @@ Route::get('/orgchart_unactive/{id}/{org_id}',[AdminController::class,'orgchart_
 Route::get('/orgchart_active/{id}/{org_id}',[AdminController::class,'orgchart_active'])->name('orgchart.active')->middleware('checkIdleTimeout');
 
 Route::get('/orgchart_control/{id}',[AdminController::class,'orgchart_control'])->name('orgchart.control')->middleware('checkIdleTimeout');
+Route::get('orgchart_course/{id}/{course_title}',[AdminController::class,'orgchart_course'])->name('orgchart.course')->middleware('checkIdleTimeout');
+Route::post('orgchart_course/{id}/{course_title}',[AdminController::class,'orgchart_course'])->name('orgchart.course')->middleware('checkIdleTimeout');
 Route::post('/orgchart_y/{id}',[AdminController::class,'orgchart_y'])->name('orgchart.y')->middleware('checkIdleTimeout');
 Route::post('/orgchart_n/{id}',[AdminController::class,'orgchart_n'])->name('orgchart.n')->middleware('checkIdleTimeout');
 
@@ -467,6 +469,9 @@ Route::get('/pgroup_edit/{pgroup_id}',[AdminController::class,'pgroup_edit'])->n
 Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin')->middleware('checkIdleTimeout');
 Route::get('/user_admin_search',[AdminController::class,'user_admin'])->name('user_admin.search')->middleware('checkIdleTimeout');
 Route::get('/update-user-status', [AdminController::class, 'updateUserStatus'])->name('update.user.status');
+
+Route::get('/asc',[AdminController::class,'asc'])->name('asc')->middleware('checkIdleTimeout');
+Route::post('/asc',[AdminController::class,'asc'])->name('asc.create')->middleware('checkIdleTimeout');
 
 Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel')->middleware('checkIdleTimeout');
 Route::get('/useradmin_view/{id}',[AdminController::class,'userAdminView'])->name('user_view')->middleware('checkIdleTimeout');

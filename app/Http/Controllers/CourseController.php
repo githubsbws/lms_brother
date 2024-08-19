@@ -108,7 +108,35 @@ class CourseController extends Controller
     {
         if(Auth::check()){
             if(Auth::user()->department_id != null &&Auth::user()->department_id != 1){
-                $org_chart_ids = Orgchart::where('id',Auth::user()->department_id)->where('active', 'y')->pluck('id');
+                $user_department_level = Orgchart::where('id', Auth::user()->department_id)->value('level');
+                $user_parent_id = Orgchart::where('id', Auth::user()->department_id)->value('parent_id');
+                // $org_chart_ids = Orgchart::where('id',Auth::user()->department_id)->where('active', 'y')->pluck('id');
+
+                if($user_department_level == 1) {
+                    // ระดับ 1 เห็นทั้งหมดในระดับเดียวกันหรือต่ำกว่า และมี parent_id เดียวกัน
+                    $org_chart_ids = Orgchart::where('active', 'y')
+                                             ->where('level', '>=', $user_department_level)
+                                             ->where('parent_id', $user_parent_id)
+                                             ->pluck('id');
+                } elseif($user_department_level == 2) {
+                    // ระดับ 2 เห็นตัวเองและระดับที่มากกว่าที่มี parent_id เดียวกัน
+                    $org_chart_ids = Orgchart::where('active', 'y')
+                                             ->where(function($query) use ($user_department_level, $user_parent_id) {
+                                                 $query->where('id', Auth::user()->department_id)
+                                                       ->orWhere(function($query) use ($user_department_level, $user_parent_id) {
+                                                           $query->where('level', '>', $user_department_level)
+                                                                 ->where('parent_id', Auth::user()->department_id);
+                                                       });
+                                             })
+                                             ->pluck('id');
+                }  elseif($user_department_level > 2) {
+                    // ระดับที่มากกว่า 2 เห็นเฉพาะตัวเอง
+                    $org_chart_ids = Orgchart::where('active', 'y')
+                                             ->where('id', Auth::user()->department_id)
+                                             ->pluck('id');
+                }
+                // dd($org_chart_ids->toArray());
+                
             }elseif(Auth::user()->department_id == 1){
                 $org_chart_ids = Orgchart::where('active', 'y')->pluck('id');
                 

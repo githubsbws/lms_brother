@@ -32,6 +32,7 @@ use App\Imports\QuestionnaireImport;
 use App\Exports\LessonsExport;
 use App\Exports\UsersExport;
 
+use App\Models\ASC;
 use App\Models\About;
 use App\Models\Captcha;
 use App\Models\Conditions;
@@ -2844,6 +2845,43 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
+
+    function orgchart_course(Request $request, $id ,$course_title) {
+        if (AuthFacade::useradmin()) {
+            $org_course = Orgcourse::where('id', $id)->first();
+    
+            if ($request->isMethod('post')) {
+                // รับค่าที่ส่งมาจากฟอร์ม
+                $chkValues = $request->input('chk');
+                
+                 
+                if (empty($chkValues)) {
+                    // ถ้าไม่มีค่าใน chk ให้เปลี่ยน active เป็น 'n'
+                    Orgcourse::where('orgchart_id', $org_course->orgchart_id)
+                             ->where('parent_id', $org_course->id)
+                             ->update(['active' => 'n']);
+                } else {
+                    foreach ($chkValues as $chkValue) {
+                        $log_reset = new Orgcourse;
+                        $log_reset->orgchart_id = $org_course->orgchart_id;
+                        $log_reset->course_id = $chkValue;
+                        $log_reset->parent_id = $org_course->id;
+                        $log_reset->active = 'y';
+                        $log_reset->order = '1';
+                        $log_reset->save();
+                    }
+                }
+                
+            
+                return redirect()->route('orgchart.course', ['id' => $id ,'course_title' => $course_title]);
+            }
+    
+            return view("admin.orgchart.orgchart_course", ['id' => $id,'course_title' => $course_title]);
+        } else {
+            return redirect()->route('login.admin');
+        }
+    }
+
     function orgchart_create(){
         if(AuthFacade::useradmin()){
             return view("admin.orgchart.orgchart-create");
@@ -3774,54 +3812,66 @@ class AdminController extends Controller
         }
     }
 
+    private function updateUserProfile($request, $user) {
+        $user->email = $request->email ?? null;
+        $user->company_id = $request->company ?? null;
+        $user->division_id = $request->division ?? null;
+        $user->position_id = $request->position ?? null;
+        $user->asc_id = $request->asc ?? null;
+        $user->save();
+    
+        $profile = Profiles::where('user_id', $request->id)->first();
+        $profile->user_id = $user->id;
+        $profile->title_id = $request->title ?? null;
+        $profile->firstname = $request->firstname;
+        $profile->lastname = $request->lastname;
+        $profile->identification = $request->identification;
+        $profile->phone = $request->phone ?? null;
+        $profile->firstname_en = $request->firstname_en ?? null;
+        $profile->lastname_en = $request->lastname_en ?? null;
+        $profile->save();
+    }
     public function userAdminUpdate(Request $request){
         if(AuthFacade::useradmin()){
-            $validator = Validator::make($request->all(), [
-                'password' => [
+            if ($request->filled('password')) {
+                // Password validation
+                $validator = Validator::make($request->all(), [
+                    'password' => [
                         'required',
                         'min:8',
                         function ($attribute, $value, $fail) use ($request) {
-                            // ตรวจสอบว่า password ไม่เป็นตัวเลขเดียวกันทั้งหมด
                             if (preg_match('/(\d)\1{7,}/', $value)) {
                                 $fail('รหัสผ่านไม่สามารถเป็นตัวเลขเดียวกันซ้ำกันได้');
                             }
-                            
-                            // ตรวจสอบว่า password มีอักษรพิเศษอย่างน้อย 1 ตัว
                             if (!preg_match('/[^a-zA-Z0-9]/', $value)) {
                                 $fail('รหัสผ่านต้องมีอักษรพิเศษอย่างน้อย 1 ตัว');
                             }
-                            
-                            // ตรวจสอบว่า password มีตัวอักษรทั้งพิมพ์เล็กและพิมพ์ใหญ่อย่างน้อย 1 ตัว
                             if (!preg_match('/[a-z]/', $value) || !preg_match('/[A-Z]/', $value)) {
                                 $fail('รหัสผ่านต้องมีตัวอักษรทั้งพิมพ์เล็กและพิมพ์ใหญ่อย่างน้อย 1 ตัว');
                             }
                         },
                     ],
-            ]);
-            // ถ้า validation ไม่ผ่าน กลับไปยังหน้า login form พร้อมแสดง errors
-            if ($validator->fails()) {
-                return back()->withErrors($validator)->withInput($request->only('password'));
+                ]);
+
+                // Redirect if validation fails
+                if ($validator->fails()) {
+                    return back()->withErrors($validator)->withInput($request->only('password'));
+                }
+
+                // Update user with new password
+                $user = Users::where('id', $request->id)->first();
+                $user->password = Hash::make($request->password);
+                $this->updateUserProfile($request, $user);
+
+                return redirect()->route('user_admin')->with('success', 'Update Successful');
+            } else {
+                // Update user without changing password
+                $user = Users::where('id', $request->id)->first();
+                // Ensure you do not update password if not provided
+                $this->updateUserProfile($request, $user);
+
+                return redirect()->route('user_admin')->with('success', 'Update Successful');
             }
-            $user = Users::where('id',$request->id)->first();
-            $user->password = Hash::make($request->password);
-            $user->email = $request->email ?? null;
-            $user->company_id = $request->company ?? null;
-            $user->division_id = $request->division ?? null;
-            $user->position_id = $request->position ?? null;
-            $user->save();
-
-            $profile = Profiles::where('user_id',$request->id)->first();
-            $profile->user_id = $user->id;
-            $profile->title_id = $request->title ?? null;
-            $profile->firstname = $request->firstname;
-            $profile->lastname = $request->lastname;
-            $profile->identification = $request->identification;
-            $profile->phone = $request->phone ?? null;
-            $profile->firstname_en = $request->firstname_en ?? null;
-            $profile->lastname_en = $request->lastname_en ?? null;
-            $profile->save();
-
-            return redirect()->route('user_admin')->with('success','Update Successful');
         }else{
             return redirect()->route('login.admin');
         }
@@ -3832,6 +3882,30 @@ class AdminController extends Controller
             $userDelete->del_status = 1;
             $userDelete->save();
             return redirect()->route('user_admin')->with('success','Delete Successful');
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
+    public function asc(Request $request){
+        if(AuthFacade::useradmin()){
+            if($request->isMethod('post')){
+                $validator = Validator::make($request->all(), [
+                    'title'=>'required|string',
+
+                ]);
+                // dd($validator);
+                if ($validator->fails()) {
+                    
+                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
+                }
+                $asc_create = new ASC;
+                $asc_create->title = $request->input('title');
+                $asc_create->save();
+
+                return redirect()->route('user_admin');
+            }
+            return view("admin.user_admin.asc");
         }else{
             return redirect()->route('login.admin');
         }

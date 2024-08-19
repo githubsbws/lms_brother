@@ -83,6 +83,8 @@ class LoginController extends Controller
             // Authentication passed
             $user = Auth::user();
             $user->_token = $request->session()->get('_token'); // หรือดึงจาก $request->_token ตามที่ถูกต้อง
+            $ipAddress = request()->ip();
+            $user->last_ip = $ipAddress;
             $user->save();
 
             return redirect()->intended('/index');

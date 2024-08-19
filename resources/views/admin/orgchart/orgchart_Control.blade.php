@@ -169,25 +169,42 @@ use App\Models\Course;
 <div class="row-fluid">
 
   <div class="span6">
-  <div class="dd" id="nestable">
-	<?php
-    $org_course = Orgcourse::where('active','y')->where('orgchart_id',$org->id)->get();
-	?>
-	@if($org_course)
-		<ol class="dd-list">
-		@foreach($org_course as $oc)
-            @php 
-                $course = Course::where('course_id',$oc->course_id)->first();
-            @endphp
-			<li class="dd-item" data-id="{{$oc->id}}">
-                <a href="#" onclick="activen({{$oc->id}})"><div class="dd-handle">{{$course->course_title}}</div></a>
-			</li>
-		@endforeach
-		</ol>
-	@else
-	<div class="dd-empty"></div>
-	@endif
-        </div>
+    <div class="dd" id="nestable">
+        <?php
+        $org_course = Orgcourse::where('active', 'y')
+                    ->where('orgchart_id', $org->id)
+                    ->orderBy('parent_id')
+                    ->orderBy('order') // จัดเรียงตาม parent_id และ order
+                    ->get();
+        ?>
+    
+        @if($org_course->isNotEmpty())
+            <ol class="dd-list">
+            @foreach($org_course as $oc)
+                @php 
+                    $course = Course::where('course_id', $oc->course_id)->first();
+                @endphp
+                
+                @if($oc->order !== '1')
+                <li class="dd-item" data-id="{{$oc->id}}">
+                    <a href="#" onclick="activen({{$oc->id}})">
+                        <div class="dd-handle">{{$course->course_title}}</div>
+                    </a>
+                </li>
+                @endif
+    
+                @if($oc->order !== '1')
+                <a href="#" class="btn btn-primary open-modal" data-url="{{ route('orgchart.course', ['id' => $oc->id,'course_title' => $course->course_title ]) }}" data-toggle="modal" data-target="#myModals">
+                    <i class="icon-book"></i> sub course
+                </a>
+                @endif
+    
+            @endforeach
+            </ol>
+        @else
+            <div class="dd-empty"></div>
+        @endif
+    </div>
 	</div>
 
   <div class="span6">
@@ -219,6 +236,25 @@ use App\Models\Course;
 
 
     <div style="clear:both;"></div>
+
+    <div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" hidden>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <iframe src="" width="100%" height="400px" frameborder="0"></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <!-- สามารถเพิ่มปุ่มอื่นๆได้ตามต้องการ -->
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 
@@ -239,6 +275,12 @@ use App\Models\Course;
 
 
 <script src="{{ asset('js/sortable.js') }}"></script>
+<script>
+    $(document).on("click", ".open-modal", function () {
+        var url = $(this).data('url');
+        $("#myModals iframe").attr("src", url);
+    });
+</script>
 <script>
     function activey(id) {
         var route = "{{ route('orgchart.y', ['id' => ':id','org_id' => $org->id]) }}";

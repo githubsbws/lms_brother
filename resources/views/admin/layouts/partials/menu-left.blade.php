@@ -223,6 +223,7 @@ use App\Models\Permission;
 						<ul class=" collapse " id="admin">
 							<li><a href="{{url('/useradmin_create')}}">เพิ่มสมาชิก</a></li>
 							<li><a href="{{ url('/userexcel') }}">เพิ่มสมาชิกจาก Excel</a></li>
+                            <li><a href="{{url('/asc')}}">เพิ่มASC</a></li>
 							<li><a href="{{ url('/user_admin') }}">รายชื่อสมาชิก</a></li>
 						</ul>
 					</li>

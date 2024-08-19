@@ -1,7 +1,9 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-
+@php
+use App\Models\Users;
+@endphp
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.css" rel="stylesheet" >
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -95,12 +97,19 @@
 															<th scope="col">เลขบัตรประชาชน</th>
 															<th scope="col">email</th>
 															<th scope="col">advisor_email1</th>
+															<th scope="col">Online_Status</th>
+															<th scope="col">Create_at</th>
+															<th scope="col">Lastvisit_at</th>
+															<th scope="col">Status</th>
+															<th scope="col">Last_ip</th>
+															<th scope="col">Last_activity</th>
                                                             <th scope="col">จัดการสิทธิ์</th>
 															<th scope="col">จัดการ</th>
 														</tr>
 													</thead>
 													<tbody>
 														@foreach ($query as $index => $data)
+														
 														{{-- @dump($data->profile); --}}
 															<tr>
 																<td>
@@ -123,6 +132,24 @@
 																@else
 																<td>-</td>
 																@endif
+																@if($data->online_status == 1)
+																<td>
+                                                                    <a href="" class="btn btn-success">User Active</a>
+                                                                </td>
+																@else
+																<td>
+                                                                    <a href="" class="btn btn-danger">Inactive</a>
+                                                                </td>
+																@endif
+																<td> {{ $data->create_at}}</td>
+																<td> {{ $data->lastvisit_at}}</td>
+																@if($data->status == 1)
+																<td> เปิดการใช้งาน </td>
+																@else
+																<td> ปิดการใช้งาน </td>
+																@endif
+																<td> {{ $data->last_ip }}</td>
+																<td> {{ $data->last_activity }}</td>
                                                                 <td>
                                                                     <a href="{{ route('permission_add',['id'=> $data->id]) }}" class="btn btn-info"><i class="bi bi-joystick"></i></a>
                                                                 </td>

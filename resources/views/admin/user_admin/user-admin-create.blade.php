@@ -127,7 +127,7 @@
                                                     <input type="text" name="lastname" placeholder="นามสกุล">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="">เลขบัตรประชาชน<span style="color:red">*</span></label>
+                                                    <label for="">เลขบัตรประชาชน</label>
                                                     <input type="text" name="identification" placeholder="เลขบัตรประชาชน 13 หลัก">
                                                 </div>
                                                 <div class="col-md-6">

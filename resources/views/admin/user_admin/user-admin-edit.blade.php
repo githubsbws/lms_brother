@@ -5,6 +5,8 @@
 use App\Models\Company;
 use App\Models\Division;
 use App\Models\Position;
+use App\Models\ProfilesTitle;
+use App\Models\ASC;
 @endphp
 <body class="">
 
@@ -57,7 +59,8 @@ use App\Models\Position;
                                                     <label for="password" class="col-md-4 col-form-label text-md-end">Password</label>
                         
                                                     <div class="col-md-6">
-                                                        <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password" oninput="checkPassword()">
+                                                        <input id="password" type="password" class="form-control" name="password"  autocomplete="new-password" oninput="checkPassword()" >
+                                                        <input type="hidden" name="old_password" value="{{ $user->password }}">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -76,7 +79,7 @@ use App\Models\Position;
                                                     <label for="password-confirm" class="col-md-4 col-form-label text-md-end">Confirm Password</label>
                         
                                                     <div class="col-md-6">
-                                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation"  autocomplete="new-password">
                                                     </div>
                                                 </div>
                                                 @error('password')
@@ -86,10 +89,17 @@ use App\Models\Position;
                                                     </div>
                                                 </div>
                                             @enderror
+                                            @php
+                                            $pro = ProfilesTitle::where('prof_id',$user->Profiles->title_id)->first();
+                                            @endphp
                                                 <div class="col-md-6">
                                                     <label for="">คำนำหน้าชื่อ</label>
                                                     <select name="title" id="title">
+                                                        @if($pro)
+                                                        <option value="{{$user->Profiles->title_id}}">{{ $pro->prof_title }}</option>
+                                                        @else
                                                         <option value="">---เลือก---</option>
+                                                        @endif
                                                         @foreach ( $profTitle as $title )
                                                             <option value="{{ $title->prof_id }}">{{ $title->prof_title }}</option>
                                                         @endforeach
@@ -112,7 +122,7 @@ use App\Models\Position;
                                                     <input type="text" name="lastname" value="{{ $user->Profiles->lastname ?? null }}">
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <label for="">เลขบัตรประชาชน<span style="color:red">*</span></label>
+                                                    <label for="">เลขบัตรประชาชน</label>
                                                     <input type="text" name="identification" value="{{ $user->Profiles->identification ?? null }}">
                                                 </div>
                                                 <div class="col-md-6">
@@ -170,6 +180,23 @@ use App\Models\Position;
                                                     </select>
                                                     @endif
                                                 </div>
+                                                @php
+                                                $asc = ASC::where('id',$user->asc_id)->first();
+                                                $asc_all = ASC::get();
+                                                @endphp
+                                                    <div class="col-md-6">
+                                                        <label for="">ASC</label>
+                                                        <select name="asc" id="asc">
+                                                            @if($asc)
+                                                            <option value="{{$user->asc_id}}">{{ $asc->title }}</option>
+                                                            @else
+                                                            <option value="">---เลือก---</option>
+                                                            @endif
+                                                            @foreach ( $asc_all as $as )
+                                                                <option value="{{ $as->id }}">{{ $as->title }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 <input type="hidden" name="id" value="{{ $user->id }}">
                                                 <br>
                                                 <div class="col-md-6">
