@@ -1,7 +1,16 @@
 @extends('admin.layouts.mainlayout')
 @section('title', 'Admin')
 @section('content')
-
+<style>
+    .input-error {
+        color: white;
+        background-color: red;
+        padding: 5px;
+        margin-top: 5px;
+        border-radius: 3px;
+        display: inline-block;
+    }
+</style>
 <body class="">
 
     <!-- Main Container Fluid -->
@@ -94,7 +103,13 @@
                                                 </script>
 												<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
 												{{-- <input type="file" id="imageInput" name="image"> --}}
-
+                                                @error('error')
+                                                <div class="form-group">
+                                                    <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                                        <span class="{{ $errors->has('error') ? 'input-error' : '' }}">{{ $message }}</span>
+                                                    </div>
+                                                </div>
+                                            @enderror
 											
 										</div>
                                     </div>

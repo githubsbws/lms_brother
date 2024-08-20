@@ -658,7 +658,7 @@ class AdminController extends Controller
                     $tmp = explode('.', $docname);
                     $fileExtension = end($tmp);
 
-                    if (strtolower($fileExtension) !== 'pdf') {
+                    if (strtolower($fileExtension) !== 'pdf' && strtolower($fileExtension) !== 'zip' ) {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
                         return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
                     }else{
@@ -715,7 +715,7 @@ class AdminController extends Controller
 
                     // $fileExtension = $request->file('filedoc')->extension();
 
-                    if (strtolower($fileExtension) !== 'pdf') {
+                    if (strtolower($fileExtension) !== 'pdf' && strtolower($fileExtension) !== 'zip') {
                         // คำสั่งสำหรับการแจ้งเตือนว่าไฟล์ที่อัปโหลดไม่ใช่ PDF
                         return back()->with('error', 'กรุณาเลือกไฟล์ที่มีนามสกุล .pdf เท่านั้น');
                     }else{
