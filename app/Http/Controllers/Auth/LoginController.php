@@ -85,6 +85,7 @@ class LoginController extends Controller
             $user->_token = $request->session()->get('_token'); // หรือดึงจาก $request->_token ตามที่ถูกต้อง
             $ipAddress = request()->ip();
             $user->last_ip = $ipAddress;
+            $user->last_activity = now();
             $user->save();
 
             return redirect()->intended('/index');
@@ -99,6 +100,8 @@ class LoginController extends Controller
     if (Auth::check()) {
         $user = Auth::user();
         $user->online_status = 0;
+        $user->last_activity = now();
+        $user->lastvisit_at = now();
         $user->save();
     }
 
