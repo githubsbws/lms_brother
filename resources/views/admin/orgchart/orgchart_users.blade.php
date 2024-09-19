@@ -56,7 +56,11 @@ use App\Models\Orgchart;
                                         <tr class="odd selectable">
                                             <td class="checkbox-column"><input class="select-on-check" value="{{$item->id}}" id="chk_0" type="checkbox"  name="selected_users[]"></td>
                                             <td>{{$item->username}}</td>
+                                            @if($org_chart !== null)
                                             <td>{{ $org_chart->title}}</td>
+                                            @else
+                                            <td> - </td>
+                                            @endif
                                             <td style="width: 90px;" class="center"><a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" name="unactive" href="{{route('orgchart.unactive',['id' => $item->id,'org_id' => $org_id])}}"><i></i></a> </td>
                                         </tr>
                                         @endforeach

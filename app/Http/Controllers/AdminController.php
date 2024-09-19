@@ -3789,6 +3789,7 @@ class AdminController extends Controller
             $user->company_id = $request->company ?? null;
             $user->division_id = $request->division ?? null;
             $user->position_id = $request->position ?? null;
+            $user->department_id = '1';
             $user->activkey = md5(microtime().$request->password);
             $user->create_at = now()->format('Y-m-d H:i:s');
             $user->_token = $request->_token;
