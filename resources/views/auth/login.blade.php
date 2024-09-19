@@ -68,11 +68,11 @@
                                             <span class="input-error">กรุณาเปลี่ยนรหัสผ่านก่อนเข้าใช้งาน 1 ครั้ง</span>
                                         </div>
                                     </div>
-                                    {{-- <div class="form-group">
+                                    <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
                                             <div class="g-recaptcha" data-sitekey="6Le3zv8pAAAAACNf85umY6OIKbJYQOJMzoLjR8ZK" data-action="LOGIN"></div>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                    
                                     <div class="form-group">
                                         <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
@@ -96,6 +96,6 @@
             </div>
         </div>
     </div>
-    {{-- <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script> --}}
+    <script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
 </body>
 @endsection
