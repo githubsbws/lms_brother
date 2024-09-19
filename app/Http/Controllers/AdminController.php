@@ -2574,6 +2574,7 @@ class AdminController extends Controller
     if (AuthFacade::useradmin()) {
         $org_id = $id;
         $filterUsername = $request->input('filter_username');
+        $filterUser = $request->input('filter_user');
 
         // Base query for users
         $query = Users::where('status', '1')
@@ -2583,14 +2584,18 @@ class AdminController extends Controller
         if ($filterUsername) {
             $query->where('username', 'like', '%' . $filterUsername . '%');
         }
-
+        
         // Paginate filtered or non-filtered results
         $user = $query->paginate(50);
 
+        $querys = Users::where('status', '1')
+                        ->where('department_id', $org_id);
+
+        if ($filterUser) {
+            $querys->where('username', 'like', '%' . $filterUser . '%');
+        }
         // Fetch users in the department for the given org_id
-        $user_chart = Users::where('status', '1')
-                           ->where('department_id', $org_id)
-                           ->paginate(10);
+        $user_chart = $querys->paginate(10);
 
         return view("admin.orgchart.orgchart_users", [
             'org_id' => $org_id,

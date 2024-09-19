@@ -357,6 +357,7 @@ Route::get('/orgchart_users/{org_id}',[AdminController::class,'orgchart_users'])
 Route::post('/orgchart_adduser/{org_id}',[AdminController::class,'orgchart_adduser'])->name('orgchart.adduser')->middleware('checkIdleTimeout');
 Route::post('/orgchart_unuser/{org_id}',[AdminController::class,'orgchart_unuser'])->name('orgchart.unuser')->middleware('checkIdleTimeout');
 Route::get('orgchart_users_search/{org_id}', [AdminController::class, 'orgchart_users'])->name('orgchart.search');
+Route::get('orgchart_users_searchuser/{org_id}', [AdminController::class, 'orgchart_users'])->name('orgchart.searchuser');
 
 Route::get('/orgchart_unactive/{id}/{org_id}',[AdminController::class,'orgchart_unactive'])->name('orgchart.unactive')->middleware('checkIdleTimeout');
 Route::get('/orgchart_active/{id}/{org_id}',[AdminController::class,'orgchart_active'])->name('orgchart.active')->middleware('checkIdleTimeout');
