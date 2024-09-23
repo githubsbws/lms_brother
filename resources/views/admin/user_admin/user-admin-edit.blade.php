@@ -187,7 +187,7 @@ use App\Models\ASC;
                                                     <div class="col-md-6">
                                                         <label for="">ASC</label>
                                                         <select name="asc" id="asc">
-                                                            @if($asc)
+                                                            @if($asc !== null)
                                                             <option value="{{$user->asc_id}}">{{ $asc->name }}</option>
                                                             @else
                                                             <option value="">---เลือก---</option>

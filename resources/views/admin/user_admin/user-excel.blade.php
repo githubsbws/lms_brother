@@ -128,6 +128,7 @@ use App\Models\ASC;
                                             <thead>
                                                 <tr>
                                                     <th id="Usability-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/usability/index?Usability_sort=usa_title">asc_id</a></th>
+                                                    <th id="Usability-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/usability/index?Usability_sort=usa_title">asc_code</a></th>
                                                     <th id="Usability-grid_c1"><a class="sort-link" style="color:white;" href="/admin/index.php/usability/index?Usability_sort=usa_title">Title</a></th> 
                                                 </tr>
                                             </thead>
