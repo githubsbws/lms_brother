@@ -3906,7 +3906,13 @@ class AdminController extends Controller
                     return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
                 }
                 $asc_create = new ASC;
-                $asc_create->title = $request->input('title');
+                $asc_create->asc_code = $request->input('asc_code');
+                $asc_create->name = $request->input('title');
+                $asc_create->lat = 0;
+                $asc_create->long = 0;
+                $asc_create->created_by = Auth::user()->id;
+                $asc_create->updated_by = Auth::user()->id;
+                $asc_create->active = 'y';
                 $asc_create->save();
 
                 return redirect()->route('user_admin');

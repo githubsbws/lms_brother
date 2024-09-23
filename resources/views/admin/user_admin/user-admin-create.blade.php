@@ -1,7 +1,9 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-
+@php
+use App\Models\ASC;
+@endphp
 <body class="">
 
 	<!-- Main Container Fluid -->
@@ -155,6 +157,19 @@
                                                     <label for="">division</label>
                                                     <select name="division" id="division"></select>
                                                 </div>
+                                                <br>
+                                                @php
+                                                $asc_all = ASC::where('active','y')->get();
+                                                @endphp
+                                                    <div class="col-md-6">
+                                                        <label for="">ASC</label>
+                                                        <select name="asc" id="asc">
+                                                            <option value="">---เลือก---</option>
+                                                            @foreach ( $asc_all as $as )
+                                                                <option value="{{ $as->id }}">{{ $as->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 <br>
                                                 <div class="col-md-6">
                                                     <button class="btn btn-success">สมัครสมาชิก</button>

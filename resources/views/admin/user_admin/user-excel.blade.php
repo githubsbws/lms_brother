@@ -114,7 +114,7 @@ use App\Models\ASC;
                     </div>
 
                     @php
-                    $asc = ASC::get();
+                    $asc = ASC::where('active','y')->get();
                     @endphp
                     <div class="innerLR">
                         <div class="widget">
@@ -135,7 +135,8 @@ use App\Models\ASC;
                                                 @foreach($asc as $as)
                                                <tr class="odd selectable">
                                                 <td>{{ $as->id}}</td>
-                                                <td>{{ $as->title}}</td>
+                                                <td>{{ $as->asc_code}}</td>
+                                                <td>{{ $as->name}}</td>
                                                </tr>
                                                @endforeach
                                             </tbody>

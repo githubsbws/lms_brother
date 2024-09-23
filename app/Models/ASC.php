@@ -8,15 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class ASC extends Model
 {
     use HasFactory;
-    protected $connection = 'mysql_noprefix';
 
     protected $table = 'asc';
 
-    protected $prefix = '';
-
     protected $primaryKey = 'id';
     
-    public $timestamps = false;
+    const CREATED_AT = 'created_date'; // Custom created_at column
+    const UPDATED_AT = 'updated_date'; // Custom update_at column
 
     public static function findById($id)
     {

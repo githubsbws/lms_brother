@@ -51,7 +51,13 @@
 											<div class="label label-important" id="Imgslide_imgslide_link_em_" style="display:none"></div>
 										</div>
 									</div>
-									
+									<div class="row">
+										<label for="Imgslide_imgslide_link" class="required">ASC_Code <span class="required">*</span></label> 
+										<input size="60" maxlength="250" class="span8" name="asc_code" id="asc_code" type="text"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
+										<div class="error help-block">
+											<div class="label label-important" id="Imgslide_imgslide_link_em_" style="display:none"></div>
+										</div>
+									</div>
 									<div class="row buttons">
 										<button class="btn btn-primary btn-icon glyphicons ok_2" type="submit"><i></i>บันทึกข้อมูล</button>
 									</div>

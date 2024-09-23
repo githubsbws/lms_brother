@@ -181,19 +181,19 @@ use App\Models\ASC;
                                                     @endif
                                                 </div>
                                                 @php
-                                                $asc = ASC::where('id',$user->asc_id)->first();
-                                                $asc_all = ASC::get();
+                                                $asc = ASC::where('id',$user->asc_id)->where('active','y')->first();
+                                                $asc_all = ASC::where('active','y')->get();
                                                 @endphp
                                                     <div class="col-md-6">
                                                         <label for="">ASC</label>
                                                         <select name="asc" id="asc">
                                                             @if($asc)
-                                                            <option value="{{$user->asc_id}}">{{ $asc->title }}</option>
+                                                            <option value="{{$user->asc_id}}">{{ $asc->name }}</option>
                                                             @else
                                                             <option value="">---เลือก---</option>
                                                             @endif
                                                             @foreach ( $asc_all as $as )
-                                                                <option value="{{ $as->id }}">{{ $as->title }}</option>
+                                                                <option value="{{ $as->id }}">{{ $as->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
