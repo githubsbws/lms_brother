@@ -31,6 +31,7 @@ use App\Imports\UsersImport;
 use App\Imports\QuestionnaireImport;
 use App\Exports\LessonsExport;
 use App\Exports\UsersExport;
+use App\Exports\UsersAdminExport;
 
 use App\Models\ASC;
 use App\Models\About;
@@ -3724,6 +3725,17 @@ class AdminController extends Controller
         // อาจจะ redirect ไปยังหน้าอื่นพร้อมกับข้อความยืนยัน
         return redirect()->route('user_admin')->with('status', 'ข้อมูลผู้ใช้ทั้งหมดถูกลบแล้ว');
     }
+
+    public function exportUseradmin()
+    {
+        $users = Users::join('profiles', 'profiles.user_id', '=', 'users.id')
+                    ->where('status', '1')
+                    ->orderBy('id', 'DESC')
+                    ->get();
+
+        return Excel::download(new UsersAdminExport($users), 'users_admin_export.xlsx'); // Corrected line
+    }
+
     function userAdminView($id){
         if(AuthFacade::useradmin()){
             $query = Users::with('Profiles')

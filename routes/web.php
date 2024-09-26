@@ -470,6 +470,7 @@ Route::get('/pgroup_edit/{pgroup_id}',[AdminController::class,'pgroup_edit'])->n
 Route::get('/user_admin',[AdminController::class,'user_admin'])->name('user_admin')->middleware('checkIdleTimeout');
 Route::get('/user_admin_search',[AdminController::class,'user_admin'])->name('user_admin.search')->middleware('checkIdleTimeout');
 Route::get('/update-user-status', [AdminController::class, 'updateUserStatus'])->name('update.user.status');
+Route::get('/export-user-admin', [AdminController::class, 'exportUseradmin'])->name('export.user.admin');
 
 Route::get('/asc',[AdminController::class,'asc'])->name('asc')->middleware('checkIdleTimeout');
 Route::post('/asc',[AdminController::class,'asc'])->name('asc.create')->middleware('checkIdleTimeout');

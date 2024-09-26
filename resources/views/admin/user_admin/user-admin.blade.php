@@ -192,6 +192,11 @@ use App\Models\Users;
 										<div class="buttons pull-left">
 											<a class="btn btn-primary"    href="{{ route('update.user.status') }}" onclick="showSweetAlert(event)"><i></i> ลบข้อมูลทั้งหมด</a>
 										</div>
+										
+										<div class="buttons pull-left">
+										&nbsp;
+										&nbsp;<a class="btn btn-primary"    href="{{ route('export.user.admin') }}"><i></i> Export excel</a>
+										</div>
 										<!-- // With selected actions END -->
 										<div class="clearfix"></div>
 									</div>
