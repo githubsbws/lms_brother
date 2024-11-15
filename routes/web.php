@@ -64,7 +64,8 @@ Route::get('forgot-pass',[ForgotPasswordController::class,'forgotPass'])->name('
 Route::get('profile',[ProfileController::class,'profile'])->name('profile');
 Route::get('repass',[ProfileController::class,'repass'])->name('repass');
 Route::post('repass',[ProfileController::class,'repass'])->name('repass');
-
+Route::get('create_profile',[ProfileController::class,'create_profile'])->name('create.profile');
+Route::post('create_profile',[ProfileController::class,'create_profile'])->name('create.profile');
 // Route::get('/admin', function () {
 //     return view('admin/index/index');
 // });
