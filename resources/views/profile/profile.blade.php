@@ -9,8 +9,11 @@
                         class="fa fa-fw fa-user"></i></span>
             </div>
             <div class="media-body">
+                @if($profile->firstname !== null)
                 <h3 class="text-display-2 text-white margin-none">{{ $profile->firstname }}</h3>
-
+                @else
+                <h3 class="text-display-2 text-white margin-none">-</h3>
+                @endif
                 <p class="text-white text-subhead" style="font-size: 1.6rem;">ดูประวัติส่วนตัว</p>
             </div>
         </div>
@@ -37,9 +40,15 @@
                 <div class="tabbable paper-shadow relative" data-z="0.5">
                     <!-- Tabs -->
                     <ul class="nav nav-tabs">
+                        @if($profile->firstname !== null || $profile->lastname !== null )
                         <li class="active"><a><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs"
                                                                                      style="font-size: 23px;">{{ $profile->firstname}} {{ $profile->lastname}}</span></a>
                         </li>
+                        @else
+                        <li class="active"><a><i class="fa fa-fw fa-lock"></i> <span class="hidden-sm hidden-xs"
+                            style="font-size: 23px;">-</span></a>
+                        </li>
+                        @endif
                     </ul>
                     <!-- // END Tabs -->
                     <!-- Panes -->
@@ -52,14 +61,22 @@
                                         <label for="password" class="col-md-4 col-form-label text-md-end">รหัสบัตรประชาชน</label>
             
                                         <div class="col-md-6">
+                                            @if($profile->identification !== null)
                                             <p class="text-white text-subhead" style="font-size: 1.6rem;">{{ str_repeat('*', strlen($profile->identification) - 3) . substr( $profile->identification, -3) }}</p>
+                                            @else
+                                            <p class="text-white text-subhead" style="font-size: 1.6rem;">-</p>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="password" class="col-md-4 col-form-label text-md-end">เบอร์โทรศัพท์</label>
             
                                         <div class="col-md-6">
+                                            @if($profile->identification !== null)
                                             <p class="text-white text-subhead" style="font-size: 1.6rem;">{{ $profile->phone }}</p>
+                                            @else
+                                            <p class="text-white text-subhead" style="font-size: 1.6rem;">-</p>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6">
