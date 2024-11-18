@@ -227,7 +227,7 @@
     </script>
 <script>
     // กำหนดเวลาที่ต้องการทำนับถอยหลังถึง
-    var countDownTime = {{$lesson->time_test}};
+    var countDownTime = {{$lesson->time_test}} * 60;
     
      // อัปเดตการนับถอยหลังทุกๆ 1 วินาที
      var x = setInterval(function() {

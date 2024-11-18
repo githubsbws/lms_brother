@@ -106,8 +106,11 @@
                                         <label for="password" class="col-md-4 col-form-label text-md-end">บริษัท</label>
             
                                         <div class="col-md-6">
-
+                                            @if($company)
                                             <p class="text-white text-subhead" style="font-size: 1.6rem;">{{ $company->company_title}}</p>
+                                            @else
+                                            <p class="text-white text-subhead" style="font-size: 1.6rem;">-</p>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -115,7 +118,11 @@
                                         <label for="password" class="col-md-4 col-form-label text-md-end">แผนก</label>
             
                                         <div class="col-md-6">
+                                            @if($division)
                                             <p class="text-white text-subhead" style="font-size: 1.6rem;">{{ $division->dep_title}}</p>
+                                            @else
+                                            <p class="text-white text-subhead" style="font-size: 1.6rem;">-</p>
+                                            @endif
                                         </div>
                                     </div>
 
@@ -123,7 +130,11 @@
                                         <label for="password" class="col-md-4 col-form-label text-md-end">ตำแหน่ง</label>
             
                                         <div class="col-md-6">
+                                            @if($position)
                                             <p class="text-white text-subhead" style="font-size: 1.6rem;">{{ $position->position_title}}</p>
+                                            @else
+                                            <p class="text-white text-subhead" style="font-size: 1.6rem;">-</p>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-md-9" style="padding-top: 40px;">
