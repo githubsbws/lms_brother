@@ -972,8 +972,9 @@
                                                                     ]) .
                                                                     '" style="cursor: pointer;">ทำแบบทดสอบหลังเรียน</a></p>';
                                                             }
+                                                        }else{
+                                                            echo '<p style="font-weight: normal;color: #045BAB;">ไม่มีแบบทดสอบหลังเรียน</p>';
                                                         }
-                                                        echo '<p style="font-weight: normal;color: #045BAB;">ไม่มีแบบทดสอบหลังเรียน</p>';
                                                     } else {
                                                         echo '<p style="font-weight: normal;color: #045BAB;">-</p>';
                                                     }
