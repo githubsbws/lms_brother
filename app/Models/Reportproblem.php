@@ -25,5 +25,17 @@ class Reportproblem extends Model
     {
         return static::where('id', $id)->first();
     }
+
+    public function users()
+    {
+        return $this->belongsTo(Users::class,'user_id','id');   
+        
+    }
+
+    public function profile()
+    {
+        return $this->belongsTo(Profiles::class,'user_id');   
+        
+    }
     
 }

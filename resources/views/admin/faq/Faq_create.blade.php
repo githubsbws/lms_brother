@@ -1,95 +1,72 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+<body>
+    <div id="wrapper">
+        <div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="d-flex align-items-center">
+						<div class="">
+							<h4 class="m-0">คำถามที่พบบ่อย</h4>
+						</div>
+						<div class="ml-3">
+							<a href="{{route('faq')}}">
+								<button class="btn btn-warning d-flex align-items-center">
+									<i class="fas fa-angle-left mr-2"></i>
+									หน้าหลัก
+								</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+            <div class="container mt-5">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        เพิ่มคำถาม
+                    </div>
+                    <div class="card-body">
+                        <p>ค่าที่มี <span class="text-danger">*</span> จำเป็นต้องใส่ให้ครบ</p>
 
-<body class="">
+                        <form action="{{route('faq_insert')}}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="faq_type_id">หมวดหมู่คำถาม <span class="text-danger">*</span></label>
+                                <select class="form-control" name="faq_type_id">
+                                    @foreach($faq_types as $key => $value)
+                                        <option value="{{ $key }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-    <!-- Main Container Fluid -->
-    <div class="container-fluid fluid menu-left">
+                            <div class="form-group">
+                                <label for="faq_THtopic">ชื่อหัวข้อคำถาม <span class="text-danger">*</span></label>
+                                <input type="text" name="faq_THtopic" class="form-control" required>
+                            </div>
 
-        <!-- Top navbar -->
-        @include('admin.layouts.partials.top-nav')
-        <!-- Top navbar END -->
+                            <div class="form-group">
+                                <label for="faq_THanswer">คำตอบ <span class="text-danger">*</span></label>
+                                <textarea name="faq_THanswer" id="summernote" class="form-control"></textarea>
+                            </div>
 
-        <!-- Sidebar menu & content wrapper -->
-        <div id="wrapper">
-
-            <!-- Sidebar Menu -->
-            @include('admin.layouts.partials.menu-left')
-            <!-- // Sidebar Menu END -->
-
-            <!-- Content -->
-            <div id="content">
-                <ul class="breadcrumb">
-                    <li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="/admin/index.php/faq/index">คำถามที่พบบ่อย</a></li> »
-                    <li>เพิ่มคำถาม</li>
-                </ul><!-- breadcrumbs -->
-                <div class="separator bottom"></div>
-
-                <!-- innerLR -->
-                <div class="innerLR">
-                    <div class="widget widget-tabs border-bottom-none">
-                        <div class="widget-head">
-                            <ul>
-                                <li class="active">
-                                    <a class="glyphicons edit" href="#account-details" data-toggle="tab">
-                                        <i></i>เพิ่มคำถาม</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="widget-body">
-                            <div class="form">
-                                <form enctype="multipart/form-data" id="faq_insert" action="/faq_insert" method="post">
-                                    @csrf
-                                    <p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
-
-                                    <div class="row">
-                                        <label for="faq_type_id" class="required">หมวดหมู่คำถาม <span class="required">*</span></label>
-                                        <select class="span8 custom-dropdown" name="faq_type_id" id="faq_type_id">
-                                            @foreach($faq_types as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-
-                                    <div class="row">
-                                        <label for="faq_THtopic" class="required">ชื่อหัวข้อคำถาม <span class="required">*</span></label>
-                                        <input size="60" maxlength="250" class="span8" name="faq_THtopic" id="faq_THtopic" type="text">
-                                    </div>
-
-                                    <div class="row">
-                                        <label for="faq_THanswer" class="required">คำตอบ <span class="required">*</span></label>
-                                        <textarea class="span8" name="faq_THanswer" id="faq_THanswer" rows="6"></textarea>
-                                    </div>
-
-                                    <div class="row buttons">
-                                        <button class="btn btn-primary btn-icon glyphicons ok_2"><i></i>บันทึกข้อมูล</button>
-                                    </div>
-                                </form>
-                            </div><!-- form -->
-                        </div>
+                            <div class="card-footer">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <!-- END innerLR -->
-
-                <div id="sidebar">
-                </div><!-- sidebar -->
             </div>
-            <!-- // Content END -->
-
+            <div id="sidebar">
+            </div><!-- sidebar -->
         </div>
-        <div class="clearfix"></div>
-        <!-- // Sidebar menu & content wrapper END -->
-
-        <div id="footer" class="hidden-print">
-            <!--  Copyright Line -->
-            <div class="copy">© 2023 - All Rights Reserved.</a></div>
-            <!--  End Copyright Line -->
-        </div>
-        <!-- // Footer END -->
-
     </div>
-
+    <div class="clearfix"></div>
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote();
+        });
+</script>	
 </body>
 
 @endsection

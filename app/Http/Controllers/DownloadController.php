@@ -28,15 +28,22 @@ class DownloadController extends Controller
     function downloadfiles($id,  Request $request){
          // Retrieve the file information from the database
         $file = DownloadFileDoc::where('filedoc_id',$id)->first();
+
+        if (!$file) {
+            return response()->json(['error' => 'File not found in database'], 404);
+        }
         // Check if the file exists
         // dd($file->toArray());
         // Construct the full file path
         $file_path = public_path('images/uploads/filedoc/'.$file->filedocname);
 
+        $download_name = pathinfo($file->filedoc_name, PATHINFO_EXTENSION) === 'pdf'
+        ? $file->filedoc_name
+        : $file->filedoc_name . '.pdf';
 
         // Check if the file actually exists on the server
         if (file_exists($file_path)) {
-            return response()->download($file_path, $file->filedoc_name);
+            return response()->download($file_path, $download_name);
         } else {
             return response()->json(['error' => 'File not found'], 404);
         }

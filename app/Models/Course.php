@@ -35,4 +35,9 @@ class Course extends Model
     {
         return static::where('course_id', $id)->first();
     }
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class, 'course_lecturer','teacher_id');
+    }
 }

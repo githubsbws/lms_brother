@@ -25,6 +25,9 @@ class Faq extends Model
         return static::where('faq_nid_', $id)->first();
     }
 
-    
+    public function faqtype()
+    {
+        return $this->belongsTo(Faq_type::class, 'faq_type_id');
+    }
     
 }

@@ -1,96 +1,109 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
+@php
+use App\Models\Company;
+@endphp
+<body>
+	<div id="wrapper">
+		<div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <h4 class="m-0">ASC</h4>
+                        </div>
+                        <div class="ml-3">
+                            <a href="{{route('admin')}}">
+                                <button class="btn btn-warning d-flex align-items-center">
+                                    <i class="fas fa-angle-left mr-2"></i>
+                                    หน้าหลัก
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="container mt-5">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        เพิ่มCompany
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('admin.company') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="company_title">ชื่อCompany </label>
+                                <input type="text" name="company_title" class="form-control">
+                            </div>
 
-<body class="">
+                            <div class="card-footer">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
-	<!-- Main Container Fluid -->
-	<div class="container-fluid fluid menu-left">
+				<div class="card">
+                    <div class="card-header bg-primary text-white">
+                        เพิ่มASC
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('asc.create') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <label for="title">ชื่อบริษัท </label>
+                                <input type="text" name="title" class="form-control">
+                            </div>
 
-		<!-- Top navbar -->
-		@include('admin.layouts.partials.top-nav')
-		<!-- Top navbar END -->
+							<div class="form-group">
+                                <label for="asc_code">ASC_Code </label>
+                                <input type="text" name="asc_code" class="form-control">
+                            </div>
+							
+                            <div class="card-footer">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+				@php
+				$company = Company::get();
+				@endphp
+				<div class="card">
+                    <div class="card-header bg-primary text-white">
+                        เพิ่มPosition
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('admin.position') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+							<div class="form-group">
+                                <label for="position_title">ชื่อCompany </label>
+                                <select name="company_id" id="company" class="form-control">
+									<option value="">---เลือก---</option>
+									@foreach ( $company as $com )
+										<option value="{{ $com->id }}">{{ $com->company_title }}</option>
+									@endforeach
+								</select>
+                            </div>
 
-
-		<!-- Sidebar menu & content wrapper -->
-		<div id="wrapper">
-
-			<!-- Sidebar Menu -->
-			@include('admin.layouts.partials.menu-left')
-			<!-- // Sidebar Menu END -->
-
-
-			<!-- Content -->
-			<!-- <div class="span-19"> -->
-			<div id="content">
-				<ul class="breadcrumb">
-					<li><a href="/admin">หน้าหลัก</a></li> » <li><a href="{{url('asc')}}">ASC</a></li> 
-				</ul><!-- breadcrumbs -->
-				<div class="separator bottom"></div>
-
-
-				<!-- innerLR -->
-				<div class="innerLR">
-					<div class="widget widget-tabs border-bottom-none">
-						<div class="widget-head">
-							<ul>
-								<li class="active">
-									<a class="glyphicons edit" href="#account-details" data-toggle="tab">
-										<i></i>เพิ่มASC </a>
-								</li>
-							</ul>
-						</div>
-						<div class="widget-body">
-							<div class="form">
-								<form enctype="multipart/form-data" id="imgslide-form" action="{{ route('asc.create') }}" method="post">
-									@csrf
-									<div class="row">
-										<label for="Imgslide_imgslide_link" class="required">ชื่อหัวข้อ <span class="required">*</span></label> 
-										<input size="60" maxlength="250" class="span8" name="title" id="title" type="text"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
-										<div class="error help-block">
-											<div class="label label-important" id="Imgslide_imgslide_link_em_" style="display:none"></div>
-										</div>
-									</div>
-									<div class="row">
-										<label for="Imgslide_imgslide_link" class="required">ASC_Code <span class="required">*</span></label> 
-										<input size="60" maxlength="250" class="span8" name="asc_code" id="asc_code" type="text"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>
-										<div class="error help-block">
-											<div class="label label-important" id="Imgslide_imgslide_link_em_" style="display:none"></div>
-										</div>
-									</div>
-									<div class="row buttons">
-										<button class="btn btn-primary btn-icon glyphicons ok_2" type="submit"><i></i>บันทึกข้อมูล</button>
-									</div>
-								</form>
-							</div><!-- form -->
-						</div>
-					</div>
-				</div>
-				<!-- END innerLR -->
-
-				<div id="sidebar">
-				</div><!-- sidebar -->
-			</div>
-			<!-- </div> -->
-			<!-- <div class="span-5 last"> -->
-			<!-- </div> -->
-			<!-- // Content END -->
-
+                            <div class="form-group">
+                                <label for="position_title">ชื่อposition </label>
+                                <input type="text" name="position_title" class="form-control">
+                            </div>
+							
+                            <div class="card-footer">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+			<div id="sidebar">
+			</div><!-- sidebar -->
 		</div>
-		<div class="clearfix"></div>
-		<!-- // Sidebar menu & content wrapper END -->
-
-		<div id="footer" class="hidden-print">
-
-			<!--  Copyright Line -->
-			<div class="copy">© 2023 - All Rights Reserved.</a></div>
-			<!--  End Copyright Line -->
-
-		</div>
-		<!-- // Footer END -->
-
 	</div>
-
+	<div class="clearfix"></div>
 </body>
 
 @endsection

@@ -13,14 +13,18 @@
 <body>
 
 
-    @include('admin.layouts.partials.headerscript')
+    @include('admin.layouts.partials.menu-left')
     
     @yield('content')
 
-    @include('admin.layouts.partials.footer')
 
-    @include('admin.layouts.partials.footerscript')
+    <div id="footer" class="hidden-print">
 
+        <!--  Copyright Line -->
+        <div class="copy">© 2023 - All Rights Reserved.</a></div>
+        <!--  End Copyright Line -->
+
+    </div>
 </body>
 
 </html>

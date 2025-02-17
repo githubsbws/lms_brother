@@ -25,5 +25,10 @@ class Downloadcategoty extends Model
     {
         return static::where('download_id', $id)->first();
     }
+
+    public function title()
+    {
+        return $this->belongsTo(Downloadtitle::class, 'title_id');
+    }
     
 }

@@ -1,93 +1,55 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-
-<body class="">
-
-	<!-- Main Container Fluid -->
-	<div class="container-fluid fluid menu-left">
-
-		<!-- Top navbar -->
-		@include('admin.layouts.partials.top-nav')
-		<!-- Top navbar END -->
-
-
-		<!-- Sidebar menu & content wrapper -->
-		<div id="wrapper">
-
-			<!-- Sidebar Menu -->
-			@include('admin.layouts.partials.menu-left')
-			<!-- // Sidebar Menu END -->
-
-
-			<!-- Content -->
-			<!-- <div class="span-19"> -->
-			<div id="content">
-				<!-- breadcrumbs -->
-				<div class="separator bottom"></div>
-				<div class="innerLR">
-					<!-- Box -->
-					<div class="hero-unit well">
-						<div class="widget-head">
-                            <h4 class="heading glyphicons show_thumbnails_with_lines"><i></i>จัดการระบบCaptcha >> เพิ่มระบบCaptcha</h4>
+<body>
+	<div id="wrapper">
+		<div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <h4 class="m-0">ระบบ Captcha</h4>
                         </div>
-						<hr class="separator">
-						<!-- Row -->
-						<div class="form">
-                                <div class="row">
-                                    <label for="capt_name" class="required">ชื่อเงื่อนไข<span class="required"></span></label>
-									<h4>{{$captcha->capt_name}}</h4>
-                                    <div class="error help-block">
-                                        <div class="label label-important" id="News_cms_title_em_" style="display:none"></div>
-                                    </div>
-                                </div>
-    
-                                <div class="row">
-                                    <label for="type" class="required">ชนิด<span class="required"></span></label> 
-									<h4>{{$captcha->type}}</h4>
-                                    <div class="error help-block">
-                                        <div class="label label-important" id="type" style="display:none"></div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <label for="capt_times" class="required">ระยะเวลาการแสดงแคปช่า<span class="required"></span></label> 
-									<h4>{{$captcha->capt_times}}</h4>
-									
-                                    <div class="error help-block">
-                                        <div class="label label-important" id="capt_times" style="display:none"></div>
-                                    </div>
-                                </div>
-    
-    
-                            </div>  
-                            <!-- // Row END -->
-    
+                        <div class="ml-3">
+                            <a href="{{route('captcha')}}">
+                                <button class="btn btn-warning d-flex align-items-center">
+                                    <i class="fas fa-angle-left mr-2"></i>
+                                    กลับหน้าหลัก
+                                </button>
+                            </a>
                         </div>
-						<!-- // Row END -->
-
+                    </div>
+                </div>
+            </div>
+			<div class="container mt-5">
+				<div class="card">
+					<div class="card-header bg-primary text-white">
+						รายละเอียดCaptcha
 					</div>
-					<!-- // Box END -->
+					<div class="card-body">
+							<div class="form-group">
+								<label for="cms_title">ชื่อเงื่อนไข</label>
+								<h4>{{$captcha->capt_name}}</h4>
+							</div>
+
+							<div class="form-group">
+								<label for="cms_title">ชนิด</label>
+								<h4>{{$captcha->type}}</h4>
+							</div>
+
+							<div class="form-group">
+								<label for="cms_title">ระยะเวลาการแสดงแคปช่า</label>
+								<h4>{{$captcha->capt_times}}</h4>
+							</div>
+					</div>
 				</div>
-				<div id="sidebar">
-				</div><!-- sidebar -->
 			</div>
-			<!-- // Content END -->
-
 		</div>
-		<div class="clearfix"></div>
-		<!-- // Sidebar menu & content wrapper END -->
-
-		<div id="footer" class="hidden-print">
-
-			<!--  Copyright Line -->
-			<div class="copy">© 2023 - All Rights Reserved.</a></div>
-			<!--  End Copyright Line -->
-
-		</div>
-		<!-- // Footer END -->
-
+		<div id="sidebar">
+		</div><!-- sidebar -->
 	</div>
+</div>
+<div class="clearfix"></div>
 
 </body>
 

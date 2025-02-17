@@ -20,7 +20,7 @@ class Profiles extends Model
 
     public function user()
     {
-        return $this->belongsTo(Users::class,'id','user_id');
+        return $this->hasOne(Users::class,'id','user_id');
     }
     public function ProfTitle()
     {

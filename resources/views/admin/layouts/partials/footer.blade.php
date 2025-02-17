@@ -1,6 +1,6 @@
 
 	<!-- JQuery -->
-	<script src="{{asset('Adminkit/theme/scripts/plugins/system/jquery.min.js')}}"></script>
+	
 
 	<!-- Modernizr -->
 	<script src="{{asset('Adminkit/theme/scripts/plugins/system/modernizr.js')}}"></script>

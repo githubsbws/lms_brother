@@ -40,4 +40,19 @@ class Lesson extends Model
         return $this->hasMany(FileDoc::class, 'lesson_id', 'id');
     }
 
+    public function manage()
+    {
+        return $this->hasMany(Manage::class, 'id');
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id');
+    }
+
+    public function Qheader()
+    {
+        return $this->belongsTo(QHeader::class, 'header_id','survey_header_id');
+    }
+
 }

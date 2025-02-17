@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use DateTime;
 use App\Facades\AuthFacade;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
@@ -290,14 +291,14 @@ class AdminController extends Controller
             $setting = Setting::first();
             if ($request->isMethod('post')) { // ตรวจสอบว่าเป็นการร้องขอ POST หรือไม่
                 $validator = Validator::make($request->all(), [
-                    'email_room' => 'required|string', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
-                    'pass_email_room' =>'required|string',
-                    'settings_user_email' =>'required|string',
-                    'settings_pass_email' =>'required|string',
-                    'settings_testing' =>'nullable|string',
-                    'settings_register' =>'nullable|string',
-                    'settings_score' => 'required|string',
-                    'password_expire_day' =>'required|string'
+                    'email_room' => 'nullable', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
+                    'pass_email_room' =>'nullable',
+                    'settings_user_email' =>'nullable',
+                    'settings_pass_email' =>'nullable',
+                    'settings_testing' =>'nullable',
+                    'settings_register' =>'nullable',
+                    'settings_score' => 'nullable',
+                    'password_expire_day' =>'nullable'
 
                 ]);
                 // dd($validator);
@@ -339,7 +340,7 @@ class AdminController extends Controller
     }
     function contactus(){
         if(AuthFacade::useradmin()){
-            $contactus= Contactus::where('active','y')->paginate(10);
+            $contactus= Contactus::where('active','y')->get();
 
             return view("admin.contactus.contactus",['contactus' => $contactus]);
         }else{
@@ -493,7 +494,7 @@ class AdminController extends Controller
     }
     function video(){
         if(AuthFacade::useradmin()){
-            $vdo =DB::table('vdo')->get();
+            $vdo =Video::where('active','y')->OrderBy('vdo_id','desc')->get();
             return view("admin.video.video",compact('vdo'));
         }else{
             return redirect()->route('login.admin');
@@ -574,54 +575,8 @@ class AdminController extends Controller
     //
     function document(Request $request){
         if(AuthFacade::useradmin()){
-            $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->paginate(10);
+            $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->get();
             $type = Downloadtitle::where('active','y')->orderBy('title_id','DESC')->get();
-            $perPage = $request->input('per_page');
-            $query = $request->input('doc_name');
-            if($request->has('document_type')) {
-                $documentType = $request->input('document_type');
-                
-                if($documentType !== '0'){
-                     // ดึงข้อมูล category ที่ตรงกับ document_type
-                $categories = Downloadcategoty::where('active', 'y')
-                ->whereIn('title_id', (array) $documentType)
-                ->pluck('download_id');
-    
-                // ดึงไฟล์ที่ตรงกับ category
-                $files = DownloadFile::where('active', 'y')
-                    ->whereIn('download_id', $categories)
-                    ->pluck('file_id');
-        
-                // ดึงเอกสารที่ตรงกับไฟล์
-                $document = DownloadFileDoc::where('active', 'y')
-                    ->whereIn('file_id', $files)
-                    ->orderBy('filedoc_id', 'DESC')
-                    ->get();
-        
-                
-                    $html = view('admin.document.document_table_body', compact('document'))->render();
-            
-                    return response()->json([
-                        'html' => $html
-                    ]);
-                }else{
-                    $document = DownloadFileDoc::where('active', 'y')
-                    ->orderBy('filedoc_id', 'DESC')
-                    ->paginate(10);
-
-                    $html = view('admin.document.document_table_body', compact('document'))->render();
-
-                    return response()->json([
-                        'html' => $html
-                    ]);
-                }
-            } 
-            if($query && !empty($query)) {
-                $document = DownloadFileDoc::where('filedoc_name', 'like', "%$query%")->paginate(10);
-            } 
-            if($perPage){
-                $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->paginate($perPage);
-            }
             
             return view("admin.document.document",['document' =>$document,'type' =>$type]);
         }else{
@@ -695,7 +650,11 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             $document = DownloadFileDoc::where('filedoc_id',$id)->first();
             $document_file = DownloadFile::where('file_id',$document->file_id)->first();
-            $document_type = Downloadcategoty::where('download_id',$document_file->download_id)->first();
+            if($document_file){
+                $document_type = Downloadcategoty::where('download_id',$document_file->download_id)->first();
+            }else{
+                $document_type = null ;
+            }
             $document_cate = Downloadcategoty::where('active','y')->get();
             if ($request->isMethod('post')) { // ตรวจสอบว่าเป็นการร้องขอ POST หรือไม่
 
@@ -776,11 +735,7 @@ class AdminController extends Controller
     }
     function document_type(Request $request){
         if(AuthFacade::useradmin()){
-            $document_type = Downloadcategoty::where('active','y')->paginate(10);
-            $perPage = $request->input('per_page');
-            if($perPage){
-                $document_type = Downloadcategoty::where('active','y')->paginate($perPage);
-            }
+            $document_type = Downloadcategoty::where('active','y')->get();
             return view("admin.document.document_type",['document_type' =>$document_type]);
         }else{
             return redirect()->route('login.admin');
@@ -963,7 +918,7 @@ class AdminController extends Controller
     }
     function news(){
         if(AuthFacade::useradmin()){
-            $news = News::where('active','y')->paginate(10);
+            $news = News::where('active','y')->get();
             return view("admin.news.news",['news' => $news]);
         }else{
             return redirect()->route('login.admin');
@@ -1027,36 +982,33 @@ class AdminController extends Controller
                     return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
                 }
 
-                $category_update = new Category;
-                $category_update->cate_title = $request->input('cate_title');
-                $category_update->cate_short_detail = $request->input('cate_short_detail');
-                $category_update->cate_detail = htmlspecialchars($request->input('cate_detail'));
-                $category_update->update_by = Auth::user()->id;
-
+                $category_create = new Category;
+                $category_create->cate_title = '1';
+                $category_create->cate_title = $request->input('cate_title');
+                $category_create->cate_short_detail = $request->input('cate_short_detail');
+                $category_create->cate_detail = htmlspecialchars($request->input('cate_detail'));
+                $category_create->create_by = Auth::user()->id;
+                $category_create->update_by = Auth::user()->id;
+                $category_create->cate_show = '1';
+                $category_create->active = 'y';
+                $category_create->save();
                 // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
 
-                if($request->file('image')){
+                if ($request->hasFile('image')) {
                     $image = $request->file('image');
-                    $imageName = $image->getClientOriginalName();
-                    $category_update->cate_image = $imageName;
-
-                    $idFolder = public_path('images/uploads/category/'.$category_update->cate_id);
+                    $imageName = time() . '_' . $image->getClientOriginalName(); // ตั้งชื่อไฟล์ใหม่ป้องกันซ้ำ
+                    $idFolder = public_path('images/uploads/category/' . $category_create->id . '/original');
+            
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder);
-
-                        $idFolder2 = public_path('images/uploads/category/'.$category_update->cate_id.'/original/');
-                        if (!file_exists($idFolder2)) {
-                            mkdir($idFolder2);
-                        }
+                        mkdir($idFolder, 0777, true); // ใช้ recursive และกำหนด permission
                     }
-
-                    // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
-                    $image->move($idFolder2, $imageName);
-
-                    
-                    
+            
+                    $image->move($idFolder, $imageName); // ย้ายไฟล์ไปโฟลเดอร์
+            
+                    // อัปเดตชื่อไฟล์ภาพลงฐานข้อมูล
+                    $category_create->cate_image = $imageName;
+                    $category_create->save();
                 }
-                $category_update->save();
         
                 return redirect()->route('category')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
             }
@@ -1152,7 +1104,7 @@ class AdminController extends Controller
     
     function courseonline(){
         if(AuthFacade::useradmin()){
-            $course_online = Course::join('category', 'category.cate_id', '=', 'course_online.cate_id')->where('course_online.active', 'y')->orderBy('sortOrder', 'desc')->paginate(10);
+            $course_online = Course::join('category', 'category.cate_id', '=', 'course_online.cate_id')->where('course_online.active', 'y')->orderBy('sortOrder', 'desc')->get();
             return view("admin.courseonline.courseonline", compact('course_online'));
         }else{
             return redirect()->route('login.admin');
@@ -1183,7 +1135,7 @@ class AdminController extends Controller
     function courseonline_edit(Request $request, $id)
     {
         if(AuthFacade::useradmin()){
-            $course_detail = DB::table('course_online')->where('course_id', $id)->first();
+            $course_detail = Course::where('course_id', $id)->first();
             $category = DB::table('category')->pluck('cate_title', 'cate_id');
             $teacher = Teacher::where('active','y')->get();
             if ($request->isMethod('post')) {
@@ -1433,21 +1385,7 @@ class AdminController extends Controller
     function lesson(Request $request){
         if(AuthFacade::useradmin()){
             $course_online = Course::where('active', 'y')->orderBy('sortOrder', 'desc')->get();
-
-            $course_id = $request->input('course_id');
-            $course_name = $request->input('title');
-            if(isset($course_id) && !empty($course_id)) {
-                $lesson = Lesson::where('course_id',$course_id)
-                        ->where('active', 'y')
-                        ->paginate(10);
-            }elseif(isset($course_name) && !empty($course_name)){
-                $lesson = Lesson::where('course_title','like',"%$course_name%")
-                        ->where('active', 'y')
-                        ->paginate(10);
-
-            }else {
-                $lesson = Lesson::where('lesson.active', 'y')->paginate(10);
-            }
+            $lesson = Lesson::where('lesson.active', 'y')->get();
             return view("admin.lesson.lesson",compact('course_online','lesson'));
         }else{
             return redirect()->route('login.admin');
@@ -1652,149 +1590,178 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
-    function lesson_create(Request $request){
-        if(AuthFacade::useradmin()){
-            $course_online = Course::where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
-            
-
-            if ($request->isMethod('post')) {
-                // dd($request->toArray());
-                $validator = Validator::make($request->all(), [
-                    'course_id' => 'required|string', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
-                    'title' =>'required|string',
-                    'description' =>'required|string',
-                    'cate_amount'=>'required|string',
-                    'time_test'=>'required|string',
-                    'content' =>'required|string'
-
-                ]);
-                
-                if ($validator->fails()) {
-                    
-                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
-                }
-
-                $lesson_create = new Lesson;
-                $lesson_create->course_id = $request->input('course_id');
-                $lesson_create->title = $request->input('title');
-                $lesson_create->content = htmlspecialchars($request->input('content'));
-                $lesson_create->description = $request->input('description');
-                $lesson_create->cate_amount = $request->input('cate_amount');
-                $lesson_create->time_test = $request->input('time_test');
-                $lesson_create->update_by = Auth::user()->id;
-                $lesson_create->active = 'y';
-                $lesson_create->save();
-
-                if($request->file('image')){
-                $image = $request->file('image');
-                $imageName = $image->getClientOriginalName();
-
-
-                }
-                if ($request->hasFile('filename')) {
-                    $validator = Validator::make($request->all(), [
-                        'filename' => 'required|mimes:mp3,mp4'
-                    ]);
-            
-                    if ($validator->fails()) {
-                        return redirect()->back()->withErrors($validator)->withInput();
-                    }
-
-                    $filename = $request->file('filename');
-                    
-                    $file_name = $filename->getClientOriginalName();
-                    
-
-                    $file_new = new File;
-                    $file_new->lesson_id = $lesson_create->id;
-                    $file_new->file_name = $lesson_create->title;
-                    $file_new->filename = $file_name;
-                    $file_new->length = '2.00';
-                    $file_new->create_by = Auth::user()->id;
-                    $file_new->update_by = Auth::user()->id;
-                    $file_new->active = 'y';
-                    $file_new->views = '0';
-                    $file_new->save();
-
-                    $idFolder = public_path('images/uploads/lesson/');
-                    if (!file_exists($idFolder)) {
-                        mkdir($idFolder);
-                    }
-                    $filename->move($idFolder, $file_name);
-                    //---------------------------------------//
-
-                }
-                if($request->hasFile('doc')){
-                    $validator = Validator::make($request->all(), [
-                        'doc' => 'required|mimes:pdf,docx,pptx',
-                    ]);
-            
-                    if ($validator->fails()) {
-                        return redirect()->back()->withErrors($validator)->withInput();
-                    }
-
-                    $doc = $request->file('doc');
-                    $doc_name = $doc->getClientOriginalName();
-
-                    $doc_new = new FileDoc;
-                    $doc_new->lesson_id = $lesson_create->id;
-                    $doc_new->file_name = $lesson_create->title;
-                    $doc_new->filename = $doc_name;
-                    $doc_new->length = '2.00';
-                    $doc_new->create_by = Auth::user()->id;
-                    $doc_new->update_by = Auth::user()->id;
-                    $doc_new->active = 'y';
-                    $doc_new->save();
-
-                    $idFolder = public_path('images/uploads/filedoc/');
-                    if (!file_exists($idFolder)) {
-                        mkdir($idFolder);
-                    }
-                    $doc->move($idFolder, $doc_name);
-                    //-----------------------------------------//
-                }
-                if($request->file('image')){
-                    
-
-                    $idFolder = public_path('images/uploads/lesson/'.$lesson_create->id);
-                    if (!file_exists($idFolder)) {
-                        mkdir($idFolder);
-
-                        $idFolder2 = public_path('images/uploads/lesson/'.$lesson_create->id.'/original/');
-                        if (!file_exists($idFolder2)) {
-                            mkdir($idFolder2);
-                        }
-                    }
-
-                    // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
-                
-                    $image->move($idFolder2, $imageName);
-
-                    $lesson_create->image = $imageName;
-                    
-                    $lesson_create->save();
-                }
-                // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
-                $lesson_create->sort_lesson = $lesson_create->id;
-                $lesson_create->save();
-
-                return redirect()->route('lesson')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
-            }
-
-            return view("admin.lesson.lesson_create",compact('course_online'));
-        }else{
+    public function lesson_create(Request $request)
+    {
+        if (!Auth::check() || !AuthFacade::useradmin()) {
             return redirect()->route('login.admin');
         }
+
+        $course_online = Course::where('course_online.active', 'y')->orderBy('course_id', 'desc')->get();
+
+        if ($request->isMethod('post')) {
+            // ✅ ตรวจสอบข้อมูลที่ส่งมา
+            $validator = Validator::make($request->all(), [
+                'course_id' => 'required|string',
+                'title' => 'required|string',
+                'description' => 'required|string',
+                'cate_amount' => 'required',
+                'time_test' => 'required',
+                'content' => 'required',
+                'filename.*' => 'nullable|mimes:mp3,mp4', 
+                'doc.*' => 'nullable|mimes:pdf,docx,pptx', 
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif' 
+            ]);
+
+            if ($validator->fails()) {
+                Log::error('Validation failed: ', $validator->errors()->toArray());
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            // ✅ บันทึกข้อมูลลงใน `lesson`
+            $lesson_create = new Lesson();
+            $lesson_create->course_id = $request->course_id;
+            $lesson_create->title = $request->title;
+            $lesson_create->content = htmlspecialchars($request->content);
+            $lesson_create->description = $request->description;
+            $lesson_create->cate_amount = $request->cate_amount;
+            $lesson_create->time_test = $request->time_test;
+            $lesson_create->update_by = Auth::id();
+            $lesson_create->active = 'y';
+            $lesson_create->save();
+
+            // 📂 **จัดการการสร้างโฟลเดอร์**
+            $lessonFolder = public_path("images/uploads/lesson/{$lesson_create->id}");
+            $originalFolder = "{$lessonFolder}/original";
+            $filedocFolder = public_path("images/uploads/filedoc/");
+            
+            foreach ([$lessonFolder, $originalFolder, $filedocFolder] as $folder) {
+                if (!File::exists($folder)) {
+                    File::makeDirectory($folder, 0777, true);
+                }
+            }
+
+            // 📌 **อัปโหลดไฟล์ mp3/mp4**
+            if ($request->hasFile('filename')) {
+                foreach ($request->file('filename') as $file) {
+                    $fileName = time() . "_" . $file->getClientOriginalName();
+                    $file->storeAs("public/images/uploads/lesson/{$lesson_create->id}/", $fileName);
+
+                    // 🔹 บันทึกลง Database
+                    File::create([
+                        'lesson_id' => $lesson_create->id,
+                        'file_name' => $lesson_create->title,
+                        'filename' => $fileName,
+                        'length' => '2.00',
+                        'create_by' => Auth::id(),
+                        'update_by' => Auth::id(),
+                        'active' => 'y',
+                        'views' => 0
+                    ]);
+                }
+            }
+
+            // 📌 **อัปโหลดไฟล์เอกสาร**
+            if ($request->hasFile('doc')) {
+                foreach ($request->file('doc') as $doc) {
+                    $docName = time() . "_" . $doc->getClientOriginalName();
+                    $doc->storeAs("public/images/uploads/filedoc/", $docName);
+
+                    // 🔹 บันทึกลง Database
+                    FileDoc::create([
+                        'lesson_id' => $lesson_create->id,
+                        'file_name' => $lesson_create->title,
+                        'filename' => $docName,
+                        'length' => '2.00',
+                        'create_by' => Auth::id(),
+                        'update_by' => Auth::id(),
+                        'active' => 'y'
+                    ]);
+                }
+            }
+
+            // 📌 **อัปโหลดภาพประกอบ**
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . "." . $image->getClientOriginalExtension();
+                $image->storeAs("public/images/uploads/lesson/{$lesson_create->id}/original/", $imageName);
+
+                $lesson_create->image = $imageName;
+                $lesson_create->save();
+            }
+
+            // 🔥 **ตั้งค่าการเรียงลำดับ**
+            $lesson_create->sort_lesson = $lesson_create->id;
+            $lesson_create->save();
+
+            return redirect()->route('lesson')->with('success', 'อัปโหลดข้อมูลเรียบร้อยแล้ว!');
+        }
+
+        return view("admin.lesson.lesson_create", compact('course_online'));
     }
     
     function filemanagers(Request $request, $id = null){
         if(AuthFacade::useradmin()){
             if($id !== null){
-                $file = File::where('lesson_id', $id)->where('active', 'y')->paginate(10);
+                $file = File::where('lesson_id', $id)->where('active', 'y')->orderBy(DB::raw('CAST(file_position AS UNSIGNED)'), 'ASC')->get();
             } else {
-                $file = File::where('active', 'y')->paginate(10);
+                $file = File::where('active', 'y')->get();
             }
             return view("admin.file_managers.file_managers", ['file' => $file]);
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
+    public function sort(Request $request)
+    {
+        // ตรวจสอบว่า order มีก่อนหรือไม่
+        if (empty($request->order)) {
+            return response()->json(['success' => false, 'message' => 'No order data provided.']);
+        }
+
+        // ใช้ transaction เพื่อความปลอดภัย
+        DB::beginTransaction();
+
+        try {
+            // อัปเดตการจัดเรียงในฐานข้อมูล
+            foreach ($request->order as $item) {
+                // ตรวจสอบว่า id และ position มีอยู่ในแต่ละรายการหรือไม่
+                if (isset($item['id'], $item['position'])) {
+                    File::where('id', $item['id'])->update(['file_position' => $item['position']]);
+                }
+            }
+
+            // คอมมิทการทำงานหากทุกอย่างไม่มีข้อผิดพลาด
+            DB::commit();
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            // ย้อนกลับหากเกิดข้อผิดพลาด
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Failed to update file positions.', 'error' => $e->getMessage()]);
+        }
+    }
+
+    function file_edit(Request $request, $id){
+        if(AuthFacade::useradmin()){
+            if($id !== null){
+                $file = File::where('lesson_id', $id)->where('active', 'y')->orderBy(DB::raw('CAST(file_position AS UNSIGNED)'), 'ASC')->get();
+            } else {
+                $file = File::where('active', 'y')->get();
+            }
+            return view("admin.file_managers.file_managers", ['file' => $file]);
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
+    function file_delete($id){
+        if(AuthFacade::useradmin()){
+            $file_del=[
+                'active'=>'n'
+            ];
+            $file = File::findById($id);
+            $file->update($file_del);
+            return redirect()->route('filemanagers',['id' => $id]);
         }else{
             return redirect()->route('login.admin');
         }
@@ -1843,12 +1810,12 @@ class AdminController extends Controller
                 $manage = Manage::where('id', $id)->where('type', $type)->first();
                 // ตรวจสอบว่า $manage ไม่เป็น null ก่อนที่จะดำเนินการต่อ
                 if($manage !== null){
-                    $grouptesting = Grouptesting::where('lesson_id', $manage->id)->paginate(10);
+                    $grouptesting = Grouptesting::where('lesson_id', $manage->id)->where('active','y')->get();
                 } else {
-                    $grouptesting = Grouptesting::paginate(10);
+                    $grouptesting = Grouptesting::where('active','y')->get();
                 }
             } else {
-                $grouptesting = Grouptesting::paginate(10);
+                $grouptesting = Grouptesting::where('active','y')->get();
             }
             
             return view("admin.grouptesting.grouptesting",['grouptesting' => $grouptesting]);
@@ -2048,10 +2015,10 @@ class AdminController extends Controller
     function group_question($id = null){
         if(AuthFacade::useradmin()){
             if($id !== null){
-                $coursegrouptesting = Question::where('group_id',$id)->where('active','y')->paginate(10);
+                $coursegrouptesting = Question::where('group_id',$id)->where('active','y')->get();
                 // dd($coursegrouptesting);
             }else{
-                $coursegrouptesting = Question::where('active','y')->paginate(10);
+                $coursegrouptesting = Question::where('active','y')->get();
             }
             return view("admin.grouptesting.group_question",['coursegrouptesting' =>$coursegrouptesting]);
         }else{
@@ -2205,7 +2172,7 @@ class AdminController extends Controller
     //new p
     function questionnaireout(){
         if(AuthFacade::useradmin()){
-            $survey_headers = QHeader::where('active','y')->paginate(10);
+            $survey_headers = QHeader::where('active','y')->get();
             return view("admin.questionnaireout.questionnaireout",compact('survey_headers'));
         }else{
             return redirect()->route('login.admin');
@@ -2242,13 +2209,19 @@ class AdminController extends Controller
     //new p
     function questionnaireout_plan(Request $request, $id){
         if(AuthFacade::useradmin()){
-            $lesson_id = $id;
+            $lesson_id = Lesson::findById($id);
             $survey_headers = QHeader::where('active','y')->paginate(10);
             if ($request->has('id')) {
                 // คืนค่า JSON แจ้งข้อผิดพลาดว่าไม่มีค่า ID ถูกส่งมา
-                $header_id = $request->input('id');
+                $lesson_id = $request->input('id');
+                $header_id = $request->input('header_id');
                 
                 $lesson = Lesson::findById($lesson_id);
+
+                if (!$lesson) {
+                    return response()->json(['error' => 'Lesson not found'], 404);
+                }
+
                 $lesson->header_id = $header_id;
                 $lesson->save();
 
@@ -2587,7 +2560,7 @@ class AdminController extends Controller
         }
         
         // Paginate filtered or non-filtered results
-        $user = $query->paginate(50);
+        $user = $query->get();
 
         $querys = Users::where('status', '1')
                         ->where('department_id', $org_id);
@@ -2596,7 +2569,7 @@ class AdminController extends Controller
             $querys->where('username', 'like', '%' . $filterUser . '%');
         }
         // Fetch users in the department for the given org_id
-        $user_chart = $querys->paginate(10);
+        $user_chart = $querys->get();
 
         return view("admin.orgchart.orgchart_users", [
             'org_id' => $org_id,
@@ -3068,7 +3041,7 @@ class AdminController extends Controller
 
     function reportproblem(){
         if(AuthFacade::useradmin()){
-            $reportproblem = Reportproblem::paginate(10);
+            $reportproblem = Reportproblem::get();
             return view("admin.report.reportproblem",['reportproblem' => $reportproblem]);
         }else{
             return redirect()->route('login.admin');
@@ -3197,8 +3170,7 @@ class AdminController extends Controller
     }
     function faq(){
         if(AuthFacade::useradmin()){
-            $faq= Faq::join('cms_faq_type', 'cms_faq.faq_type_id', '=', 'cms_faq_type.faq_type_id')
-            ->select('cms_faq.*', 'cms_faq_type.faq_type_title_TH')
+            $faq= Faq::where('active','y')
             ->get();
             return view("admin.faq.faq",compact('faq'));
         }else{
@@ -3413,7 +3385,7 @@ class AdminController extends Controller
     function adminuser_permission_add($id){
         if(AuthFacade::useradmin()){
             $user = Profiles::where('user_id',$id)->first();
-            $groupRole = Pgroup::get();
+            $groupRole = Pgroup::where('active','y')->get();
             return view("admin.adminuser.adminuser-permis-add",compact('groupRole','user','id'));
         }else{
             return redirect()->route('login.admin');
@@ -3684,33 +3656,9 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
                 $company = Company::get();
                 $division = Division::get();
-                $course_name = $request->input('fname');
-                $division_s = $request->input('division');
-                $company_s = $request->input('company');
-                if(isset($course_name) && !empty($course_name)) {
-                    $query = Users::where('username','like',"%$course_name%")
-                ->where('status', '1')
+                $query = Users::where('status', '1')
                 ->where('del_status', 0)
-                ->paginate(10);
-                // dd($course_name);
-                // dd($query);
-                }elseif(isset($division_s) && !empty($division_s)){
-                    $query = Users::where('division_id',$division_s)
-                    ->where('status', '1')
-                    ->where('del_status', 0)
-                    ->paginate(10);
-    
-                } elseif(isset($company_s) && !empty($company_s)){
-                    $query = Users::where('company_id',$company_s)
-                ->where('status', '1')
-                ->where('del_status', 0)
-                ->paginate(10);
-    
-                }else {
-                    $query = Users::where('status', '1')
-                ->where('del_status', 0)
-                ->paginate(10);
-                }
+                ->get();
                 // dd($query->toArray());
             return view("admin.user_admin.user-admin",['company' => $company,'division' => $division,'query' => $query]);
         }else{
@@ -3930,6 +3878,55 @@ class AdminController extends Controller
                 return redirect()->route('user_admin');
             }
             return view("admin.user_admin.asc");
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
+    public function company(Request $request){
+        if(AuthFacade::useradmin()){
+            if($request->isMethod('post')){
+                $validator = Validator::make($request->all(), [
+                    'company_title'=>'required|string',
+
+                ]);
+                // dd($validator);
+                if ($validator->fails()) {
+                    
+                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
+                }
+                $company_create = new Company;
+                $company_create->company_title = $request->input('company_title');
+                $company_create->create_date = now();
+                $company_create->save();
+
+                return redirect()->route('user_admin');
+            }
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
+    public function position(Request $request){
+        if(AuthFacade::useradmin()){
+            if($request->isMethod('post')){
+                $validator = Validator::make($request->all(), [
+                    'position_title'=>'required|string',
+
+                ]);
+                // dd($validator);
+                if ($validator->fails()) {
+                    
+                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
+                }
+                $position_create = new Position;
+                $position_create->company_id = $request->input('company_id');
+                $position_create->position_title = $request->input('position_title');
+                $position_create->create_date = now();
+                $position_create->save();
+
+                return redirect()->route('user_admin');
+            }
         }else{
             return redirect()->route('login.admin');
         }
@@ -4168,7 +4165,7 @@ class AdminController extends Controller
 
     function learnreset(){
         if(AuthFacade::useradmin()){
-            $users = Users::join('profiles','profiles.user_id','=','users.id')->where('users.status','1')->paginate(10);
+            $users = Users::join('profiles','profiles.user_id','=','users.id')->where('users.status','1')->get();
             // $score =Score::where('active','y')->paginate(10);
             // $learnreset =DB::table('score')->get();
             return view("admin.learnreset.learnreset",compact('users'));

@@ -1,27 +1,26 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-<body class="">
-
-	<!-- Main Container Fluid -->
-	<div class="container-fluid fluid menu-left">
-
-		<!-- Top navbar -->
-		@include('admin.layouts.partials.top-nav')
-		<!-- Top navbar END -->
-
-
-		<!-- Sidebar menu & content wrapper -->
-		<div id="wrapper">
-
-			<!-- Sidebar Menu -->
-			@include('admin.layouts.partials.menu-left')
-			<!-- // Sidebar Menu END -->
-
-
-			<!-- Content -->
-			<!-- <div class="span-19"> -->
-			<div id="content">
+<body>
+    <div id="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <h4 class="m-0">ระบบชุดข้อสอบบทเรียนออนไลน์</h4>
+                        </div>
+                        <div class="ml-3">
+                            <a href="{{route('grouptesting')}}">
+                                <button class="btn btn-warning d-flex align-items-center">
+                                    <i class="fas fa-angle-left mr-2"></i>
+                                    กลับหน้าหลัก
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 				@if (session('success'))
                     <div class="alert alert-success" id="success-alert">{{ session('success') }}</div>
                     <script>
@@ -40,61 +39,56 @@
                     </script>
                 @endif
 				<!-- breadcrumbs -->
-				<div class="separator bottom"></div>
-                    <div class="innerLR">
-                        <div class="widget">
-                            <div class="widget-head">
-                                <h4 class="heading">นำเข้าจาก Excel</h4>
-                            </div>
-                            
-                            <div class="widget-body">
-                                <div class="row-fluid">
-                                    <form action="{{ route('ques.excel',['id' => $group->group_id]) }}" method="POST" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="span4">
-                                            <h4>นำเข้าไฟล์ สำหรับข้อสอบ <label>(ไฟล์ excel เท่านั้น)</label></h4>
-                                            <input type="file" class="form-control" id="import_excel" name="import_excel">
-                                            <div class="form-control">
-                                                
-                                                <button type="submit" class="btn btn-icon btn-primary glyphicons circle_ok"><i></i>นำเข้าไฟล์
-                                                    excel
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                    <div class="span4">
-                                        <h4>แบบฟอร์มรูปแบบนำเข้าข้อสอบ</h4>
-                                        <a href="{{asset('images/uploads/templete_import_questions.xlsx')}}"
-                                           class="glyphicons download_alt"><i></i>Download Excel</a>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="container mt-5">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            นำเข้าระบบชุดข้อสอบบทเรียนออนไลน์
                         </div>
+                        <div class="card-body">
+                            <form action="{{ route('ques.excel',['id' => $group->group_id]) }}" enctype="multipart/form-data" method="post" id="uploadForm">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="cate_id">นำเข้าไฟล์ สำหรับข้อสอบ <label>(ไฟล์ excel เท่านั้น)</label></label>
+                                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                                        <div id="fileNameDisplay"></div>
+                                        <span class="btn btn-default btn-file">
+                                            <span class="fileupload-new">Select file</span>
+                                            <span class="fileupload-exists">Change</span>
+                                            <input type="file" name="import_excel" id="fileInput" onchange="displayFileNames('fileInput', 'fileList')">
+                                        </span>
+                                    {{-- <input type="file" class="fileupload fileupload-new" name="filename[]" id="fileInput" multiple onchange="displayFileNames()"> --}}
+                                    </div>
+                                    <div id="fileList"></div>
+    
+                                </div>
+    
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save mr-1"></i> นำเข้าไฟล์ excel
+                                </button>
 
-
+                                <div class="form-group">
+                                    <label for="File_filename">แบบฟอร์มรูปแบบนำเข้าข้อสอบ</label>
+                                    <a href="{{asset('images/uploads/templete_import_questions.xlsx')}}"
+                                       class="glyphicons download_alt"><i></i>Download Excel</a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+                </div>	
 				<div id="sidebar">
 				</div><!-- sidebar -->
 			</div>
-			<!-- </div> -->
-			<!-- <div class="span-5 last"> -->
-			<!-- </div> -->
-			<!-- // Content END -->
-
 		</div>
 		<div class="clearfix"></div>
-		<!-- // Sidebar menu & content wrapper END -->
-
-		<div id="footer" class="hidden-print">
-
-			<!--  Copyright Line -->
-			<div class="copy">© 2023 - All Rights Reserved.</a></div>
-			<!--  End Copyright Line -->
-
-		</div>
-		<!-- // Footer END -->
-
-	</div>
-
+<script>
+    function displayFileNames(inputId, listId) {
+			var input = document.getElementById(inputId);
+			var list = document.getElementById(listId);
+			list.innerHTML = '';
+			for (var i = 0; i < input.files.length; i++) {
+				list.innerHTML += '<p>' + input.files[i].name + '</p>';
+			}
+		}
+</script>
 </body>
 @endsection

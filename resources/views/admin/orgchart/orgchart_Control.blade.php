@@ -128,150 +128,131 @@ use App\Models\Course;
 .dd3-handle:hover { background: #ddd; }
 
     </style>
-<div class="container-fluid fluid menu-left">
-
-	<!-- Top navbar -->
-	@include('admin.layouts.partials.top-nav')
-	<!-- Top navbar END -->
-
-
-	<!-- Sidebar menu & content wrapper -->
 	<div id="wrapper">
-
-		<!-- Sidebar Menu -->
-		@include('admin.layouts.partials.menu-left')
-		<!-- // Sidebar Menu END -->
-
-
-		<!-- Content -->
-		<!-- <div class="span-19"> -->
-		<div id="content">
-<div class="span12">
-<h1>Org Courses</h1>
-
-{{-- <div class="span12">
-	<menu id="nestable-menu">
-        <button type="button" data-action="expand-all">Expand All</button>
-        <button type="button" data-action="collapse-all">Collapse All</button>
-        <button type="button" id="save">SAVE</button>
-    </menu>
-</div> --}}
-
-<div class="cf nestable-lists">
-    <div class="row buttons">
-        <a class="btn btn-primary btn-icon glyphicons ok_2" href="{{route('orgchart.users',['org_id' => $org->id])}}"><i></i>จัดการผู้ใช้</a>
-    </div>
-<div class="row">
-    <div class="span6" align="center" style="background-color: #fff; padding: 10px 0;"><strong style="font-size: medium;">หลักสูตรที่เลือก</strong></div>
-    <div class="span6" align="center" style="background-color: #fff; padding: 10px 0;"><strong style="font-size: medium;">หลักสูตรทั้งหมด</strong></div>
-</div>
-
-<div class="row-fluid">
-
-  <div class="span6">
-    <div class="dd" id="nestable">
-        <?php
-        $org_course = Orgcourse::where('active', 'y')
-                    ->where('orgchart_id', $org->id)
-                    ->orderBy('parent_id')
-                    ->orderBy('order') // จัดเรียงตาม parent_id และ order
-                    ->get();
-        ?>
-    
-        @if($org_course->isNotEmpty())
-            <ol class="dd-list">
-            @foreach($org_course as $oc)
-                @php 
-                    $course = Course::where('course_id', $oc->course_id)->first();
-                @endphp
-                
-                @if($oc->order !== '1')
-                <li class="dd-item" data-id="{{$oc->id}}">
-                    <a href="#" onclick="activen({{$oc->id}})">
-                        <div class="dd-handle">{{$course->course_title}}</div>
-                    </a>
-                </li>
-                @endif
-    
-                @if($oc->order !== '1')
-                <a href="#" class="btn btn-primary open-modal" data-url="{{ route('orgchart.course', ['id' => $oc->id,'course_title' => $course->course_title ]) }}" data-toggle="modal" data-target="#myModals">
-                    <i class="icon-book"></i> sub course
-                </a>
-                @endif
-    
-            @endforeach
-            </ol>
-        @else
-            <div class="dd-empty"></div>
-        @endif
-    </div>
-	</div>
-
-  <div class="span6">
-  <div class="dd" id="nestable2">
-                <?php
-                $courses = Course::where('active', 'y')->get();
-                ?>
-                <ol class="dd-list">
-                    @foreach($courses as $course)
-                        @php 
-                            $org_course = Orgcourse::where('course_id', $course->course_id)->where('active', 'y')->first();
-                        @endphp
-                        @if(!$org_course || $org_course->course_id != $course->course_id)
-                            <li class="dd-item" data-id="{{ $course->course_id }}">
-                                <a href="#" onclick="activey({{ $course->course_id }})">
-                                    <div class="dd-handle">{{ $course->course_title }}</div>
-                                </a>
-                            </li>
-                        @endif
-                    @endforeach
-                </ol>
-			</div>
-        </div>
-</div>
-
-        
-</div>
-
-
-
-    <div style="clear:both;"></div>
-
-    <div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" hidden>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <iframe src="" width="100%" height="400px" frameborder="0"></iframe>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <!-- สามารถเพิ่มปุ่มอื่นๆได้ตามต้องการ -->
+		<div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <h4 class="m-0">Org Courses</h4>
+                        </div>
+                        <div class="ml-3">
+                            <a href="{{route('admin')}}">
+                                <button class="btn btn-warning d-flex align-items-center">
+                                    <i class="fas fa-angle-left mr-2"></i>
+                                    กลับหน้าหลัก
+                                </button>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="cf nestable-lists">
+                        <div class="row buttons">
+                            <a class="btn btn-primary btn-icon glyphicons ok_2" href="{{route('orgchart.users',['org_id' => $org->id])}}"><i></i>จัดการผู้ใช้</a>
+                        </div>
+                    <div class="row">
+                        <div class="span6" align="center" style="background-color: #fff; padding: 10px 0;"><strong style="font-size: medium;">หลักสูตรที่เลือก</strong></div>
+                        <div class="span6" align="center" style="background-color: #fff; padding: 10px 0;"><strong style="font-size: medium;">หลักสูตรทั้งหมด</strong></div>
+                    </div>
+
+                    <div class="row-fluid">
+
+                    <div class="span6">
+                        <div class="dd" id="nestable">
+                            <?php
+                            $org_course = Orgcourse::where('active', 'y')
+                                        ->where('orgchart_id', $org->id)
+                                        ->orderBy('parent_id')
+                                        ->orderBy('order') // จัดเรียงตาม parent_id และ order
+                                        ->get();
+                            ?>
+                        
+                            @if($org_course->isNotEmpty())
+                                <ol class="dd-list">
+                                @foreach($org_course as $oc)
+                                    @php 
+                                        $course = Course::where('course_id', $oc->course_id)->first();
+                                    @endphp
+                                    
+                                    @if($oc->order !== '1')
+                                    <li class="dd-item" data-id="{{$oc->id}}">
+                                        <a href="#" onclick="activen({{$oc->id}})">
+                                            <div class="dd-handle">{{$course->course_title}}</div>
+                                        </a>
+                                    </li>
+                                    @endif
+                        
+                                    @if($oc->order !== '1')
+                                    <a href="#" class="btn btn-primary open-modal" data-url="{{ route('orgchart.course', ['id' => $oc->id,'course_title' => $course->course_title ]) }}" data-toggle="modal" data-target="#myModals">
+                                        <i class="icon-book"></i> sub course
+                                    </a>
+                                    @endif
+                        
+                                @endforeach
+                                </ol>
+                            @else
+                                <div class="dd-empty"></div>
+                            @endif
+                        </div>
+                        </div>
+
+                    <div class="span6">
+                    <div class="dd" id="nestable2">
+                                    <?php
+                                    $courses = Course::where('active', 'y')->get();
+                                    ?>
+                                    <ol class="dd-list">
+                                        @foreach($courses as $course)
+                                            @php 
+                                                $org_course = Orgcourse::where('course_id', $course->course_id)->where('active', 'y')->first();
+                                            @endphp
+                                            @if(!$org_course || $org_course->course_id != $course->course_id)
+                                                <li class="dd-item" data-id="{{ $course->course_id }}">
+                                                    <a href="#" onclick="activey({{ $course->course_id }})">
+                                                        <div class="dd-handle">{{ $course->course_title }}</div>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endforeach
+                                    </ol>
+                                </div>
+                            </div>
+                    </div>
+
+                            
+                    </div>
+
+
+
+                        <div style="clear:both;"></div>
+
+                        <div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" hidden>
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <iframe src="" width="100%" height="400px" frameborder="0"></iframe>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <!-- สามารถเพิ่มปุ่มอื่นๆได้ตามต้องการ -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
     </div>
 </div>
-</div>
 
-</div>
 <div class="clearfix"></div>
-<!-- // Sidebar menu & content wrapper END -->
-
-<div id="footer" class="hidden-print">
-
-<!--  Copyright Line -->
-<div class="copy">© 2023 - All Rights Reserved.</a></div>
-<!--  End Copyright Line -->
-
-</div>
-<!-- // Footer END -->
-
-</div>
 
 
 <script src="{{ asset('js/sortable.js') }}"></script>

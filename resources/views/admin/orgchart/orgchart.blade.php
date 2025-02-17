@@ -2,29 +2,25 @@
 @section('title', 'Admin')
 @section('content')
 <body class="">
-
-	<!-- Main Container Fluid -->
-	<div class="container-fluid fluid menu-left">
-
-		<!-- Top navbar -->
-		@include('admin.layouts.partials.top-nav')
-		<!-- Top navbar END -->
-
-
-		<!-- Sidebar menu & content wrapper -->
 		<div id="wrapper">
-
-			<!-- Sidebar Menu -->
-			@include('admin.layouts.partials.menu-left')
-			<!-- // Sidebar Menu END -->
-
-
-			<!-- Content -->
-			<!-- <div class="span-19"> -->
-			<div id="content">
-				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li>Organization chart</li>
-				</ul><!-- breadcrumbs -->
+			<div class="content-wrapper">
+				<div class="content-header">
+					<div class="container-fluid">
+						<div class="d-flex align-items-center">
+							<div class="">
+								<h4 class="m-0">Organization chart</h4>
+							</div>
+							<div class="ml-3">
+								<a href="{{route('admin')}}">
+									<button class="btn btn-warning d-flex align-items-center">
+										<i class="fas fa-angle-left mr-2"></i>
+										กลับหน้าหลัก
+									</button>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="separator bottom"></div>
 				<style>
 					body {
@@ -43,38 +39,15 @@
 						width: 100%;
 					}
 				</style>
-				<div class="innerLR">
-					<div class="widget" style="margin-top: -1px;">
-						<div class="widget-head">
-							<h4 class="heading glyphicons show_thumbnails_with_lines"><i></i> Organization chart</h4>
-						</div>
+				<div class="content">
+					<div class="container-fluid">
 						<iframe src="{{ route('orgchart.ifram') }}"></iframe>
 					</div>
-
 				</div>
-
 				<div id="sidebar">
 				</div><!-- sidebar -->
 			</div>
-			<!-- </div> -->
-			<!-- <div class="span-5 last"> -->
-			<!-- </div> -->
-			<!-- // Content END -->
-
 		</div>
 		<div class="clearfix"></div>
-		<!-- // Sidebar menu & content wrapper END -->
-
-		<div id="footer" class="hidden-print">
-
-			<!--  Copyright Line -->
-			<div class="copy">© 2023 - All Rights Reserved.</a></div>
-			<!--  End Copyright Line -->
-
-		</div>
-		<!-- // Footer END -->
-
-	</div>
-
 </body>
 @endsection

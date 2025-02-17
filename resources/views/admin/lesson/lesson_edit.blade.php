@@ -17,392 +17,346 @@
             position: relative !important;
         } 
 </style>
-    <body class="">
-
-        <!-- Main Container Fluid -->
-        <div class="container-fluid fluid menu-left">
-
-            <!-- Top navbar -->
-            @include('admin.layouts.partials.top-nav')
-            <!-- Top navbar END -->
-
-
-            <!-- Sidebar menu & content wrapper -->
-            <div id="wrapper">
-
-                <!-- Sidebar Menu -->
-                @include('admin.layouts.partials.menu-left')
-                <!-- // Sidebar Menu END -->
-<script>
-    tinymce.init({
-        selector: ".tinymce",
-        theme: "modern",
-        width: 680,
-        height: 300,
-        plugins: [
-            "advlist autolink link image lists charmap print preview hr anchor pagebreak",
-            "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
-            "table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
-        ],
-        toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
-        toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
-        image_advtab: true,
-
-        external_filemanager_path: "{{asset('filemanager_f')}}",
-        filemanager_title: "Responsive Filemanager",
-        external_plugins: {
-            "filemanager": "{{asset('filemanager_f/plugin.min.js')}}"
-        }
-    });
-					
-</script>
-
-                <!-- Content -->
-                <!-- <div class="span-19"> -->
-                <div id="content">
-                    <ul class="breadcrumb">
-                        <li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a
-                                href="/admin/index.php/lesson/index">ระบบบทเรียน</a></li> » <li>แก้ไขบทเรียน</li>
-                    </ul><!-- breadcrumbs -->
-                    <div class="separator bottom"></div>
-                    
-
-                    <!-- innerLR -->
-                    <div class="innerLR">
-                        <div class="widget widget-tabs border-bottom-none">
-                            <div class="widget-head">
-                                <ul>
-                                    <li class="active">
-                                        <a class="glyphicons edit" href="#account-details" data-toggle="tab">
-                                            <i></i>แก้ไขบทเรียน </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="widget-body">
-                                <div class="form">
-
-                                    <form enctype="multipart/form-data" id="lesson-form"
-                                        action="{{ route('lesson.edit', ['id' =>$lesson->id]) }}" method="post">
-                                        {{-- แก้ไข --}}
-                                        @csrf
-                                        <p class="note">ค่าที่มี <span style="margin:0;"
-                                                class="btn-action single glyphicons circle_question_mark"><i></i></span>
-                                            จำเป็นต้องใส่ให้ครบ</p>
-                                        <div class="row">
-                                            <label for="Lesson_course_id" class="required">หลักสูตรอบรมออนไลน์ <span
-                                                    class="required">*</span></label> <select class="span8"
-                                                name="course_id" id="Lesson_course_id">
-                                                <option value="{{$lesson->course_id}}">{{ $lesson->course_title}}</option>
-                                                @foreach($course_online as $course)
-                                                <option value="{{ $course->course_id }}">{{ $course->course_title}}</option>
-                                                @endforeach
-                                            </select> <span style="margin:0;"
-                                                class="btn-action single glyphicons circle_question_mark"><i></i></span>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="Lesson_course_id_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <label for="Lesson_title" class="required">ชื่อบทเรียน <span
-                                                    class="required">*</span></label> <input size="60" maxlength="80"
-                                                class="span8" name="title" id="Lesson_title" type="text"
-                                                value="{{ $lesson->title }}"> <span style="margin:0;"
-                                                class="btn-action single glyphicons circle_question_mark"><i></i></span>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="Lesson_title_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <label for="Lesson_description" class="required">รายละเอียดย่อ <span
-                                                    class="required">*</span></label>
-                                            <textarea size="60" maxlength="255" class="span8" name="description" id="Lesson_description">{{ $lesson->description }}</textarea> <span style="margin:0;"
-                                                class="btn-action single glyphicons circle_question_mark"><i></i></span>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="Lesson_description_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row" style="display:none;">
-                                            <label for="Lesson_view_all" class="required">สิทธิ์การดูบทเรียนนี้ <span
-                                                    class="required">*</span></label> <select class="span8"
-                                                name="view_all" id="Lesson_view_all">
-                                                <option value="y" selected="selected">ดูได้ทั้งหมด</option>
-                                                <option value="n">ดูได้เฉพาะกลุ่ม</option>
-                                            </select> <span style="margin:0;"
-                                                class="btn-action single glyphicons circle_question_mark"><i></i></span>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="Lesson_view_all_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="Lesson_cate_amount" class="required">จำนวนครั้งที่สามารถทำข้อสอบได้
-                                                <span class="required">*</span></label> <input size="60"
-                                                maxlength="255" class="span8" name="cate_amount"
-                                                id="Lesson_cate_amount" type="text"
-                                                value="{{ $lesson->cate_amount }}"> ครั้ง
-                                            <span style="margin:0;"
-                                                class="btn-action single glyphicons circle_question_mark"><i></i></span>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="Lesson_cate_amount_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="Lesson_time_test">เวลาในการทำข้อสอบ</label> <input size="60"
-                                                maxlength="255" class="span8" name="time_test"
-                                                id="Lesson_time_test" type="text" value="{{ $lesson->time_test }}">
-                                            นาที
-                                            <span style="margin:0;"
-                                                class="btn-action single glyphicons circle_question_mark"><i></i></span>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="Lesson_time_test_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="Lesson_content" class="required">เนื้อหา <span
-                                                    class="required">*</span></label>
-                                                {{-- {!! htmlspecialchars_decode($lesson->content) !!} --}}
-                                            <div id="microtextbox-cms-detail" style="height: 1000px"></div>
-                                            {{-- <textarea rows="6" cols="50" class="span8 tinymce" name="content" id="Lesson_content" aria-hidden="true">{!! htmlspecialchars_decode($lesson->content) !!}</textarea> --}}
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="Lesson_content_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div id="vdo_show" style="">
-                                                
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <label for="File_filename">ไฟล์บทเรียน (mp3,mp4)</label>
-                                            @if($file != null)
-                                            
-														<div class="col-md-6">
-															<video id="example_video_1" class="video-js vjs-default-skin" controls="" preload="none" data-setup="{}" controlsList="nodownload">
-																{{-- <source src="/../images/storage/uploads/lesson/{{$lesson->filename}}" type="video/mp4"> --}}
-																<source src="{{asset('images/uploads/lesson/'.$file->filename)}}" type="video/mp4">
-																<!-- <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
-																			<source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' /> -->
-																<!-- <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track> -->
-																<!-- Tracks need an ending tag thanks to IE9 -->
-																<!-- <track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English"></track> -->
-																<!-- Tracks need an ending tag thanks to IE9 -->
-																<p class="vjs-no-js">To view this video please
-																	enable JavaScript, and consider upgrading to
-																	a
-																	web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-																</p>
-															</video>
-                                                            <a class="btn-action glyphicons pencil btn-danger remove_2" title="ลบ" onclick="showSweetAlert()" href="{{route('lesson_video.delete', ['id' => $file->id])}}"><i></i></a>
-														</div>
-                                                    
-														@else
-														<h5>ไม่มีวิดีโอ</h5>
-                                            
-													@endif
-                                            <div id="queue"></div>
-                                            <input id="ytfilename" type="file" value="" name="filename">
-                                            {{-- <div id="uploadifive-filename" class="uploadifive-button" style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 100px;">Select Files<input id="filename" multiple="multiple" name="File[filename]" type="file" style="display: none;"><input type="file" style="opacity: 0; position: absolute; z-index: 999;" multiple="multiple"></div> <!-- <input id="file_upload" name="file_upload" type="file" multiple="true" > -->
-										<!-- <a style="position: relative; top: 8px;" href="javascript:$('#file_upload').uploadifive('upload')">Upload Files</a> -->
-										<script type="text/javascript">
-											$(function() {
-												$('#filename').uploadifive({
-													'auto': false,
-													//'checkScript'      : 'check-exists.php',
-													'checkScript': '/admin/index.php/lesson/checkExists',
-													'formData': {
-														'timestamp': '1702018825',
-														'token': '318cbc63e6408e17d86446458d266d07'
-													},
-													'queueID': 'queue',
-													'uploadScript': '/admin/index.php/lesson/uploadifive',
-													'onQueueComplete': function(file, data) {
-														//console.log(data);
-														if ($('#docqueue .uploadifive-queue-item').length == 0) {
-															$('#lesson-form').submit();
-														} else {
-															$('#doc').uploadifive('upload');
-														}
-													}
-												});
-											});
-										</script> --}}
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="File_filename_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <div id="doc_show" style="">
-                                               
-                                            </div>
-                                        </div>
-                                        <br>
-
-                                        <div class="row">
-                                            <label for="FileDoc_doc">ไฟล์ประกอบบทเรียน (pdf,docx,pptx)</label>
-                                            @if($filedoc !== null)
-                                            <h5>{{ $filedoc->file_name}}</h5>
-                                
-                                            @else
-                                            <h5>ไม่มีไฟล์</h5>
-                                            @endif
-                                            <div id="docqueue"></div>
-                                            <input id="ytdoc" type="file" value="" name="doc">
-                                            {{-- <div id="uploadifive-doc" class="uploadifive-button" style="height: 30px; line-height: 30px; overflow: hidden; position: relative; text-align: center; width: 100px;">Select Files<input id="doc" multiple="multiple" name="FileDoc[doc]" type="file" style="display: none;"><input type="file" style="opacity: 0; position: absolute; z-index: 999;" multiple="multiple"></div> <!-- <input id="file_upload" name="file_upload" type="file" multiple="true" > -->
-										<!-- <a style="position: relative; top: 8px;" href="javascript:$('#file_upload').uploadifive('upload')">Upload Files</a> -->
-										<script type="text/javascript">
-											$(function() {
-												$('#doc').uploadifive({
-													'auto': false,
-													//'checkScript'      : 'check-exists.php',
-													//                    'checkScript'      : '//',
-													'formData': {
-														'timestamp': '1702018825',
-														'token': '318cbc63e6408e17d86446458d266d07'
-													},
-													'queueID': 'docqueue',
-													'uploadScript': '/admin/index.php/lesson/uploadifivedoc',
-													'onQueueComplete': function(file, data) {
-														//console.log(data);
-														$('#lesson-form').submit();
-													}
-												});
-											});
-										</script> --}}
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="FileDoc_doc_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-
-                                        <br>
-                                        <br>
-
-                                        <div class="row">
-                                            <div id="picture_show" style="">
-                                                ภาพประกอบ <br>
-                                                <img src="{{ asset('images/uploads/lesson/'.$lesson->id.'/original/'. $lesson->image) }}"
-                                                    alt="รูปภาพ" style="width: 300px; " id="selected_picture"
-                                                    value="{{ $lesson->image }}" name="lesson_picture_o"><br><br>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="row">
-                                            <label for="News_cms_picture">รูปภาพ</label>
-                                            <div class="fileupload fileupload-new" data-provides="fileupload">
-                                                <div class="input-append">
-                                                    <div class="uneditable-input span3">
-                                                        <i class="icon-file fileupload-exists"></i> 
-                                                        <span class="fileupload-preview"></span>
-                                                    </div>
-                                                    <img id="previewImage" src="#" alt="Preview Image" style="display: none;">
-                                                    <span class="btn btn-default btn-file">
-                                                        <span class="fileupload-new">Select file</span>
-                                                        <span class="fileupload-exists">Change</span>
-                                                        <input id="ytNews_cms_picture" type="hidden" value="{{$lesson->image}}" name="picture">
-                                                        <input name="image" id="imageInput"  type="file" >
-                                                    </span>
-                                                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-                                                    {{-- <input type="file" id="imageInput" name="image"> --}}
-    
-                                                </div>
-                                                <script>
-                                                    document.addEventListener('DOMContentLoaded', function() {
-                                                        var imageInput = document.getElementById('imageInput');
-                                                        var previewImage = document.getElementById('previewImage');
-                                            
-                                                        imageInput.addEventListener('change', function() {
-                                                            previewImageFile(this);
-                                                        });
-                                            
-                                                        function previewImageFile(input) {
-                                                            var file = input.files[0];
-                                                            if (file) {
-                                                                var reader = new FileReader();
-                                                                reader.onload = function(e) {
-                                                                    previewImage.src = e.target.result;
-                                                                    previewImage.style.display = 'block';
-                                                                };
-                                                                reader.readAsDataURL(file);
-                                                            }
-                                                        }
-                                                    });
-                                                </script>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <font color="#990000">
-                                                <span style="margin:0;"
-                                                    class="btn-action single glyphicons circle_question_mark"><i></i></span>
-                                                รูปภาพควรมีขนาด 175x130(แนวนอน) หรือ ขนาด 175x(xxx) (แนวยาว)
-                                            </font>
-                                        </div>
-                                        <br><br>
-
-                                        <div class="row buttons">
-                                            <button class="btn btn-primary btn-icon glyphicons ok_2"
-                                                onclick="return upload();"><i></i>อัปเดตข้อมูล</button>
-                                        </div>
-
-                                    </form>
-                                </div><!-- form -->
-                            </div>
+<body class="">
+    <div id="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <h4 class="m-0">ระบบบทเรียน</h4>
+                        </div>
+                        <div class="ml-3">
+                            <a href="{{route('lesson')}}">
+                                <button class="btn btn-warning d-flex align-items-center">
+                                    <i class="fas fa-angle-left mr-2"></i>
+                                    กลับหน้าหลัก
+                                </button>
+                            </a>
                         </div>
                     </div>
-                    <!-- END innerLR -->
-
-
-                    <div id="sidebar">
-                    </div><!-- sidebar -->
                 </div>
-                <!-- </div> -->
-                <!-- <div class="span-5 last"> -->
-                <!-- </div> -->
-                <!-- // Content END -->
-
             </div>
-            <div class="clearfix"></div>
-            <!-- // Sidebar menu & content wrapper END -->
+            <div class="container mt-5">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        แก้ไขระบบบทเรียน
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('lesson.edit', ['id' =>$lesson->id]) }}" enctype="multipart/form-data" method="post" id="question-form">
+                            @csrf
+                            <div class="form-group">
+                                <label for="cate_id">หลักสูตรอบรมออนไลน์</label>
+                                <select class="form-control" name="course_id">
+                                    <option value="">เลือกหลักสูตร</option>
+                                    @foreach ($course_online as $course_id => $course_title)
+                                        <option value="{{ $course_id }}"
+                                            {{ $lesson->course_id == $course_id ? 'selected' : '' }}>
+                                            {{ $course_title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-            <div id="footer" class="hidden-print">
+                            <div class="form-group">
+                                <label for="title">ชื่อบทเรียน</label>
+                                <input type="text" name="title" class="form-control" value="{!!  htmlspecialchars_decode($lesson->title) !!}">
+                            </div>
 
-                <!--  Copyright Line -->
-                <div class="copy">© 2023 - All Rights Reserved.</a></div>
-                <!--  End Copyright Line -->
+                            <div class="form-group">
+                                <label for="course_short_title">รายละเอียดย่อ</label>
+                                <textarea name="course_short_title" id="summernote" class="form-control">{!!  htmlspecialchars_decode($lesson->description) !!}</textarea>
+                            </div>
 
+                            <div class="form-group">
+                                <label for="view_all">สิทธิ์การดูบทเรียนนี้</label>
+                                <div>
+                                    @php
+                                        $checked = $lesson->view_all ?? '-' == 'y' ? 'checked' : '';
+                                    @endphp
+                                    <input type="checkbox" name="view_all" value="y" data-toggle="toggle" data-on="ดูได้ทั้งหมด" data-off="ดูได้เฉพาะกลุ่ม" data-onstyle="success" data-offstyle="danger" {{ $checked }} />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cate_amount">จำนวนครั้งที่สามารถทำข้อสอบได้</label>
+                                <input type="text" name="cate_amount" class="form-control" value="{{ $lesson->cate_amount }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="time_test">เวลาในการทำข้อสอบ</label>
+                                <input type="text" name="time_test" class="form-control" value="{{ $lesson->time_test }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="content">เนื้อหา </label>
+                                <textarea name="content" id="summernote2" class="form-control">{{ htmlspecialchars_decode(htmlspecialchars_decode($lesson->content)) }}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="File_filename">ไฟล์บทเรียน (mp3,mp4)</label>
+                                @if($file != null)
+                                
+                                            <div class="col-md-6">
+                                                <video id="example_video_1" class="video-js vjs-default-skin" controls="" preload="none" data-setup="{}" controlsList="nodownload">
+                                                    {{-- <source src="/../images/storage/uploads/lesson/{{$lesson->filename}}" type="video/mp4"> --}}
+                                                    <source src="{{asset('images/uploads/lesson/'.$file->filename)}}" type="video/mp4">
+                                                    <!-- <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
+                                                                <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' /> -->
+                                                    <!-- <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track> -->
+                                                    <!-- Tracks need an ending tag thanks to IE9 -->
+                                                    <!-- <track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English"></track> -->
+                                                    <!-- Tracks need an ending tag thanks to IE9 -->
+                                                    <p class="vjs-no-js">To view this video please
+                                                        enable JavaScript, and consider upgrading to
+                                                        a
+                                                        web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+                                                    </p>
+                                                </video>
+                                                <button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $file->id }}">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        
+                                            @else
+                                            <h5>ไม่มีวิดีโอ</h5>
+                                
+                                        @endif
+                                <div id="queue"></div>
+                                <div class="form-group">
+									<label for="filedoc_name">ไฟล์บทเรียน</label>
+									<div class="fileupload fileupload-new" data-provides="fileupload">
+                                        <div id="fileNameDisplay"></div>
+                                        <span class="btn btn-default btn-file">
+                                            <span class="fileupload-new">Select file</span>
+                                            <span class="fileupload-exists">Change</span>
+                                            {{-- <input id="ytNews_cms_picture" type="hidden" value="{{$document->filedocname}}" name="cms_picture"> --}}
+                                            <input name="filename" id="imageInput" type="file" onchange="displayFileName()" >
+                                            
+                                        </span>
+                                        <script>
+                                            function displayFileName() {
+                                                // Get the file input element
+                                                var input = document.getElementById('imageInput');
+                                    
+                                                // Get the file name
+                                                var fileName = input.files[0].name;
+                                    
+                                                // Display the file name
+                                                document.getElementById('fileNameDisplay').innerText = 'Selected file: ' + fileName;
+                                            }
+                                        </script>
+                                        {{-- <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a> --}}
+                                        {{-- <input type="file" id="imageInput" name="image"> --}}
+                                        @error('error')
+                                        <div class="form-group">
+                                            <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                                <span class="{{ $errors->has('error') ? 'input-error' : '' }}">{{ $message }}</span>
+                                            </div>
+                                        </div>
+                                    @enderror
+                                    
+                                    </div>
+								</div>
+                                
+                            </div>
+
+                            <div class="form-group">
+                                <label for="FileDoc_doc">ไฟล์ประกอบบทเรียน (pdf,docx,pptx)</label>
+                                @if($filedoc !== null)
+                                <h5>{{ $filedoc->file_name}}</h5>
+                    
+                                @else
+                                <h5>ไม่มีไฟล์</h5>
+                                @endif
+                                <div id="docqueue"></div>
+                                <div class="form-group">
+									<label for="filedoc_name">ไฟล์ประกอบบทเรียน</label>
+									<div class="fileupload fileupload-new" data-provides="fileupload">
+                                        <div id="fileNameDisplay"></div>
+                                        <span class="btn btn-default btn-file">
+                                            <span class="fileupload-new">Select file</span>
+                                            <span class="fileupload-exists">Change</span>
+                                            {{-- <input id="ytNews_cms_picture" type="hidden" value="{{$document->filedocname}}" name="cms_picture"> --}}
+                                            <input name="doc" id="imageInput" type="file" onchange="displayFileName()" >
+                                            
+                                        </span>
+                                        <script>
+                                            function displayFileName() {
+                                                // Get the file input element
+                                                var input = document.getElementById('imageInput');
+                                    
+                                                // Get the file name
+                                                var fileName = input.files[0].name;
+                                    
+                                                // Display the file name
+                                                document.getElementById('fileNameDisplay').innerText = 'Selected file: ' + fileName;
+                                            }
+                                        </script>
+                                        {{-- <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a> --}}
+                                        {{-- <input type="file" id="imageInput" name="image"> --}}
+                                        @error('error')
+                                        <div class="form-group">
+                                            <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
+                                                <span class="{{ $errors->has('error') ? 'input-error' : '' }}">{{ $message }}</span>
+                                            </div>
+                                        </div>
+                                    @enderror
+                                    
+                                    </div>
+								</div>
+                            </div>
+
+                            <div class="form-group">
+                                <div id="picture_show" style="">
+                                    ภาพประกอบ <br>
+                                    <img src="{{ asset('images/uploads/lesson/'.$lesson->id.'/original/'. $lesson->image) }}" name="course_picture"><br><br>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="course_picture">รูปภาพ</label>
+                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                    <div class="input-append">
+                                        <div class="uneditable-input span3">
+                                            <i class="icon-file fileupload-exists"></i> 
+                                            <span class="fileupload-preview"></span>
+                                        </div>
+                                        <img id="previewImage" src="#" alt="Preview Image" style="display: none;">
+                                        <span class="btn btn-default btn-file">
+                                            <span class="fileupload-new">Select file</span>
+                                            <span class="fileupload-exists">Change</span>
+                                            <input id="ytNews_cms_picture" type="hidden" value="{{$lesson->image}}" name="course_picture">
+                                            <input name="image" id="imageInput"  type="file" >
+                                        </span>
+                                        {{-- <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a> --}}
+                                        {{-- <input type="file" id="imageInput" name="image"> --}}
+
+                                    </div>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            var imageInput = document.getElementById('imageInput');
+                                            var previewImage = document.getElementById('previewImage');
+                                
+                                            imageInput.addEventListener('change', function() {
+                                                previewImageFile(this);
+                                            });
+                                
+                                            function previewImageFile(input) {
+                                                var file = input.files[0];
+                                                if (file) {
+                                                    var reader = new FileReader();
+                                                    reader.onload = function(e) {
+                                                        previewImage.src = e.target.result;
+                                                        previewImage.style.display = 'block';
+                                                    };
+                                                    reader.readAsDataURL(file);
+                                                }
+                                            }
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <font color="#990000">
+                                    รูปภาพควรมีขนาด 250x180(แนวนอน) หรือ ขนาด 250x(xxx) (แนวยาว)
+                                </font>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <!-- // Footer END -->
-
+            <div id="sidebar">
+            </div><!-- sidebar -->
         </div>
-        @php
-        $text = htmlspecialchars_decode(htmlspecialchars_decode($lesson->content));
-        @endphp
-    
-       <script>
+    </div>
+    <div class="clearfix"></div>
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote();
+        });
 
-        const mtextboxConfig = {
-            target: [
-                {
-                    id: 'microtextbox-cms-detail',
-                    name: 'content',
-                    options: {
-                        placeholder: "",
-                        body: '{!! $text !!}'
-                    },
-                }
-            ],
-        }
-    </script>
-    </body>
+    $(document).ready(function() {
+        $('#summernote2').summernote();
+        });
+
+        $(document).ready(function() {
+				// ตรวจสอบว่า jQuery โหลดหรือไม่
+				if (typeof jQuery === "undefined") {
+					console.error("jQuery is not loaded!");
+					return;
+				}
+
+				// ตั้งค่า CSRF Token
+				$.ajaxSetup({
+					headers: {
+						"X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
+					}
+				});
+
+				// ตรวจสอบว่าโค้ดนี้ทำงานจริงไหม
+				console.log("Delete button script loaded");
+
+				// ใช้ Event Delegation เผื่อปุ่มถูกโหลดใหม่
+				$(document).on("click", ".delete-button", function(e) {
+					e.preventDefault();
+
+					var id = $(this).data("id");
+					var url = "/lesson_delete_video/" + id;
+
+					console.log("Clicked delete button with ID:", id); // ตรวจสอบว่า ID ถูกต้องไหม
+
+					Swal.fire({
+						title: "คุณแน่ใจหรือไม่?",
+						text: "ข้อมูลนี้จะถูกลบออก!",
+						icon: "warning",
+						showCancelButton: true,
+						confirmButtonColor: "#3085d6",
+						cancelButtonColor: "#d33",
+						confirmButtonText: "ใช่, ลบเลย!",
+						cancelButtonText: "ยกเลิก"
+					}).then((result) => {
+						if (result.isConfirmed) {
+							$.ajax({
+								url: url,
+								type: "POST", // ใช้ DELETE ตาม Laravel
+								success: function(response) {
+									console.log("Success:", response);
+									Swal.fire({
+										title: "สำเร็จ!",
+										text: response.message || "ลบข้อมูลสำเร็จ",
+										icon: "success",
+										confirmButtonText: "OK"
+									}).then(() => {
+										location.reload();
+									});
+								},
+								error: function(xhr) {
+									console.error("Error:", xhr);
+									Swal.fire(
+										"เกิดข้อผิดพลาด!",
+										xhr.responseJSON?.message || "ไม่สามารถลบข้อมูลได้",
+										"error"
+									);
+								}
+							});
+						}
+					});
+				});
+			});
+
+			@if(session('success'))
+			Swal.fire({
+				title: "{{ session('alert') }}",
+				text:"บันทึกข้อมูลสำเร็จ",
+				icon: "success",
+				confirmButtonText: 'ตกลง' // เพิ่มปุ่มยืนยัน
+			});
+		@endif
+</script>
+</body>
 
 @endsection

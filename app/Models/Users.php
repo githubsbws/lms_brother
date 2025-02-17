@@ -39,6 +39,21 @@ class Users extends AuthenticatableUser implements Authenticatable
     {
         return $this->group_id;
     }
+
+    public function Company()
+    {
+       
+        return $this->belongsTo(Company::class,'company_id');   
+        
+    }
+
+    public function Asc()
+    {
+       
+        return $this->belongsTo(ASC::class,'asc_id','id');   
+        
+    }
+
     public function Position()
     {
        

@@ -1,181 +1,83 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-
-    <body class="">
-
-        <!-- Main Container Fluid -->
-        <div class="container-fluid fluid menu-left">
-
-            <!-- Top navbar -->
-            @include('admin.layouts.partials.top-nav')
-            <!-- Top navbar END -->
-
-
-            <!-- Sidebar menu & content wrapper -->
-            <div id="wrapper">
-
-                <!-- Sidebar Menu -->
-                @include('admin.layouts.partials.menu-left')
-                <!-- // Sidebar Menu END -->
-
-
-                <!-- Content -->
-                <!-- <div class="span-19"> -->
-                <div id="content">
-                    <ul class="breadcrumb">
-                        <li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a
-                                href="/admin/index.php/courseOnline/index">ระบบหลักสูตรนิสืต/นักศึกษา</a></li> » <li>
-                            หลักสูตรนิสืต/นักศึกษา</li>
-                    </ul><!-- breadcrumbs -->
-                    <div class="separator bottom"></div>
-
-                    <!-- innerLR -->
-                    <div class="innerLR">
-                        <div class="widget widget-tabs border-bottom-none">
-                            <div class="widget-head">
-                                <ul>
-                                    <li class="active">
-                                        <a class="glyphicons edit" href="#account-details" data-toggle="tab">
-                                            <i></i>หลักสูตรสนิสืต/นักศึกษา </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="widget-body">
-                                <div class="form">
-                                    
-                                        <div class="row">
-                                            <label for="CourseOnline_cate_id" class="required">หมวดอบรมออนไลน์
-                                                <span class="required">*</span>
-                                            </label>
-                                           <h5>{{ $course_online->cate_title}}</h5>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="CourseOnline_cate_id_em_"
-                                                    style="display:none">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_number">รหัสหลักสูตร</label>					<input class="span8" name="CourseOnline[course_number]" id="CourseOnline_course_number" type="text" maxlength="255" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_number_em_" style="display:none"></div></div>				</div> -->
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_rector_date">หลักสูตรได้รับความเห็นชอบเมื่อวันที่</label>					<input class="span8" readonly="readonly" id="CourseOnline_course_rector_date" name="CourseOnline[course_rector_date]" type="text" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_rector_date_em_" style="display:none"></div></div>				</div> -->
-
-                                        <div class="row">
-                                            <label for="CourseOnline_course_lecturer">ชื่อวิยากร</label>
-                                            <h5>{{ $course_online->teacher_name == '' ? '-' : $course_online->teacher_name }}</h5>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="CourseOnline_course_lecturer_em_"
-                                                    style="display:none">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <label for="CourseOnline_course_title"
-                                                class="required">ชื่อหลักสูตรอบรมออนไลน์
-                                                <span class="required">*</span>
-                                            </label>
-                                            <h5>{{ $course_online->course_title}}</h5>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="CourseOnline_course_title_em_"
-                                                    style="display:none">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <label for="CourseOnline_course_short_title" class="required">รายละเอียดย่อ
-                                                <span class="required">*</span>
-                                            </label>
-                                            <h5>{{ $course_online->course_short_title}}</h5>
-                                            <div class="error help-block">
-                                                <div class="label label-important"
-                                                    id="CourseOnline_course_short_title_em_" style="display:none">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <label for="CourseOnline_course_detail" class="required">รายละเอียด <span
-                                                    class="required">*</span></label>
-                                                <h5>{!! htmlspecialchars_decode(htmlspecialchars_decode($course_online->course_detail))  !!}</h5>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="CourseOnline_course_detail_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-                                        <br>
-
-
-                                        <div class="row">
-                                            <label for="CourseOnline_recommend">ปักหมุดหลักสูตรแนะนำ</label>
-                                            @if($course_online->recommend == 'y')
-                                            <h5>เปิด</h5>
-                                            @else
-                                            <h5>ไม่เปิด</h5>
-                                            @endif
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="CourseOnline_recommend_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="row">
-                                            <label for="CourseOnline_course_note">หมายเหตุ</label> 
-                                            <h5>{{ $course_online->course_note}}</h5>
-                                            <div class="error help-block">
-                                                <div class="label label-important" id="CourseOnline_course_note_em_"
-                                                    style="display:none"></div>
-                                            </div>
-                                        </div>
-
-                                        <!-- <div class="row">
-                                                             <label for="CourseOnline_course_price">ราคา</label>					<input class="span8" name="CourseOnline[course_price]" id="CourseOnline_course_price" type="text" value="0" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark"><i></i></span>					<div class="error help-block"><div class="label label-important" id="CourseOnline_course_price_em_" style="display:none"></div></div>				</div> -->
-
-                                        <div class="row">
-                                        </div>
-
-                                        <br>
-                                        <div class="row">
-                                            <div id="picture_show" style="">
-                                                ภาพประกอบ <br>
-                                                <img src="{{ asset('images/uploads/courseonline/'.$course_online->course_id.'/original/'. $course_online->course_picture) }}"
-                                                    alt="รูปภาพ" style="width: 300px; " id="selected_picture"
-                                                    name="course_picture_o"><br><br>
-                                            </div>
-                                        </div>
-                                        <br> 
-                                </div><!-- form -->
-                            </div>
+<body class="">
+    <div id="wrapper">
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <h4 class="m-0">ระบบหลักสูตรนิสิต/นักศึกษา</h4>
+                        </div>
+                        <div class="ml-3">
+                            <a href="{{route('courseonline')}}">
+                                <button class="btn btn-warning d-flex align-items-center">
+                                    <i class="fas fa-angle-left mr-2"></i>
+                                    กลับหน้าหลัก
+                                </button>
+                            </a>
                         </div>
                     </div>
-                    <!-- END innerLR -->
-                    <div id="sidebar">
-                    </div><!-- sidebar -->
                 </div>
-                <!-- </div> -->
-                <!-- <div class="span-5 last"> -->
-                <!-- </div> -->
-                <!-- // Content END -->
+            </div>   
+            <div class="container mt-5">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        รายละเอียดหลักสูตรนิสิต/นักศึกษา
+                    </div>
+                    <div class="card-body">
+                            <div class="form-group">
+                                <label for="cms_title">หมวดอบรมออนไลน์</label>
+                                <h4>{{ $course_online->cate_title}}</h4>
+                            </div>
 
-            </div>
-            <div class="clearfix"></div>
-            <!-- // Sidebar menu & content wrapper END -->
+                            <div class="form-group">
+                                <label for="cms_title">ชื่อวิยากร</label>
+                                <h4>{{ $course_online->teacher->teacher_name ?? '-' }}</h4>
+                            </div>
 
-            <div id="footer" class="hidden-print">
+                            <div class="form-group">
+                                <label for="cms_short_title">ชื่อหลักสูตรอบรมออนไลน์ </label>
+                                <h4>{{ $course_online->course_title}}</h4>
+                            </div>
 
-                <!--  Copyright Line -->
-                <div class="copy">© 2023 - All Rights Reserved.</a></div>
-                <!--  End Copyright Line -->
+                            <div class="form-group">
+                                <label for="cms_short_title">รายละเอียดย่อ </label>
+                                {!! htmlspecialchars_decode($course_online->course_short_title) !!}
+                            </div>
 
-            </div>
-            <!-- // Footer END -->
+                            <div class="form-group">
+                                <label for="cms_short_title">รายละเอียด </label>
+                                {!! htmlspecialchars_decode(htmlspecialchars_decode($course_online->course_detail)) !!}
+                            </div>
 
+                            <div class="form-group">
+                                <label for="cms_short_title">ปักหมุดหลักสูตรแนะนำ </label>
+                                <div>
+                                    @php
+                                        $checked = $course_online->recommend == 'y' ? 'checked' : '';
+                                    @endphp
+                                    <input type="checkbox" name="recommend" value="y" data-toggle="toggle" data-on="แสดง" data-off="ไม่แสดง" data-onstyle="success" data-offstyle="danger" {{ $checked }} />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cms_short_title">หมายเหตุ </label>
+                                <h4>{{ $course_online->course_note}}</h4>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="cms_short_title">ภาพประกอบ </label>
+                                <h3><img src="{{ asset('images/uploads/courseonline/'.$course_online->course_id.'/original/'. $course_online->course_picture) }}" alt="รูปภาพ"></h3>
+                            </div>
+                    </div>
+                </div>
+            </div>        
+            <div id="sidebar">
+            </div><!-- sidebar -->
         </div>
-
-    </body>
-
+    </div>
+    <div class="clearfix"></div>
+</body>
 @endsection

@@ -2,310 +2,105 @@
 @section('title', 'Admin')
 @section('content')
 <body class="">
-<style>
-	.switch {
-  position: relative;
-  display: inline-block;
-  width: 80px;
-  height: 34px;
-}
-
-.switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked + .slider {
-  background-color: #0dfa24;
-}
-
-input:focus + .slider {
-  box-shadow: 0 0 1px #0dfa24;
-}
-
-input:checked + .slider:before {
-  -webkit-transform: translateX(40px);
-  -ms-transform: translateX(40px);
-  transform: translateX(40px);
-}
-</style>
-	<!-- Main Container Fluid -->
-	<div class="container-fluid fluid menu-left">
-
-		<!-- Top navbar -->
-		@include('admin.layouts.partials.top-nav')
-		<!-- Top navbar END -->
-
-
-		<!-- Sidebar menu & content wrapper -->
 		<div id="wrapper">
-
-			<!-- Sidebar Menu -->
-			@include('admin.layouts.partials.menu-left')
-			<!-- // Sidebar Menu END -->
-
-
-			<!-- Content -->
-			<!-- <div class="span-19"> -->
-			<div id="content">
-				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="/admin/index.php/setting/index">จัดการตั้งค่าระบบ</a></li> » <li>ตั้งค่าระบบ</li>
-				</ul><!-- breadcrumbs -->
-				<div class="separator bottom"></div>
-				<script src="/admin/js/tinymce-4.3.4/tinymce.min.js" type="text/javascript"></script>
-				<script type="text/javascript">
-					$(function() {
-						tinymce.init({
-							selector: ".tinymce",
-							theme: "modern",
-							width: 680,
-							height: 300,
-							plugins: [
-								"advlist autolink link image lists charmap print preview hr anchor pagebreak",
-								"searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
-								"table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
-							],
-							toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
-							toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
-							image_advtab: true,
-
-							external_filemanager_path: "/admin/../filemanager/",
-							filemanager_title: "Responsive Filemanager",
-							external_plugins: {
-								"filemanager": "/admin/../filemanager/plugin.min.js"
-							}
-						});
-					});
-				</script>
-				<!-- innerLR -->
-				<div class="innerLR">
-					<div class="widget widget-tabs border-bottom-none">
-						<div class="widget-head">
-							<ul>
-								<li class="active">
-									<a class="glyphicons edit" href="#account-details" data-toggle="tab">
-										<i></i>ตั้งค่าระบบ </a>
-								</li>
-							</ul>
-						</div>
-						
-						<div class="widget-body">
-							<div class="form">
-								<form enctype="multipart/form-data" id="page-form" action="{{route('setting.update',['id' => $setting->setting_id])}}" method="post">
-									@csrf
-									<p class="note">ค่าที่มี <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span> จำเป็นต้องใส่ให้ครบ</p>
-
-									<!-- <div class="row">
-					<label for="Setting_settings_email">อีเมล์ที่ติดต่อได้</label>					<input class="span7" size="60" maxlength="255" name="Setting[settings_email]" id="Setting_settings_email" type="text" value="pieapple.ope@gmail.com " />					<div class="errorMessage" id="Setting_settings_email_em_" style="display:none"></div>				</div>
-
-				<div class="row">
-					<label for="Setting_settings_tel">เบอร์โทรศัพท์ที่ติดต่อได้</label>					<input class="span7" size="60" maxlength="255" name="Setting[settings_tel]" id="Setting_settings_tel" type="text" value="029339750" />					<div class="errorMessage" id="Setting_settings_tel_em_" style="display:none"></div>				</div>
-
-				<div class="row">
-					<label for="Setting_settings_line">line ที่ติดต่อได้</label>					<input class="span7" size="60" maxlength="255" name="Setting[settings_line]" id="Setting_settings_line" type="text" value="bws." />					<div class="errorMessage" id="Setting_settings_line_em_" style="display:none"></div>				</div>
-
-				<p><div class="progress progress-inverse progress-mini"><div class="bar" style="width: 100%;"></div></div></p> -->
-
-									<!-- <div class="row">
-					<label for="Setting_settings_institution">รหัสสถาบัญ</label>					<input class="span7" size="60" maxlength="255" name="Setting[settings_institution]" id="Setting_settings_institution" type="text" value="40294" />					<span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>					<div class="errorMessage" id="Setting_settings_institution_em_" style="display:none"></div>				</div> -->
-
-									<div class="row">
-										<label for="Setting_email_room">User Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label> <input class="span7" size="60" maxlength="255" name="email_room" id="Setting_email_room" type="text" value="{{ $setting->email_room}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
-										<div class="errorMessage" id="Setting_email_room_em_" style="display:none"></div>
-									</div>
-
-									<div class="row">
-										<label for="Setting_pass_email_room">Pass Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label> <input class="span7" size="60" maxlength="255" name="pass_email_room" id="Setting_pass_email_room" type="text" value="{{ $setting->pass_email_room}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
-										<div class="errorMessage" id="Setting_pass_email_room_em_" style="display:none"></div>
-									</div>
-
-									<p></p>
-									<div class="progress progress-inverse progress-mini">
-										<div class="bar" style="width: 100%;"></div>
-									</div>
-									<p></p>
-
-									<div class="row">
-										<label for="Setting_settings_user_email" class="required">User Email ที่ใช้ในการส่งข้อมูล <span class="required">*</span></label> <input class="span7" size="60" maxlength="255" name="settings_user_email" id="Setting_settings_user_email" type="text" value="{{$setting->settings_user_email}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
-										<div class="errorMessage" id="Setting_settings_user_email_em_" style="display:none"></div>
-									</div>
-
-									<div class="row">
-										<label for="Setting_settings_pass_email">Pass Email ที่ใช้ในการส่งข้อมูล</label> <input class="span7" size="60" maxlength="255" name="settings_pass_email" id="Setting_settings_pass_email" type="text" value="{{$setting->settings_pass_email}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
-										<div class="errorMessage" id="Setting_settings_pass_email_em_" style="display:none"></div>
-									</div>
-
-									<div class="row">
-										<label for="Setting_settings_testing">เปิด-ปิด การเฉลยข้อสอบ</label>
-										<label class="switch">
-											<input type="checkbox" id="toggleSwitch" name="settings_testing" @if($setting->settings_testing == 1) checked @endif>{{$setting->settings_testing}}
-											<span class="slider"></span>
-										  </label>
-									</div>
-
-									
-									<div class="row">
-										<label for="Setting_settings_register">เปิด-ปิด การลงทะเบียน</label>
-										<label class="switch">
-											<input type="checkbox" id="toggleSwitch" name="settings_register" @if($setting->settings_register == 1) checked @endif>{{$setting->settings_register}}
-											<span class="slider"></span>
-										  </label>
-									</div>
-
-									<p></p>
-									<div class="progress progress-inverse progress-mini">
-										<div class="bar" style="width: 100%;"></div>
-									</div>
-									<p></p>
-
-
-									<div class="row">
-										<label for="Setting_settings_score">เปอร์เซ็นการคำนวณคะแนน การทดสอบผ่าน (ใส่ค่า 80 คือผ่าน 80 เปอร์เซ็นของคะแนนสอบ)</label> <input class="span7" size="60" maxlength="255" name="settings_score" id="Setting_settings_score" type="text" value="{{$setting->settings_score}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
-										<div class="errorMessage" id="Setting_settings_score_em_" style="display:none"></div>
-									</div>
-
-
-									<div class="row">
-										<label for="Setting_password_expire_day">จำนวนวัน ที่รหัสผ่าน User จะหมดอายุ (ใส่ 0 หรือเว้นว่างถ้าไม่กำหนด)</label> <input class="span7" size="60" maxlength="255" name="password_expire_day" id="Setting_password_expire_day" type="text" value="{{$setting->password_expire_day}}"> <span style="margin:0;" class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="First name is mandatory"><i></i></span>
-										<div class="errorMessage" id="Setting_password_expire_day_em_" style="display:none"></div>
-									</div>
-
-									<!-- <div class="row">
-					<label for="Setting_settings_intro_status">เปิด-ปิด หน้า Intro</label>					<div class="toggle-button" data-toggleButton-style-enabled="success">
-						<input id="ytSetting_settings_intro_status" type="hidden" value="0" name="Setting[settings_intro_status]" /><input value="1" name="Setting[settings_intro_status]" id="Setting_settings_intro_status" type="checkbox" />					</div>
-					<div class="errorMessage" id="Setting_settings_intro_status_em_" style="display:none"></div>				</div>
-				<br> -->
-									<!-- <div class="row">
-					<div class="pull-left">
-						<div id="colorTab1">
-							<div class="farbtastic">
-								<div class="color" style="background-color: rgb(255, 226, 0);"></div>
-								<div class="wheel"></div>
-								<div class="overlay"></div>
-								<div class="h-marker marker" style="left: 164px; top: 47px;"></div>
-								<div class="sl-marker marker" style="left: 98px; top: 118px;"></div>
-							</div>
-						</div>
-					</div>
-				</div> -->
-
-									<!-- <div class="row">
-					<script type="text/javascript">
-					$(function(){
-						$('#colorTab1').farbtastic('#settings_bg_color'); 
-					});
-					</script>
-					<label for="Setting_settings_intro_bg_color">สีพื้นหลังหน้า Intro</label>					<input class="span4" id="settings_bg_color" readonly="readonly" style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); " name="Setting[settings_intro_bg_color]" type="text" value="#ffffff" />					<div class="errorMessage" id="Setting_settings_intro_bg_color_em_" style="display:none"></div>				</div>
-				<br> -->
-
-									<!-- <script type="text/javascript">
-				function deleteImage(file_id)
-				{
-					$.get("/admin/index.php/setting/DeleteImageBg",{id:file_id},function(data){
-						if($.trim(data)==1){
-							notyfy({dismissQueue: false,text: "ลบภาพพื้นหลังเรียบร้อย",type: 'success'});
-							$('#ImageBg').hide('fast');
-						}else{
-							alert('เกิดข้อผิดพลาด');
-						}
-					});
-				}
-				</script> -->
-
-									<!-- <div class="row" id="ImageBg">
-				<img class="thumbnail" src="http://lms.brother.co.th/admin/../uploads/setting/1/original/15052014103624_Picture.jpg" alt="15052014103624_Picture.jpg" />				<a title="ลบภาพพื้นหลัง" class="btn-action glyphicons pencil btn-danger remove_2" style="float:left; z-index:1; background-color:white; cursor:pointer;" onclick="if(confirm(&quot;คุณต้องการลบรูปภาพพื้นหลังใช่หรือไม่ ?&quot;)){ deleteImage(&quot;1&quot;); }"><i></i></a>				</div>
-				<br> -->
-
-									<!-- <div class="row">
-					<label for="Setting_settings_intro_bg">รูปภาพพื้นหลัง Intro</label>					<div class="fileupload fileupload-new" data-provides="fileupload">
-					  	<div class="input-append">
-					    	<div class="uneditable-input span3"><i class="icon-file fileupload-exists"></i> <span class="fileupload-preview"></span></div><span class="btn btn-default btn-file"><span class="fileupload-new">Select file</span><span class="fileupload-exists">Change</span><input id="ytSetting_settings_intro_bg" type="hidden" value="" name="Setting[settings_intro_bg]" /><input name="Setting[settings_intro_bg]" id="Setting_settings_intro_bg" type="file" /></span><a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
-					  	</div>
-					</div>
-					<div class="errorMessage" id="Setting_settings_intro_bg_em_" style="display:none"></div>				</div> -->
-
-									<!-- <div class="row">
-					<label for="Setting_settings_intro_detail">รายละเอียดหน้า Intro</label>					<textarea rows="6" cols="50" class="span8 tinymce" name="Setting[settings_intro_detail]" id="Setting_settings_intro_detail">&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;p&gt;&amp;nbsp;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: xx-large;&quot;&gt;ขณะนี้บริษัทได้ดำเนินการ&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: xx-large;&quot;&gt;ปรับปรุง SERVERเสร็จเรียบร้อย&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: xx-large;&quot;&gt;และสมาชิกสามารถเข้าเรียนได้ตามปกติ&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: xx-large;&quot;&gt;สอบถามเพิ่มเติมที่ 091-408-5727-8 หรือ&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: xx-large;&quot;&gt;&lt;a href=&quot;mailto:cpdland@yahoo.com&quot;&gt;cpdland@yahoo.com&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: xx-large;&quot;&gt;ทางทีมงานต้องขออภัยมา ณ ที่นี้&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: xx-large;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: xx-large;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot;text-align: center;&quot;&gt;&lt;span style=&quot;font-size: xx-large;&quot;&gt;&amp;nbsp;&amp;lt;&amp;lt;&amp;nbsp;&lt;a style=&quot;font-family: verdana, geneva; font-size: x-large;&quot; href=&quot;/index.php/site/index&quot;&gt;เข้าสู่หน้าหลัก&lt;/a&gt;&amp;nbsp;&amp;gt;&amp;gt;&lt;/span&gt;&lt;/p&gt;</textarea>					<div class="errorMessage" id="Setting_settings_intro_detail_em_" style="display:none"></div>				</div>
-				<br> -->
-
-									<div class="row buttons">
-										<button class="btn btn-primary btn-icon glyphicons ok_2"><i></i>บันทึกข้อมูล</button>
-									</div>
-								</form>
-							</div><!-- form -->
+			<div class="content-wrapper">
+				<div class="content-header">
+					<div class="container-fluid d-flex align-items-center">
+						<div>
+							<h4 class="m-0">จัดการตั้งค่าระบบ</h4>
+							<p class="m-0 text-black-50"><li><a href="{{route('admin')}}">หน้าหลัก</a></li></p>
 						</div>
 					</div>
 				</div>
-				<!-- END innerLR -->
+				<div class="content">
+					<div class="container-fluid">
+						<div class="d-md-flex">
+							<div class="col mx-auto col-md-8 col-lg-6">
+								<div class="card m-0">
+									<div class="card-header bg-primary text-white">
+										ตั้งค่าระบบ
+									</div>
+									<div class="card-body">
+										<form enctype="multipart/form-data" id="page-form" action="{{route('setting.update',['id' => $setting->setting_id])}}" method="post">
+											@csrf
+											<div class="form-group mb-0">
+												<div class="form-group px-0 mr-3 w-100">
+													<label for="con_firstname">User Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label>
+													<input type="text" class="form-control"  name="email_room" value="{{ $setting->email_room}}">
+												</div>
+												<div class="form-group px-0 mr-3 w-100">
+													<label for="con_firstname">Pass Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label>
+													<input type="text" class="form-control"  name="pass_email_room" value="{{ $setting->pass_email_room}}">
+												</div>
+												<div class="form-group px-0 mr-3 w-100">
+													<label for="con_firstname">User Email ที่ใช้ในการส่งข้อมูล</label>
+													<input type="text" class="form-control"  name="settings_user_email" value="{{ $setting->settings_user_email}}">
+												</div>
+												<div class="form-group px-0 mr-3 w-100">
+													<label for="con_firstname">Pass Email ที่ใช้ในการส่งข้อมูล</label>
+													<input type="text" class="form-control"  name="settings_pass_email" value="{{ $setting->settings_pass_email}}">
+												</div>
+												<div class="form-group px-0 mr-3 w-100">
+													<label for="con_firstname">Pass Email ที่ใช้ในการส่งข้อมูล</label>
+													<input type="text" class="form-control"  name="settings_pass_email" value="{{ $setting->settings_pass_email}}">
+												</div>
+
+												<div class="form-group px-0 w-100">
+													<label for="con_lastname">เปิด-ปิด การเฉลยข้อสอบ</label>
+													<div>
+														@php
+															$checked = $setting->settings_testing == 1 ? 'checked' : '';
+														@endphp
+														<input type="checkbox" name="settings_testing" value="y" data-toggle="toggle" data-on="แสดง" data-off="ไม่แสดง" data-onstyle="success" data-offstyle="danger" {{ $checked }} />
+													</div>
+												</div>
+
+												<div class="form-group px-0 w-100">
+													<label for="con_lastname">เปิด-ปิด การลงทะเบียน</label>
+													<div>
+														@php
+															$checked = $setting->settings_register == 1 ? 'checked' : '';
+														@endphp
+														<input type="checkbox" name="settings_register" value="y" data-toggle="toggle" data-on="แสดง" data-off="ไม่แสดง" data-onstyle="success" data-offstyle="danger" {{ $checked }} />
+													</div>
+												</div>
+
+												<div class="progress progress-inverse progress-mini">
+													<div class="progress-bar" id="progress-bar" 
+														 style="width: {{ $setting->settings_score ?? 0 }}%; background-color: #007bff; transition: width 0.5s;">
+													</div>
+												</div>
+
+												<div class="form-group px-0 mr-3 w-100">
+													<label for="settings_score">
+														เปอร์เซ็นการคำนวณคะแนน การทดสอบผ่าน 
+														(ใส่ค่า 80 คือผ่าน 80 เปอร์เซ็นของคะแนนสอบ)
+													</label>
+													<input type="number" id="settings_score" class="form-control" name="settings_score"
+														   value="{{ $setting->settings_score ?? 0 }}" min="0" max="100">
+												</div>
+
+												<div class="form-group px-0 mr-3 w-100">
+													<label for="con_firstname">จำนวนวัน ที่รหัสผ่าน User จะหมดอายุ (ใส่ 0 หรือเว้นว่างถ้าไม่กำหนด)</label>
+													<input type="text" class="form-control"  name="password_expire_day" value="{{$setting->password_expire_day}}">
+												</div>
+											</div>
+
+											<div class="card-footer">
+												<button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<div id="sidebar">
 				</div><!-- sidebar -->
 			</div>
 
 		</div>
 		<div class="clearfix"></div>
-		<!-- // Sidebar menu & content wrapper END -->
-
-		<div id="footer" class="hidden-print">
-
-			<!--  Copyright Line -->
-			<div class="copy">© 2023 - All Rights Reserved.</a></div>
-			<!--  End Copyright Line -->
-
-		</div>
-		<!-- // Footer END -->
-
-	</div>
-	<script>
-		// เมื่อมีการเปลี่ยนแปลงใน input checkbox
-		document.getElementById("toggleSwitch").addEventListener("change", function() {
-			if (this.checked) {
-				// ถ้า checkbox ถูกเลือก
-				console.log("เปิด");
-				// ใส่โค้ดที่ต้องการเมื่อเปิด
-			} else {
-				// ถ้า checkbox ไม่ถูกเลือก
-				console.log("ปิด");
-				// ใส่โค้ดที่ต้องการเมื่อปิด
-			}
-			});
-	</script>
 </body>
 @endsection
