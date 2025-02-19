@@ -3416,7 +3416,7 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             $users = Users::whereNotNull('group_id')
                     ->where('status','1')
-                    ->paginate(10);
+                    ->get();
             return view("admin.adminuser.adminuser",compact('users'));
         }else{
             return redirect()->route('login.admin');
