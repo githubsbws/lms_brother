@@ -41,7 +41,7 @@
                                     @foreach ($users as $index => $item)
                                     <tr>
 										<td>{{ $index +1 }}</td>
-										<td>{{ $item->Profiles->Fullname() ?? '-'}}</td>
+										<td>{{ $item->Profiles->firstname ?? '-'}} {{ $item->Profiles->lastname ?? '-'}}</td>
 										<td>{{ $item->Profiles->identification ?? '-'}}</td>
 										<td>{{ @$item->Position->position_title ? $item->Position->position_title : "-" }}</td>
 										<td>{{ $item->email ?? '-'}}</td>
