@@ -544,6 +544,11 @@ Route::post('document_edit/{id}',[AdminController::class,'document_edit'])->name
 
 Route::post('document_delete/{id}',[AdminController::class,'document_delete'])->name('document.delete')->middleware('checkIdleTimeout');
 
+Route::get('document_head',[AdminController::class,'document_head'])->name('document.head')->middleware('checkIdleTimeout');
+Route::get('document_head_edit/{id}',[AdminController::class,'document_head_edit'])->name('document.head_edit')->middleware('checkIdleTimeout');
+Route::post('document_head_edit/{id}',[AdminController::class,'document_head_edit'])->name('document.head_edit')->middleware('checkIdleTimeout');
+Route::post('document_head_delete/{id}',[AdminController::class,'document_head_del'])->name('document.head_del')->middleware('checkIdleTimeout');
+
 Route::get('document_type',[AdminController::class,'document_type'])->name('document.type')->middleware('checkIdleTimeout');
 
 Route::post('document_type/per_page',[AdminController::class,'document_type'])->middleware('checkIdleTimeout');
@@ -658,8 +663,10 @@ Route::get('/captcha_y/{capid}/{capt_active}',[AdminController::class,'captcha_y
 Route::post('/captcha_update/{capid}',[AdminController::class,'captcha_update'])->name('captcha_update')->middleware('checkIdleTimeout');
 
 Route::get('/logadmin',[AdminController::class,'logadmin'])->name('logadmin')->middleware('checkIdleTimeout');
+Route::get('/admin/admin-data', [AdminController::class, 'getadminData'])->name('admin.admin_data');
 
 Route::get('/logusers',[AdminController::class,'logusers'])->name('logusers')->middleware('checkIdleTimeout');
+Route::get('/admin/text-data', [AdminController::class, 'getTextData'])->name('admin.text_data');
 
 Route::get('/logapprove',[AdminController::class,'logapprove'])->name('logapprove')->middleware('checkIdleTimeout');
 

@@ -13,6 +13,13 @@ class Downloadtitle extends Model
 
     protected $primaryKey = 'title_id';
 
+    protected $fillable = [
+        'active'
+    ];
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
+    
     public static function findById($id)
     {
         return static::where('title_id', $id)->first();

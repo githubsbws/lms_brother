@@ -4,9 +4,25 @@
 @php
 use App\Models\Teacher;
 
-
 $teacher = Teacher::where('teacher_id',$course_detail->course_lecturer)->first();
 @endphp
+<style>
+    .swal2-popup {
+        font-size: 1.2rem !important;
+        font-family: Georgia, serif;
+        }
+</style>
+<script>
+    // ตรวจสอบ Session Flash และแสดง SweetAlert2
+    @if(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: '{{ session('error') }}',
+            confirmButtonText: 'ตกลง'
+        });
+    @endif
+  </script>
     <body>
         <div id="content">
             {{-- แก้ไข --}}
@@ -15,7 +31,7 @@ $teacher = Teacher::where('teacher_id',$course_detail->course_lecturer)->first()
                     <div class="media v-middle">
                         <div class="media-left">
                             <span class="icon-block s60 bg-default">
-                                <img src="{{asset('images/uploads/courseonline/'.$course_detail->course_id.'/thumb/'.$course_detail->course_picture)}}"
+                                <img src="{{asset('images/uploads/courseonline/'.$course_detail->course_id.'/original/'.$course_detail->course_picture)}}"
                                     style="height: 60px;" class="img-responsive">
                             </span>
                         </div>
@@ -36,7 +52,7 @@ $teacher = Teacher::where('teacher_id',$course_detail->course_lecturer)->first()
                             <div class="panel panel-default paper-shadow" data-z="0.5" data-hover-z="1" data-animated="">
                                 <div class="panel-body">
                                     <div class="width-300 width-250-md width-50pc-xs paragraph-inline">
-                                        <img src="{{ asset('images/uploads/courseonline/'.$course_detail->course_id.'/thumb/' . $course_detail->course_picture) }}"
+                                        <img src="{{ asset('images/uploads/courseonline/'.$course_detail->course_id.'/original/' . $course_detail->course_picture) }}"
                                             class="img-responsive">
                                     </div>
                                     <p></p>

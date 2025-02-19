@@ -10,8 +10,22 @@
             width: 80px !important;
             height: 80px !important;
         }
+        .swal2-popup {
+            font-size: 1.2rem !important;
+            font-family: Georgia, serif;
+            }
     </style>
-
+<script>
+    // ตรวจสอบ Session Flash และแสดง SweetAlert2
+    @if(session('error'))
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: '{{ session('error') }}',
+            confirmButtonText: 'ตกลง'
+        });
+    @endif
+  </script>
     <body>
         <div id="content">
             <div class="parallax overflow-hidden page-section bg-blue-300" style="background-color: cornflowerblue">
@@ -77,7 +91,7 @@
                                                                 class="padding-none overlay overlay-full icon-block bg-primary">
                                                                 <span class="v-center">
                                                                     @if ($item->course_picture != null)
-                                                                        <img src="{{ asset('images/uploads/courseonline/' . $item->course_id . '/thumb/' . $item->course_picture) }}"
+                                                                        <img src="{{ asset('images/uploads/courseonline/' . $item->course_id . '/original/' . $item->course_picture) }}"
                                                                             style="height: 150px">
                                                                     @else
                                                                         <img src="{{ asset('themes/bws/images/logo_course2.png') }}"

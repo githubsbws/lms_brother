@@ -28,4 +28,9 @@ class Logusers extends Model
     {
         return static::where('id', $id)->first();
     }
+
+    public function users()
+    {
+        return $this->belongsTo(Users::class, 'user_id', 'id'); // ตรวจสอบ key ให้ถูกต้อง
+    }
 }

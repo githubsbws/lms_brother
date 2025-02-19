@@ -35,7 +35,7 @@
                                         </p>
                                         <p class="text-caption" style="font-size: 22px;">{{ $news->cms_short_title }}</p>
                                         <p class="text-caption" style="font-size: 22px;">{!! htmlspecialchars_decode($news->cms_detail) !!}</p>
-                                        <p class="text-caption" style="font-size: 22px;">posted by<i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> {{$profiles->firstname}} &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> {{$news->update_date}} <br></p>
+                                        <p class="text-caption" style="font-size: 22px;">posted by<i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> {{$profiles->firstname ?? '-'}} &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> {{$news->update_date ?? '-'}} <br></p>
                                     </div>
                                 </div>
                             </div>

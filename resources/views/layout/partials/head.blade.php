@@ -39,6 +39,9 @@ use App\Models\Usability;
     <link href="{{asset('themes/bws/js/vender/video-js/video-js.css')}}" rel="stylesheet">
     <link href="{{asset('themes/bws/js/vender/video-js/video-js.min.css')}}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{asset('asset_admin/plugins/sweetalert2/sweetalert2.min.css')}}">
+    <script src="{{asset('asset_admin/plugins/sweetalert2/sweetalert2.all.js')}}"></script>
+    <script src="{{asset('asset_admin/plugins/sweetalert2/sweetalert2.all.min.js')}}"></script>
     {{-- <link href="themes/bws/css/vendor.min.css" rel="stylesheet">
     <link href="themes/bws/css/theme-core.css" rel="stylesheet">
     <link href="themes/bws/css/module-essentials.min.css" rel="stylesheet" />

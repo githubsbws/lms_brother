@@ -1,103 +1,49 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-
-
-<body class="">
-
-	<!-- Main Container Fluid -->
-	<div class="container-fluid fluid menu-left">
-
-		<!-- Top navbar -->
-		@include('admin.layouts.partials.top-nav')
-		<!-- Top navbar END -->
-
-
-		<!-- Sidebar menu & content wrapper -->
-		<div id="wrapper">
-
-			<!-- Sidebar Menu -->
-			@include('admin.layouts.partials.menu-left')
-			<!-- // Sidebar Menu END -->
-
-
-			<!-- Content -->
-			<!-- <div class="span-19"> -->
-			<div id="content">
-				<ul class="breadcrumb">
-					<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li><a href="/admin/index.php/imgslide/index">ระบบแก้ไขสไลด์รูปภาพ</a></li> » <li>แก้ไขสไลด์รูปภาพ</li>
-				</ul><!-- breadcrumbs -->
-				<div class="separator bottom"></div>
-
-
-				<!-- innerLR -->
-				<div class="innerLR">
-					<div class="widget widget-tabs border-bottom-none">
-						<div class="widget-head">
-							<ul>
-								<li class="active">
-									<a class="glyphicons edit" href="#account-details" data-toggle="tab">
-										<i></i>สไลด์รูปภาพ </a>
-								</li>
-							</ul>
+<body>
+	<div id="wrapper">
+		<div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="d-flex align-items-center">
+						<div class="">
+							<h4 class="m-0">ระบบสไลด์รูปภาพ</h4>
 						</div>
-						<div class="widget-body">
-							<div class="form">
-			
-									<div class="row">
-										<label for="Imgslide_imgslide_link" class="required">ชื่อลิ้งค์ <span class="required">*</span></label> 
-										<h5>{{ $imgslide->imgslide_link}}</h5>
-										<div class="error help-block">
-											<div class="label label-important" id="Imgslide_imgslide_link_em_" style="display:none"></div>
-										</div>
-									</div>
-									
-									<br>
-
-									<div class="row">
-									</div>
-									<br>
-
-									<div class="row">
-										<label for="Imgslide_imgslide_picture" class="required">รูปภาพประกอบ <span class="required">*</span></label>
-										<img src="{{asset('images/uploads/imgslides/'.$imgslide->imgslide_picture)}}" style="width:350px;height:350px;">
-										<div class="error help-block">
-											<div class="label label-important" id="Imgslide_imgslide_picture_em_" style="display:none"></div>
-										</div>
-									</div>
-									
-									
-									<br>
-
-							</div><!-- form -->
+						<div class="ml-3">
+							<a href="{{route('imgslide')}}">
+								<button class="btn btn-warning d-flex align-items-center">
+									<i class="fas fa-angle-left mr-2"></i>
+									หน้าหลัก
+								</button>
+							</a>
 						</div>
 					</div>
 				</div>
-				<!-- END innerLR -->
-
-				<div id="sidebar">
-				</div><!-- sidebar -->
 			</div>
-			<!-- </div> -->
-			<!-- <div class="span-5 last"> -->
-			<!-- </div> -->
-			<!-- // Content END -->
+			<div class="container mt-5">
+				<div class="card">
+					<div class="card-header bg-primary text-white">
+						สไลด์รูปภาพ
+					</div>
+					<div class="card-body">
+							<div class="form-group">
+								<label for="imgslide_link">ชื่อลิ้งค์</label>
+								<h4>{{ $imgslide->imgslide_link}}</h4>
+							</div>
 
+							<div class="form-group">
+								<label for="cms_short_title">รูปภาพประกอบ </label>
+								<h4><img src="{{asset('images/uploads/imgslides/'.$imgslide->imgslide_picture)}}" style="width: 100%;height:100%;"></h4>
+							</div>
+					</div>
+				</div>
+			</div>
+			<div id="sidebar">
+			</div><!-- sidebar -->
 		</div>
-		<div class="clearfix"></div>
-		<!-- // Sidebar menu & content wrapper END -->
-
-		<div id="footer" class="hidden-print">
-
-			<!--  Copyright Line -->
-			<div class="copy">© 2023 - All Rights Reserved.</a></div>
-			<!--  End Copyright Line -->
-
-		</div>
-		<!-- // Footer END -->
-
 	</div>
+	<div class="clearfix"></div>
 
 </body>
-
 @endsection

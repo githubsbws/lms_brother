@@ -22,5 +22,10 @@ class News extends Model
     {
         return static::where('cms_id', $id)->first();
     }
+
+    public function profile()
+    {
+        return $this->belongsTo(Profiles::class, 'update_by','user_id');
+    }
     
 }

@@ -36,7 +36,8 @@ class CourseController extends Controller
         if($course_lesson != null){
             return view("course.course-detail",['course_detail' =>$course_detail],['course_lesson' =>$course_lesson]);  
         }else{
-            return redirect()->route('index');
+            session()->flash('error', 'บทเรียนยังไม่เปิดให้เรียนตอนนี้');
+            return redirect()->route('course');
         }
     }else{
         return redirect()->route('index');
@@ -86,14 +87,28 @@ class CourseController extends Controller
         $course_detail = Course::findById($course_id);
         $lesson_list = Lesson::where(['course_id' => $course_id,'active' =>'y'])->get();
         $file = FileDoc::where(['lesson_id' => $id,'active' =>'y'])->get();
+        
+        if(!$lesson_list || $lesson_list == null){
+            session()->flash('error', 'บทเรียนยังไม่เปิดให้เรียนตอนนี้');
+            return redirect()->route('course');
+        }
+        if(!$file || $file == null){
+            session()->flash('error', 'บทเรียนยังไม่เปิดให้เรียนตอนนี้');
+            return redirect()->route('course');
+        }
         if(isset($id)){
             $course_lesson = Lesson::join('course_online','course_online.course_id','=','lesson.course_id')->where('lesson.id',$id)->get();
             $track = File::where('lesson_id',$id)->first();
+            
             if($files != null){
                 $file_id = File::where('id',$files)->first();
                 // dd($file_id->toArray());
             }else{
                 $file_id = File::where('lesson_id',$id)->first();
+                if(!$file_id){
+                    session()->flash('error', 'บทเรียนยังไม่เปิดให้เรียนตอนนี้');
+                    return redirect()->route('course');
+                }
             }
             // dd($file_id->id);
         }

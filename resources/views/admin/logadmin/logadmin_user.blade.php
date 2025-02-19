@@ -1,154 +1,70 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-<body class="">
-
-	<!-- Main Container Fluid -->
-	<div class="container-fluid fluid menu-left">
-
-		<!-- Top navbar -->
-		@include('admin.layouts.partials.top-nav')
-		<!-- Top navbar END -->
-
-
-		<!-- Sidebar menu & content wrapper -->
-		<div id="wrapper">
-
-			<!-- Sidebar Menu -->
-			@include('admin.layouts.partials.menu-left')
-			<!-- // Sidebar Menu END -->
-
-
-			<!-- Content -->
-			<!-- <div class="span-19"> -->
-			<div id="content">
-					<ul class="breadcrumb">
-						<li><a href="/admin/index.php">หน้าหลัก</a></li> » <li>Log การใช้งานผู้เรียน</li>
-					</ul><!-- breadcrumbs -->
-					<div class="separator bottom"></div>
-	
-	
-					<div class="innerLR">
-						<div class="widget" style="margin-top: -1px;">
-							<div class="widget-head">
-								<h4 class="heading glyphicons show_thumbnails_with_lines"><i></i> Log การใช้งานผู้เรียน</h4>
-							</div>
-							<div class="widget-body">
-								<div class="separator bottom form-inline small">
-									<span class="pull-right">
-										<label class="strong">แสดงแถว:</label>
-										<select class="selectpicker" data-style="btn-default btn-small" onchange="$.updateGridView('News-grid', 'news_per_page', this.value)" name="news_per_page" id="news_per_page" style="display: none;">
-											<option value="">ค่าเริ่มต้น (10)</option>
-											<option value="10">10</option>
-											<option value="50">50</option>
-											<option value="100">100</option>
-											<option value="200">200</option>
-											<option value="250">250</option>
-										</select>
-										<div class="btn-group bootstrap-select"><button class="btn dropdown-toggle clearfix btn-default btn-small" data-toggle="dropdown" id="news_per_page"><span class="filter-option pull-left">ค่าเริ่มต้น (10)</span>&nbsp;<span class="caret"></span></button>
-											<div class="dropdown-menu" role="menu">
-												<ul style="max-height: none; overflow-y: auto;">
-													<li rel="0"><a tabindex="-1" href="#">ค่าเริ่มต้น (10)</a></li>
-													<li rel="1"><a tabindex="-1" href="#">10</a></li>
-													<li rel="2"><a tabindex="-1" href="#">50</a></li>
-													<li rel="3"><a tabindex="-1" href="#">100</a></li>
-													<li rel="4"><a tabindex="-1" href="#">200</a></li>
-													<li rel="5"><a tabindex="-1" href="#">250</a></li>
-												</ul>
-											</div>
-										</div>
-									</span>
-								</div>
-								<div class="clear-div"></div>
-								<div class="overflow-table">
-									<div style="margin-top: -1px;" id="News-grid" class="grid-view">
-										<table class="table table-striped table-bordered table-condensed dataTable table-primary js-table-sortable ui-sortable">
-											<thead>
-												<tr>
-													<th class="checkbox-column" id="chk"><input class="select-on-check-all" type="checkbox" value="1" name="chk_all" id="chk_all"></th>
-													<th id="News-grid_c1">Controller</th>
-													<th id="News-grid_c2"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_title">action</a></th>
-													<th id="News-grid_c3"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_short_title">user</a></th>
-													<th id="News-grid_c3"><a class="sort-link" style="color:white;" href="/admin/index.php/news/index?News_sort=cms_short_title">วันที่</a></th>
-												</tr>
-												<tr class="filters">
-													<td>&nbsp;</td>
-													<td>&nbsp;</td>
-													<td><input name="News[cms_title]" type="text" maxlength="250"></td>
-													<td><input name="News[cms_short_title]" type="text"></td>
-													<td>&nbsp;</td>
-												</tr>
-											</thead>
-											<tbody>
-												@foreach ($logusers as $item)
-												<tr class="odd selectable">
-													<td class="checkbox-column"><input class="select-on-check" value="78" id="chk_0" type="checkbox" name="chk[]"></td>
-													<td>{{ $item->controller}}</td>
-													<td>{{ $item->action}}</td>
-													<td >{{$item->username}}</td>
-													<td >{{$item->create_date}}</td>
-												</tr>
-												@endforeach
-											</tbody>
-										</table>
-										<div class="pagination pull-right">
-											<ul class="pagination margin-top-none" id="yw0">
-												<li class="first"><a href="{{url('logusers')}}">&lt;&lt; หน้าแรก</a></li>
-												@if ($logusers->currentPage() > 1)
-												<li class="previous"><a href="{{ $logusers->previousPageUrl() }}" class="pagination-link">หน้าที่แล้ว</a></li>
-												@endif
-												@for ($i = max(1, $logusers->currentPage() - 3); $i <= min($logusers->lastPage(), $logusers->currentPage() + 3); $i++)
-												<li class="page"><a href="{{ $logusers->url($i) }}" class="pagination-link {{ ($i == $logusers->currentPage()) ? 'active' : '' }}">{{ $i }}</a></li>
-												@endfor
-												@if ($logusers->currentPage() < $logusers->lastPage())
-												<li class="next"><a href="{{ $logusers->nextPageUrl() }}" class="pagination-link">หน้าถัดไป</a></li>
-												@endif
-												@if ($logusers->currentPage() == $logusers->lastPage())
-												<li class="last"><a href="{{ $logusers->lastPage() }}"  class="pagination-link">หน้าสุดท้าย &gt;&gt;</a></li>
-												@endif
-											</ul>
-										</div>
-										<div class="keys" style="display:none" title="/admin/index.php/News/index"><span>78</span><span>77</span><span>74</span><span>72</span><span>71</span><span>70</span><span>68</span><span>67</span><span>66</span><span>65</span></div>
-										<input type="hidden" name="News[news_per_page]" value="">
-									</div>
-								</div>
-							</div>
+<body>
+	<div id="wrapper">
+		<div class="content-wrapper">
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="d-flex align-items-center">
+						<div class="">
+							<h4 class="m-0">ระบบLog การใช้งานผู้เรียน</h4>
 						</div>
-	
-						<!-- Options -->
-						<div class="separator top form-inline small">
-							<!-- With selected actions -->
-							<div class="buttons pull-left">
-								<a class="btn btn-primary btn-icon glyphicons circle_minus" onclick="return multipleDeleteNews('/admin/index.php/News/MultiDelete','News-grid');" href="#"><i></i> ลบข้อมูลทั้งหมด</a>
-							</div>
-							<!-- // With selected actions END -->
-							<div class="clearfix"></div>
+						<div class="ml-3">
+							<a href="{{route('admin')}}">
+								<button class="btn btn-warning d-flex align-items-center">
+									<i class="fas fa-angle-left mr-2"></i>
+									หน้าหลัก
+								</button>
+							</a>
 						</div>
-						<!-- // Options END -->
-	
 					</div>
-					<div id="sidebar">
-					</div><!-- sidebar -->
 				</div>
-			<!-- </div> -->
-			<!-- <div class="span-5 last"> -->
-			<!-- </div> -->
-			<!-- // Content END -->
-
+			</div>
+			<div class="content">
+				<div class="container-fluid">
+					<div class="card m-0">
+						<div class="card-body">
+							<table id="settingTable" class="table table-striped table-bordered nowrap" style="width:100%">
+								<thead>
+									<tr>
+										<th>Controller</th>
+										<th>action</th>
+										<th>user</th>
+										<th>วันที่</th>
+									</tr>
+								</thead>
+								<tbody id="sortable">
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="sidebar">
+			</div><!-- sidebar -->
 		</div>
-		<div class="clearfix"></div>
-		<!-- // Sidebar menu & content wrapper END -->
-
-		<div id="footer" class="hidden-print">
-
-			<!--  Copyright Line -->
-			<div class="copy">© 2023 - All Rights Reserved.</a></div>
-			<!--  End Copyright Line -->
-
-		</div>
-		<!-- // Footer END -->
-
 	</div>
-
+	<div class="clearfix"></div>
+<script>
+	$(document).ready(function() {
+		$('#settingTable').DataTable({
+			serverSide: true,
+			processing: true,
+			ajax: "{{ route('admin.text_data') }}",
+			columns: [
+				{ data: 'controller', name: 'controller', orderable: false },
+				{ data: 'action', name: 'action', orderable: false },
+				{ data: 'username', name: 'username', orderable: false },
+				{ data: 'create_date', name: 'create_date' }
+			],
+			language: {
+				url: '/include/languageDataTable.json'
+			},
+			pageLength: 10
+		});
+	});
+</script>		
 </body>
 @endsection

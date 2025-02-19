@@ -38,7 +38,7 @@
                                             <div class="media v-middle">
                                                 <div class="media-body">
                                                     <h6> posted by
-                                                        <i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> {{ $value->firstname}} &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> {{ $value->update_date}} <br>
+                                                        <i class="fa fa-fw fa-comment" style="color:#42A5F5;"></i> {{ $value->profile->firstname ?? '-'}} &nbsp; | <i class="fa fa-fw fa-calendar" style="color:#42A5F5;"></i> {{ $value->update_date ?? '-'}} <br>
                                                     </h6>
                                                 </div>
                                             </div>

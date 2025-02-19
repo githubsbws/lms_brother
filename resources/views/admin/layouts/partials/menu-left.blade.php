@@ -110,6 +110,11 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
+                            <a href="{{url('document_head')}}" class="nav-link {{ request()->is('document_head') ? 'active' : '' }}">
+                                <p>จัดการหัวข้อเอกสาร</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{url('document_type_create')}}" class="nav-link {{ request()->is('document_type_create') ? 'active' : '' }}">
                                 <p>เพิ่มประเภทเอกสาร (ภาษา EN )</p>
                             </a>
@@ -289,12 +294,12 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-print"></i>
                         <p>จัดการใบประกาศนียบัตร</p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item {{ request()->is('captcha*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('captcha*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
@@ -390,8 +395,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ request()->is('user_admin*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->is('user_admin*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('user*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->is('user*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-plus"></i>
                         <p>
                             ระบบจัดการสมาชิก (สมาชิก)
@@ -442,8 +447,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ request()->is('report_course*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->is('report_course*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('report*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->is('report*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
                         <p>
                             ระบบ Report
@@ -452,14 +457,14 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{url('report_course')}}" class="nav-link {{ request()->is('report_course') ? 'active' : '' }}">
+                            <a href="{{url('report_course')}}" class="nav-link {{ request()->is('report*') ? 'active' : '' }}">
                                 <p>รายงานภาพรวมของหลักสูตร</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ request()->is('logadmin*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->is('logadmin*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is('log*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->is('log*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
                         <p>
                             ระบบเก็บ Log การใช้งานระบบ
@@ -492,7 +497,7 @@
     </div>
 </aside>
 
-<div class="nav-sidebar shadow-sm">
+{{-- <div class="nav-sidebar shadow-sm">
     <div class="d-flex align-items-center">
         <button class="nav-btn d-md-none me-3" onclick="slice()">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 16 16">
@@ -532,7 +537,7 @@
             </ul>
         </div>
     </div>
-</div>
+</div> --}}
 
 <script type="text/javascript">
     function slice() {

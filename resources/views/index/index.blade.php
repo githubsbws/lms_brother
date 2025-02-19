@@ -7,7 +7,7 @@ use App\Models\DownloadFile;
 
 @endphp
 <style>
-  .page-cover {
+ .page-cover {
     position: relative;
     width: 100%;
     overflow: hidden;
@@ -15,21 +15,33 @@ use App\Models\DownloadFile;
 
 .image-slider {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    width: 100%;
+    position: relative;
 }
 
 .slide {
-    display: none; /* ซ่อนรูปทั้งหมดเมื่อไม่ใช้งาน */
     width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.slide.active {
+    opacity: 1;
+    position: relative;
 }
 
 .slide img {
     width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
-.prev,
-.next {
+.prev, .next {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -49,43 +61,43 @@ use App\Models\DownloadFile;
 }
 </style>
 <body>
-  
-    <div class="page-cover">
-      <div class="image-slider">
-        @foreach($img as $item)
-            <div class="slide">
-                <a href="{{ $item->imgslide_link }}">
-                    <img src="{{asset('images/uploads/imgslides/'.$item->imgslide_picture)}}" alt="" width="100%">
-                </a>
-            </div>
-        @endforeach
-      </div>
-      @if(count($img) > 1)
-      <button class="prev" onclick="moveSlide(-1)">&#9664; </button>
-      <button class="next" onclick="moveSlide(1)"> &#9654;</button>
-      @else
-    
-      @endif
-    </div>
-    <script>
-      var slideIndex = 1;
-      showSlides(slideIndex);
-  
-      function moveSlide(n) {
-          showSlides(slideIndex += n);
-      }
-  
-      function showSlides(n) {
-          var slides = document.getElementsByClassName("slide");
-          if (n > slides.length) { slideIndex = 1 }
-          if (n < 1) { slideIndex = slides.length }
-          for (var i = 0; i < slides.length; i++) {
-              slides[i].style.display = "none";
-          }
-          slides[slideIndex - 1].style.display = "block";
-      }
-  </script>
     <div class="container">
+      <div class="page-cover">
+        <div class="image-slider">
+          @foreach($img as $item)
+              <div class="slide">
+                  <a href="{{ $item->imgslide_link }}">
+                      <img src="{{asset('images/uploads/imgslides/'.$item->imgslide_picture)}}" alt="">
+                  </a>
+              </div>
+          @endforeach
+        </div>
+        @if(count($img) > 1)
+        <button class="prev" onclick="moveSlide(-1)">&#9664; </button>
+        <button class="next" onclick="moveSlide(1)"> &#9654;</button>
+        @else
+      
+        @endif
+      </div>
+      <script>
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+  
+        function showSlides(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+        }
+  
+        function moveSlide(step) {
+            slideIndex += step;
+            if (slideIndex >= slides.length) slideIndex = 0;
+            if (slideIndex < 0) slideIndex = slides.length - 1;
+            showSlides(slideIndex);
+        }
+  
+        // เริ่มต้นแสดงสไลด์แรก
+        showSlides(slideIndex);
+    </script>
         <div class="page-section-heading">
             <div class="row">
                 <div class="col-lg-8 col-md-8 pd-20">

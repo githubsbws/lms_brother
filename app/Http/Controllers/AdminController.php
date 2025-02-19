@@ -13,6 +13,7 @@ use DateTime;
 use App\Facades\AuthFacade;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\Facades\DataTables;
 
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
@@ -733,6 +734,45 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
+    function document_head(Request $request){
+        if(AuthFacade::useradmin()){
+            $document_head = Downloadtitle::where('active','y')->get();
+            return view("admin.document.document_head",['document_head' =>$document_head]);
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    function document_head_edit(Request $request,$id){
+        if(AuthFacade::useradmin()){
+            $document_head = Downloadtitle::where('title_id',$id)->first();
+            if ($request->isMethod('post')) { // ตรวจสอบว่าเป็นการร้องขอ POST หรือไม่
+
+                $document_type = Downloadtitle::findById($id);
+                $document_type->title_name = $request->input('title_name');
+                // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
+        
+                $document_type->save();
+                
+                return redirect()->route('document.head')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
+            }
+            return view("admin.document.document_head_edit",['document_head' =>$document_head]);
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    function document_head_del($id){
+        if(AuthFacade::useradmin()){
+            $document_del=[
+                'active'=>'n'
+            ];
+            $document_type = Downloadtitle::findById($id);
+            $document_type->update($document_del);
+            return redirect()->route('document.head');
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
     function document_type(Request $request){
         if(AuthFacade::useradmin()){
             $document_type = Downloadcategoty::where('active','y')->get();
@@ -4010,7 +4050,7 @@ class AdminController extends Controller
     }
     function imgslide(){
         if(AuthFacade::useradmin()){
-            $imgslide =DB::table('imgslide')->get();
+            $imgslide =Imgslide::where('active','y')->get();
             return view("admin.imgslide.imgslide",compact('imgslide'));
         }else{
             return redirect()->route('login.admin');
@@ -4110,20 +4150,46 @@ class AdminController extends Controller
     }
     function logadmin(){
         if(AuthFacade::useradmin()){
-            $logadmin = Logadmin::join('tbl_users','tbl_users.id','=','log_admin.user_id')->paginate(10);
-            return view("admin.logadmin.logadmin",['logadmin' => $logadmin]);
+
+            return view("admin.logadmin.logadmin");
         }else{
             return redirect()->route('login.admin');
         }
     }
+    public function getadminData(Request $request)
+    {
+        $query = Logadmin::join('tbl_users', 'log_admin.user_id', '=', 'tbl_users.id')
+                ->select('log_admin.controller', 'log_admin.action', 'tbl_users.username', 'log_admin.create_date');
+
+        return DataTables::of($query)
+            ->addColumn('controller', fn($row) => $row->controller ?? '-')
+            ->addColumn('action', fn($row) => $row->action ?? '-')
+            ->addColumn('username', fn($row) => $row->username ?? '-')
+            ->addColumn('create_date', fn($row) => $row->create_date ?? '-')
+            ->make(true);
+    }
+
     function logusers(){
         if(AuthFacade::useradmin()){
-            $logusers = Logusers::join('tbl_users','tbl_users.id','=','log_users.user_id')->paginate(10);
-            return view("admin.logadmin.logadmin_user",['logusers' => $logusers]);
+            
+            return view("admin.logadmin.logadmin_user");
         }else{
             return redirect()->route('login.admin');
         }
     }
+    public function getTextData(Request $request)
+    {
+        $query = Logusers::join('tbl_users', 'log_users.user_id', '=', 'tbl_users.id')
+                ->select('log_users.controller', 'log_users.action', 'tbl_users.username', 'log_users.create_date');
+
+        return DataTables::of($query)
+            ->addColumn('controller', fn($row) => $row->controller ?? '-')
+            ->addColumn('action', fn($row) => $row->action ?? '-')
+            ->addColumn('username', fn($row) => $row->username ?? '-')
+            ->addColumn('create_date', fn($row) => $row->create_date ?? '-')
+            ->make(true);
+    }
+
     function logapprove(){
         if(AuthFacade::useradmin()){
             $logapprove = Logapprove::join('users','users.id','=','log_approve.user_id')->paginate(10);
@@ -4610,19 +4676,9 @@ class AdminController extends Controller
     }
     function report_course(Request $request) {
         if(AuthFacade::useradmin()){
-            // $query = $request->input('cate');
-            $course_name = $request->input('course_name');
-
-            if(isset($course_name) && !empty($course_name)) {
-                $course = Course::where('course_id',$course_name)
-                            ->where('active', 'y')
+            $course = Course::where('active', 'y')
                             ->orderBy('course_id', 'DESC')
-                            ->paginate(10);
-            } else {
-                $course = Course::where('active', 'y')
-                            ->orderBy('course_id', 'DESC')
-                            ->paginate(10);
-            }
+                            ->get();
 
             return view("admin.report.report_course", ['course' => $course]);
         }else{
@@ -4635,13 +4691,18 @@ class AdminController extends Controller
                 $user = Users::join('profiles','profiles.user_id','=','users.id')
                         ->where('status', '1')
                         ->orderBy('id', 'DESC')
-                        ->paginate(50);
+                        ->get();
                 $lesson = Lesson::where('course_id',$id)
                             ->where('active', 'y')
                             ->orderBy('course_id', 'DESC')
                             ->get();
 
-            return view("admin.report.report_lesson", ['lesson' => $lesson,'user' => $user,'id' => $id]);
+                $course = Lesson::where('course_id',$id)
+                ->where('active', 'y')
+                ->orderBy('course_id', 'DESC')
+                ->first();
+
+            return view("admin.report.report_lesson", ['lesson' => $lesson,'user' => $user,'id' => $id, 'course' => $course]);
         }else{
             return redirect()->route('login.admin');
         } 
