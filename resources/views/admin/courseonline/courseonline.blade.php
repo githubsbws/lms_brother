@@ -47,7 +47,7 @@
                                         <td class="text-center">
                                             {{ $item->cate_title }}
                                         </td>
-                                        <td class="text-center">{{ $item->teacher->teacher_name}}</td>
+                                        <td class="text-center">{{ $item->teacher->teacher_name ?? '-'}}</td>
                                         <td>
                                             <a href="{{ route('courseonline.detail',['id'=>$item->course_id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-search"></i></a>
                                             <a href="{{ route('courseonline.edit',['id' =>$item->course_id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
