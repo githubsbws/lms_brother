@@ -39,9 +39,9 @@
                     <div class="card-body">
                         <form action="{{ route('pgroup_insert') }}" enctype="multipart/form-data" method="post" id="question-form">
                             @csrf
-                            <div class="form-control">
+                            <div class="form-grop">
                                 <p>ชื่อกลุ่มผู้ใช้งาน<i style="color:red">*</i></p>
-                                <input type="text" id="group_name" name="group_name">
+                                <input type="text" id="group_name" name="group_name" class="form-control">
                             </div>
                             <div class="table-responsive">
                                 <p>เลือกเมนูและบันทึกลงฐานข้อมูล</p>

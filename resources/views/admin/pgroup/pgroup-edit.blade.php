@@ -30,11 +30,11 @@
                     <div class="card-body">
                         <form action="{{ route('pgroup_update',['pgroup_id'=>$group_id]) }}" enctype="multipart/form-data" method="post" id="question-form">
                             @csrf
-                            <div class="form-control">
+                            <div class="form-group">
                                 <p>ชื่อกลุ่มผู้ใช้งาน<i style="color:red">*</i></p>
-                                <input type="text" id="group_name" name="group_name" value="{{ $group_id->group_name }}"@disabled(true)>
+                                <input type="text" id="group_name" name="group_name" value="{{ $group_id->group_name }}"@disabled(true) class="form-control">
                             </div>
-                            <div class="form-control">
+                            <div class="form-group">
                                 <div class="table-responsive">
                                     <p>เลือกเมนูและบันทึกลงฐานข้อมูล</p>
                                     <table class="table table-bordered">
