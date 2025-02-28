@@ -11,7 +11,7 @@ use App\Models\Company;
                 <div class="container-fluid">
                     <div class="d-flex align-items-center">
                         <div class="">
-                            <h4 class="m-0">ASC</h4>
+                            <h4 class="m-0">Company</h4>
                         </div>
                         <div class="ml-3">
                             <a href="{{route('admin')}}">
