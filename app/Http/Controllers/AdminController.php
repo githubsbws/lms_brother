@@ -2716,14 +2716,23 @@ class AdminController extends Controller
             if($request->has('post_value') && $request->has('text') ){
                 $res = $request->input('post_value');
                 $text = $request->input('text');
-
+                
                 $find_id = Orgchart::findById($request->post_value);
-                $org = new Orgchart;
-                $org->title = $text;
-                $org->parent_id = $res;
-                $org->level = $find_id->level + 1;
-                $org->active = 'y';
-                $org->save();
+                if($find_id){
+                    $org = new Orgchart;
+                    $org->title = $text;
+                    $org->parent_id = $res;
+                    $org->level = $find_id->level + 1;
+                    $org->active = 'y';
+                    $org->save();
+                }else{
+                    $org = new Orgchart;
+                    $org->title = $text;
+                    $org->parent_id = '1';
+                    $org->level = 2;
+                    $org->active = 'y';
+                    $org->save();
+                }
             }
             return redirect()->route('orgchart');
         }else{
@@ -4480,10 +4489,41 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         } 
     }
+    public function addCourse(Request $request)
+    {
+        $capid = $request->input('capid');
+        $courseId = $request->input('course_id');
+
+        // หาหลักสูตรและเชื่อมโยงกับ capid
+        $course = Course::find($courseId);
+        if ($course && !$course->course_point) {
+            $course->course_point = $capid;
+            $course->save();
+        }
+
+        return response()->json(['status' => 'success']);
+    }
+
+    public function removeCourse(Request $request)
+    {
+        $capid = $request->input('capid');
+        $courseId = $request->input('course_id');
+
+        // หาหลักสูตรและยกเลิกการเชื่อมโยงกับ capid
+        $course = Course::find($courseId);
+        if ($course && $course->course_point == $capid) {
+            $course->course_point = null;
+            $course->save();
+        }
+
+        return response()->json(['status' => 'success']);
+    }
+
     function captcha_course(Request $request){
         if(AuthFacade::useradmin()){
             if ($request->input('data-id')) {
                 // รับค่าที่ส่งมาจากฟอร์ม
+
                 $dataId = $request->input('data-id');
                 $checkedIds = $request->input('chk');
                 
