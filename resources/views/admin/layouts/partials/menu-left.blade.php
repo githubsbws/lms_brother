@@ -416,7 +416,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{url('/asc')}}" class="nav-link {{ request()->is('asc') ? 'active' : '' }}">
-                                <p>เพิ่มASC</p>
+                                <p>เพิ่มCompany</p>
                             </a>
                         </li>
                         <li class="nav-item">
