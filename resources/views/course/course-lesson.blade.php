@@ -164,9 +164,14 @@
                                                 -
                                             @else
                                                 @foreach ($file as $fs)
-                                                    <a href="{{ route('course.downloadfile', ['id' => $fs->id]) }}"
-                                                        target="_blank">{{ $fs->file_name }}</a>
-                                                    <br>
+                                                    @if($fs->id)
+                                                        <a href="{{ route('course.downloadfile', ['id' => $fs->id]) }}" target="_blank">
+                                                            {{ $fs->file_name }}
+                                                        </a>
+                                                        <br>
+                                                    @else
+                                                        -
+                                                    @endif
                                                 @endforeach
                                             @endif
                                             <p></p>
