@@ -50,9 +50,9 @@
                                 <select class="form-control" name="course_id">
                                     <option value="">เลือกหลักสูตร</option>
                                     @foreach ($course_online as $course_id => $course_title)
-                                        <option value="{{ $course_id }}"
-                                            {{ $lesson->course_id == $course_id ? 'selected' : '' }}>
-                                            {{ $course_title }}
+                                        <option value="{{ $course_title->course_id }}"
+                                            {{ $lesson->course_id == $course_title->course_id ? 'selected' : '' }}>
+                                            {{ $course_title->course_title }}
                                         </option>
                                     @endforeach
                                 </select>

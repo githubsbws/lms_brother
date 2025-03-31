@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckTokenValidity;
 use App\Http\Middleware\CheckTokenValidityAdmin;
 use App\Models\Profiles;
+use Illuminate\Http\Request;
+use App\Models\Course;
 
 use App\Http\Controllers\EditController;
 use App\Http\Controllers\Auth\LoginController;
@@ -644,6 +646,31 @@ Route::post('/classroom_update/{id}',[AdminController::class,'classroom_update']
 Route::get('/captcha',[AdminController::class,'captcha'])->name('captcha')->middleware('checkIdleTimeout');
 
 Route::post('/captcha_course/{id?}',[AdminController::class,'captcha_course'])->name('captcha.course')->middleware('checkIdleTimeout');
+
+Route::get('/path-to-check-selected-courses', function (Request $request) {
+    $capid = $request->input('capid');
+    
+    // ดึงข้อมูลหลักสูตรที่เลือกแล้วใน capid นี้
+    $selectedCourses = Course::where('course_point', $capid)->pluck('course_id');
+    
+    return response()->json([
+        'courses' => $selectedCourses,
+    ]);
+});
+
+Route::get('/path-to-check-all-selected-courses', function (Request $request) {
+    $capid = $request->input('capid');
+    // ดึงข้อมูลหลักสูตรที่เลือกไปแล้วจาก capid อื่นๆ
+    $selectedCourses = Course::whereNotNull('course_point')->where('course_point','!=',$capid)->pluck('course_id');
+    
+    return response()->json([
+        'courses' => $selectedCourses,
+    ]);
+});
+
+Route::post('/path-to-add-course',[AdminController::class,'addCourse'])->name('captcha.addCourse')->middleware('checkIdleTimeout');
+
+Route::post('/path-to-remove-course',[AdminController::class,'removeCourse'])->name('captcha.removeCourse')->middleware('checkIdleTimeout');
 
 Route::get('/captcha_create',[AdminController::class,'captcha_create'])->name('captcha_create')->middleware('checkIdleTimeout');
 

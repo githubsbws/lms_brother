@@ -65,11 +65,11 @@
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fas fa-save mr-1"></i> นำเข้าไฟล์ excel
                                 </button>
-
+                                <br>
                                 <div class="form-group">
                                     <label for="File_filename">แบบฟอร์มรูปแบบนำเข้าข้อสอบ</label>
                                     <a href="{{asset('images/uploads/templete_import_questions.xlsx')}}"
-                                       class="glyphicons download_alt"><i></i>Download Excel</a>
+                                       class="glyphicons download_alt" style="color: red"><i></i>Download Excel</a>
                                 </div>
                             </form>
                         </div>

@@ -24,5 +24,10 @@ class DownloadFile extends Model
     {
         return static::where('file_id', $id)->first();
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Downloadcategoty::class, 'download_id', 'download_id');
+    }
     
 }

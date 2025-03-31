@@ -24,5 +24,10 @@ class Downloadtitle extends Model
     {
         return static::where('title_id', $id)->first();
     }
+
+    public function categories()
+    {
+        return $this->hasMany(Downloadcategoty::class, 'title_id');
+    }
     
 }

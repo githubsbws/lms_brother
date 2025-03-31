@@ -574,13 +574,25 @@ class AdminController extends Controller
         }
     }
     //
-    function document(Request $request){
-        if(AuthFacade::useradmin()){
-            $document = DownloadFileDoc::where('active','y')->orderBy('filedoc_id','DESC')->get();
-            $type = Downloadtitle::where('active','y')->orderBy('title_id','DESC')->get();
-            
-            return view("admin.document.document",['document' =>$document,'type' =>$type]);
-        }else{
+    public function document(Request $request)
+    {
+        if (AuthFacade::useradmin()) {
+            // ดึงข้อมูล Document ที่มีสถานะ active และเรียงลำดับจากใหม่ไปเก่า
+            $document = DownloadFileDoc::where('active', 'y')->orderBy('filedoc_id', 'DESC')->get();
+
+            // ดึงข้อมูลประเภทเอกสาร (Downloadcategoty)
+            $document_categories = Downloadcategoty::where('active', 'y')->get();
+
+            // ดึงข้อมูลหัวข้อเอกสาร (Downloadtitle)
+            $document_title = Downloadtitle::where('active', 'y')->get();
+
+            // ส่งข้อมูลไปยัง view
+            return view("admin.document.document", [
+                'document' => $document,
+                'document_categories' => $document_categories,
+                'document_title' => $document_title
+            ]);
+        } else {
             return redirect()->route('login.admin');
         }
     }
@@ -1494,14 +1506,16 @@ class AdminController extends Controller
             $filedoc = FileDoc::where('lesson_id',$id)->where('active','y')->first();
 
             if ($request->isMethod('post')) {
-                // dd($request->toArray());
+                // dd($request->all());
+                
                 $validator = Validator::make($request->all(), [
-                    'course_id' => 'required|string', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
-                    'title' =>'required|string',
-                    'description' =>'required|string',
-                    'cate_amount'=>'required|string',
-                    'time_test'=>'required|string',
-                    'content'=>'required|string'
+                    'course_id' => 'nullable', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
+                    'title' =>'nullable',
+                    'course_short_title' =>'nullable',
+                    'view_all' =>'nullable',
+                    'cate_amount'=>'nullable',
+                    'time_test'=>'nullable',
+                    'content'=>'nullable'
 
                 ]);
                 
@@ -1513,11 +1527,18 @@ class AdminController extends Controller
                 $lesson_update = Lesson::findById($id);
                 $lesson_update->course_id = $request->input('course_id');
                 $lesson_update->title = $request->input('title');
-                $lesson_update->description = $request->input('description');
+                $lesson_update->description = htmlspecialchars($request->input('course_short_title'));
                 $lesson_update->content = htmlspecialchars($request->input('content'));
+                $lesson_update->view_all = $request->input('view_all');
                 $lesson_update->cate_amount = $request->input('cate_amount');
                 $lesson_update->time_test = $request->input('time_test');
                 $lesson_update->update_by = Auth::user()->id;
+
+                if ($request->has('view_all')) {
+                    $lesson_update->view_all = "y";
+                }else{
+                    $lesson_update->view_all = "n";
+                }
 
                 if ($request->hasFile('filename')) {
                     $validator = Validator::make($request->all(), [
@@ -1645,6 +1666,7 @@ class AdminController extends Controller
                 'title' => 'required|string',
                 'description' => 'required|string',
                 'cate_amount' => 'required',
+                'view_all' => 'required',
                 'time_test' => 'required',
                 'content' => 'required',
                 'filename.*' => 'nullable|mimes:mp3,mp4', 
@@ -1656,13 +1678,14 @@ class AdminController extends Controller
                 Log::error('Validation failed: ', $validator->errors()->toArray());
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-
+            
             // ✅ บันทึกข้อมูลลงใน `lesson`
             $lesson_create = new Lesson();
             $lesson_create->course_id = $request->course_id;
             $lesson_create->title = $request->title;
             $lesson_create->content = htmlspecialchars($request->content);
             $lesson_create->description = $request->description;
+            $lesson_create->view_all = $request->view_all;
             $lesson_create->cate_amount = $request->cate_amount;
             $lesson_create->time_test = $request->time_test;
             $lesson_create->update_by = Auth::id();
@@ -1670,11 +1693,15 @@ class AdminController extends Controller
             $lesson_create->save();
 
             // 📂 **จัดการการสร้างโฟลเดอร์**
-            $lessonFolder = public_path("images/uploads/lesson/{$lesson_create->id}");
-            $originalFolder = "{$lessonFolder}/original";
+            $lessonFolder = public_path("images/uploads/lesson/".$lesson_create->id);
+            if (!file_exists($lessonFolder)) {
+                mkdir($lessonFolder);
+            }
+            $Folder = public_path("images/uploads/lesson/{$lesson_create->id}");
+            $originalFolder = "{$Folder}/original";
             $filedocFolder = public_path("images/uploads/filedoc/");
             
-            foreach ([$lessonFolder, $originalFolder, $filedocFolder] as $folder) {
+            foreach ([$originalFolder, $filedocFolder] as $folder) {
                 if (!File::exists($folder)) {
                     File::makeDirectory($folder, 0777, true);
                 }
@@ -1683,8 +1710,9 @@ class AdminController extends Controller
             // 📌 **อัปโหลดไฟล์ mp3/mp4**
             if ($request->hasFile('filename')) {
                 foreach ($request->file('filename') as $file) {
+                    $Folder_file = public_path("images/uploads/lesson/");
                     $fileName = time() . "_" . $file->getClientOriginalName();
-                    $file->storeAs("public/images/uploads/lesson/{$lesson_create->id}/", $fileName);
+                    $file->move($Folder_file, $fileName);
 
                     // 🔹 บันทึกลง Database
                     File::create([
@@ -1703,8 +1731,9 @@ class AdminController extends Controller
             // 📌 **อัปโหลดไฟล์เอกสาร**
             if ($request->hasFile('doc')) {
                 foreach ($request->file('doc') as $doc) {
+                    $Folder_doc = public_path("images/uploads/filedoc/");
                     $docName = time() . "_" . $doc->getClientOriginalName();
-                    $doc->storeAs("public/images/uploads/filedoc/", $docName);
+                    $doc->move($Folder_doc, $docName);
 
                     // 🔹 บันทึกลง Database
                     FileDoc::create([
@@ -1722,8 +1751,9 @@ class AdminController extends Controller
             // 📌 **อัปโหลดภาพประกอบ**
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
+                $Folder_pic = public_path("images/uploads/lesson/".$lesson_create->id."/original");
                 $imageName = time() . "." . $image->getClientOriginalExtension();
-                $image->storeAs("public/images/uploads/lesson/{$lesson_create->id}/original/", $imageName);
+                $image->move($Folder_pic, $imageName);
 
                 $lesson_create->image = $imageName;
                 $lesson_create->save();
@@ -1746,7 +1776,7 @@ class AdminController extends Controller
             } else {
                 $file = File::where('active', 'y')->get();
             }
-            return view("admin.file_managers.file_managers", ['file' => $file]);
+            return view("admin.file_managers.file_managers", ['file' => $file,'id' => $id]);
         }else{
             return redirect()->route('login.admin');
         }

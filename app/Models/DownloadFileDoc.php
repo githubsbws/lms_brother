@@ -25,4 +25,8 @@ class DownloadFileDoc extends Model
         return static::where('filedoc_id', $id)->first();
     }
     
+    public function downloadFile()
+    {
+        return $this->belongsTo(DownloadFile::class, 'file_id');
+    }
 }

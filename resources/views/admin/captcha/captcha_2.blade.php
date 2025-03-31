@@ -92,36 +92,28 @@
         </div>
         <div class="clearfix"></div>
         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-            aria-hidden="true" style="z-index:10001" hidden>
+            aria-hidden="true" style="z-index:10001">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h3>เลือกหลักสูตร</h3>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h3>Modal header</h3>
                     </div>
-                    <form id="scoreForm" action="{{ route('captcha.course') }}" method="POST">
-                        @csrf
                         <div class="modal-body">
-                            <table
-                                class="table table-striped table-bordered table-condensed dataTable table-primary js-table-sortable ui-sortable">
+                            <table class="table table-striped table-bordered table-condensed dataTable table-primary js-table-sortable ui-sortable">
                                 <thead>
                                     <tr>
                                         <th class="checkbox-column" id="chk"> ทั้งหมด</th>
-                                        <th id="News-grid_c2"><a class="sort-link" style="color:white;">ชื่อหลักสูตร</a>
-                                        </th>
+                                        <th id="News-grid_c2"><a class="sort-link" style="color:white;">ชื่อหลักสูตร</a></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($courseOnline as $courses)
                                         <tr class="odd selectable">
                                             <td width="20" class="checkbox-column">
-                                                <input class="select-on-check" value="{{ $courses->course_id }}"
-                                                    id="chk_course_{{ $loop->iteration }}" type="checkbox"
-                                                    name="chk[]" {{ $courses->course_point ? 'checked' : '' }}>
-
-                                                <input type="hidden" name="chk_unchecked[]"
-                                                    value="{{ $courses->course_id }}"
-                                                    {{ $courses->course_point ? '' : 'checked' }}>
+                                                <input class="select-on-check" value="{{ $courses->course_id }}" 
+                                                    id="chk_course_{{ $courses->course_id }}" type="checkbox"
+                                                    name="chk[]" data-course-id="{{ $courses->course_id }}">
                                             </td>
                                             <td width="110">{{ $courses->course_title }}</td>
                                         </tr>
@@ -130,10 +122,9 @@
                             </table>
                         </div>
                         <input type="hidden" name="data-id" id="dataIdField">
-                        <div class="modal-footer">
+                        {{-- <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
-                        </div>
-                    </form>
+                        </div> --}}
                 </div>
             </div>
         </div>
@@ -148,27 +139,97 @@
             }
         });
     });
-    // เมื่อคลิกที่ปุ่ม
-    document.querySelectorAll('.btn-primary[data-toggle="modal"]').forEach(function(button) {
-        button.addEventListener('click', function() {
-            // ดึงค่า ID จากแอตทริบิวต์ data-id ของปุ่มที่ถูกคลิก
-            var id = this.getAttribute('data-id');
-            // กำหนดค่า ID ลงในฟิลด์ซ่อน
-            document.getElementById('dataIdField').value = id;
-            // กำหนดค่า ID ลงในแอตทริบิวต์ action ของฟอร์ม
-            document.getElementById('scoreForm').action = '{{ route('captcha.course') }}';
-        });
-    });
-    $(document).ready(function() {
-        // เมื่อคลิกที่ปุ่ม "เลือกหลักสูตร"
-        $(".open-modal").click(function() {
-            // ดึงค่า data-id จากปุ่ม
-            var dataId = $(this).data("id");
-            // เปิด modal ที่เกี่ยวข้องโดยใช้ data-id เป็นเงื่อนไข
-            $(".modal[data-id='" + dataId + "']").modal("show");
-        });
-    });
 
+
+    $(document).ready(function() {
+        // เมื่อคลิกปุ่ม "เลือกหลักสูตร"
+        $(".btn-primary[data-toggle='modal']").click(function(event) {
+            event.preventDefault(); // ปิดการส่งฟอร์มอัตโนมัติ
+
+            var capid = $(this).data("id");  // ดึง capid จากปุ่มที่คลิก
+            $("#dataIdField").val(capid); // ตั้งค่า capid ในฟิลด์ซ่อน
+
+            // ดึงข้อมูลจากฐานข้อมูลว่า capid นี้มีหลักสูตรที่เลือกไปแล้วหรือไม่
+            $.ajax({
+                url: '/path-to-check-selected-courses', // สร้าง route ที่จะเช็คว่าหลักสูตรถูกเลือกหรือไม่
+                method: 'GET',
+                data: { capid: capid },
+                success: function(response) {
+                    // เช็คว่ามีข้อมูลหรือไม่
+                    if (response.courses.length > 0) {
+                        // หากมีข้อมูลหลักสูตรที่ถูกเลือกแล้ว, ทำการแสดง checkbox และตั้งค่าให้ถูกเลือก
+                        response.courses.forEach(function(courseId) {
+                            $('#chk_course_' + courseId).prop('checked', true);
+                        });
+                    } else {
+                        // หากไม่มีการเลือกหลักสูตร, ให้ทุก checkbox สามารถเลือกได้
+                        $(".select-on-check").prop('disabled', false).prop('checked', false);
+                    }
+
+                    $.ajax({
+                    url: '/path-to-check-all-selected-courses', // route นี้จะดึงข้อมูลหลักสูตรที่เลือกไปแล้วจาก capid อื่นๆ
+                    method: 'GET',
+                    data: { capid: capid },
+                    success: function(response) {
+                        response.courses.forEach(function(courseId) {
+                            // เช็คว่า checkbox นี้เป็นของ capid ที่เปิด modal หรือไม่
+                            if (capid != $("#dataIdField").val()) {
+                                
+                                // ทำการ disable checkbox ที่ถูกเลือกไปแล้วจาก capid อื่นๆ
+                                $('#chk_course_' + courseId).prop('disabled', true);
+                            }
+                        });
+                    }
+                });
+
+                    // เปิด modal
+                    $(".bd-example-modal-lg").modal("show");
+                }
+            });
+        });
+
+        // เมื่อ checkbox ถูกเลือกหรือยกเลิกการเลือก
+        $(document).on('change', '.select-on-check', function() {
+            var capid = $("#dataIdField").val(); // ดึง capid จากฟิลด์ซ่อน
+            var courseId = $(this).val(); // ดึง course_id ที่เกี่ยวข้องกับ checkbox ที่ถูกคลิก
+
+            // ตรวจสอบว่า checkbox ถูกเลือกหรือไม่
+            if ($(this).prop('checked')) {
+                // ถ้าถูกเลือก, ทำการอัปเดตฐานข้อมูลเพื่อผูกหลักสูตรนี้กับ capid
+                $.ajax({
+                    url: '/path-to-add-course', // สร้าง route ที่จะเพิ่ม course
+                    method: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        capid: capid,
+                        course_id: courseId
+                    },
+                    success: function(response) {
+                        console.log('Course added: ' + courseId);
+                    }
+                });
+            } else {
+                // ถ้าไม่ได้เลือก, ทำการอัปเดตฐานข้อมูลเพื่อยกเลิกการเลือก
+                $.ajax({
+                    url: '/path-to-remove-course', // สร้าง route ที่จะลบ course
+                    method: 'POST',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        capid: capid,
+                        course_id: courseId
+                    },
+                    success: function(response) {
+                        console.log('Course removed: ' + courseId);
+                    }
+                });
+            }
+        });
+
+        $(".bd-example-modal-lg").on('hidden.bs.modal', function () {
+        // รีโหลดหน้าเมื่อปิด modal
+        location.reload();
+        });
+    });
     $(document).ready(function() {
 				// ตรวจสอบว่า jQuery โหลดหรือไม่
 				if (typeof jQuery === "undefined") {
