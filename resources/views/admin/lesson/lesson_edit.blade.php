@@ -130,33 +130,11 @@
                                         <span class="btn btn-default btn-file">
                                             <span class="fileupload-new">Select file</span>
                                             <span class="fileupload-exists">Change</span>
-                                            {{-- <input id="ytNews_cms_picture" type="hidden" value="{{$document->filedocname}}" name="cms_picture"> --}}
-                                            <input name="filename" id="imageInput" type="file" onchange="displayFileName()" >
-                                            
+                                            <input type="file" name="filename[]" id="fileInput" multiple onchange="displayFileNames('fileInput', 'fileList')">
                                         </span>
-                                        <script>
-                                            function displayFileName() {
-                                                // Get the file input element
-                                                var input = document.getElementById('imageInput');
-                                    
-                                                // Get the file name
-                                                var fileName = input.files[0].name;
-                                    
-                                                // Display the file name
-                                                document.getElementById('fileNameDisplay').innerText = 'Selected file: ' + fileName;
-                                            }
-                                        </script>
-                                        {{-- <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a> --}}
-                                        {{-- <input type="file" id="imageInput" name="image"> --}}
-                                        @error('error')
-                                        <div class="form-group">
-                                            <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
-                                                <span class="{{ $errors->has('error') ? 'input-error' : '' }}">{{ $message }}</span>
-                                            </div>
-                                        </div>
-                                    @enderror
-                                    
+                                    {{-- <input type="file" class="fileupload fileupload-new" name="filename[]" id="fileInput" multiple onchange="displayFileNames()"> --}}
                                     </div>
+                                    <div id="fileList"></div>
 								</div>
                                 
                             </div>
@@ -177,33 +155,11 @@
                                         <span class="btn btn-default btn-file">
                                             <span class="fileupload-new">Select file</span>
                                             <span class="fileupload-exists">Change</span>
-                                            {{-- <input id="ytNews_cms_picture" type="hidden" value="{{$document->filedocname}}" name="cms_picture"> --}}
-                                            <input name="doc" id="imageInput" type="file" onchange="displayFileName()" >
-                                            
+                                            <input type="file" name="doc" id="docInput" multiple onchange="displayFileNames('docInput', 'fileListDoc')">
                                         </span>
-                                        <script>
-                                            function displayFileName() {
-                                                // Get the file input element
-                                                var input = document.getElementById('imageInput');
-                                    
-                                                // Get the file name
-                                                var fileName = input.files[0].name;
-                                    
-                                                // Display the file name
-                                                document.getElementById('fileNameDisplay').innerText = 'Selected file: ' + fileName;
-                                            }
-                                        </script>
-                                        {{-- <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a> --}}
-                                        {{-- <input type="file" id="imageInput" name="image"> --}}
-                                        @error('error')
-                                        <div class="form-group">
-                                            <div class="col-sm-6 col-sm-offset-3" style="padding: 0;">
-                                                <span class="{{ $errors->has('error') ? 'input-error' : '' }}">{{ $message }}</span>
-                                            </div>
-                                        </div>
-                                    @enderror
-                                    
                                     </div>
+                                    {{-- <input type="file" name="doc[]" id="docInput" multiple onchange="displayFileNames('docInput', 'fileListDoc')"> --}}
+                                    <div id="fileListDoc"></div>
 								</div>
                             </div>
 
@@ -217,45 +173,13 @@
                             <div class="form-group">
                                 <label for="course_picture">รูปภาพ</label>
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
-                                    <div class="input-append">
-                                        <div class="uneditable-input span3">
-                                            <i class="icon-file fileupload-exists"></i> 
-                                            <span class="fileupload-preview"></span>
-                                        </div>
-                                        <img id="previewImage" src="#" alt="Preview Image" style="display: none;">
-                                        <span class="btn btn-default btn-file">
-                                            <span class="fileupload-new">Select file</span>
-                                            <span class="fileupload-exists">Change</span>
-                                            <input id="ytNews_cms_picture" type="hidden" value="{{$lesson->image}}" name="course_picture">
-                                            <input name="image" id="imageInput"  type="file" >
-                                        </span>
-                                        {{-- <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a> --}}
-                                        {{-- <input type="file" id="imageInput" name="image"> --}}
-
-                                    </div>
-                                    <script>
-                                        document.addEventListener('DOMContentLoaded', function() {
-                                            var imageInput = document.getElementById('imageInput');
-                                            var previewImage = document.getElementById('previewImage');
-                                
-                                            imageInput.addEventListener('change', function() {
-                                                previewImageFile(this);
-                                            });
-                                
-                                            function previewImageFile(input) {
-                                                var file = input.files[0];
-                                                if (file) {
-                                                    var reader = new FileReader();
-                                                    reader.onload = function(e) {
-                                                        previewImage.src = e.target.result;
-                                                        previewImage.style.display = 'block';
-                                                    };
-                                                    reader.readAsDataURL(file);
-                                                }
-                                            }
-                                        });
-                                    </script>
-                                </div>
+									<div id="fileNameDisplay"></div>
+									<span class="btn btn-default btn-file">
+										<span class="fileupload-new">Select file</span>
+										<span class="fileupload-exists">Change</span>
+										<input type="file" name="image" id="imageInput" onchange="previewImageFile()">
+									</span>
+								</div>
                             </div>
 
                             <div class="form-group">
@@ -356,6 +280,31 @@
 				confirmButtonText: 'ตกลง' // เพิ่มปุ่มยืนยัน
 			});
 		@endif
+
+        // แสดงชื่อไฟล์ที่เลือก
+		function displayFileNames(inputId, listId) {
+			var input = document.getElementById(inputId);
+			var list = document.getElementById(listId);
+			list.innerHTML = '';
+			for (var i = 0; i < input.files.length; i++) {
+				list.innerHTML += '<p>' + input.files[i].name + '</p>';
+			}
+		}
+
+		// แสดงตัวอย่างรูปภาพ
+		function previewImageFile() {
+			var input = document.getElementById('imageInput');
+			var previewImage = document.getElementById('previewImage');
+
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					previewImage.src = e.target.result;
+					previewImage.style.display = 'block';
+				};
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
 </script>
 </body>
 

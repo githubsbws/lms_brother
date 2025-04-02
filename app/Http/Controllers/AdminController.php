@@ -1515,7 +1515,10 @@ class AdminController extends Controller
                     'view_all' =>'nullable',
                     'cate_amount'=>'nullable',
                     'time_test'=>'nullable',
-                    'content'=>'nullable'
+                    'content'=>'nullable',
+                    'filename.*' => 'nullable|mimes:mp3,mp4', 
+                    'doc.*' => 'nullable|mimes:pdf,docx,pptx', 
+                    'image' => 'nullable|image|mimes:jpeg,png,jpg,gif'
 
                 ]);
                 
@@ -1541,46 +1544,26 @@ class AdminController extends Controller
                 }
 
                 if ($request->hasFile('filename')) {
-                    $validator = Validator::make($request->all(), [
-                        'filename' => 'required|mimes:mp3,mp4',     
-                    ]);
-            
-                    if ($validator->fails()) {
-                        return redirect()->back()->withErrors($validator)->withInput();
+                    foreach ($request->file('filename') as $file) {
+                        $Folder_file = public_path("images/uploads/lesson/");
+                        $fileName = time() . "_" . $file->getClientOriginalName();
+                        $file->move($Folder_file, $fileName);
+    
+                        // 🔹 บันทึกลง Database
+                        File::create([
+                            'lesson_id' => $id,
+                            'file_name' => $lesson->title,
+                            'filename' => $fileName,
+                            'length' => '2.00',
+                            'create_by' => Auth::id(),
+                            'update_by' => Auth::id(),
+                            'active' => 'y',
+                            'views' => 0
+                        ]);
                     }
-
-                    $filename = $request->file('filename');
-                    $file_name = $filename->getClientOriginalName();
-
-                    $idFolder = public_path('images/uploads/lesson/');
-                    if (!file_exists($idFolder)) {
-                        mkdir($idFolder);
-                    }
-                    $filename->move($idFolder, $file_name);
-
-                    
-                    $file_update = new File;
-                    $file_update->lesson_id = $id;
-                    $file_update->file_name = $lesson->title;
-                    $file_update->filename = $file_name;
-                    $file_update->length = '2.00';
-                    $file_update->create_by = Auth::user()->id;
-                    $file_update->update_by = Auth::user()->id;
-                    $file_update->active = 'y';
-                    $file_update->views = '0';
-                    $file_update->save();
-
                 }
                 
                 if($request->hasFile('doc')){
-                    $validator = Validator::make($request->all(), [
-                        'doc' => 'required|mimes:pdf,docx,pptx',
-                    ]);
-
-                    if ($validator->fails()) {
-                        return redirect()->back()->withErrors($validator)->withInput();
-                    }
-
                     $doc = $request->file('doc');
                     $doc_name = $doc->getClientOriginalName();
                     // dd($doc_name);
