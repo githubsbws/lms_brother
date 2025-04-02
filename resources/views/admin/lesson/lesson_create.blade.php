@@ -30,7 +30,7 @@
                         <form action="{{route('lesson.create')}}" enctype="multipart/form-data" method="post" id="uploadForm">
                             @csrf
                             <div class="form-group">
-                                <label for="cate_id">หลักสูตรอบรมออนไลน์</label>
+                                <label for="cate_id">หลักสูตรอบรมออนไลน์ <span class="required" style="color:red">*</span></label>
                                 <select class="form-control" name="course_id">
                                     <option value="">เลือกหลักสูตร</option>
                                     @foreach ($course_online as $course_id)
@@ -42,12 +42,12 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="title">ชื่อบทเรียน</label>
+                                <label for="title">ชื่อบทเรียน <span class="required" style="color:red">*</span></label>
                                 <input type="text" name="title" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="description">รายละเอียดย่อ</label>
+                                <label for="description">รายละเอียดย่อ <span class="required" style="color:red">*</span></label>
                                 <textarea name="description" id="summernote" class="form-control"></textarea>
                             </div>
 
@@ -59,17 +59,17 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="cate_amount">จำนวนครั้งที่สามารถทำข้อสอบได้</label>
+                                <label for="cate_amount">จำนวนครั้งที่สามารถทำข้อสอบได้ <span class="required" style="color:red">*</span></label>
                                 <input type="text" name="cate_amount" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="time_test">เวลาในการทำข้อสอบ</label>
+                                <label for="time_test">เวลาในการทำข้อสอบ <span class="required" style="color:red">*</span></label>
                                 <input type="text" name="time_test" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="content">เนื้อหา </label>
+                                <label for="content">เนื้อหา <span class="required" style="color:red">*</span></label>
                                 <textarea name="content" id="summernote2" class="form-control"></textarea>
                             </div>
 

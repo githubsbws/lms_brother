@@ -1661,12 +1661,13 @@ class AdminController extends Controller
 
         if ($request->isMethod('post')) {
             // ✅ ตรวจสอบข้อมูลที่ส่งมา
+            // dd($request->all());
             $validator = Validator::make($request->all(), [
                 'course_id' => 'required|string',
                 'title' => 'required|string',
                 'description' => 'required|string',
                 'cate_amount' => 'required',
-                'view_all' => 'required',
+                'view_all' => 'nullable',
                 'time_test' => 'required',
                 'content' => 'required',
                 'filename.*' => 'nullable|mimes:mp3,mp4', 
@@ -1685,6 +1686,11 @@ class AdminController extends Controller
             $lesson_create->title = $request->title;
             $lesson_create->content = htmlspecialchars($request->content);
             $lesson_create->description = $request->description;
+            if ($request->has('view_all')) {
+                $lesson_create->view_all = "y";
+            }else{
+                $lesson_create->view_all = "n";
+            }
             $lesson_create->view_all = $request->view_all;
             $lesson_create->cate_amount = $request->cate_amount;
             $lesson_create->time_test = $request->time_test;
