@@ -51,17 +51,17 @@
                                         </td>
 										<td class="text-center">
                                             <a class="btn btn-primary btn-icon" href="{{ route('filemanagers', $item->file->isEmpty() ? [] : ['id' => $item->id]) }}">
-												จัดการวิดีโอ ({{ $item->file->isEmpty() ? 0 : count($item->file) }})
+												จัดการวิดีโอ ({{ $item->file->where('active', 'y')->isEmpty() ? 0 : count($item->file) }})
 											</a>
                                         </td>
 										<td class="text-center">
                                             <a class="btn btn-primary btn-icon" href="{{ route('grouptesting.plan', ['id' => $item->id, 'type' => 'pre']) }}">
-												เลือกข้อสอบ ({{ $item->manage->where('type', 'pre')->count() }})
+												เลือกข้อสอบ ({{ $item->manage->where('type', 'pre')->where('active', 'y')->count() }})
 											</a>
                                         </td>
 										<td class="text-center">
 											<a class="btn btn-primary btn-icon" href="{{ route('grouptesting.plan', ['id' => $item->id, 'type' => 'post']) }}">
-												เลือกข้อสอบ ({{ $item->manage->where('type', 'post')->count() }})
+												เลือกข้อสอบ ({{ $item->manage->where('type', 'post')->where('active', 'y')->count() }})
 											</a>
                                         </td>
                                         <td>

@@ -101,10 +101,10 @@ class CourseController extends Controller
             $track = File::where('lesson_id',$id)->first();
             
             if($files != null){
-                $file_id = File::where('id',$files)->first();
+                $file_id = File::where('id',$files)->where('active','y')->first();
                 // dd($file_id->toArray());
             }else{
-                $file_id = File::where('lesson_id',$id)->first();
+                $file_id = File::where('lesson_id',$id)->where('active','y')->first();
                 if(!$file_id){
                     session()->flash('error', 'บทเรียนยังไม่เปิดให้เรียนตอนนี้');
                     return redirect()->route('course');

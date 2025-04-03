@@ -30,7 +30,7 @@
 						<div class="card-body">
                                 <div class="form-group">
                                     <label for="cms_title">ประเภทเอกสาร</label>
-                                    <h4>{{ $document_type->title->title_name}}</h4>
+                                    <h4>{{ $document_type->downloadTitle->title_name}}</h4>
                                 </div>
 								<div class="form-group">
 									<label for="cms_title">ชื่อหัวข้อ</label>

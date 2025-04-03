@@ -157,7 +157,7 @@
                                             <p class="text-body-2">
                                             </p>
                                             <p></p>
-                                            <p>{{ $lesson->description }}</p>
+                                            <p>{!!  htmlspecialchars_decode($lesson->description) !!}</p>
                                             <p></p>
                                             <h4>ไฟล์ประกอบการเรียน</h4>
                                             @if ($file->isEmpty())

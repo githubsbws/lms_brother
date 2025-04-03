@@ -38,7 +38,7 @@
 										@foreach($document_type as $item)
 										<tr>
 											<td class="text-center">
-												{{$item->title->title_name}}
+												{{$item->downloadTitle->title_name}}
 											</td>
 											<td class="text-center">
 												{{$item->download_name}}
