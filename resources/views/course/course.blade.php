@@ -210,7 +210,7 @@
                                                                         class="overlay overlay-full padding-none icon-block s90 bg-default">
                                                                         <span class="v-center">
                                                                             @if ($cs->course_picture != null)
-                                                                                <img src="{{ asset('images/uploads/courseonline/' . $cs->course_id . '/small/' . $cs->course_picture) }}"
+                                                                                <img src="{{ asset('images/uploads/courseonline/' . $cs->course_id . '/original/' . $cs->course_picture) }}"
                                                                                     style="height: 90px; width: 90px;"
                                                                                     class="img-responsive">
                                                                             @else
