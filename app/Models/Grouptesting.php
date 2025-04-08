@@ -26,4 +26,9 @@ class Grouptesting extends Model
     {
         return static::where('group_id', $id)->first();
     }
+
+    public function lesson()
+    {
+        return $this->hasMany(Lesson::class, 'lesson_id', 'id');
+    }
 }

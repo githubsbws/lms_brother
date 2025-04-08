@@ -1943,7 +1943,7 @@ class AdminController extends Controller
 
     function grouptesting_edit(Request $request, $id){
         if(AuthFacade::useradmin()){
-            $group = Grouptesting::join('lesson','lesson.id','=','grouptesting.lesson_id')->where('group_id',$id)->first();
+            $group = Grouptesting::where('group_id',$id)->first();
             $lesson = Lesson::where('active','y')->get();
             if ($request->isMethod('post')) {
                 // dd($request->toArray());
