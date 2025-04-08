@@ -48,7 +48,7 @@ use App\Models\Question;
 										@endphp
                                     <tr>
                                         <td>
-                                            {{$lesson->title}}
+                                            {{$lesson->title ?? "-"}}
                                         </td>
                                         <td class="text-center">
                                             {{$item->group_title}}
