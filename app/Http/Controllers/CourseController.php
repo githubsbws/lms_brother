@@ -252,6 +252,7 @@ class CourseController extends Controller
     public function coursequestion($course_id,$id,  Request $request){
         if(Auth::check()){
             $post_test = Manage::where(['id' => $id, 'active' =>'y'])->first();
+            
             if($post_test == null){
                 Session::flash('sweetAlert', [
                     'title' => 'ไม่มีแบบทดสอบ',

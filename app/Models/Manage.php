@@ -20,6 +20,6 @@ class Manage extends Model
 
     public static function findById($id)
     {
-        return static::where('manage_id', $id)->first();
+        return self::find($id); 
     }
 }

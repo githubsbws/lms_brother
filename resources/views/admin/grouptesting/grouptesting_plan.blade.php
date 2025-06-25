@@ -4,6 +4,7 @@
 @php
 use App\Models\Lesson;
 use App\Models\Question;
+use App\Models\Manage;
 @endphp
 <body class="">
 	<div id="wrapper">
@@ -36,7 +37,7 @@ use App\Models\Question;
 									<option value="">-- กรุณาเลือกข้อสอบบทเรียนออนไลน์ --</option>
 									@foreach ($group as $item)
 										<option value="{{ $item->group_id }}" data-id="{{ $item->group_id }}">
-											{{ $item->group_title }}
+											{!! htmlspecialchars_decode($item->group_title) !!}
 										</option>
 									@endforeach
 								</select>
@@ -47,7 +48,6 @@ use App\Models\Question;
 									<i class="fas fa-save mr-1"></i>บันทึก
 								</button>
 							</div>
-
                             <table id="settingTable" class="table table-striped table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
@@ -59,14 +59,17 @@ use App\Models\Question;
                                 <tbody id="sortable">
 									@foreach ($group_active as $item)
                                     <tr>
-                                        <td>
-                                            {{$item->title}}
+                                        <td class="text-center">
+                                            {!! htmlspecialchars_decode($item->title) !!}
                                         </td>
                                         <td class="text-center">
-                                            {{$item->group_title ?? '-'}}
+                                            {!! htmlspecialchars_decode($item->group_title ?? '-') !!}
                                         </td>
+										@php 
+										$manage_id = Manage::where('group_id',$item->group_id)->where('type',$type)->first();
+										@endphp
 										<td class="text-center">
-											<button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $item->group_id }}">
+											<button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $manage_id->manage_id }}">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -116,11 +119,12 @@ use App\Models\Question;
 
 		Swal.fire({
 			title: "ต้องการเพิ่มข้อสอบใช่หรือไม่?",
-			icon: "info",
-			buttons: true,
-			dangerMode: true,
-		}).then((confirm) => {
-			if (confirm) {
+			icon: "question",
+			showCancelButton: true,
+			confirmButtonText: "ใช่, เพิ่มเลย",
+			cancelButtonText: "ยกเลิก",
+		}).then((result) => {
+			if (result.isConfirmed) {
 				fetch(finalUrl, {
 					method: 'POST',
 					headers: {
@@ -128,7 +132,7 @@ use App\Models\Question;
 						'Content-Type': 'application/json',
 						'Accept': 'application/json'
 					},
-					body: JSON.stringify({ type: type, id: selectedId }) // ส่งค่าถูกต้อง
+					body: JSON.stringify({ type: type, id: selectedId })
 				})
 				.then(response => response.json())
 				.then(data => {
@@ -146,7 +150,7 @@ use App\Models\Question;
 					Swal.fire("เกิดข้อผิดพลาด!", "ไม่สามารถเพิ่มแบบสอบถามได้", "error");
 				});
 			} else {
-				swal("ยกเลิกการเพิ่มข้อสอบ!");
+				Swal.fire("ยกเลิก", "ยกเลิกการเพิ่มแบบสอบถามแล้ว", "info");
 			}
 		});
 	}
@@ -173,6 +177,7 @@ use App\Models\Question;
 					e.preventDefault();
 
 					var id = $(this).data("id");
+					console.log(id)
 					var url = "/grouptesting_plan_delete/" + id;
 
 					console.log("Clicked delete button with ID:", id); // ตรวจสอบว่า ID ถูกต้องไหม

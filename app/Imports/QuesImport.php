@@ -44,6 +44,7 @@ class QuesImport implements ToModel, WithHeadingRow//ToCollection,
         }elseif($row['type'] == 'textarea'){
             $ques_type = '3';
         }
+        
         if(substr($row['choice_1'], 0, 1) == '*'){
             $row['choice_1'] = substr($row['choice_1'], 1);
             $choice_answer_1 = '1';
@@ -69,7 +70,7 @@ class QuesImport implements ToModel, WithHeadingRow//ToCollection,
             $choice_answer_4 = '2';
         }
         $user = auth()->user()->id;
-
+        
             $question = Question::create([
                 'ques_type' =>  $ques_type ,
                 'ques_title' => $row['question'],

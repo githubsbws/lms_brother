@@ -1890,36 +1890,34 @@ class AdminController extends Controller
             $group_active = Grouptesting::join('lesson','lesson.id','=','grouptesting.lesson_id')->where('grouptesting.active','y')->where('lesson_id',$id)->get();
 
             if ($request->has('id')) {
-                // คืนค่า JSON แจ้งข้อผิดพลาดว่าไม่มีค่า ID ถูกส่งมา
                 $group_id = $request->input('id');
-                $group_del=[
-                    'active'=>'y'
-                ];
+                $group_del = ['active' => 'y'];
                 $group = Grouptesting::findById($group_id);
+
+                if (!$group) {
+                    return response()->json(['success' => false, 'error' => 'ไม่พบข้อมูล group']);
+                }
+
                 $group->update($group_del);
 
-                $manage = Manage::where('group_id',$group_id)->where('type',$type)->first();
-                if($manage == null){
-                    $manage_new = new Manage;
-                    $manage_new->id = $group->lesson_id;
-                    $manage_new->group_id = $group->group_id;
-                    $manage_new->type = $type;
-                    $manage_new->manage_row = '5';
-                    $manage_new->create_by = Auth::user()->id;
-                    $manage_new->update_by = Auth::user()->id;
-                    $manage_new->active = 'y';
-                    $manage_new->save();
+                $manage = Manage::where('group_id', $group_id)->where('type', $type)->first();
 
-                    
-                }else{
+                if ($manage == null) {
+                    $manage = new Manage;
+                    $manage->id = $group->lesson_id;
+                    $manage->group_id = $group->group_id;
+                    $manage->type = $type;
+                    $manage->manage_row = '5';
+                    $manage->create_by = Auth::user()->id;
+                    $manage->update_by = Auth::user()->id;
                     $manage->active = 'y';
                     $manage->save();
-
-                
+                } else {
+                    $manage->active = 'y';
+                    $manage->save();
                 }
-                // กรณีที่ไม่มีการส่งค่า id มา
-                // คุณสามารถตัดสินใจปฏิเสธคำขอหรือดำเนินการอื่น ๆ ตามที่ต้องการได้
-                return $manage;       
+
+                return response()->json(['success' => true, 'manage' => $manage]);
             }
             return view("admin.grouptesting.grouptesting_plan",['group' => $group,'group_active' => $group_active,'type'=>$type,'id' => $id]);
         }else{
@@ -1927,16 +1925,21 @@ class AdminController extends Controller
         }
     }
     //
-    function grouptesting_plan_delete($id){
-        if(AuthFacade::useradmin()){
-            $grouptesting_del=[
-                'active'=>'n'
-            ];
-            $grouptesting = Grouptesting::findById($id);
-            $grouptesting->update($grouptesting_del);
+    function grouptesting_plan_delete($id) {
+        if (AuthFacade::useradmin()) {
+            $manage = Manage::findById($id);
 
+            if ($manage) {
+                $manage->update(['active' => 'n']);
+
+                $grouptesting = Grouptesting::findById($manage->group_id);
+                if ($grouptesting) {
+                    $grouptesting->update(['active' => 'n']);
+                }
+            }
+            Log::info($manage);
             return back();
-        }else{
+        } else {
             return redirect()->route('login.admin');
         }
     }
