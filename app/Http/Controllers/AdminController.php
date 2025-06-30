@@ -1326,6 +1326,61 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
+
+     function teacher_create(Request $request)
+    {
+        if(AuthFacade::useradmin()){
+            
+            if ($request->isMethod('post')) {
+                // dd($request->toArray());
+                $validator = Validator::make($request->all(), [
+                    'teacher_name' => 'required|string', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
+                    'teacher_detail' =>'nullable',
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+
+                ]);
+                
+                // dd($validator);
+                if ($validator->fails()) {
+                    
+                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
+                }
+                
+                $teacher = new Teacher;
+                $teacher->teacher_name = $request->input('teacher_name');
+                $teacher->teacher_detail = htmlspecialchars($request->input('teacher_detail'));
+                $teacher->update_by = Auth::user()->id;
+                $teacher->create_by = Auth::user()->id;
+                $teacher->active = 'y';
+                $teacher->save();
+                if($request->file('image')){
+                    $image = $request->file('image');
+                    $imageName = $image->getClientOriginalName();
+                    $teacher->teacher_picture = $imageName;
+
+                    $idFolder = public_path('images/uploads/teacher/'.$teacher->teacher_id);
+                    if (!file_exists($idFolder)) {
+                        mkdir($idFolder, 0777, true);
+                    }
+
+                    $idFolder2 = $idFolder . '/thumb/';
+                    if (!file_exists($idFolder2)) {
+                        mkdir($idFolder2, 0777, true);
+                    }
+
+                    // ย้ายไฟล์ภาพไปยังโฟลเดอร์ thumb
+                    $image->move($idFolder2, $imageName);
+                }
+                $teacher->save();
+
+                return redirect()->route('courseonline')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
+            }
+            return view("admin.courseonline.teacher_create");
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
     function courseonlinecreateto(Request $request)
     {
         if(AuthFacade::useradmin()){
@@ -1849,7 +1904,7 @@ class AdminController extends Controller
                 $grouptesting_create->step_id = '1';
                 $grouptesting_create->create_by = Auth::user()->id;
                 $grouptesting_create->update_by = Auth::user()->id;
-                $grouptesting_create->active = 'n';
+                $grouptesting_create->active = 'y';
                 $grouptesting_create->save();
 
                 return redirect()->route('grouptesting')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
@@ -1869,12 +1924,12 @@ class AdminController extends Controller
                 $manage = Manage::where('id', $id)->where('type', $type)->first();
                 // ตรวจสอบว่า $manage ไม่เป็น null ก่อนที่จะดำเนินการต่อ
                 if($manage !== null){
-                    $grouptesting = Grouptesting::where('lesson_id', $manage->id)->where('active','y')->get();
+                    $grouptesting = Grouptesting::where('lesson_id', $manage->id)->where('active','y')->orderBy('create_date','DESC')->get();
                 } else {
-                    $grouptesting = Grouptesting::where('active','y')->get();
+                    $grouptesting = Grouptesting::where('active','y')->orderBy('create_date','DESC')->get();
                 }
             } else {
-                $grouptesting = Grouptesting::where('active','y')->get();
+                $grouptesting = Grouptesting::where('active','y')->orderBy('create_date','DESC')->get();
             }
             
             return view("admin.grouptesting.grouptesting",['grouptesting' => $grouptesting]);

@@ -241,6 +241,9 @@ Route::get('courseonline',[AdminController::class,'courseonline'])->name('course
 Route::get('courseonline_create',[AdminController::class,'courseonline_create'])->name('courseonline.create')->middleware('checkIdleTimeout');
 Route::post('courseonline_create',[AdminController::class,'courseonline_create'])->name('courseonline.create')->middleware('checkIdleTimeout');
 
+Route::get('teacher_create',[AdminController::class,'teacher_create'])->name('teacher.create')->middleware('checkIdleTimeout');
+Route::post('teacher_create',[AdminController::class,'teacher_create'])->name('teacher.create')->middleware('checkIdleTimeout');
+
 Route::get('courseonline_detail/{id}',[AdminController::class,'courseonline_detail'])->name('courseonline.detail')->middleware('checkIdleTimeout');
 
 Route::get('courseonline_edit/{id}',[AdminController::class,'courseonline_edit'])->name('courseonline.edit')->middleware('checkIdleTimeout');

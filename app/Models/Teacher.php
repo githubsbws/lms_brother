@@ -11,7 +11,10 @@ class Teacher extends Model
 
     protected $table = 'teacher';
 
-    protected $primarykey = 'teacher_id';
+    protected $primaryKey = 'teacher_id';
+
+    const CREATED_AT = 'create_date'; // Custom created_at column
+    const UPDATED_AT = 'update_date'; // Custom update_at column
 
     public static function findById($id)
     {

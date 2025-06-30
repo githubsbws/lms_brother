@@ -37,11 +37,11 @@ class QuesImport implements ToModel, WithHeadingRow//ToCollection,
     {
         $choice = null;
 
-        if($row['type'] == 'checkbox'){
+        if($row['type'] == 'คำตอบแบบเลือกได้หลายคำตอบ'){
             $ques_type = '1';
-        }elseif($row['type'] == 'radio'){
+        }elseif($row['type'] == 'คำตอบแบบเลือกคำตอบเดียว'){
             $ques_type = '2';
-        }elseif($row['type'] == 'textarea'){
+        }elseif($row['type'] == 'คำตอบแบบหลายบรรทัด'){
             $ques_type = '3';
         }
         
