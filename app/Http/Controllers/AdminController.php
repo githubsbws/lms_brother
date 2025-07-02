@@ -77,6 +77,7 @@ use App\Models\QQuestion;
 use App\Models\QChoice;
 use App\Models\Ques_ans;
 use App\Models\Zoom;
+use App\Models\OrgchartUser;
 
 use App\Models\AdminMenu;
 // use App\Models\Company;
@@ -2686,7 +2687,7 @@ class AdminController extends Controller
             $querys->where('username', 'like', '%' . $filterUser . '%');
         }
         // Fetch users in the department for the given org_id
-        $user_chart = $querys->get();
+        $user_chart = OrgchartUser::where('orgchart_id',$id)->get();
 
         return view("admin.orgchart.orgchart_users", [
             'org_id' => $org_id,

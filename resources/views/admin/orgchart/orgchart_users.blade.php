@@ -47,28 +47,25 @@ use App\Models\Orgchart;
                                 </thead>
                                 <tbody id="sortable">
                                     @foreach ($user_chart as $item)
-                                        @php
-                                        $org_chart = Orgchart::where('id',$item->department_id)->first();
-                                        @endphp
                                     <tr>
-                                        <td><input class="select-on-check" value="{{$item->id}}" id="chk_0" type="checkbox"  name="selected_users[]"></td>
+                                        <td><input class="select-on-check" value="{{$item->user_id}}" id="chk_0" type="checkbox"  name="selected_users[]"></td>
                                         <td>
-											{{$item->username ?? '-'}}
+											{{$item->user->username ?? '-'}}
                                         </td>
                                         <td class="text-center">
-                                            {{ $org_chart->title ?? '-'}}
+                                            {{ $item->orgchart->title ?? '-'}}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->company->company_title ?? '-'}}
+                                            {{ $item->user->company->company_title ?? '-'}}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->asc->name ?? '-'}}
+                                            {{ $item->user->asc->name ?? '-'}}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->position->position_title ?? '-'}}
+                                            {{ $item->user->position->position_title ?? '-'}}
                                         </td>
                                         <td>
-                                            <a href="{{route('orgchart.unactive',['id' => $item->id,'org_id' => $org_id])}}" class="btn btn-warning btn-sm"><i class="fas fa-trash"></i></a>
+                                            <a href="{{route('orgchart.unactive',['id' => $item->user_id,'org_id' => $item->orgchart_id])}}" class="btn btn-warning btn-sm"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
