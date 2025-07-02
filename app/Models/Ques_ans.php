@@ -27,4 +27,9 @@ class Ques_ans extends Model
     {
         return static::where('answer_id', $id)->first();
     }
+
+    public function choice()
+    {
+        return $this->belongsTo(QChoice::class, 'choice_id');
+    }
 }

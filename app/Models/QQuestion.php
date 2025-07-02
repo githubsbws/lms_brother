@@ -27,4 +27,14 @@ class QQuestion extends Model
     {
         return static::where('question_id', $id)->first();
     }
+
+    public function section()
+    {
+        return $this->belongsTo(QSection::class, 'survey_section_id');
+    }
+
+    public function choices()
+    {
+        return $this->hasMany(QChoice::class, 'question_id');
+    }
 }

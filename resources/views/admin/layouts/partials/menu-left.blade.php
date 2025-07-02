@@ -466,6 +466,11 @@
                                 <p>รายงานภาพรวมของหลักสูตร</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{url('report_questionnaire')}}" class="nav-link {{ request()->is('report*') ? 'active' : '' }}">
+                                <p>รายงานแบบประเมิน แบบสอบถาม</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item {{ request()->is('log*') ? 'menu-open' : '' }}">

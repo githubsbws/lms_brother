@@ -26,4 +26,10 @@ class QHeader extends Model
     {
         return static::where('survey_header_id', $id)->first();
     }
+
+    public function sections()
+    {
+        return $this->hasMany(QSection::class,'survey_header_id');   
+        
+    }
 }

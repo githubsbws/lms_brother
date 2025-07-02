@@ -25,4 +25,14 @@ class QChoice extends Model
     {
         return static::where('option_choice_id', $id)->first();
     }
+
+    public function question()
+    {    
+        return $this->belongsTo(QQuestion::class,'question_id');   
+    }
+
+    public function answers()
+    {    
+        return $this->hasMany(Ques_ans::class,'choice_id');   
+    }
 }

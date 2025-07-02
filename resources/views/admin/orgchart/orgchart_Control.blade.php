@@ -153,14 +153,9 @@ use App\Models\Course;
                         <div class="row buttons">
                             <a class="btn btn-primary btn-icon glyphicons ok_2" href="{{route('orgchart.users',['org_id' => $org->id])}}"><i></i>จัดการผู้ใช้</a>
                         </div>
-                    <div class="row">
-                        <div class="span6" align="center" style="background-color: #fff; padding: 10px 0;"><strong style="font-size: medium;">หลักสูตรที่เลือก</strong></div>
-                        <div class="span6" align="center" style="background-color: #fff; padding: 10px 0;"><strong style="font-size: medium;">หลักสูตรทั้งหมด</strong></div>
-                    </div>
+                    <div class="row g-3">
 
-                    <div class="row-fluid">
-
-                    <div class="span6">
+                    <div class="col">
                         <div class="dd" id="nestable">
                             <?php
                             $org_course = Orgcourse::where('active', 'y')
@@ -169,57 +164,61 @@ use App\Models\Course;
                                         ->orderBy('order') // จัดเรียงตาม parent_id และ order
                                         ->get();
                             ?>
-                        
+                            <strong>หลักสูตรที่เลือก</strong>
                             @if($org_course->isNotEmpty())
-                                <ol class="dd-list">
-                                @foreach($org_course as $oc)
-                                    @php 
-                                        $course = Course::where('course_id', $oc->course_id)->first();
-                                    @endphp
-                                    
-                                    @if($oc->order !== '1')
-                                    <li class="dd-item" data-id="{{$oc->id}}">
-                                        <a href="#" onclick="activen({{$oc->id}})">
-                                            <div class="dd-handle">{{$course->course_title}}</div>
-                                        </a>
-                                    </li>
-                                    @endif
-                        
-                                    @if($oc->order !== '1')
-                                    <a href="#" class="btn btn-primary open-modal" data-url="{{ route('orgchart.course', ['id' => $oc->id,'course_title' => $course->course_title ]) }}" data-toggle="modal" data-target="#myModals">
-                                        <i class="icon-book"></i> sub course
-                                    </a>
-                                    @endif
-                        
-                                @endforeach
+                                <ol class="dd-list" id="selectedCourses">
+                                    @foreach($org_course as $oc)
+                                        @php 
+                                            $course = Course::where('course_id', $oc->course_id)->first();
+                                        @endphp
+                                        @if($oc->order !== '1')
+                                        <li class="dd-item" data-id="{{ $oc->id }}">
+                                            <div class="dd-handle">{{ $course->course_title }}</div>
+
+                                            @php $children = $sub_courses->where('parent_id', $oc->id); @endphp
+                                            @if($children->isNotEmpty())
+                                                <ol class="dd-list">
+                                                    @foreach($children as $sub)
+                                                        @php $sub_course = Course::where('course_id', $sub->course_id)->first(); @endphp
+                                                        <li class="dd-item" data-id="{{ $sub->id }}">
+                                                            <div class="dd-handle">{{ $sub_course->course_title }}</div>
+                                                        </li>
+                                                    @endforeach
+                                                </ol>
+                                            @endif
+                                        </li>
+                                        @endif
+                                    @endforeach
                                 </ol>
                             @else
                                 <div class="dd-empty"></div>
                             @endif
                         </div>
-                        </div>
+                    </div>
 
-                    <div class="span6">
+                    <div class="col">
                     <div class="dd" id="nestable2">
                                     <?php
                                     $courses = Course::where('active', 'y')->get();
                                     ?>
-                                    <ol class="dd-list">
+                                    <strong>หลักสูตรทั้งหมด</strong>
+                                    <ol class="dd-list" id="allCourses">
                                         @foreach($courses as $course)
-                                            @php 
-                                                $org_course = Orgcourse::where('course_id', $course->course_id)->where('active', 'y')->first();
+                                            @php
+                                                $used = $org_course
+                                                ->where('course_id', $course->course_id)
+                                                ->where('orgchart_id', $org->id)
+                                                ->first();
                                             @endphp
-                                            @if(!$org_course || $org_course->course_id != $course->course_id)
+                                            @if(!$used)
                                                 <li class="dd-item" data-id="{{ $course->course_id }}">
-                                                    <a href="#" onclick="activey({{ $course->course_id }})">
-                                                        <div class="dd-handle">{{ $course->course_title }}</div>
-                                                    </a>
+                                                    <div class="dd-handle">{{ $course->course_title }}</div>
                                                 </li>
                                             @endif
                                         @endforeach
                                     </ol>
                                 </div>
-                            </div>
+                        </div>
                     </div>
 
                             
@@ -228,25 +227,6 @@ use App\Models\Course;
 
 
                         <div style="clear:both;"></div>
-
-                        <div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" hidden>
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <iframe src="" width="100%" height="400px" frameborder="0"></iframe>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <!-- สามารถเพิ่มปุ่มอื่นๆได้ตามต้องการ -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                 </div>
             </div>
     </div>
@@ -263,6 +243,32 @@ use App\Models\Course;
     });
 </script>
 <script>
+    const selectedList = document.getElementById('selectedCourses');
+    new Sortable(document.getElementById('allCourses'), {
+        group: {
+            name: 'shared',
+            pull: 'clone', // สามารถลากออกมาได้
+            put: true     // ห้ามลากกลับเข้าไป
+        },
+        sort: false,
+         onAdd: function (evt) {
+            const courseId = evt.item.dataset.id;
+            activen(courseId); // เรียกฟังก์ชันเพื่อบันทึก
+        }
+    });
+
+    new Sortable(selectedList, {
+        group: {
+            name: 'shared',
+            pull: true,
+            put: true
+        },
+        animation: 150,
+        onAdd: function (evt) {
+            const courseId = evt.item.dataset.id;
+            activey(courseId);
+        }
+    });
     function activey(id) {
         var route = "{{ route('orgchart.y', ['id' => ':id','org_id' => $org->id]) }}";
         var csrf_token = "{{ csrf_token() }}";
@@ -282,11 +288,11 @@ use App\Models\Course;
         .then(response => response.json())
         .then(data => {
             // console.log(data);
-            location.reload();
+            console.log("เพิ่มคอร์สแล้ว:", data);
         })
         .catch(error => {
             // console.log(error);
-            location.reload();
+            console.error("error", error)
         });
     }
     function activen(id) {
@@ -308,12 +314,31 @@ use App\Models\Course;
         .then(response => response.json())
         .then(data => {
             // console.log(data);
-            location.reload();
+            console.log("ลบคอร์สแล้ว:", data);
         })
         .catch(error => {
             // console.log(error);
-            location.reload();
+            console.error("error", error)
         });
+    }
+    function saveSubCourses() {
+        const items = selectedList.querySelectorAll('.dd-item');
+        const course_ids = Array.from(items).map(item => item.dataset.id);
+        const route = "{{ route('orgchart.course', ['id' => ':id']) }}";
+
+        route = route.replace(':id', id);
+
+        fetch(route, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ chk: course_ids })
+        })
+        .then(res => res.json())
+        .then(data => console.log("บันทึกแล้ว:", data))
+        .catch(error => console.error("เกิดข้อผิดพลาด", error));
     }
 </script>
 </body>

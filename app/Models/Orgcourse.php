@@ -23,4 +23,9 @@ class Orgcourse extends Model
     {
         return static::where('id', $id)->first();
     }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_id', 'course_id');
+    }
 }

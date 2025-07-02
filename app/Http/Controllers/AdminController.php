@@ -1336,7 +1336,7 @@ class AdminController extends Controller
                 $validator = Validator::make($request->all(), [
                     'teacher_name' => 'required|string', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
                     'teacher_detail' =>'nullable',
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                    'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
 
                 ]);
                 
@@ -2905,7 +2905,11 @@ class AdminController extends Controller
             $org = Orgchart::where('id',$id)->first();
 
             $course = Course::where('active','y')->get();
-            return view("admin.orgchart.orgchart_Control",['org' => $org,'course' => $course]);
+            $sub_courses = Orgcourse::where('active', 'y')
+            ->where('orgchart_id', $id)
+            ->whereNotNull('parent_id') // เป็นคอร์สรอง
+            ->get();
+            return view("admin.orgchart.orgchart_Control",['org' => $org,'course' => $course,'sub_courses' => $sub_courses]);
         }else{
             return redirect()->route('login.admin');
         }
@@ -2950,40 +2954,37 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
+    public function saveNestedCourses(Request $request)
+    {
+        $orgchartId = $request->input('orgchart_id');
+        $nested = $request->input('nested');
 
-    function orgchart_course(Request $request, $id ,$course_title) {
-        if (AuthFacade::useradmin()) {
-            $org_course = Orgcourse::where('id', $id)->first();
-    
-            if ($request->isMethod('post')) {
-                // รับค่าที่ส่งมาจากฟอร์ม
-                $chkValues = $request->input('chk');
-                
-                 
-                if (empty($chkValues)) {
-                    // ถ้าไม่มีค่าใน chk ให้เปลี่ยน active เป็น 'n'
-                    Orgcourse::where('orgchart_id', $org_course->orgchart_id)
-                             ->where('parent_id', $org_course->id)
-                             ->update(['active' => 'n']);
-                } else {
-                    foreach ($chkValues as $chkValue) {
-                        $log_reset = new Orgcourse;
-                        $log_reset->orgchart_id = $org_course->orgchart_id;
-                        $log_reset->course_id = $chkValue;
-                        $log_reset->parent_id = $org_course->id;
-                        $log_reset->active = 'y';
-                        $log_reset->order = '1';
-                        $log_reset->save();
-                    }
-                }
-                
-            
-                return redirect()->route('orgchart.course', ['id' => $id ,'course_title' => $course_title]);
-            }
-    
-            return view("admin.orgchart.orgchart_course", ['id' => $id,'course_title' => $course_title]);
-        } else {
-            return redirect()->route('login.admin');
+        if (empty($nested)) {
+            return response()->json(['error' => 'ไม่มีข้อมูล nested ส่งมา'], 400);
+        }
+
+        // แนะนำ: ล้างข้อมูลเก่าก่อนใส่ใหม่
+        Orgcourse::where('orgchart_id', $orgchartId)->update(['active' => 'n']);
+
+        foreach ($nested as $row) {
+            Orgcourse::updateOrCreate(
+                [
+                    'orgchart_id' => $orgchartId,
+                    'course_id' => $row['course_id']
+                ],
+                [
+                    'parent_id' => $row['parent_id'],
+                    'order' => $row['order'],
+                    'active' => 'y'
+                ]
+            );
+        }
+
+        return response()->json(['status' => 'success']);
+    }
+    function orgchart_course(Request $request, $id) {
+         if (!AuthFacade::useradmin()) {
+        return redirect()->route('login.admin');
         }
     }
 

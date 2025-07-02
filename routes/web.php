@@ -15,6 +15,7 @@ use App\Http\Controllers\VedioController;
 use App\Http\Controllers\UpvedioController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ReportController;
 // -------
 use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\CourseController;
@@ -377,7 +378,8 @@ Route::get('/orgchart_active/{id}/{org_id}',[AdminController::class,'orgchart_ac
 
 Route::get('/orgchart_control/{id}',[AdminController::class,'orgchart_control'])->name('orgchart.control')->middleware('checkIdleTimeout');
 Route::get('orgchart_course/{id}/{course_title}',[AdminController::class,'orgchart_course'])->name('orgchart.course')->middleware('checkIdleTimeout');
-Route::post('orgchart_course/{id}/{course_title}',[AdminController::class,'orgchart_course'])->name('orgchart.course')->middleware('checkIdleTimeout');
+Route::post('orgchart_course/{id}',[AdminController::class,'orgchart_course'])->name('orgchart.course')->middleware('checkIdleTimeout');
+Route::post('/orgchart/save-nested', [AdminController::class, 'saveNestedCourses'])->name('orgchart.saveNested');
 Route::post('/orgchart_y/{id}',[AdminController::class,'orgchart_y'])->name('orgchart.y')->middleware('checkIdleTimeout');
 Route::post('/orgchart_n/{id}',[AdminController::class,'orgchart_n'])->name('orgchart.n')->middleware('checkIdleTimeout');
 
@@ -723,6 +725,8 @@ Route::get('report_userseach',[AdminController::class,'report_loguserstatus'])->
 
 Route::get('report_course',[AdminController::class,'report_course'])->name('report.course')->middleware('checkIdleTimeout');
 Route::get('report_courseseach',[AdminController::class,'report_course'])->name('report.coursesearch')->middleware('checkIdleTimeout');
+
+Route::get('report_questionnaire',[ReportController::class,'report_questionnaire'])->name('report.questionnaire')->middleware('checkIdleTimeout');
 
 Route::get('report_lesson/{id}',[AdminController::class,'report_lesson'])->name('report.lesson')->middleware('checkIdleTimeout');
 Route::get('/export-lessons/{id}', [AdminController::class, 'exportLessons'])->name('export.lessons');
