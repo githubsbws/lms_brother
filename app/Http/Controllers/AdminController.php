@@ -2133,10 +2133,10 @@ class AdminController extends Controller
     function group_question($id = null){
         if(AuthFacade::useradmin()){
             if($id !== null){
-                $coursegrouptesting = Question::where('group_id',$id)->where('active','y')->get();
+                $coursegrouptesting = Question::where('group_id',$id)->where('active','y')->orderBy('create_date','DESC')->get();
                 // dd($coursegrouptesting);
             }else{
-                $coursegrouptesting = Question::where('active','y')->get();
+                $coursegrouptesting = Question::where('active','y')->orderBy('create_date','DESC')->get();
             }
             return view("admin.grouptesting.group_question",['coursegrouptesting' =>$coursegrouptesting]);
         }else{
@@ -2669,8 +2669,7 @@ class AdminController extends Controller
         $filterUser = $request->input('filter_user');
 
         // Base query for users
-        $query = Users::where('status', '1')
-                      ->where('department_id', '!=', $org_id);
+        $query = Users::where('status', '1');
 
         // Apply filter if provided
         if ($filterUsername) {
@@ -2700,18 +2699,15 @@ class AdminController extends Controller
 }
     function orgchart_unuser(Request $request,$org_id){
         if(AuthFacade::useradmin()){
-            if ($request->has('selected_users')) {
+            if ($request->has('remove_users')) {
                 // รับข้อมูลผู้ใช้ที่ถูกเลือกจากฟอร์ม
-                $selectedUsers = $request->input('selected_users');
+                $selectedUsers = $request->input('remove_users');
                 
                 // ดำเนินการต่อไปตามต้องการ เช่น ลบผู้ใช้ หรือทำการปรับปรุงข้อมูลต่าง ๆ
                 foreach ($selectedUsers as $userId) {
-                    // ทำการลบผู้ใช้หรือดำเนินการอื่น ๆ ตามต้องการ
-                    $user = Users::find($userId);
-                    if ($user) {
-                        $user->department_id = '1'; 
-                        $user->save();
-                    }
+                    OrgchartUser::where('user_id', $userId)
+                                ->where('orgchart_id', $org_id)
+                                ->delete();
                 }
                 
                 // สามารถทำการ redirect หรือส่งข้อมูลกลับไปยังหน้าอื่นตามต้องการ
@@ -2725,28 +2721,38 @@ class AdminController extends Controller
         }
     }
     function orgchart_adduser(Request $request,$org_id){
-        if(AuthFacade::useradmin()){
-            if ($request->has('users')) {
-                // รับข้อมูลผู้ใช้ที่ถูกเลือกจากฟอร์ม
-                $selectedUsers = $request->input('users');
-                
-                // ดำเนินการต่อไปตามต้องการ เช่น ลบผู้ใช้ หรือทำการปรับปรุงข้อมูลต่าง ๆ
+        if (AuthFacade::useradmin()) {
+            if ($request->has('add_users')) {
+                $selectedUsers = $request->input('add_users');
+                $added = 0;
+                $skipped = 0;
+
                 foreach ($selectedUsers as $userId) {
-                    // ทำการลบผู้ใช้หรือดำเนินการอื่น ๆ ตามต้องการ
-                    $user = Users::find($userId);
-                    if ($user) {
-                        $user->department_id = $org_id; 
-                        $user->save();
+                    $created = OrgchartUser::firstOrCreate([
+                        'user_id' => $userId,
+                        'orgchart_id' => $org_id,
+                    ]);
+
+                    // เช็คว่าเป็นการเพิ่มใหม่จริงหรือไม่
+                    if ($created->wasRecentlyCreated) {
+                        $added++;
+                    } else {
+                        $skipped++;
                     }
                 }
-                
-                // สามารถทำการ redirect หรือส่งข้อมูลกลับไปยังหน้าอื่นตามต้องการ
-                return redirect()->route('orgchart.users',['org_id' => $org_id])->with('success', 'ข้อมูลผู้ใช้ถูกลบเรียบร้อยแล้ว');
+
+                $message = "เพิ่มผู้ใช้ใหม่จำนวน {$added} คน";
+                if ($skipped > 0) {
+                    $message .= " (ข้าม {$skipped} คนที่มีอยู่แล้ว)";
+                }
+
+                return redirect()->route('orgchart.users', ['org_id' => $org_id])
+                                ->with('success', $message);
             } else {
-                // กรณีที่ไม่มีผู้ใช้ถูกเลือก สามารถดำเนินการต่อไปตามต้องการได้
-                return redirect()->route('orgchart.users',['org_id' => $org_id])->with('error', 'กรุณาเลือกผู้ใช้ก่อนทำการลบ');
+                return redirect()->route('orgchart.users', ['org_id' => $org_id])
+                                ->with('error', 'กรุณาเลือกผู้ใช้ก่อนทำการเพิ่ม');
             }
-        }else{
+        } else {
             return redirect()->route('login.admin');
         }
     }
@@ -2754,11 +2760,9 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             if ($request) {
                 // dd($id);
-                $user = Users::find($id);
-                if ($user) {
-                    $user->department_id = '1'; 
-                    $user->save();
-                }
+                 OrgchartUser::where('user_id', $id)
+                            ->where('orgchart_id', $org_id)
+                            ->delete();
                 
                 // สามารถทำการ redirect หรือส่งข้อมูลกลับไปยังหน้าอื่นตามต้องการ
                 return redirect()->route('orgchart.users',['org_id' => $org_id])->with('success', 'ข้อมูลผู้ใช้ถูกลบเรียบร้อยแล้ว');
@@ -2773,14 +2777,19 @@ class AdminController extends Controller
     function orgchart_active(Request $request,$id,$org_id){
         if(AuthFacade::useradmin()){
             if ($request) {
-                $user = Users::find($id);
-                if ($user) {
-                    $user->department_id = $org_id; 
-                    $user->save();
-                }
-                
+                    $chk = OrgchartUser::where('user_id', $id)
+                        ->where('orgchart_id', $org_id)
+                        ->exists();
+                    if(!$chk){
+                        $user = new OrgchartUser;
+                        $user->user_id = $id;
+                        $user->orgchart_id = $org_id;
+                        $user->save();
+
+                        return redirect()->route('orgchart.users',['org_id' => $org_id])->with('success', 'ข้อมูลผู้ใช้เพิ่มเสร็จสิ้น');
+                    }
                 // สามารถทำการ redirect หรือส่งข้อมูลกลับไปยังหน้าอื่นตามต้องการ
-                return redirect()->route('orgchart.users',['org_id' => $org_id])->with('success', 'ข้อมูลผู้ใช้ถูกลบเรียบร้อยแล้ว');
+                return redirect()->route('orgchart.users',['org_id' => $org_id])->with('warning', 'ข้อมูลผู้ใช้ถูกเพิ่มแล้ว');
             } else {
                 // กรณีที่ไม่มีผู้ใช้ถูกเลือก สามารถดำเนินการต่อไปตามต้องการได้
                 return redirect()->route('orgchart.users',['org_id' => $org_id])->with('error', 'กรุณาเลือกผู้ใช้ก่อนทำการลบ');

@@ -13,19 +13,12 @@ use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Facades\AuthFacade;
 
-class QuesImport implements ToModel, WithHeadingRow//ToCollection,
+class QuesImport implements ToModel, WithHeadingRow
 {
-    //use Importable,SkipsFailures;
-    /**
-    * @param array $row
-    * @param Collection $collection
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    
-    */
     private $id;
 
     public function __construct($id)
@@ -35,98 +28,56 @@ class QuesImport implements ToModel, WithHeadingRow//ToCollection,
 
     public function model(array $row)
     {
-        $choice = null;
+        // แปลงประเภทคำถาม
+        $typeMapping = [
+            'คำตอบแบบเลือกได้หลายคำตอบ' => '1',
+            'ตอบแบบเลือกคำตอบเดียว'    => '2',
+            'คำตอบแบบเลือกคำตอบเดียว'    => '2', // เผื่อ Excel เขียนไม่ตรงกัน
+            'คำตอบแบบหลายบรรทัด'        => '3',
+        ];
 
-        if($row['type'] == 'คำตอบแบบเลือกได้หลายคำตอบ'){
-            $ques_type = '1';
-        }elseif($row['type'] == 'คำตอบแบบเลือกคำตอบเดียว'){
-            $ques_type = '2';
-        }elseif($row['type'] == 'คำตอบแบบหลายบรรทัด'){
-            $ques_type = '3';
+        $ques_type = $typeMapping[$row['type']] ?? null;
+        $userId = auth()->id();
+
+        if (!$ques_type || empty($row['question'])) {
+            return null; // ข้ามถ้าไม่มีประเภทหรือคำถาม
         }
-        
-        if(substr($row['choice_1'], 0, 1) == '*'){
-            $row['choice_1'] = substr($row['choice_1'], 1);
-            $choice_answer_1 = '1';
-        } else {
-            $choice_answer_1 = '2';
-        }
-        if(substr($row['choice_2'], 0, 1) == '*'){
-            $row['choice_2'] = substr($row['choice_2'], 1);
-            $choice_answer_2 = '1';
-        } else {
-            $choice_answer_2 = '2';
-        }
-        if(substr($row['choice_3'], 0, 1) == '*'){
-            $row['choice_3'] = substr($row['choice_3'], 1);
-            $choice_answer_3 = '1';
-        } else {
-            $choice_answer_3 = '2';
-        }
-        if(substr($row['choice_4'], 0, 1) == '*'){
-            $row['choice_4'] = substr($row['choice_4'], 1);
-            $choice_answer_4 = '1';
-        } else {
-            $choice_answer_4 = '2';
-        }
-        $user = auth()->user()->id;
-        
-            $question = Question::create([
-                'ques_type' =>  $ques_type ,
-                'ques_title' => $row['question'],
-                'active' => 'y',
-                'create_date' => Carbon::now(),
-                'update_date' => Carbon::now(),
-                'create_by' =>$user,
-                'update_by' =>$user,
-                'group_id' => $this->id,
-            ]);
-            if($question){
-                Choice::create([
-                    'ques_id' => $question->ques_id,
-                    'choice_detail' => $row['choice_1'],
-                    'choice_answer' => $choice_answer_1,
-                    'choice_type' => $row['type'],
-                    'active' => 'y',
-                    'create_date' => Carbon::now(),
-                    'update_date' => Carbon::now(),
-                    'create_by' =>$user,
-                    'update_by' =>$user
-                ]);  
-                Choice::create([
-                    'ques_id' => $question->ques_id,
-                    'choice_detail' => $row['choice_2'],
-                    'choice_answer' => $choice_answer_2,
-                    'choice_type' => $row['type'],
-                    'active' => 'y',
-                    'create_date' => Carbon::now(),
-                    'update_date' => Carbon::now(),
-                    'create_by' =>$user,
-                    'update_by' =>$user
-                ]); 
-                Choice::create([
-                    'ques_id' => $question->ques_id,
-                    'choice_detail' => $row['choice_3'],
-                    'choice_answer' => $choice_answer_3,
-                    'choice_type' => $row['type'],
-                    'active' => 'y',
-                    'create_date' => Carbon::now(),
-                    'update_date' => Carbon::now(),
-                    'create_by' =>$user,
-                    'update_by' =>$user
-                ]); 
-                Choice::create([
-                    'ques_id' => $question->ques_id,
-                    'choice_detail' => $row['choice_4'],
-                    'choice_answer' => $choice_answer_4,
-                    'choice_type' => $row['type'],
-                    'active' => 'y',
-                    'create_date' => Carbon::now(),
-                    'update_date' => Carbon::now(),
-                    'create_by' =>$user,
-                    'update_by' =>$user
-                ]); 
+
+        // สร้างคำถาม
+        $question = Question::create([
+            'ques_type'   => $ques_type,
+            'ques_title'  => $row['question'],
+            'active'      => 'y',
+            'create_date' => Carbon::now(),
+            'update_date' => Carbon::now(),
+            'create_by'   => $userId,
+            'update_by'   => $userId,
+            'group_id'    => $this->id,
+        ]);
+
+        // กรณีที่เป็นแบบมีตัวเลือก (choice)
+        if (in_array($ques_type, ['1', '2'])) {
+            foreach ($row as $key => $value) {
+                if (Str::startsWith($key, 'choice_') && trim($value) !== '') {
+                    $isAnswer = Str::startsWith($value, '*');
+                    $choiceDetail = $isAnswer ? substr($value, 1) : $value;
+
+                    Choice::create([
+                        'ques_id'       => $question->ques_id,
+                        'choice_detail' => trim($choiceDetail),
+                        'choice_answer' => $isAnswer ? '1' : '2',
+                        'choice_type'   => $row['type'],
+                        'active'        => 'y',
+                        'create_date'   => Carbon::now(),
+                        'update_date'   => Carbon::now(),
+                        'create_by'     => $userId,
+                        'update_by'     => $userId,
+                    ]);
+                }
             }
+        }
+
+        // ถ้าเป็นแบบหลายบรรทัด จะไม่มี choice ก็ไม่มีปัญหา
     }
 }
     

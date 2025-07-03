@@ -36,7 +36,7 @@ use App\Models\Orgchart;
                             <table id="settingTable" class="table table-striped table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>&nbsp;</th>
+                                        <th><input type="checkbox" id="select_all_remove"></th>
                                         <th>ชื่อผู้ใช้</th>
 										<th>หลักสูตรเรียน</th>
                                         <th>Company</th>
@@ -46,9 +46,9 @@ use App\Models\Orgchart;
                                     </tr>
                                 </thead>
                                 <tbody id="sortable">
-                                    @foreach ($user_chart as $item)
+                                    @foreach ($user_chart as $index => $item)
                                     <tr>
-                                        <td><input class="select-on-check" value="{{$item->user_id}}" id="chk_0" type="checkbox"  name="selected_users[]"></td>
+                                        <td><input class="select-on-check" value="{{$item->user_id}}" id="chk_{{ $index }}" type="checkbox"  name="remove_users[]"></td>
                                         <td>
 											{{$item->user->username ?? '-'}}
                                         </td>
@@ -71,7 +71,7 @@ use App\Models\Orgchart;
                                     @endforeach
                                 </tbody>
                             </table>
-                                <button class="btn btn-primary btn-icon glyphicons ok_2" type="submit"><i></i>บันทึกข้อมูล</button>
+                                <button class="btn btn-primary btn-icon glyphicons ok_2" type="submit"><i></i>ลบผู้ใช้ที่เลือก</button>
                             </form>
                         </div>
 
@@ -81,7 +81,7 @@ use App\Models\Orgchart;
                             <table id="settingTable2" class="table table-striped table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th>&nbsp;</th>
+                                        <th><input type="checkbox" id="select_all"></th>
                                         <th>ชื่อผู้ใช้</th>
 										<th>หลักสูตรเรียน</th>
                                         <th>Company</th>
@@ -96,7 +96,7 @@ use App\Models\Orgchart;
                                         $org_chart = Orgchart::where('id',$item->department_id)->first();
                                         @endphp
                                     <tr>
-                                        <td><input class="select-on-check" value="{{$item->id}}" id="chk_0" type="checkbox"  name="selected_users[]"></td>
+                                        <td><input class="select-on-check" value="{{$item->id}}" id="chk_0" type="checkbox"  name="add_users[]"></td>
                                         <td>
 											{{$item->username ?? '-'}}
                                         </td>
@@ -119,7 +119,7 @@ use App\Models\Orgchart;
                                     @endforeach
                                 </tbody>
                             </table>
-                                <button class="btn btn-primary btn-icon glyphicons ok_2" type="submit"><i></i>บันทึกข้อมูล</button>
+                                <button class="btn btn-primary btn-icon glyphicons ok_2" type="submit"><i></i>เพิ่มผู้ใช้ที่เลือก</button>
                             </form>
                         </div>
                     </div>
@@ -150,6 +150,15 @@ use App\Models\Orgchart;
 			}
 		});
 	});
+     document.getElementById('select_all_remove').addEventListener('click', function() {
+        const checkboxes = document.querySelectorAll('#settingTable .select-on-check');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
+
+    document.getElementById('select_all').addEventListener('click', function() {
+        const checkboxes = document.querySelectorAll('#settingTable2 .select-on-check');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+    });
 </script>
 </body>
 @endsection

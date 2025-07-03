@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="summernote">รูปภาพ</label>
+                                <label for="summernote">รูปภาพ</label><span class="text-danger">*</span>
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                     <div class="input-append">
                                         <div class="uneditable-input span3">
