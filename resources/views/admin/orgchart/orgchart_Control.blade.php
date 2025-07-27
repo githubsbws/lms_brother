@@ -165,33 +165,32 @@ use App\Models\Course;
                                         ->get();
                             ?>
                             <strong>หลักสูตรที่เลือก</strong>
-                            @if($org_course->isNotEmpty())
-                                <ol class="dd-list" id="selectedCourses">
-                                    @foreach($org_course as $oc)
-                                        @php 
-                                            $course = Course::where('course_id', $oc->course_id)->first();
-                                        @endphp
-                                        @if($oc->order !== '1')
-                                        <li class="dd-item" data-id="{{ $oc->id }}">
-                                            <div class="dd-handle">{{ $course->course_title }}</div>
+                            <ol class="dd-list" id="selectedCourses">
+                                @foreach($org_course as $oc)
+                                    @php 
+                                        $course = Course::where('course_id', $oc->course_id)->first();
+                                    @endphp
+                                    @if($oc->order !== '1')
+                                    <li class="dd-item" data-id="{{ $oc->id }}">
+                                        <div class="dd-handle">{{ $course->course_title }}</div>
 
-                                            @php $children = $sub_courses->where('parent_id', $oc->id); @endphp
-                                            @if($children->isNotEmpty())
-                                                <ol class="dd-list">
-                                                    @foreach($children as $sub)
-                                                        @php $sub_course = Course::where('course_id', $sub->course_id)->first(); @endphp
-                                                        <li class="dd-item" data-id="{{ $sub->id }}">
-                                                            <div class="dd-handle">{{ $sub_course->course_title }}</div>
-                                                        </li>
-                                                    @endforeach
-                                                </ol>
-                                            @endif
-                                        </li>
+                                        @php $children = $sub_courses->where('parent_id', $oc->id); @endphp
+                                        @if($children->isNotEmpty())
+                                            <ol class="dd-list">
+                                                @foreach($children as $sub)
+                                                    @php $sub_course = Course::where('course_id', $sub->course_id)->first(); @endphp
+                                                    <li class="dd-item" data-id="{{ $sub->id }}">
+                                                        <div class="dd-handle">{{ $sub_course->course_title }}</div>
+                                                    </li>
+                                                @endforeach
+                                            </ol>
                                         @endif
-                                    @endforeach
-                                </ol>
-                            @else
-                                <div class="dd-empty"></div>
+                                    </li>
+                                    @endif
+                                @endforeach
+                            </ol>
+                            @if($org_course->isEmpty())
+                                <div class="dd-empty">ยังไม่มีหลักสูตรที่เลือก</div>
                             @endif
                         </div>
                     </div>
