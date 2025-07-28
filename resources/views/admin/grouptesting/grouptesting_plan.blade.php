@@ -69,10 +69,14 @@ use App\Models\Manage;
 										$manage_id = Manage::where('group_id',$item->group_id)->where('type',$type)->first();
 										@endphp
 										<td class="text-center">
-											<button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $manage_id->manage_id }}">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </td>
+											@if($manage_id)
+												<button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $manage_id->manage_id }}">
+													<i class="fas fa-trash"></i>
+												</button>
+											@else
+												<span class="text-muted">-</span>
+											@endif
+										</td>
                                     </tr>
 									@endforeach
                                 </tbody>
