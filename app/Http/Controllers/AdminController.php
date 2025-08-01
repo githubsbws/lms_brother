@@ -1224,21 +1224,33 @@ class AdminController extends Controller
                     $image = $request->file('image');
 
                     $idFolder = public_path('images/uploads/course/'.$id);
-                    if (!file_exists($idFolder)) {
-                        mkdir($idFolder);
+                    $idFolder2 = public_path('images/uploads/course/'.$id.'/original/'); // ✅ ย้ายมาด้านนอก
 
-                        $idFolder2 = public_path('images/uploads/course/'.$id.'/original/');
-                        if (!file_exists($idFolder2)) {
-                            mkdir($idFolder2);
-                        }
+                    if (!file_exists($idFolder)) {
+                        mkdir($idFolder, 0775, true);
                     }
 
-                    // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
-                    $imageName = $image->getClientOriginalName();
-                    $image->move($idFolder2, $imageName);
+                    if (!file_exists($idFolder2)) {
+                        mkdir($idFolder2, 0775, true); // ✅ ใช้งานได้เสมอ เพราะถูกประกาศแล้ว
+                    }
 
-                    $course_update->cate_image = $imageName;
-                    
+                    Log::info('Uploading image...');
+
+                    $image = $request->file('image');
+                    $imageName = time().'_'.$image->getClientOriginalName();
+                    Log::info('Image name: '.$imageName);
+
+                    $destination = public_path('images/uploads/courseonline/'.$id.'/original/');
+                    Log::info('Destination: '.$destination);
+
+                    $success = $image->move($destination, $imageName);
+                    if ($success) {
+                        Log::info('Image uploaded successfully.');
+                    } else {
+                        Log::error('Image upload failed.');
+                    }
+
+                    $course_update->course_picture = $imageName;
                 }
                 // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
 

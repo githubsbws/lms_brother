@@ -23,7 +23,8 @@ class Course extends Model
         'lang_id',
         'random_choice',
         'average_time_pretest',
-        'average_time_posttest'
+        'average_time_posttest',
+        'course_picture'
     ];
 
     const CREATED_AT = 'create_date'; // Custom created_at column
