@@ -1917,7 +1917,7 @@ class AdminController extends Controller
                 $grouptesting_create->step_id = '1';
                 $grouptesting_create->create_by = Auth::user()->id;
                 $grouptesting_create->update_by = Auth::user()->id;
-                $grouptesting_create->active = 'y';
+                $grouptesting_create->active = 'w';
                 $grouptesting_create->save();
 
                 return redirect()->route('grouptesting')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
@@ -1937,12 +1937,12 @@ class AdminController extends Controller
                 $manage = Manage::where('id', $id)->where('type', $type)->first();
                 // ตรวจสอบว่า $manage ไม่เป็น null ก่อนที่จะดำเนินการต่อ
                 if($manage !== null){
-                    $grouptesting = Grouptesting::where('lesson_id', $manage->id)->where('active','y')->orderBy('create_date','DESC')->get();
+                    $grouptesting = Grouptesting::where('lesson_id', $manage->id)->whereIn('active', ['y', 'w'])->orderBy('create_date','DESC')->get();
                 } else {
-                    $grouptesting = Grouptesting::where('active','y')->orderBy('create_date','DESC')->get();
+                    $grouptesting = Grouptesting::whereIn('active', ['y', 'w'])->orderBy('create_date','DESC')->get();
                 }
             } else {
-                $grouptesting = Grouptesting::where('active','y')->orderBy('create_date','DESC')->get();
+                $grouptesting = Grouptesting::whereIn('active', ['y', 'w'])->orderBy('create_date','DESC')->get();
             }
             
             return view("admin.grouptesting.grouptesting",['grouptesting' => $grouptesting]);
@@ -1953,11 +1953,14 @@ class AdminController extends Controller
 
     function grouptesting_plan(Request $request, $id = null, $type = null){
         if(AuthFacade::useradmin()){
-            $group = Grouptesting::where('lesson_id',$id)->where('active','n')->get();
+            $group = Grouptesting::where('lesson_id',$id)->where('active','w')->get();
             
-            $group_active = Grouptesting::join('lesson','lesson.id','=','grouptesting.lesson_id')->where('grouptesting.active','y')->where('lesson_id',$id)->get();
+            $group_active = Grouptesting::join('lesson', 'lesson.id', '=', 'grouptesting.lesson_id')
+                    ->where('grouptesting.active', 'y')
+                    ->where('lesson_id', $id)
+                    ->get();
 
-            if ($request->has('id')) {
+            if ($request->has('id') && !empty($request->id)) {
                 $group_id = $request->input('id');
                 $group_del = ['active' => 'y'];
                 $group = Grouptesting::findById($group_id);
@@ -2002,7 +2005,7 @@ class AdminController extends Controller
 
                 $grouptesting = Grouptesting::findById($manage->group_id);
                 if ($grouptesting) {
-                    $grouptesting->update(['active' => 'n']);
+                    $grouptesting->update(['active' => 'w']);
                 }
             }
             Log::info($manage);
@@ -2060,6 +2063,14 @@ class AdminController extends Controller
             ];
             $grouptesting = Grouptesting::findById($id);
             $grouptesting->update($grouptesting_del);
+
+            $manage = Manage::where('id',$grouptesting->lesson_id)->first();
+            if($manage){
+                $manage_del=[
+                'active'=>'n'
+                ];
+                $manage->update($manage_del);
+            }
 
             return redirect()->route('grouptesting');
         }else{
