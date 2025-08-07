@@ -56,7 +56,7 @@ $teacher = Teacher::where('teacher_id',$course_detail->course_lecturer)->first()
                                             class="img-responsive">
                                     </div>
                                     <p></p>
-                                    <p>{{$course_detail->course_short_title}}</p>
+                                    <p>{!! htmlspecialchars_decode($course_detail->course_short_title) !!}</p>
                                     <p></p> <!-- <p class="margin-none">
                                                         <span class="label bg-gray-dark">Color</span>
                                                         <span class="label label-grey-200">Technologies</span>

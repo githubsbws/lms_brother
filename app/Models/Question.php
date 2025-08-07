@@ -32,4 +32,17 @@ class Question extends Model
     {
         return static::where('ques_id', $id)->first();
     }
+
+    public function choices()
+    {
+        return $this->hasMany(Choice::class, 'ques_id', 'ques_id');
+    }
+
+    // ถ้าต้องการเฉพาะ choice ที่เป็นคำตอบ (choice_answer = '1')
+    public function correctChoices()
+    {
+        return $this->hasMany(Choice::class, 'ques_id', 'ques_id')
+                    ->where('active','y')
+                    ->where('choice_answer', '1');
+    }
 }

@@ -2156,7 +2156,13 @@ class AdminController extends Controller
     function group_question($id = null){
         if(AuthFacade::useradmin()){
             if($id !== null){
-                $coursegrouptesting = Question::where('group_id',$id)->where('active','y')->orderBy('create_date','DESC')->get();
+                $coursegrouptesting = Question::with(['correctChoices'])
+                    ->when($id !== null, function ($query) use ($id) {
+                        return $query->where('group_id', $id);
+                    })
+                    ->where('active', 'y')
+                    ->orderBy('create_date', 'DESC')
+                    ->get();
                 // dd($coursegrouptesting);
             }else{
                 $coursegrouptesting = Question::where('active','y')->orderBy('create_date','DESC')->get();

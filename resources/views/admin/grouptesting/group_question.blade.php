@@ -42,7 +42,6 @@ use App\Models\Choice;
                                     @foreach ($coursegrouptesting as $item)
 										@php
 										$group = Grouptesting::where('group_id',$item->group_id)->first();
-										$choice = Choice::where('ques_id',$item->ques_id)->where('choice_answer','1')->get();
 										@endphp
                                     <tr>
                                         <td>
@@ -52,9 +51,13 @@ use App\Models\Choice;
                                             {!! htmlspecialchars_decode($item->ques_title) !!}
                                         </td>
 										<td>
-                                        @foreach($choice as $answer)
-											{!! htmlspecialchars_decode($answer->choice_detail) !!},
-										@endforeach
+											@if($item->correctChoices->isEmpty())
+												-
+											@else
+												@foreach($item->correctChoices as $answer)
+													{!! htmlspecialchars_decode($answer->choice_detail) !!},
+												@endforeach
+											@endif
 										</td>
                                         <td>
                                             <a href="{{route('ques.detail',['id' => $item->ques_id])}}" class="btn btn-warning btn-sm"><i class="fas fa-search"></i></a>
