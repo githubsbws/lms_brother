@@ -94,85 +94,80 @@
             <div class="page-section">
                 <div class="panel panel-default head-quiz">
                     <form action="{{ route('choice.Answer',['id' => $lesson->id]) }}" enctype="multipart/form-data" method="post" id="question-form">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12"
-                                style="margin-top: 20px;margin-bottom: 30px;text-align: center;"><img
-                                    src="{{ asset('Adminkit/theme/images/head-subject/quiz.png') }}" alt="person"
-                                    style="margin-top: -15px;" /><span
-                                    style="font-size: 50px;color: rgb(0, 183, 243);">แบบทดสอบ</span>
-                                <?php
-                                /*$first = array('100','101');
-                                $firstInvert = array('100','101');
-                                var_dump($first == $firstInvert);*/
-                                 if ($lesson->time_test != '' && $lesson->time_test != 0) {
-                                ?>
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12" style="margin-top: 20px;margin-bottom: 30px;text-align: center;">
+                            <img src="{{ asset('Adminkit/theme/images/head-subject/quiz.png') }}" alt="person" style="margin-top: -15px;" />
+                            <span style="font-size: 50px;color: rgb(0, 183, 243);">แบบทดสอบ</span>
+                            @if ($lesson->time_test != '' && $lesson->time_test != 0)
                                 <div class="alert alert-danger sticky"
                                     style="font-size: 30px;background-color: rgb(255, 188, 188); color: rgb(30, 30, 30);">
                                     <div id="timetest">เวลาในการทำข้อสอบ: <span id="timer"></span></div>
                                 </div>
-                                <?php
-                                 }
-                                ?>
-                            </div>
+                            @endif
+                        </div>
+
+                        @php
+                            $strTotal = 0;
+                            $questionTypeArray = ['1' => 'checkbox', '2' => 'radio', '3' => 'textarea'];
+                        @endphp
+
+                        @foreach ($model as $z => $m)
                             @php
-                                $strTotal = 0;
-                                $questionTypeArray = ['1' => 'checkbox', '2' => 'radio', '3' => 'textarea'];
+                                ++$strTotal;
+                                $choice = Choice::where(['ques_id' => $m->ques_id, 'active' => 'y'])->get();
                             @endphp
-                            @foreach ($model as $z => $m)
-                                @php ++$strTotal;
-                                    $choice = Choice::where(['ques_id' => $m->ques_id, 'active' => 'y'])->get();
-                                @endphp
-                                <div class="question" style="margin: 10px 0; font-weight: bold; font-size: 22px;">
-                                    <div class="col-md-12 col-sm-12">
-                                        @php
-                                            $imageS = asset('/images/knewstuff.png');
-                                        @endphp
-                                        <img src="{{ $imageS }}" width="20px" valign="top"
-                                            style="margin-right:10px;" alt="">
-                                        {{ $strTotal }}.{!! html_entity_decode($m->ques_title) !!}
-                                    </div>
-                                    <div id="div-choice" class="col-md-12 col-sm-12 ml-15 pull-left question-group"
-                                        style="margin-top: 5px;">
-                                        @if ($m->ques_type == '1')
-                                            {{ Form::hidden("Question_type[{$m->ques_id}]", $questionTypeArray[$m->ques_type]) }}
-                                            @if ($choice)
-                                                @foreach ($choice as $choices)
-                                                    <div class="col-md-12 col-sm-12 mb-quiz">
-                                                        <label>
-                                                            {{ Form::checkbox("Choice[{$m->ques_id}][]", $choices->choice_id, false, ['style' => 'margin-top:0px;']) }}
-                                                            {{ html_entity_decode($choices->choice_detail) }}<br>
-                                                        </label>
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        @elseif ($m->ques_type == '2')
-                                            {{ Form::hidden("Question_type[{$m->ques_id}]", $questionTypeArray[$m->ques_type]) }}
-                                            @if ($choice)
-                                                @foreach ($choice as $choices)
-                                                    <div class="col-md-12 col-sm-12 mb-quiz">
-                                                        <label>
-                                                            {{ Form::radio("Choice[{$m->ques_id}][]", $choices->choice_id, false, ['style' => 'margin-top:0px;']) }}
-                                                            {{ html_entity_decode($choices->choice_detail) }}
-                                                        </label>
-                                                    </div>
-                                                @endforeach
-                                            @endif
-                                        @elseif ($m->ques_type == '3')
-                                            {{ Form::hidden("Question_type[{$m->ques_id}]", $questionTypeArray[$m->ques_type]) }}
-                                            <div class="col-md-12 col-sm-12 mb-quiz">
-                                                {{ Form::textarea("ChoiceText[{$m->ques_id}]", '', ['class' => 'form-control']) }}
-                                            </div>
+
+                            <div class="question" style="margin: 10px 0; font-weight: bold; font-size: 22px;">
+                                <div class="col-md-12 col-sm-12">
+                                    @php $imageS = asset('/images/knewstuff.png'); @endphp
+                                    <img src="{{ $imageS }}" width="20px" valign="top" style="margin-right:10px;" alt="">
+                                    {{ $strTotal }}.{!! html_entity_decode($m->ques_title) !!}
+                                </div>
+
+                                <div id="div-choice" class="col-md-12 col-sm-12 ml-15 pull-left question-group" style="margin-top: 5px;">
+                                    @if ($m->ques_type == '1')
+                                        <input type="hidden" name="Question_type[{{ $m->ques_id }}]" value="{{ $questionTypeArray[$m->ques_type] }}">
+                                        @if ($choice)
+                                            @foreach ($choice as $choices)
+                                                <div class="col-md-12 col-sm-12 mb-quiz">
+                                                    <label>
+                                                        <input type="checkbox" name="Choice[{{ $m->ques_id }}][]" value="{{ $choices->choice_id }}" style="margin-top:0px;">
+                                                        {!! html_entity_decode($choices->choice_detail) !!}<br>
+                                                    </label>
+                                                </div>
+                                            @endforeach
                                         @endif
-                                    </div>
+
+                                    @elseif ($m->ques_type == '2')
+                                        <input type="hidden" name="Question_type[{{ $m->ques_id }}]" value="{{ $questionTypeArray[$m->ques_type] }}">
+                                        @if ($choice)
+                                            @foreach ($choice as $choices)
+                                                <div class="col-md-12 col-sm-12 mb-quiz">
+                                                    <label>
+                                                        <input type="radio" name="Choice[{{ $m->ques_id }}][]" value="{{ $choices->choice_id }}" style="margin-top:0px;">
+                                                        {!! html_entity_decode($choices->choice_detail) !!}
+                                                    </label>
+                                                </div>
+                                            @endforeach
+                                        @endif
+
+                                    @elseif ($m->ques_type == '3')
+                                        <input type="hidden" name="Question_type[{{ $m->ques_id }}]" value="{{ $questionTypeArray[$m->ques_type] }}">
+                                        <div class="col-md-12 col-sm-12 mb-quiz">
+                                            <textarea name="ChoiceText[{{ $m->ques_id }}]" class="form-control"></textarea>
+                                        </div>
+                                    @endif
                                 </div>
-                                <div class="col-md-12 col-sm-12 mb-assessment" style="margin-bottom: 40px;">
-                                    <img src="{{ asset('/images/bordertop.png') }}" class="img-responsive" alt="">
-                                </div>
-                            @endforeach
-                            <div class="col-md-12 col-sm-12 mb-assessment text-right" style="margin-bottom: 40px;">
-                                <button class="btn btn-icon btn-primary" >บันทึกข้อมูล</button>
                             </div>
+
+                            <div class="col-md-12 col-sm-12 mb-assessment" style="margin-bottom: 40px;">
+                                <img src="{{ asset('/images/bordertop.png') }}" class="img-responsive" alt="">
+                            </div>
+                        @endforeach
+
+                        <div class="col-md-12 col-sm-12 mb-assessment text-right" style="margin-bottom: 40px;">
+                            <button class="btn btn-icon btn-primary">บันทึกข้อมูล</button>
                         </div>
                     </div>
                 </form>
