@@ -66,11 +66,13 @@ use App\Models\Manage;
 											{!! htmlspecialchars_decode($item->group_title ?? '-') !!}
 										</td>
 										@php
-											$manage = $item->manages->first(); 
+											// เนื่องจาก join แล้ว จะมีข้อมูล manage ใน $item เลย ไม่ต้องโหลด relation
+											$manage_id = $item->manage_id ?? null;
 										@endphp
+
 										<td class="text-center">
-											@if($manage)
-												<button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $manage->manage_id }}">
+											@if($manage_id)
+												<button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $manage_id }}">
 													<i class="fas fa-trash"></i>
 												</button>
 											@else

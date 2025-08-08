@@ -1955,13 +1955,15 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             $group = Grouptesting::where('lesson_id',$id)->where('active','w')->get();
             
-            $group_active = Grouptesting::with(['manages' => function($query) use ($type) {
-                    $query->where('type', $type)->where('active', 'y');
-                }])
-                ->join('lesson', 'lesson.id', '=', 'grouptesting.lesson_id')
+            $group_active = Grouptesting::join('lesson', 'lesson.id', '=', 'grouptesting.lesson_id')
+                ->join('manage', 'manage.group_id', '=', 'grouptesting.group_id')
                 ->where('grouptesting.active', 'y')
                 ->where('lesson.id', $id)
+                ->where('manage.type', $type)
+                ->where('manage.active', 'y')
+                ->select('grouptesting.*', 'manage.*', 'lesson.title as title')
                 ->get();
+
 
             if ($request->has('id') && !empty($request->id)) {
                 $group_id = $request->input('id');
