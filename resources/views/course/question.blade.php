@@ -242,7 +242,7 @@
             clearInterval(x);
             document.getElementById("timer").innerHTML = "หมดเวลา";
             window.timeEnd = true;
-            $('#question-form').submit();
+            // $('#question-form').submit();
 
         }
     }, 1000); // ทำงานทุก 1 วินาที
