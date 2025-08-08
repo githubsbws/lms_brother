@@ -122,7 +122,7 @@
                                 <div class="col-md-12 col-sm-12">
                                     @php $imageS = asset('/images/knewstuff.png'); @endphp
                                     <img src="{{ $imageS }}" width="20px" valign="top" style="margin-right:10px;" alt="">
-                                    {{ $strTotal }}.{!! html_entity_decode($m->ques_title) !!}
+                                    {!! html_entity_decode($m->ques_title) !!}
                                 </div>
 
                                 <div id="div-choice" class="col-md-12 col-sm-12 ml-15 pull-left question-group" style="margin-top: 5px;">
