@@ -167,9 +167,18 @@ class CourseController extends Controller
         $query = $request->input('search_text');
 
         if($query){
-            $course_detail = Course::join('category','category.cate_id','=','course_online.cate_id')->where('course_title', 'like', "%$query%")->paginate(10);
+            $course_detail = Course::join('category','category.cate_id','=','course_online.cate_id')
+                ->whereIn('course_id',$orgcourse) // เพิ่มตรงนี้ให้ค้นหาเฉพาะ org ของ user
+                ->where('course_title', 'like', "%$query%")
+                ->where('course_online.active','y')
+                ->orderBy('course_id', 'desc')
+                ->paginate(10);
         }else{
-            $course_detail = Course::join('category','category.cate_id','=','course_online.cate_id')->whereIn('course_id',$orgcourse)->where('course_online.active','y')->orderBy('course_id', 'desc')->paginate(6);
+            $course_detail = Course::join('category','category.cate_id','=','course_online.cate_id')
+                ->whereIn('course_id',$orgcourse)
+                ->where('course_online.active','y')
+                ->orderBy('course_id', 'desc')
+                ->paginate(6);
         }
         
         $course_recom = Course::where('recommend','y')->where('active','y')->orderBy('course_id', 'desc')->limit(5)->get(); 
