@@ -57,15 +57,19 @@ use App\Models\Ques_ans;
                                         @foreach ($course as $cs)
                                         @php 
                                         
-                                        $lesson = Lesson::where('course_id',$cs->course_id)->count();
-                                        $lesson_c = Lesson::where('course_id',$cs->course_id)->get(); 
+                                        $lesson = Lesson::where('course_id',$cs->course_id)->where('active','y')->count();
+                                        $lesson_c = Lesson::where('course_id',$cs->course_id)->where('active','y')->get(); 
                                         $i = 1;
                                         $pass = 0;
                                         $learning = 0;
                                         $notlearn = 0;
                                         foreach ($lesson_c as $key ) {
                                            
-                                            $status =  Learn::where('lesson_id',$key->id)->where('user_id',Auth::user()->id)->where('lesson_active','y')->get();
+                                            $status =  Learn::join('lesson', 'lesson.id', '=', 'learn.lesson_id')
+                                                            ->where('learn.lesson_id', $key->id)
+                                                            ->where('learn.user_id', Auth::user()->id)
+                                                            ->where('lesson.active', 'y') 
+                                                            ->get();
                                             foreach ($status as  $counts) {
                                                 if ($counts->lesson_status == "pass") {
                                                     $pass = $pass + 1;

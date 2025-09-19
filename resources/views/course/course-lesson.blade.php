@@ -940,7 +940,7 @@
                                                             echo '0.00%';
                                                         } else {
                                                             $s = ($score->score_number / $score->score_total) * 100;
-                                                            echo $s;
+                                                            echo $s.'%';
                                                         }
                                                     @endphp
                                                 </span>

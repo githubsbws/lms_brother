@@ -49,7 +49,8 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
             'POST Date',
             'POST Score',
             'POST Total',
-            'Pass'
+            'Pass',
+            'Last Score'
         ];
     }
 
@@ -64,6 +65,9 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
                          ->where('course_id', $this->courseId)
                          ->where('type', 'post')
                          ->first();
+        $score = Score::where('user_id', $user->id)
+                         ->where('course_id', $this->courseId)
+                         ->latest('score_id')->first();
 
         $preDate = $scorePre ? $scorePre->create_date : '';
         $preScore = $scorePre ? $scorePre->score_number : '';
@@ -74,6 +78,8 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
         $postTotal = $scorePost ? $scorePost->score_total : '';
 
         $pass = $scorePre ? ($scorePre->score_past === 'y' ? 'pass' : '') : ($scorePost && $scorePost->score_past === 'y' ? 'pass' : '');
+
+        $lastScore = $score ? $score->score_number : '';
 
         $lessonData = $this->lessons->map(function($lesson) use ($user) {
             $learn = Learn::where('lesson_id', $lesson->id)
@@ -94,7 +100,8 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
             $postDate,
             $postScore,
             $postTotal,
-            $pass
+            $pass,
+            $lastScore
         ];
     }
 }

@@ -14,6 +14,13 @@ use App\Facades\AuthFacade;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
+use Imagick;
+use Spatie\PdfToImage\Pdf;
+use Google\Cloud\DocumentAI\V1\Client\DocumentProcessorServiceClient;
+use Google\Cloud\DocumentAI\V1\ProcessRequest;
+use Google\Cloud\DocumentAI\V1\RawDocument;
+use App\Jobs\ProcessPdfJob;
+use App\Jobs\ProcessPdfPageJob;
 
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
@@ -78,6 +85,8 @@ use App\Models\QChoice;
 use App\Models\Ques_ans;
 use App\Models\Zoom;
 use App\Models\OrgchartUser;
+use App\Models\OcrFile;
+use App\Models\OcrFilePage;
 
 use App\Models\AdminMenu;
 // use App\Models\Company;
@@ -1343,7 +1352,7 @@ class AdminController extends Controller
      function teacher_create(Request $request)
     {
         if(AuthFacade::useradmin()){
-            
+            $teacher = Teacher::where('active','y')->get();
             if ($request->isMethod('post')) {
                 // dd($request->toArray());
                 $validator = Validator::make($request->all(), [
@@ -1388,7 +1397,20 @@ class AdminController extends Controller
 
                 return redirect()->route('courseonline')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
             }
-            return view("admin.courseonline.teacher_create");
+            return view("admin.courseonline.teacher_create",compact('teacher'));
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
+    function teacher_delete($id){
+        if(AuthFacade::useradmin()){
+            $teacher_del=[
+                'active'=>'n'
+            ];
+            $teacher = Teacher::findById($id);
+            $teacher->update($teacher_del);
+            return redirect()->route('teacher.create');
         }else{
             return redirect()->route('login.admin');
         }
@@ -4289,13 +4311,15 @@ class AdminController extends Controller
     }
     public function getadminData(Request $request)
     {
-        $query = Logadmin::join('tbl_users', 'log_admin.user_id', '=', 'tbl_users.id')
-                ->select('log_admin.controller', 'log_admin.action', 'tbl_users.username', 'log_admin.create_date');
+        $query = Logadmin::join('tbl_users as u', 'log_admin.user_id', '=', 'u.id')
+                ->leftJoin('tbl_asc as a', 'u.asc_id', '=', 'a.id')
+                ->select('log_admin.controller', 'log_admin.action', 'u.username','a.name', 'log_admin.create_date');
 
         return DataTables::of($query)
             ->addColumn('controller', fn($row) => $row->controller ?? '-')
             ->addColumn('action', fn($row) => $row->action ?? '-')
             ->addColumn('username', fn($row) => $row->username ?? '-')
+            ->addColumn('name', fn($row) => $row->name ?? '-')
             ->addColumn('create_date', fn($row) => $row->create_date ?? '-')
             ->make(true);
     }
@@ -4310,13 +4334,15 @@ class AdminController extends Controller
     }
     public function getTextData(Request $request)
     {
-        $query = Logusers::join('tbl_users', 'log_users.user_id', '=', 'tbl_users.id')
-                ->select('log_users.controller', 'log_users.action', 'tbl_users.username', 'log_users.create_date');
+        $query = Logusers::join('tbl_users as u', 'log_users.user_id', '=', 'u.id')
+                            ->leftJoin('tbl_asc as a', 'u.asc_id', '=', 'a.id')
+                            ->select('log_users.controller', 'log_users.action', 'u.username', 'a.name', 'log_users.create_date');
 
         return DataTables::of($query)
             ->addColumn('controller', fn($row) => $row->controller ?? '-')
             ->addColumn('action', fn($row) => $row->action ?? '-')
             ->addColumn('username', fn($row) => $row->username ?? '-')
+            ->addColumn('name', fn($row) => $row->name ?? '-')
             ->addColumn('create_date', fn($row) => $row->create_date ?? '-')
             ->make(true);
     }
@@ -4882,7 +4908,10 @@ class AdminController extends Controller
                          ->orderBy('course_id', 'DESC')
                          ->get();
     
-        return Excel::download(new UsersExport($id, $users, $lessons), $course->course_title.'.xlsx');
+        return Excel::download(
+            new UsersExport($id, $users, $lessons),
+            preg_replace('/[\/\\\\]/', '-', $course->course_title) . '.xlsx'
+        );
     }
 
     function report_reset(Request $request) {
@@ -5002,4 +5031,217 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         } 
     }
+
+    // public function uploadOCR(Request $request)
+    // {
+    //     $files = OcrFile::where('active','y')->get();
+    //     if ($request->isMethod('post')){
+    //             $request->validate([
+    //                 'files.*' => 'required|mimes:jpeg,png,jpg,pdf,PDF',
+    //             ]);
+
+    //             $results = [];
+
+    //             foreach ($request->file('files') as $file) {
+    //                 $folderName = Str::uuid()->toString();
+    //                 $path = public_path("images/uploads/ocr/{$folderName}/");
+    //                 if (!file_exists($path)) {
+    //                     mkdir($path, 0777, true);
+    //                 }
+
+    //                 $ext = $file->getClientOriginalExtension();
+    //                 $baseName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+    //                 $originalFile = $path . $baseName . '.' . $ext;
+    //                 $file->move($path, $baseName . '.' . $ext);
+
+    //                 $filesToProcess = [];
+
+    //                 if ($ext === 'pdf') {
+    //                     try {
+    //                         $imagick = new \Imagick();
+    //                         $imagick->setResolution(200, 200); // ลด DPI ลงหน่อย ถ้าไฟล์ใหญ่
+
+    //                         $imagick->readImage($originalFile);
+    //                         $pageCount = $imagick->getNumberImages();
+    //                         $imagick->clear();
+    //                         $imagick->destroy();
+
+    //                         for ($i = 0; $i < $pageCount; $i++) {
+    //                             $imagick = new \Imagick();
+    //                             $imagick->setResolution(200, 200);
+    //                             $imagick->readImage("{$originalFile}[{$i}]");
+    //                             $imagick->setImageFormat('png');
+
+    //                             $outputFile = $path . $baseName . "-".($i+1).".png";
+    //                             $imagick->writeImage($outputFile);
+
+    //                             $imagick->clear();
+    //                             $imagick->destroy();
+
+    //                             $filesToProcess[] = $outputFile;
+    //                         }
+    //                     } catch (\Exception $e) {
+    //                         // ❌ ถ้า Imagick fail → fallback ไปใช้ Spatie/pdf-to-image
+    //                         $pdf = new Pdf($originalFile);
+    //                         $pageCount = $pdf->getNumberOfPages();
+
+    //                         for ($i = 1; $i <= $pageCount; $i++) {
+    //                             $outputFile = $path . $baseName . "-{$i}.png";
+    //                             $pdf->setPage($i)
+    //                                 ->setResolution(200)
+    //                                 ->saveImage($outputFile);
+
+    //                             $filesToProcess[] = $outputFile;
+    //                         }
+    //                     }
+    //                 } else {
+    //                     // สำหรับไฟล์รูปอยู่แล้ว
+    //                     $imagick = new \Imagick();
+    //                     $imagick->readImage($originalFile);
+    //                     $imagick->setImageFormat('png');
+
+    //                     $outputFile = $path . $baseName . '.png';
+    //                     $imagick->writeImage($outputFile);
+
+    //                     $imagick->clear();
+    //                     $imagick->destroy();
+
+    //                     $filesToProcess[] = $outputFile;
+    //                 }
+
+    //                 // สร้าง record หลัก
+    //                 $ocrFile = OcrFile::create([
+    //                     'filename'    => $baseName . '.' . $ext,
+    //                     'folder_name' => $folderName,
+    //                     'active'        => 'y', // ไม่เก็บรวมที่นี่แล้ว
+    //                 ]);
+
+    //                 // Google DocAI
+    //                 putenv('GOOGLE_APPLICATION_CREDENTIALS=' . base_path(env('GOOGLE_APPLICATION_CREDENTIALS')));
+    //                 $projectId = env('GOOGLE_PROJECT_ID');
+    //                 $location = env('GOOGLE_LOCATION');
+    //                 $processorId = env('PROCESSOR_ID');
+
+    //                 $client = new DocumentProcessorServiceClient();
+    //                 $name = $client->processorName($projectId, $location, $processorId);
+
+    //                 $pageNum = 1;
+    //                 foreach ($filesToProcess as $filepath) {
+    //                     $rawDocument = new RawDocument([
+    //                         'content' => file_get_contents($filepath),
+    //                         'mime_type' => mime_content_type($filepath),
+    //                     ]);
+
+    //                     $requestObj = new ProcessRequest([
+    //                         'name' => $name,
+    //                         'raw_document' => $rawDocument
+    //                     ]);
+
+    //                     $response = $client->processDocument($requestObj);
+    //                     $pageText = trim($response->getDocument()->getText());
+
+    //                     // เก็บลง table ocr_file_pages
+    //                     OcrFilePage::create([
+    //                         'ocr_file_id' => $ocrFile->id,
+    //                         'page_number' => $pageNum,
+    //                         'text'        => $pageText,
+    //                     ]);
+
+    //                     $pageNum++;
+    //                 }
+    //                 foreach ($filesToProcess as $filepath) {
+    //                     if (file_exists($filepath)) {
+    //                         unlink($filepath);
+    //                     }
+    //                 }
+
+    //                 $results[] = $ocrFile->load('pages');
+    //             }
+    //             return redirect()->route('ocr.upload');
+    //     }
+    //     // 👇 return เข้า view
+    //     return view('admin.ocr.ocr',compact('files'));
+    // }
+
+    public function uploadOCR(Request $request)
+    {
+        $files = OcrFile::where('active','y')->get();
+
+        if ($request->isMethod('post')){
+            $request->validate([
+                'files.*' => 'required|mimes:jpeg,png,jpg,pdf,PDF',
+            ]);
+
+            foreach ($request->file('files') as $file) {
+                $folderName = Str::uuid()->toString();
+                $path = public_path("images/uploads/ocr/{$folderName}/");
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                    // สืบสิทธิ์ group ของ parent
+                    chmod($path, 02775);
+                }
+                $ext = $file->getClientOriginalExtension();
+                $baseName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $originalFile = $path . $baseName . '.' . $ext;
+                $file->move($path, $baseName . '.' . $ext);
+
+                $ocrFile = OcrFile::create([
+                    'filename' => $baseName . '.' . $ext,
+                    'folder_name' => $folderName,
+                    'active' => 'y',
+                ]);
+
+                if ($ext === 'pdf') {
+                    ProcessPdfJob::dispatch($originalFile, $ocrFile->id, $path);
+                } else {
+                    // ถ้าเป็นภาพตรง ๆ ก็ส่งเป็น page เดียว
+                    ProcessPdfPageJob::dispatch($originalFile, $ocrFile->id, 1);
+                }
+            }
+
+            return redirect()->route('ocr.upload');
+        }
+
+        return view('admin.ocr.ocr', compact('files'));
+    }
+
+    public function OCRpage(Request $request,$id)
+    {
+        $file_page = OcrFilePage::where('ocr_file_id',$id)->get();
+
+        return view('admin.ocr.page',compact('file_page'));
+    }
+
+    function OCRdel($id){
+        if(AuthFacade::useradmin()){
+            $news_del=[
+                'active'=>'n'
+            ];
+            $news = OcrFile::findById($id);
+            $news->update($news_del);
+
+            // dd($news->toArray());
+            return redirect()->route('ocr.upload');
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
+    // public function upload(Request $request)
+    // {
+    //     $file = $request->file('pdf');
+    //     $path = $file->store('uploads/ocr');
+
+    //     $outputDir = storage_path('app/processed');
+
+    //     ProcessPdfJob::dispatch(storage_path("app/{$path}"), $outputDir);
+
+    //     return response()->json([
+    //         'status' => 'processing',
+    //         'message' => 'ไฟล์กำลังประมวลผล',
+    //     ]);
+    // }
+    
 }

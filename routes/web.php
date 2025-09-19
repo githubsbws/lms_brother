@@ -16,6 +16,7 @@ use App\Http\Controllers\UpvedioController;
 use App\Http\Middleware\Authenticate;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\OcrSearchController;
 // -------
 use App\Http\Controllers\ChoiceController;
 use App\Http\Controllers\CourseController;
@@ -168,6 +169,8 @@ Route::post('contactus_f',[ContactusController::class,'contactus_f'])->name('con
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('checkIdleTimeout');
 
+Route::get('/ocr/search', [OcrSearchController::class, 'search']);
+Route::get('/ocr/file/{ocrFileId}', [OcrSearchController::class, 'showPdf']);
 });
 
 // ----- admin src
@@ -244,6 +247,7 @@ Route::post('courseonline_create',[AdminController::class,'courseonline_create']
 
 Route::get('teacher_create',[AdminController::class,'teacher_create'])->name('teacher.create')->middleware('checkIdleTimeout');
 Route::post('teacher_create',[AdminController::class,'teacher_create'])->name('teacher.create')->middleware('checkIdleTimeout');
+Route::post('teacher_delete/{id}',[AdminController::class,'teacher_delete'])->name('teacher.delete')->middleware('checkIdleTimeout');
 
 Route::get('courseonline_detail/{id}',[AdminController::class,'courseonline_detail'])->name('courseonline.detail')->middleware('checkIdleTimeout');
 
@@ -739,4 +743,9 @@ Route::get('report_reset',[AdminController::class,'report_reset'])->name('report
 Route::get('report_resetseach',[AdminController::class,'report_reset'])->name('report.resetsearch')->middleware('checkIdleTimeout');
 
 Route::get('fetch-courses-and-lessons', [AdminController::class, 'fetchCoursesAndLessons'])->middleware('checkIdleTimeout');
+
+Route::get('/ocr/upload', [AdminController::class, 'uploadOCR'])->name('ocr.upload');
+Route::post('/ocr/upload', [AdminController::class, 'uploadOCR'])->name('ocr.upload');
+Route::get('/ocr/page/{id}', [AdminController::class, 'OCRpage'])->name('ocr.page');
+Route::post('/ocr_del/{id}', [AdminController::class, 'OCRdel'])->name('ocr.del');
 });

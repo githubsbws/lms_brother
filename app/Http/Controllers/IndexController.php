@@ -16,7 +16,7 @@ use App\Models\Imgslide;
 class IndexController extends Controller
 {
    function index(){
-      $news = News::where('active','y')->limit(4)->get();
+      $news = News::where('active','y')->limit(4)->orderBy('create_date','DESC')->get();
       $download = Downloadtitle::where('active','y')->get();
       $img = Imgslide::where('active','y')->get();
       

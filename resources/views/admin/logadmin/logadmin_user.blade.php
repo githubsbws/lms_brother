@@ -31,6 +31,7 @@
 										<th>Controller</th>
 										<th>action</th>
 										<th>user</th>
+										<th>ASC</th>
 										<th>วันที่</th>
 									</tr>
 								</thead>
@@ -57,6 +58,7 @@
 				{ data: 'controller', name: 'controller', orderable: false },
 				{ data: 'action', name: 'action', orderable: false },
 				{ data: 'username', name: 'username', orderable: false },
+				{ data: 'name', name: 'name' },
 				{ data: 'create_date', name: 'create_date' }
 			],
 			language: {

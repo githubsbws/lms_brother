@@ -6,6 +6,12 @@ use App\Models\Learn;
 use App\Models\Score;
 use App\Models\Company;
 @endphp
+<style>
+	.dataTables_wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+</style>
 <body class="">
 	<div id="wrapper">
 		<div class="content-wrapper">
@@ -39,6 +45,7 @@ use App\Models\Company;
 										<th>Organization Name</th>
 										<th colspan="{{ count($lesson)}}" style="text-align: center;">Lesson</th>
 										<th>Pass</th>
+										<th>Last Score</th>
 									</tr>
 									<tr>
 										<th></th>
@@ -48,6 +55,7 @@ use App\Models\Company;
 										<th>{{ $ls->id}}</th>
 										@endforeach
 										<th></th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody id="sortable">
@@ -56,6 +64,7 @@ use App\Models\Company;
 										$com = Company::find($us->company_id);
 										$score_pre = Score::where('user_id',$us->id)->where('course_id',$id)->where('type','pre')->first();
 										$score_post = Score::where('user_id',$us->id)->where('course_id',$id)->where('type','post')->first();
+										$score = Score::where('user_id',$us->id)->where('course_id',$id)->latest('score_id')->first();
 										@endphp
 									<tr>
 										@if($us != null)
@@ -92,6 +101,9 @@ use App\Models\Company;
 											@else
 											<td></td>
 											@endif
+											<td>
+												{{ $score->score_number ?? ''}}
+											</td>
 									</tr>
 									@endforeach
 								</tbody>
@@ -114,6 +126,7 @@ use App\Models\Company;
 		$('#settingTable').DataTable({
 			responsive: true,
 			scrollX: true,
+			paging: true,
 			language: {
 				url: '/include/languageDataTable.json',
 			}

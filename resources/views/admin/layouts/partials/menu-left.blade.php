@@ -136,6 +136,22 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item {{ request()->is('ocr*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->is('ocr*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-cogs"></i>
+                        <p>
+                            ระบบเอกสาร OCR
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{url('/ocr/upload')}}" class="nav-link {{ request()->is('ocr*') ? 'active' : '' }}">
+                                <p>เอกสาร OCR</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item {{ request()->is('news*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('news*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -462,12 +478,12 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{url('report_course')}}" class="nav-link {{ request()->is('report*') ? 'active' : '' }}">
+                            <a href="{{url('report_course')}}" class="nav-link {{ request()->is('report_course') ? 'active' : '' }}">
                                 <p>รายงานภาพรวมของหลักสูตร</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{url('report_questionnaire')}}" class="nav-link {{ request()->is('report*') ? 'active' : '' }}">
+                            <a href="{{url('report_questionnaire')}}" class="nav-link {{ request()->is('report_questionnaire') ? 'active' : '' }}">
                                 <p>รายงานแบบประเมิน แบบสอบถาม</p>
                             </a>
                         </li>
