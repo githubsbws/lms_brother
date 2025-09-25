@@ -30,7 +30,7 @@ class ReindexOcrPages extends Command
                 env('ELASTICSEARCH_USER'),
                 env('ELASTICSEARCH_PASS')
             )
-            ->setSSLVerification(false) // ปิด SSL verify สำหรับ HTTPS self-signed
+            ->setCABundle(env('ELASTICSEARCH_SSL_VERIFICATION'))
             ->build();
 
         $chunkSize = (int) $this->option('chunk');
