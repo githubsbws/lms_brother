@@ -18,18 +18,21 @@ class ReindexOcrPages extends Command
     public function __construct()
     {
         parent::__construct();
-
-        $this->client = ClientBuilder::create()
-            ->setHosts([env('ELASTICSEARCH_HOST', 'http://localhost:9200')])
-            ->setBasicAuthentication(
-                env('ELASTICSEARCH_USER'),
-                env('ELASTICSEARCH_PASS')
-            )
-            ->build();
+        // ไม่สร้าง Client ใน constructor
     }
 
     public function handle()
     {
+        // สร้าง Elasticsearch Client ตอน handle
+        $this->client = ClientBuilder::create()
+            ->setHosts([env('ELASTICSEARCH_HOST', 'https://127.0.0.1:9200')])
+            ->setBasicAuthentication(
+                env('ELASTICSEARCH_USER'),
+                env('ELASTICSEARCH_PASS')
+            )
+            ->setSSLVerification(false) // ปิด SSL verify สำหรับ HTTPS self-signed
+            ->build();
+
         $chunkSize = (int) $this->option('chunk');
         $this->info("Start re-index OCR pages (chunk size: $chunkSize)...");
 
@@ -43,9 +46,9 @@ class ReindexOcrPages extends Command
                             'ocr_file_id' => $page->ocr_file_id,
                             'page_number' => $page->page_number,
                             'text'        => $page->text,
-                            'filename'   => $page->ocrFile->filename ?? null,
+                            'filename'    => $page->ocrFile->filename ?? null,
                             'folder_name' => $page->ocrFile->folder_name ?? null,
-                            'created_at'  => $page->created_at->toIso8601String(),
+                            'created_at'  => $page->created_at?->toIso8601String(),
                         ]
                     ]);
 
