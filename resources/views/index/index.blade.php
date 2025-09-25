@@ -102,6 +102,16 @@ use App\Models\DownloadFile;
             <div class="row">
                 <div class="col-lg-8 col-md-8 pd-20">
                     <!-- start con 8 -->
+                    @if(Auth::user())
+                    <h2 class="title-layout">
+                      ค้นหาเอกสาร
+                    </h2>
+                    <div class="row">
+                      <input type="text" class="form-control" id="search" placeholder="Search OCR" />
+                      <div id="result-count" style="margin-bottom:10px;"></div>
+                      <div id="results"></div>
+                    </div>
+                    @endif
                     <h2 class="title-layout">
                         <span>ข่าวสาร</span> <small>รวมข่าวสารของ Brother </small>
                         @if(Auth::check())
@@ -311,4 +321,50 @@ use App\Models\DownloadFile;
         </div>
     </div>
 </body>
+<script>
+document.getElementById('search').addEventListener('keyup', async function() {
+    const query = this.value.trim();
+    if (query.length < 0) {
+        document.getElementById('results').innerHTML = '';
+        document.getElementById('result-count').innerHTML = '';
+        return;
+    }
+
+    try {
+        const res = await fetch(`/ocr/search?q=${encodeURIComponent(query)}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        const data = await res.json();
+
+        // แสดงจำนวนผลลัพธ์
+        document.getElementById('result-count').innerHTML = `<h5 class="title-layout">พบ ${data.length} ผลลัพธ์ที่ตรงกับ <span style="color:red">"${query}" </span> </h5>`;
+
+        let html = '';
+
+        data.forEach(hit => {
+            let text = hit.highlight_text ?? hit.text; // highlight มี <span> จาก ES แล้ว
+
+            const pdfBaseUrl = '/images/uploads/ocr';
+            const pdfUrl = `${pdfBaseUrl}/${hit.folder_name}/${hit.filename}#page=${hit.page_number}`;
+            const filename = hit.highlight_filename ?? hit.filename ?? '-';
+
+            html += `<div style="padding:5px; border-bottom:1px solid #ccc;">
+                        <strong>ชื่อเอกสาร:</strong> ${filename}<br>
+                        <strong>หน้าที่:</strong> ${hit.page_number || '-'}<br>
+                        <strong>บรรทัด:</strong> ${text}<br>
+                        <a href="${pdfUrl}" class="btn btn-primary btn-lg paper-shadow relative" target="_blank" style="color: white !important; text-decoration: underline !important;">
+                            เปิดเอกสาร หน้า ${hit.page_number}
+                        </a>
+                    </div>`;
+        });
+
+        document.getElementById('results').innerHTML = html;
+
+    } catch (err) {
+        console.error('Search failed', err);
+        document.getElementById('results').innerHTML = '<div style="color:red;">Search failed</div>';
+        document.getElementById('result-count').innerHTML = '';
+    }
+});
+</script>
 @endsection
