@@ -153,7 +153,7 @@ class ProcessPdfJob implements ShouldQueue
 
             // ส่งเข้า Elasticsearch
            $esClient = ClientBuilder::create()
-                        ->setHosts([env('ELASTICSEARCH_HOST', 'http://localhost:9200')])
+                        ->setHosts([env('ELASTICSEARCH_HOST', 'https://127.0.0.1:9200')])
                         ->setBasicAuthentication(
                             env('ELASTICSEARCH_USER', 'elastic'),
                             env('ELASTICSEARCH_PASS', '')
