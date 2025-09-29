@@ -8,6 +8,8 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Auth\User as AuthenticatableUser;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Learn;
+use App\Models\Score;
 
 class Users extends AuthenticatableUser implements Authenticatable
 {
@@ -69,5 +71,13 @@ class Users extends AuthenticatableUser implements Authenticatable
 {
     return $this->belongsToMany(OrgchartUser::class,'user_id', 'orgchart_id');
 }
-    
+    public function learns()
+    {
+        return $this->hasMany(Learn::class, 'user_id', 'id');
+    }
+
+    public function scores()
+    {
+        return $this->hasMany(Score::class, 'user_id', 'id');
+    }
 }

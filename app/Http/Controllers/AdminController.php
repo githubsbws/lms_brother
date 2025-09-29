@@ -21,6 +21,7 @@ use Google\Cloud\DocumentAI\V1\ProcessRequest;
 use Google\Cloud\DocumentAI\V1\RawDocument;
 use App\Jobs\ProcessPdfJob;
 use App\Jobs\ProcessPdfPageJob;
+use Illuminate\Support\Facades\Cache;
 
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
@@ -1232,8 +1233,8 @@ class AdminController extends Controller
                 if($request->file('image')){
                     $image = $request->file('image');
 
-                    $idFolder = public_path('images/uploads/course/'.$id);
-                    $idFolder2 = public_path('images/uploads/course/'.$id.'/original/'); // ✅ ย้ายมาด้านนอก
+                    $idFolder = public_path('images/uploads/courseonline/'.$id);
+                    $idFolder2 = public_path('images/uploads/courseonline/'.$id.'/original/'); // ✅ ย้ายมาด้านนอก
 
                     if (!file_exists($idFolder)) {
                         mkdir($idFolder, 0775, true);
@@ -1245,7 +1246,6 @@ class AdminController extends Controller
 
                     Log::info('Uploading image...');
 
-                    $image = $request->file('image');
                     $imageName = time().'_'.$image->getClientOriginalName();
                     Log::info('Image name: '.$imageName);
 
@@ -4388,7 +4388,12 @@ class AdminController extends Controller
 
     function learnreset(){
         if(AuthFacade::useradmin()){
-            $users = Users::join('profiles','profiles.user_id','=','users.id')->where('users.status','1')->get();
+            $users = Cache::remember('learnreset_users', 300, function() {
+                return Users::with(['learns','scores'])
+                            ->join('profiles','profiles.user_id','=','users.id')
+                            ->where('users.status','1')
+                            ->get();
+            });
             // $score =Score::where('active','y')->paginate(10);
             // $learnreset =DB::table('score')->get();
             return view("admin.learnreset.learnreset",compact('users'));
@@ -4452,6 +4457,16 @@ class AdminController extends Controller
                     $reset = Score::findById($chkValue);
                     $reset->active = 'n';
                     $reset->save();
+
+                     $log_reset = new Logreset;
+                    $log_reset->user_id = $reset->user_id;
+                    $log_reset->course_id = $reset->course_id ?? null;
+                    $log_reset->lesson_id = null;
+                    $log_reset->reset_description = 'รีเซ็ตคะแนนสอบ';
+                    $log_reset->reset_type = '0';
+                    $log_reset->reset_by = Auth::user()->id;
+                    $log_reset->reset_date = now();
+                    $log_reset->save();
                     
                 }
                 return redirect()->route('learnreset.score',['id' => $id]);

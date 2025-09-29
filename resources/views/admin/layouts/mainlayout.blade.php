@@ -11,9 +11,9 @@
 </head>
 
 <body>
-
-
-    @include('admin.layouts.partials.menu-left')
+    @if (!View::hasSection('hidesidebar'))
+        @include('admin.layouts.partials.menu-left')
+    @endif
     
     @yield('content')
 

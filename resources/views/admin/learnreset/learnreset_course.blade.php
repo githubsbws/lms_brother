@@ -1,5 +1,6 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
+@section('hidesidebar', true)
 @section('content')
 @php
 use App\Models\Course;
@@ -33,12 +34,12 @@ use App\Models\Lesson;
 											<tr class="odd selectable">
 												<td class="checkbox-column"><input class="select-on-check" value="{{ $item->learn_id}}" id="chk_0" type="checkbox" name="chk[]"></td>
 												@if($course != null)
-												<td style="width:230px">{{$course->course_title}}</td>
+												<td style="width:230px">{!! htmlspecialchars_decode($course->course_title) !!}</td>
 												@else
 												<td style="width:230px">-</td>
 												@endif
 												@if($lesson != null)
-												<td>{{$lesson->title}}</td>
+												<td>{!! htmlspecialchars_decode($lesson->title) !!}</td>
 												@else
 												<td>-</td>
 												@endif
