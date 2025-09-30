@@ -21,6 +21,7 @@ class ElasticService
                             env('ELASTICSEARCH_USER', 'elastic'),
                             env('ELASTICSEARCH_PASS', '')
                         )
+                        ->setCABundle(env('ELASTICSEARCH_SSL_VERIFICATION'))
                         ->build();
     }
 
