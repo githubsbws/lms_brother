@@ -5237,6 +5237,33 @@ class AdminController extends Controller
             $news = OcrFile::findById($id);
             $news->update($news_del);
 
+            $client = \Elastic\Elasticsearch\ClientBuilder::create()
+                        ->setHosts([env('ELASTICSEARCH_HOST', 'http://127.0.0.1:9200')])
+                        ->setBasicAuthentication(env('ELASTICSEARCH_USER'), env('ELASTICSEARCH_PASS'))
+                        ->setCABundle(env('ELASTICSEARCH_SSL_VERIFICATION'))
+                        ->build();
+            $pages = \App\Models\OcrFilePage::where('ocr_file_id', $id)->get();
+
+            foreach ($pages as $page) {
+                try {
+                    $client->index([
+                        'index' => 'ocr_pages',
+                        'id'    => $page->id,
+                        'body'  => [
+                            'ocr_file_id' => $page->ocr_file_id,
+                            'page_number' => $page->page_number,
+                            'text'        => $page->text,
+                            'filename'    => $news->filename,
+                            'folder_name' => $news->folder_name,
+                            'created_at'  => $page->created_at->toIso8601String(),
+                            'active'      => 'n', // เพิ่ม field นี้เข้าไปใน index ด้วย
+                        ]
+                    ]);
+                } catch (\Exception $e) {
+                    \Log::error("Failed to update Elasticsearch for page ID {$page->id}: " . $e->getMessage());
+                }
+            }
+
             // dd($news->toArray());
             return redirect()->route('ocr.upload');
         }else{

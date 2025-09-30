@@ -25,12 +25,12 @@ class ReindexOcrPages extends Command
     {
         // สร้าง Elasticsearch Client ตอน handle
         $this->client = ClientBuilder::create()
-            ->setHosts([env('ELASTICSEARCH_HOST', 'https://127.0.0.1:9200')])
+            ->setHosts([env('ELASTICSEARCH_HOST', 'http://127.0.0.1:9200')])
             ->setBasicAuthentication(
                 env('ELASTICSEARCH_USER'),
                 env('ELASTICSEARCH_PASS')
             )
-            ->setCABundle(env('ELASTICSEARCH_SSL_VERIFICATION'))
+            ->setCABundle(env('ELASTICSEARCH_SSL_VERIFICATION')) // ปิด SSL verify สำหรับ HTTPS self-signed
             ->build();
 
         $chunkSize = (int) $this->option('chunk');
@@ -49,6 +49,7 @@ class ReindexOcrPages extends Command
                             'filename'    => $page->ocrFile->filename ?? null,
                             'folder_name' => $page->ocrFile->folder_name ?? null,
                             'created_at'  => $page->created_at?->toIso8601String(),
+                            'active'      => $page->ocrFile->active ?? 'y',
                         ]
                     ]);
 

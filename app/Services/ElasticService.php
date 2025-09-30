@@ -124,6 +124,9 @@ class ElasticService
                 'track_scores' => true,
                 'query' => [
                     'bool' => [
+                        'must' => [ 
+                            [ 'term' => ['active' => 'y'] ]
+                        ],
                         'should' => [
                             // ✅ ให้คะแนนสูงถ้าเจอใน filename (exact phrase)
                             [
