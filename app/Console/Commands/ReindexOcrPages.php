@@ -25,7 +25,7 @@ class ReindexOcrPages extends Command
     {
         // สร้าง Elasticsearch Client ตอน handle
         $this->client = ClientBuilder::create()
-            ->setHosts([env('ELASTICSEARCH_HOST', 'http://127.0.0.1:9200')])
+            ->setHosts([env('ELASTICSEARCH_HOST', 'https://127.0.0.1:9200')])
             ->setBasicAuthentication(
                 env('ELASTICSEARCH_USER'),
                 env('ELASTICSEARCH_PASS')

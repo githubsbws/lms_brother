@@ -5238,7 +5238,7 @@ class AdminController extends Controller
             $news->update($news_del);
 
             $client = \Elastic\Elasticsearch\ClientBuilder::create()
-                        ->setHosts([env('ELASTICSEARCH_HOST', 'http://127.0.0.1:9200')])
+                        ->setHosts([env('ELASTICSEARCH_HOST', 'https://127.0.0.1:9200')])
                         ->setBasicAuthentication(env('ELASTICSEARCH_USER'), env('ELASTICSEARCH_PASS'))
                         ->setCABundle(env('ELASTICSEARCH_SSL_VERIFICATION'))
                         ->build();

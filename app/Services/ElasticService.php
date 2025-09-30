@@ -16,7 +16,7 @@ class ElasticService
         $pass = env('ELASTICSEARCH_PASS', '');
 
         $this->client = ClientBuilder::create()
-                        ->setHosts([env('ELASTICSEARCH_HOST', 'http://localhost:9200')])
+                        ->setHosts([env('ELASTICSEARCH_HOST', 'https://localhost:9200')])
                         ->setBasicAuthentication(
                             env('ELASTICSEARCH_USER', 'elastic'),
                             env('ELASTICSEARCH_PASS', '')
