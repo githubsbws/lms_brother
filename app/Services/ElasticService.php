@@ -28,16 +28,10 @@ class ElasticService
                         ->build();
     }
 
-     public function searchOcrPages(Request $request)
+     public function searchOcrPages(string $query, int $from = 0, int $limit = 10, ?string $fileId = null)
     {
-        $rawQuery = $request->input('search');
-        $fileId   = $request->input('fileId');
-        $page     = max(1, (int) $request->input('page', 1));
-        $perPage  = max(1, (int) $request->input('perPage', 10));
-        $from     = ($page - 1) * $perPage;
-
         // แยกคำ
-        $terms = $this->parse_query_terms($rawQuery);
+        $terms = $this->parse_query_terms($query);
         $minimum_should_match = max(1, count($terms) > 2 ? 2 : count($terms));
 
         $should = [];
@@ -46,7 +40,7 @@ class ElasticService
         $should[] = [
             'match_phrase' => [
                 'text' => [
-                    'query' => $this->arabicToThaiDigits($rawQuery),
+                    'query' => $this->arabicToThaiDigits($query),
                     'boost' => 2.0,
                     'slop'  => 2
                 ]
@@ -71,7 +65,7 @@ class ElasticService
             'index' => 'ocr_pages',
             'body'  => [
                 'from' => $from,
-                'size' => $perPage,
+                'size' => $limit,
                 'track_scores' => true,
                 'query' => [
                     'bool' => [
@@ -114,14 +108,15 @@ class ElasticService
         $hits = $results['hits']['hits'] ?? [];
         $totalHits = $results['hits']['total']['value'] ?? 0;
 
+        // สร้าง LengthAwarePaginator แบบไม่ใช้ $request
         $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
             $hits,
             $totalHits,
-            $perPage,
-            $page,
+            $limit,
+            floor($from / $limit) + 1,
             [
-                'path' => $request->url(),
-                'query' => $request->query(),
+                'path' => '',  // สามารถใส่ URL ของ API หรือ route ได้
+                'query' => ['search' => $query], // เก็บ query string ไว้
             ]
         );
 
