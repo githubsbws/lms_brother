@@ -108,36 +108,24 @@ class ElasticService
         $hits = $results['hits']['hits'] ?? [];
         $totalHits = $results['hits']['total']['value'] ?? 0;
 
-        $data = collect($hits)->map(function ($hit) {
-        return [
-            'id' => $hit['_id'],
-            'score' => $hit['_score'],
-            'text' => $hit['_source']['text'],
-            'page_number' => $hit['_source']['page_number'] ?? null,
-            'ocr_file_id' => $hit['_source']['ocr_file_id'] ?? null,
-            'filename' => $hit['_source']['filename'] ?? null,
-            'folder_name' => $hit['_source']['folder_name'] ?? null,
-            'highlight_text' => isset($hit['highlight']['text']) ? implode(' ... ', $hit['highlight']['text']) : null,
-            'highlight_filename' => $hit['highlight']['filename'][0] ?? null,
-        ];
-    });
-
-        // สร้าง LengthAwarePaginator แบบไม่ใช้ $request
-        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
-            $hits,
-            $totalHits,
-            $limit,
-            floor($from / $limit) + 1,
-            [
-                'path' => '',  // สามารถใส่ URL ของ API หรือ route ได้
-                'query' => ['search' => $query], // เก็บ query string ไว้
-            ]
-        );
+        $data = collect($results['hits']['hits'])->map(function ($hit) {
+            return [
+                'id'          => $hit['_id'],
+                'score'       => $hit['_score'],
+                'text'        => $hit['_source']['text'],
+                'page_number' => $hit['_source']['page_number'] ?? null,
+                'ocr_file_id' => $hit['_source']['ocr_file_id'] ?? null,
+                'filename'    => $hit['_source']['filename'] ?? null,
+                'folder_name' => $hit['_source']['folder_name'] ?? null,
+                'highlight_text' => isset($hit['highlight']['text']) ? implode(' ... ', $hit['highlight']['text']) : null,
+                'highlight_filename'=> $hit['highlight']['filename'][0] ?? null,
+            ];
+        });
 
         return response()->json([
             'status' => 'success',
             'data' => $data,
-            'pagination' => $paginator
+            'total' => $results['hits']['total']['value'] ?? 0
         ]);
     }
 
