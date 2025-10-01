@@ -37,7 +37,7 @@ class ElasticService
         $should[] = [
             'match_phrase' => [
                 'text' => [
-                    'query' => $this->arabicToThaiDigits($query),
+                    'query' => $query,
                     'boost' => 2.0,
                     'slop'  => 2
                 ]
@@ -47,7 +47,7 @@ class ElasticService
             $should[] = [
                 'match_phrase' => [
                     'text' => [
-                        'query' => $this->arabicToThaiDigits($term),
+                        'query' => $term,
                         'boost' => 1.0,
                         'slop'  => 2
                     ]
