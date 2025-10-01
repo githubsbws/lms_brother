@@ -23,7 +23,8 @@ class ProcessPdfJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $timeout = 3600; // สำหรับ PDF ใหญ่
+    public $timeout = 0; // 0 = ไม่จำกัดเวลา
+    public $tries = 3;   // ลองใหม่ได้ 3 ครั้ง
     protected $originalFile;
     protected $ocrFileId;
     protected $folderPath;
