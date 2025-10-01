@@ -167,7 +167,7 @@ class ProcessPdfJob implements ShouldQueue
                 'id'    => $this->ocrFileId . '_' . $pageNum,
                 'body'  => [
                     'ocr_file_id' => $this->ocrFileId,
-                    'file_name'   => basename($this->originalFile),
+                    'filename'   => basename($this->originalFile),
                     'folder_name'   => basename(dirname($this->originalFile)),
                     'page_number' => $pageNum,
                     'text'     => $pageText,
