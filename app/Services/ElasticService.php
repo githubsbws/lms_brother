@@ -3,6 +3,9 @@
 namespace App\Services;
 
 use Elastic\Elasticsearch\ClientBuilder; // v8 ใช้ namespace นี้
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\OcrFilePage;
+use Illuminate\Http\Request;
 
 class ElasticService
 {
@@ -25,288 +28,174 @@ class ElasticService
                         ->build();
     }
 
-    // public function searchOcrPages(string $query, int $limit = 10)
-    // {
-    //     $params = [
-    //         'index' => $this->index,
-    //         'body'  => [
-    //             'query' => [
-    //                 'bool' => [
-    //                     'should' => [
-    //                         // 1. Filename exact match (boost สูงสุด)
-    //                         [
-    //                             'match_phrase' => [
-    //                                 'filename' => [
-    //                                     'query' => $query,
-    //                                     'boost' => 5
-    //                                 ]
-    //                             ]
-    //                         ],
-    //                         // 2. Text exact phrase match
-    //                         [
-    //                             'match_phrase' => [
-    //                                 'text' => [
-    //                                     'query' => $query,
-    //                                     'boost' => 4
-    //                                 ]
-    //                             ]
-    //                         ],
-    //                         // 3. Text fuzzy match
-    //                         [
-    //                             'match' => [
-    //                                 'text' => [
-    //                                     'query' => $query,
-    //                                     'fuzziness' => 'AUTO',
-    //                                     'operator' => 'and',
-    //                                     'boost' => 2
-    //                                 ]
-    //                             ]
-    //                         ]
-    //                     ],
-    //                     'minimum_should_match' => 1
-    //                 ]
-    //             ],
-    //             'collapse' => [
-    //                 'field' => 'ocr_file_id',
-    //                 'inner_hits' => [
-    //                     'name' => 'top_page',
-    //                     'size' => 1,
-    //                     'sort' => [
-    //                         ['_score' => 'desc']
-    //                     ],
-    //                     'highlight' => [
-    //                         'pre_tags'  => ['<span style="color:red">'],
-    //                         'post_tags' => ['</span>'],
-    //                         'fields' => [
-    //                             'text' => new \stdClass()
-    //                         ]
-    //                     ]
-    //                 ]
-    //             ],
-    //             'size' => $limit,
-    //             'highlight' => [
-    //                 'pre_tags'  => ['<span style="color:red">'],
-    //                 'post_tags' => ['</span>'],
-    //                 'fields' => [
-    //                     'text' => [
-    //                         'fragment_size' => 150,
-    //                         'number_of_fragments' => 3
-    //                     ],
-    //                     'filename' => new \stdClass()
-    //                 ]
-    //             ]
-    //         ]
-    //     ];
-
-    //     $results = $this->client->search($params);
-
-    //     return collect($results['hits']['hits'])->map(function ($hit) {
-    //         return [
-    //             'id'          => $hit['_id'],
-    //             'score'       => $hit['_score'],
-    //             'text'        => $hit['_source']['text'],
-    //             'page_number' => $hit['_source']['page_number'] ?? null,
-    //             'ocr_file_id' => $hit['_source']['ocr_file_id'] ?? null,
-    //             'filename'    => $hit['_source']['filename'] ?? null,
-    //             'folder_name' => $hit['_source']['folder_name'] ?? null,
-    //             'highlight_text'    => $hit['highlight']['text'][0] ?? null,
-    //             'highlight_filename'=> $hit['highlight']['filename'][0] ?? null,
-    //         ];
-    //     });
-    // }
-
-     public function searchOcrPages(string $query, int $limit = 10)
+     public function searchOcrPages(Request $request)
     {
+        $rawQuery = $request->input('search');
+        $fileId   = $request->input('fileId');
+        $page     = max(1, (int) $request->input('page', 1));
+        $perPage  = max(1, (int) $request->input('perPage', 10));
+        $from     = ($page - 1) * $perPage;
+
+        // แยกคำ
+        $terms = $this->parse_query_terms($rawQuery);
+        $minimum_should_match = max(1, count($terms) > 2 ? 2 : count($terms));
+
+        $should = [];
+
+        // match phrase ทั้ง query
+        $should[] = [
+            'match_phrase' => [
+                'text' => [
+                    'query' => $this->arabicToThaiDigits($rawQuery),
+                    'boost' => 2.0,
+                    'slop'  => 2
+                ]
+            ]
+        ];
+
+        // match phrase สำหรับแต่ละคำ
+        foreach ($terms as $term) {
+            $should[] = [
+                'match_phrase' => [
+                    'text' => [
+                        'query' => $this->arabicToThaiDigits($term),
+                        'boost' => 1.0,
+                        'slop'  => 2
+                    ]
+                ]
+            ];
+        }
+
+        // สร้าง params สำหรับ Elasticsearch
         $params = [
-            'index' => $this->index,
+            'index' => 'ocr_pages',
             'body'  => [
-                'size' => $limit ?? 50,
+                'from' => $from,
+                'size' => $perPage,
                 'track_scores' => true,
                 'query' => [
                     'bool' => [
-                        'must' => [ 
-                            [ 'term' => ['active' => 'y'] ]
+                        'must' => [
+                            ['term' => ['active' => 'y']]
                         ],
-                        'should' => [
-                            // ✅ ให้คะแนนสูงถ้าเจอใน filename (exact phrase)
-                            [
-                                'match_phrase' => [
-                                    'filename' => [
-                                        'query' => $query,
-                                        'boost' => 4.0,
-                                    ]
-                                ]
-                            ],
-                            // ✅ match phrase ใน text (ความสำคัญสูง)
-                            [
-                                'match_phrase' => [
-                                    'text' => [
-                                        'query' => $query,
-                                        'boost' => 3.0,
-                                    ]
-                                ]
-                            ],
-                            // ✅ match ทุกคำต้องตรงกัน (AND)
-                            [
-                                'match' => [
-                                    'text' => [
-                                        'query' => $query,
-                                        'operator' => 'AND',
-                                        'boost' => 2.0,
-                                    ]
-                                ]
-                            ],
-                            // ✅ match คำใดคำหนึ่งก็ได้ (OR)
-                            [
-                                'match' => [
-                                    'text' => [
-                                        'query' => $query,
-                                        'operator' => 'OR',
-                                        'boost' => 1.0,
-                                    ]
-                                ]
-                            ],
-                            // ✅ wildcard ค้นหาคำที่มี query อยู่ข้างใน
-                            [
-                                'wildcard' => [
-                                    'text' => [
-                                        'value' => "*$query*",
-                                        'boost' => 0.7,
-                                    ]
-                                ]
-                            ],
-                        ],
-                        'minimum_should_match' => '70%',
+                        'should' => $should,
+                        'minimum_should_match' => $minimum_should_match,
                     ]
                 ],
-
-                // ✅ collapse ตาม ocr_file_id เพื่อแสดงไฟล์เดียว
-                'collapse' => [
-                    'field' => 'ocr_file_id',
-                    'inner_hits' => [
-                        'name' => 'top_page',
-                        'size' => 1,
-                        'sort' => [
-                            ['_score' => 'desc']
-                        ],
-                        'highlight' => [
-                            'pre_tags'  => ['<span style="color:red">'],
-                            'post_tags' => ['</span>'],
-                            'fields' => [
-                                'text' => new \stdClass(),
-                                'filename' => new \stdClass()
-                            ]
-                        ]
-                    ]
+                'sort' => [
+                    ['_score' => ['order' => 'desc']],
+                    ['created_at' => ['order' => 'desc']],
                 ],
-
-                // ✅ highlight แบบ unified
                 'highlight' => [
                     'fields' => [
                         'text' => new \stdClass(),
                         'filename' => new \stdClass(),
                     ],
                     'type' => 'unified',
-                    'pre_tags' => ['<span style="color:red">'],
-                    'post_tags' => ['</span>'],
+                    'pre_tags' => ['<mark>'],
+                    'post_tags' => ['</mark>'],
                     'fragment_size' => 200,
                     'number_of_fragments' => 3,
                     'boundary_scanner' => 'sentence',
                     'boundary_scanner_locale' => 'th-TH',
                     'require_field_match' => false,
-                ],
-                'sort' => [
-                    ['created_at' => ['order' => 'desc']]
-                ],
+                ]
             ]
         ];
-        // $params = [
-        //     'index' => $this->index,
-        //     'body'  => [
-        //         'query' => [
-        //             'bool' => [
-        //                 'should' => [
-        //                     // 1. ให้คะแนนสูงถ้าเจอใน filename
-        //                     [
-        //                         'match_phrase' => [
-        //                             'filename' => [
-        //                                 'query' => $query,
-        //                                 'boost' => 5
-        //                             ]
-        //                         ]
-        //                     ],
-        //                     // 2. match text แบบ exact phrase
-        //                     [
-        //                         'match_phrase' => [
-        //                             'text' => [
-        //                                 'query' => $query,
-        //                                 'boost' => 3
-        //                             ]
-        //                         ]
-        //                     ],
-        //                     // 3. match text แบบทั่วไป
-        //                     [
-        //                         'match' => [
-        //                             'text' => [
-        //                                 'query' => $query,
-        //                                 'operator' => 'and',
-        //                                 'boost' => 1
-        //                             ]
-        //                         ]
-        //                     ]
-        //                 ],
-        //                 'minimum_should_match' => 1
-        //             ]
-        //         ],
-        //         'collapse' => [
-        //             'field' => 'ocr_file_id',
-        //             'inner_hits' => [
-        //                 'name' => 'top_page',
-        //                 'size' => 1,
-        //                 'sort' => [
-        //                     ['_score' => 'desc']
-        //                 ],
-        //                 'highlight' => [
-        //                     'pre_tags'  => ['<span style="color:red">'],
-        //                     'post_tags' => ['</span>'],
-        //                     'fields' => [
-        //                         'text' => new \stdClass(),
-        //                         'filename' => new \stdClass()
-        //                     ]
-        //                 ]
-        //             ]
-        //         ],
-        //         'size' => $limit,
-        //         'highlight' => [
-        //             'pre_tags' => ['<span style="color:red">'],
-        //             'post_tags' => ['</span>'],
-        //             'fields' => [
-        //                 'text' => [
-        //                     'fragment_size' => 100,
-        //                     'number_of_fragments' => 3
-        //                 ],
-        //                 'filename' => [
-        //                     'fragment_size' => 100
-        //                 ]
-        //             ]
-        //         ]
-        //     ]
-        // ];
+
+        if ($fileId) {
+            $params['body']['query']['bool']['filter'] = [
+                ['term' => ['ocr_file_id' => $fileId]]
+            ];
+        }
 
         $results = $this->client->search($params);
 
-        return collect($results['hits']['hits'])->map(function ($hit) {
-            return [
-                'id'          => $hit['_id'],
-                'score'       => $hit['_score'],
-                'text'        => $hit['_source']['text'],
-                'page_number' => $hit['_source']['page_number'] ?? null,
-                'ocr_file_id' => $hit['_source']['ocr_file_id'] ?? null,
-                'filename'    => $hit['_source']['filename'] ?? null,
-                'folder_name' => $hit['_source']['folder_name'] ?? null,
-                'highlight_text' => isset($hit['highlight']['text']) ? implode(' ... ', $hit['highlight']['text']) : null,
-                'highlight_filename'=> $hit['highlight']['filename'][0] ?? null,
-            ];
-        });
+        $hits = $results['hits']['hits'] ?? [];
+        $totalHits = $results['hits']['total']['value'] ?? 0;
+
+        $paginator = new \Illuminate\Pagination\LengthAwarePaginator(
+            $hits,
+            $totalHits,
+            $perPage,
+            $page,
+            [
+                'path' => $request->url(),
+                'query' => $request->query(),
+            ]
+        );
+
+        return [
+            'data' => collect($hits)->map(function ($hit) {
+                return [
+                    'id' => $hit['_id'],
+                    'score' => $hit['_score'],
+                    'text' => $hit['_source']['text'],
+                    'page_number' => $hit['_source']['page_number'] ?? null,
+                    'ocr_file_id' => $hit['_source']['ocr_file_id'] ?? null,
+                    'filename' => $hit['_source']['filename'] ?? null,
+                    'folder_name' => $hit['_source']['folder_name'] ?? null,
+                    'highlight_text' => isset($hit['highlight']['text']) ? implode(' ... ', $hit['highlight']['text']) : null,
+                    'highlight_filename' => $hit['highlight']['filename'][0] ?? null,
+                ];
+            }),
+            'pagination' => $paginator
+        ];
+    }
+
+
+    public function checkTextFile(Request $request)
+    {
+        $q = $request->search;
+        $textFiles = OcrFilePage::where('text', 'like', "%$q%")->get();
+
+        return $textFiles;
+        dd($textFiles->toArray());
+    }
+
+    protected function arabicToThaiDigits(string $text): string
+    {
+        return strtr($text, [
+            '0' => '๐',
+            '1' => '๑',
+            '2' => '๒',
+            '3' => '๓',
+            '4' => '๔',
+            '5' => '๕',
+            '6' => '๖',
+            '7' => '๗',
+            '8' => '๘',
+            '9' => '๙',
+        ]);
+    }
+
+    function thai2arabic(string $input): string
+    {
+        $thaiDigits   = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
+        $arabicDigits = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+        return str_replace($thaiDigits, $arabicDigits, $input);
+    }
+
+
+    function parse_query_terms(string $query): array
+    {
+        $regex = '/
+                "[^"]+"                                                # 1) ข้อความใน quotes
+                |
+                (?:\d{1,2}|[๐-๙]{2})\s+[\p{L}\p{M}]+\s+(?:\d{4}|[๐-๙]{4})  # 2) dd เดือน yyyy
+                |
+                ครั้งที่\s*(?:\d+|[๐-๙]+)                              # 3) ครั้งที่ xx
+                |
+                \S+                                                    # 4) คำทั่วไป (non-space)
+            /xu';
+
+        preg_match_all($regex, trim($query), $m);
+        $raw = $m[0];
+
+        // ลบ " รอบๆ term ด้วย regex เดียวเลย
+        return array_map(function (string $w): string {
+            return preg_replace('/^"(.*)"$/u', '$1', $w);
+        }, $raw);
     }
 }
