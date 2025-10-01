@@ -30,13 +30,10 @@ class ElasticService
 
      public function searchOcrPages(string $query, int $from = 0, int $limit = 10, ?string $fileId = null)
     {
-        // แยกคำ
         $terms = $this->parse_query_terms($query);
         $minimum_should_match = max(1, count($terms) > 2 ? 2 : count($terms));
 
         $should = [];
-
-        // match phrase ทั้ง query
         $should[] = [
             'match_phrase' => [
                 'text' => [
@@ -46,8 +43,6 @@ class ElasticService
                 ]
             ]
         ];
-
-        // match phrase สำหรับแต่ละคำ
         foreach ($terms as $term) {
             $should[] = [
                 'match_phrase' => [
@@ -60,10 +55,9 @@ class ElasticService
             ];
         }
 
-        // สร้าง params สำหรับ Elasticsearch
         $params = [
             'index' => 'ocr_pages',
-            'body'  => [
+            'body' => [
                 'from' => $from,
                 'size' => $limit,
                 'track_scores' => true,
@@ -105,28 +99,19 @@ class ElasticService
 
         $results = $this->client->search($params);
 
-        $hits = $results['hits']['hits'] ?? [];
-        $totalHits = $results['hits']['total']['value'] ?? 0;
-
-        $data = collect($results['hits']['hits'])->map(function ($hit) {
+        return collect($results['hits']['hits'])->map(function ($hit) {
             return [
-                'id'          => $hit['_id'],
-                'score'       => $hit['_score'],
-                'text'        => $hit['_source']['text'],
+                'id' => $hit['_id'],
+                'score' => $hit['_score'],
+                'text' => $hit['_source']['text'],
                 'page_number' => $hit['_source']['page_number'] ?? null,
                 'ocr_file_id' => $hit['_source']['ocr_file_id'] ?? null,
-                'filename'    => $hit['_source']['filename'] ?? null,
+                'filename' => $hit['_source']['filename'] ?? null,
                 'folder_name' => $hit['_source']['folder_name'] ?? null,
                 'highlight_text' => isset($hit['highlight']['text']) ? implode(' ... ', $hit['highlight']['text']) : null,
                 'highlight_filename'=> $hit['highlight']['filename'][0] ?? null,
             ];
         });
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $data,
-            'total' => $results['hits']['total']['value'] ?? 0
-        ]);
     }
 
 

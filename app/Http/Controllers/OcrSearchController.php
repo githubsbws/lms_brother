@@ -25,15 +25,21 @@ class OcrSearchController extends Controller
         }
 
         try {
-            $results = $this->elastic->searchOcrPages($query, 50);
+            $results = $this->elastic->searchOcrPages($query, 0, 50);
 
-            // ดึงชื่อไฟล์จาก DB เพิ่มถ้าต้องการ
-            $results = $results->map(function($item){
-                $item['file_name'] = \App\Models\OcrFile::find($item['ocr_file_id'])?->file_name ?? '-';
+            $fileIds = $results->pluck('ocr_file_id')->filter()->unique();
+            $files = \App\Models\OcrFile::whereIn('id', $fileIds)->get()->keyBy('id');
+
+            $results = $results->map(function($item) use ($files) {
+                $item['file_name'] = $files[$item['ocr_file_id']]->file_name ?? '-';
                 return $item;
             });
 
-            return response()->json($results);
+            return response()->json([
+                'status' => 'success',
+                'data' => $results,
+                'total' => $results->count()
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'error'   => 'Internal Server Error',
