@@ -57,6 +57,7 @@ class ProcessPdfJob implements ShouldQueue
             // fallback: Spatie/pdf-to-image
             try {
                 $pdf = new Pdf($this->originalFile);
+                $pdf->setTimeout(3600);
                 $pageCount = $pdf->getNumberOfPages();
                 $this->processBatchWithSpatie($pdf, $pageCount, $batchSize);
 
@@ -92,18 +93,26 @@ class ProcessPdfJob implements ShouldQueue
         }
     }
 
-    protected function processBatchWithSpatie(Pdf $pdf, int $pageCount, int $batchSize)
+   protected function processBatchWithSpatie(Pdf $pdf, int $pageCount, int $batchSize)
     {
+        $pdf->setTimeout(3600); // เพิ่ม timeout ให้ Spatie PDF > 1 ชั่วโมง
+
         for ($start = 0; $start < $pageCount; $start += $batchSize) {
             $end = min($start + $batchSize - 1, $pageCount - 1);
 
             for ($i = $start + 1; $i <= $end + 1; $i++) {
                 $outputFile = $this->folderPath . "page-{$i}.png";
-                $pdf->setPage($i)
-                    ->setResolution(200)
-                    ->saveImage($outputFile);
 
-                $this->ocrAndSave($outputFile, $i);
+                try {
+                    $pdf->setPage($i)
+                        ->setResolution(200)
+                        ->saveImage($outputFile);
+
+                    $this->ocrAndSave($outputFile, $i);
+
+                } catch (\Exception $e) {
+                    \Log::error("Failed to convert page {$i} with Spatie PDF: " . $e->getMessage());
+                }
             }
         }
     }
