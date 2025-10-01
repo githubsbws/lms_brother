@@ -324,7 +324,9 @@ use App\Models\DownloadFile;
 <script>
 document.getElementById('search').addEventListener('keyup', async function() {
     const query = this.value.trim();
-    if (query.length < 0) {
+
+    // ถ้า query ว่าง ให้ล้างผลลัพธ์
+    if (query.length === 0) {
         document.getElementById('results').innerHTML = '';
         document.getElementById('result-count').innerHTML = '';
         return;
@@ -335,14 +337,15 @@ document.getElementById('search').addEventListener('keyup', async function() {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
         const data = await res.json();
+        const hits = data.data || []; // ดึง array ของผลลัพธ์จาก data.data
 
         // แสดงจำนวนผลลัพธ์
-        document.getElementById('result-count').innerHTML = `<h5 class="title-layout">พบ ${data.length} ผลลัพธ์ที่ตรงกับ <span style="color:red">"${query}" </span> </h5>`;
+        document.getElementById('result-count').innerHTML = `<h5 class="title-layout">พบ ${hits.length} ผลลัพธ์ที่ตรงกับ <span style="color:red">"${query}"</span></h5>`;
 
         let html = '';
 
-        data.forEach(hit => {
-            let text = hit.highlight_text ?? hit.text; // highlight มี <span> จาก ES แล้ว
+        hits.forEach(hit => {
+            let text = hit.highlight_text ?? hit.text; // ใช้ highlight_text ถ้ามี
 
             const pdfBaseUrl = '/images/uploads/ocr';
             const pdfUrl = `${pdfBaseUrl}/${hit.folder_name}/${hit.filename}#page=${hit.page_number}`;
@@ -367,4 +370,5 @@ document.getElementById('search').addEventListener('keyup', async function() {
     }
 });
 </script>
+
 @endsection
