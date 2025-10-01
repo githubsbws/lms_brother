@@ -137,7 +137,7 @@ class ElasticService
         return response()->json([
             'status' => 'success',
             'data' => $data,
-            'pagination' => $results['pagination']
+            'pagination' => $paginator
         ]);
     }
 
