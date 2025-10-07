@@ -22,6 +22,7 @@ use Google\Cloud\DocumentAI\V1\RawDocument;
 use App\Jobs\ProcessPdfJob;
 use App\Jobs\ProcessPdfPageJob;
 use Illuminate\Support\Facades\Cache;
+use Elastic\Elasticsearch\ClientBuilder;
 
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
@@ -5401,6 +5402,36 @@ class AdminController extends Controller
             
             $page->text = $request->input('text_content');
             $page->save();
+
+            $ocrFileId = $page->ocr_file_id;
+            $originalFile = $page->OcrFile->filename; 
+            $folderName = $page->OcrFile->folder_name;
+            $created_at = $page->OcrFile->created_at;
+            $pageNum = $page->page_number;
+            $pageText = $page->text;
+
+            $esClient = ClientBuilder::create()
+                        ->setHosts([env('ELASTICSEARCH_HOST', 'https://127.0.0.1:9200')])
+                        ->setBasicAuthentication(
+                            env('ELASTICSEARCH_USER', 'elastic'),
+                            env('ELASTICSEARCH_PASS', '')
+                        )
+                        ->setCABundle(env('ELASTICSEARCH_SSL_VERIFICATION'))
+                        ->build();
+
+            $esClient->index([
+                'index' => 'ocr_pages',
+                'id'    => $ocrFileId . '_' . $pageNum,  // ใช้ค่าจาก $page
+                'body'  => [
+                    'ocr_file_id' => $ocrFileId,
+                    'filename'    => $originalFile,
+                    'folder_name' => $folderName,
+                    'page_number' => $pageNum,
+                    'text'        => $pageText,
+                    'created_at'  => $created_at,
+                    'active'      => 'y',
+                ]
+            ]);
 
             return redirect()
                 ->route('ocr.page', ['id' => $page->ocr_file_id])
