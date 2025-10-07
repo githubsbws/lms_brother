@@ -753,4 +753,6 @@ Route::get('/ocr/upload', [AdminController::class, 'uploadOCR'])->name('ocr.uplo
 Route::post('/ocr/upload', [AdminController::class, 'uploadOCR'])->name('ocr.upload');
 Route::get('/ocr/page/{id}', [AdminController::class, 'OCRpage'])->name('ocr.page');
 Route::post('/ocr_del/{id}', [AdminController::class, 'OCRdel'])->name('ocr.del');
+Route::get('/ocr/edit/{id}/{page_number}', [AdminController::class, 'OCRedit'])->name('ocr.edit');
+Route::put('/ocr/update/{id}/{page_number}', [AdminController::class, 'OCRupdate'])->name('ocr.update');
 });

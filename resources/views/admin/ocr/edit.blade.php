@@ -11,7 +11,7 @@
 								<h4 class="m-0">ระบบเพิ่มเอกสาร OCR</h4>
 							</div>
 							<div class="ml-3">
-								<a href="{{route('ocr.upload')}}">
+								<a href="{{ url()->previous() }}">
 									<button class="btn btn-warning d-flex align-items-center">
 										<i class="fas fa-angle-left mr-2"></i>
 										กลับ
@@ -23,38 +23,41 @@
 				</div>
 				<div class="content">
 					<div class="container-fluid">
-						<div class="card m-0">
-							<div class="card-body">
-								<table id="settingTable" class="table table-striped table-bordered nowrap" style="width:100%">
-									<thead>
-										<tr>
-											<th>ชื่อไฟล์</th>
-											<th>หน้าที่</th>
-											<th>ข้อความ</th>
-											<th>จัดการ</th>
-										</tr>
-									</thead>
-									<tbody id="sortable">
-										@foreach($file_page as $page)
-										<tr>
-											<td>
-												{{ $page->OcrFile->filename}}
-											</td>
-											<td>
-												{{ $page->page_number }}
-											</td>
-											<td title="{{ $page->text }}">
-												{{ \Illuminate\Support\Str::limit($page->text, 100) }}
-											</td>
-											<td>
-												<a href="{{ route('ocr.edit', ['id' => $page->id, 'page_number' => $page->page_number]) }}" class="btn btn-warning btn-sm">
-													<i class="fas fa-pen"></i>
-												</a>
-											</td>
-										</tr>
-										@endforeach
-									</tbody>
-								</table>
+						<div class="d-flex" style="gap: 1rem; height: 80vh;">
+							<!-- ฝั่งซ้าย: PDF Viewer -->
+							<div class="flex-fill">
+								<div class="card h-100">
+									<div class="card-header bg-primary text-white">
+										PDF Preview
+									</div>
+									<div class="card-body p-0" style="height: calc(100% - 56px); overflow: auto;">
+										<iframe 
+											src="{{ asset('images/uploads/ocr/'.$page->OcrFile->folder_name.'/'.$page->OcrFile->filename) }}#page={{ $page->page_number }}" 
+											style="width:100%; height:100%;" 
+											frameborder="0">
+										</iframe>
+									</div>
+								</div>
+							</div>
+
+							<!-- ฝั่งขวา: Textarea -->
+							<div class="flex-fill">
+								<div class="card h-100">
+									<div class="card-header bg-success text-white">
+										Edit Text
+									</div>
+									<div class="card-body p-0" style="height: calc(100% - 56px);">
+										<form action="{{ route('ocr.update', ['id' => $page->id, 'page_number' => $page->page_number]) }}" method="POST" style="height: 100%;">
+											@csrf
+											@method('PUT')
+											<textarea 
+												name="text_content" 
+												class="form-control h-100" 
+												style="resize:none; overflow:auto;">{{ $page->text }}</textarea>
+											<button type="submit" class="btn btn-primary mt-2 w-100">บันทึก</button>
+										</form>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

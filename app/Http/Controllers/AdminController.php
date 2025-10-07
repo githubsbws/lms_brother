@@ -5369,6 +5369,48 @@ class AdminController extends Controller
         return view('admin.ocr.page',compact('file_page'));
     }
 
+    public function OCRedit(Request $request,$id,$page_number)
+    {
+        $page = OcrFilePage::where('id', $id)
+                        ->where('page_number', $page_number)
+                        ->first();
+
+        if (!$page) {
+            abort(404, 'Page not found');
+        }
+
+        return view('admin.ocr.edit',compact('page'));
+    }
+
+    public function OCRupdate(Request $request, $id, $page_number)
+    {
+        $page = OcrFilePage::where('id', $id)
+                            ->where('page_number', $page_number)
+                            ->first();
+
+        if (!$page) {
+            abort(404, 'Page not found');
+        }
+
+        if ($request->isMethod('post') || $request->isMethod('put')) {
+
+            $request->validate([
+                'text_content' => 'nullable|string',
+            ]);
+
+            
+            $page->text = $request->input('text_content');
+            $page->save();
+
+            return redirect()
+                ->route('ocr.page', ['id' => $page->ocr_file_id])
+                ->with('success', 'บันทึกข้อความเรียบร้อยแล้ว');
+        }
+
+        // ถ้าเป็น GET request แสดงหน้าฟอร์ม
+        return view('admin.ocr.edit', compact('page'));
+    }
+
     function OCRdel($id){
         if(AuthFacade::useradmin()){
             $news_del=[
