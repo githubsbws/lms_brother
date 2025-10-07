@@ -14,7 +14,7 @@ class ElasticService
 
     public function __construct()
     {
-        $host = env('ELASTICSEARCH_HOST', 'http://localhost:9200');
+        $host = env('ELASTICSEARCH_HOST', 'https://localhost:9200');
         $user = env('ELASTICSEARCH_USER', 'elastic');
         $pass = env('ELASTICSEARCH_PASS', '');
 
@@ -31,7 +31,8 @@ class ElasticService
      public function searchOcrPages(string $query, int $from = 0, int $limit = 10, ?string $fileId = null)
     {
         $terms = $this->parse_query_terms($query);
-        $minimum_should_match = max(1, count($terms) > 2 ? 2 : count($terms));
+        // $minimum_should_match = max(1, count($terms) > 2 ? 2 : count($terms));
+        $minimum_should_match = 1;
 
         $should = [];
         $should[] = [
@@ -40,6 +41,14 @@ class ElasticService
                     'query' => $query,
                     'boost' => 2.0,
                     'slop'  => 2
+                ]
+            ]
+        ];
+        $should[] = [
+            'wildcard' => [
+                'filename.keyword_lower' => [
+                    'value' => '*' . strtolower($query) . '*',
+                    'boost' => 2.0
                 ]
             ]
         ];
@@ -53,6 +62,14 @@ class ElasticService
                     ]
                 ]
             ];
+            $should[] = [
+            'wildcard' => [
+                'filename.keyword_lower' => [
+                    'value' => '*' . strtolower($query) . '*',
+                    'boost' => 2.0
+                ]
+            ]
+        ];
         }
 
         $params = [

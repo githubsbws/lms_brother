@@ -125,6 +125,7 @@
                                             {!! htmlspecialchars_decode($item->teacher_detail) !!}
                                         </td>
                                         <td>
+                                            <a href="{{ route('teacher.edit',['id' =>$item->teacher_id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
                                             <button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $item->teacher_id }}">
                                                 <i class="fas fa-trash"></i>
                                             </button>

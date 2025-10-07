@@ -247,6 +247,8 @@ Route::post('courseonline_create',[AdminController::class,'courseonline_create']
 
 Route::get('teacher_create',[AdminController::class,'teacher_create'])->name('teacher.create')->middleware('checkIdleTimeout');
 Route::post('teacher_create',[AdminController::class,'teacher_create'])->name('teacher.create')->middleware('checkIdleTimeout');
+Route::get('teacher_edit/{id}',[AdminController::class,'teacher_edit'])->name('teacher.edit')->middleware('checkIdleTimeout');
+Route::post('teacher_edit/{id}',[AdminController::class,'teacher_edit'])->name('teacher.edit')->middleware('checkIdleTimeout');
 Route::post('teacher_delete/{id}',[AdminController::class,'teacher_delete'])->name('teacher.delete')->middleware('checkIdleTimeout');
 
 Route::get('courseonline_detail/{id}',[AdminController::class,'courseonline_detail'])->name('courseonline.detail')->middleware('checkIdleTimeout');
@@ -416,7 +418,7 @@ Route::get('usability_create',[AdminController::class,'usability_create'])->name
 Route::post('usability_create',[AdminController::class,'usability_create'])->name('usability.create')->middleware('checkIdleTimeout');
 
 Route::get('usability_delete',[AdminController::class,'usability_delete'])->name('usability.delete')->middleware('checkIdleTimeout');
-Route::post('usability_delete',[AdminController::class,'usability_delete'])->name('usability.delete')->middleware('checkIdleTimeout');
+Route::post('usability_delete/{id}', [AdminController::class, 'usability_delete'])->name('usability.delete');
 
 Route::get('/reportproblem',[AdminController::class,'reportproblem'])->name('reportproblem')->middleware('checkIdleTimeout');
 
@@ -493,6 +495,9 @@ Route::get('/export-user-admin', [AdminController::class, 'exportUseradmin'])->n
 
 Route::get('/asc',[AdminController::class,'asc'])->name('asc')->middleware('checkIdleTimeout');
 Route::post('/asc',[AdminController::class,'asc'])->name('asc.create')->middleware('checkIdleTimeout');
+Route::post('/company/delete/{id}', [AdminController::class, 'company_delete'])->name('company.delete');
+Route::post('/asc/delete/{id}', [AdminController::class, 'asc_delete'])->name('asc.delete');
+Route::post('/position/delete/{id}', [AdminController::class, 'position_delete'])->name('position.delete');
 Route::post('/admin/company',[AdminController::class,'company'])->name('admin.company')->middleware('checkIdleTimeout');
 Route::post('/admin/position',[AdminController::class,'position'])->name('admin.position')->middleware('checkIdleTimeout');
 

@@ -40,7 +40,11 @@
 										<td>
 											<a href="{{route('usability.detail',['id'=>$us->usa_id])}}" class="btn btn-warning btn-sm"><i class="fas fa-search"></i></a>
 											<a href="{{route('usability.edit',['id'=>$us->usa_id])}}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
-											<button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $us->usa_id }}">
+											<button 
+												type="button" 
+												class="btn btn-danger btn-sm delete-button"
+												data-id="{{ $us->usa_id }}"
+												data-url="{{ route('usability.delete', $us->usa_id) }}">  {{-- ✅ ส่ง id ให้ route --}}
 												<i class="fas fa-trash"></i>
 											</button>
 										</td>
@@ -69,70 +73,47 @@
 		});
 	});
 
-	$(document).ready(function() {
-				// ตรวจสอบว่า jQuery โหลดหรือไม่
-				if (typeof jQuery === "undefined") {
-					console.error("jQuery is not loaded!");
-					return;
-				}
+	$(document).on("click", ".delete-button", function(e) {
+			e.preventDefault();
 
-				// ตั้งค่า CSRF Token
-				$.ajaxSetup({
-					headers: {
-						"X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content")
-					}
-				});
+			var url = $(this).data("url"); // ✅ ดึงจาก data-url ที่เรา set ในปุ่ม
 
-				// ตรวจสอบว่าโค้ดนี้ทำงานจริงไหม
-				console.log("Delete button script loaded");
-
-				// ใช้ Event Delegation เผื่อปุ่มถูกโหลดใหม่
-				$(document).on("click", ".delete-button", function(e) {
-					e.preventDefault();
-
-					var id = $(this).data("id");
-					var url = "/usability_delete/" + id;
-
-					console.log("Clicked delete button with ID:", id); // ตรวจสอบว่า ID ถูกต้องไหม
-
-					Swal.fire({
-						title: "คุณแน่ใจหรือไม่?",
-						text: "ข้อมูลนี้จะถูกลบออก!",
-						icon: "warning",
-						showCancelButton: true,
-						confirmButtonColor: "#3085d6",
-						cancelButtonColor: "#d33",
-						confirmButtonText: "ใช่, ลบเลย!",
-						cancelButtonText: "ยกเลิก"
-					}).then((result) => {
-						if (result.isConfirmed) {
-							$.ajax({
-								url: url,
-								type: "POST", // ใช้ DELETE ตาม Laravel
-								success: function(response) {
-									console.log("Success:", response);
-									Swal.fire({
-										title: "สำเร็จ!",
-										text: response.message || "ลบข้อมูลสำเร็จ",
-										icon: "success",
-										confirmButtonText: "OK"
-									}).then(() => {
-										location.reload();
-									});
-								},
-								error: function(xhr) {
-									console.error("Error:", xhr);
-									Swal.fire(
-										"เกิดข้อผิดพลาด!",
-										xhr.responseJSON?.message || "ไม่สามารถลบข้อมูลได้",
-										"error"
-									);
-								}
-							});
+			Swal.fire({
+				title: "คุณแน่ใจหรือไม่?",
+				text: "ข้อมูลนี้จะถูกลบออก!",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonColor: "#3085d6",
+				cancelButtonColor: "#d33",
+				confirmButtonText: "ใช่, ลบเลย!",
+				cancelButtonText: "ยกเลิก"
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: url,
+						type: "POST",
+						data: {
+							_token: "{{ csrf_token() }}"
+						},
+						success: function(response) {
+							Swal.fire({
+								title: "สำเร็จ!",
+								text: response.message || "ลบข้อมูลสำเร็จ",
+								icon: "success",
+								confirmButtonText: "OK"
+							}).then(() => location.reload());
+						},
+						error: function(xhr) {
+							Swal.fire(
+								"เกิดข้อผิดพลาด!",
+								xhr.responseJSON?.message || "ไม่สามารถลบข้อมูลได้",
+								"error"
+							);
 						}
 					});
-				});
+				}
 			});
+		});
 
 			@if(session('success'))
 			Swal.fire({

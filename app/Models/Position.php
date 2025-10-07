@@ -17,4 +17,9 @@ class Position extends Model
     protected $fillable = [
         'id','company_id', 'position_title', 'create_date'
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
 }

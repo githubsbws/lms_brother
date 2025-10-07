@@ -1403,6 +1403,57 @@ class AdminController extends Controller
         }
     }
 
+     function teacher_edit(Request $request, $id)
+    {
+        if(AuthFacade::useradmin()){
+            $teacher = Teacher::findById($id);
+            if ($request->isMethod('post')) {
+                // dd($request->toArray());
+                $validator = Validator::make($request->all(), [
+                    'teacher_name' => 'nullable', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
+                    'teacher_detail' =>'nullable',
+                    'image' => 'nullable'
+
+                ]);
+                // dd($validator);
+                if ($validator->fails()) {
+                    
+                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
+                }
+
+                $teacher = Teacher::findById($id);
+                $teacher->teacher_name = $request->input('teacher_name');
+                $teacher->teacher_detail = htmlspecialchars($request->input('teacher_detail'));
+                $teacher->update_by = Auth::user()->id;
+                $teacher->create_by = Auth::user()->id;
+                if($request->file('image')){
+                    $image = $request->file('image');
+                    $imageName = $image->getClientOriginalName();
+                    $teacher->teacher_picture = $imageName;
+
+                    $idFolder = public_path('images/uploads/teacher/'.$teacher->teacher_id);
+                    if (!file_exists($idFolder)) {
+                        mkdir($idFolder, 0777, true);
+                    }
+
+                    $idFolder2 = $idFolder . '/thumb/';
+                    if (!file_exists($idFolder2)) {
+                        mkdir($idFolder2, 0777, true);
+                    }
+
+                    // ย้ายไฟล์ภาพไปยังโฟลเดอร์ thumb
+                    $image->move($idFolder2, $imageName);
+                }
+                $teacher->save();
+
+                return redirect()->route('teacher.create')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
+            }
+            return view("admin.courseonline.teacher_edit", compact('teacher'));
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+
     function teacher_delete($id){
         if(AuthFacade::useradmin()){
             $teacher_del=[
@@ -3210,26 +3261,28 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
-    function usability_delete(Request $request){
-        if(AuthFacade::useradmin()){
-            if (!$request->has('id')) {
-                // คืนค่า JSON แจ้งข้อผิดพลาดว่าไม่มีค่า ID ถูกส่งมา
-                return response()->json(['success' => false, 'message' => 'No ID provided'], 400);
+    public function usability_delete($id)
+    {
+        if (AuthFacade::useradmin()) {
+            $usability = Usability::find($id);
+
+            if (!$usability) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'ไม่พบข้อมูลที่ต้องการลบ'
+                ], 404);
             }
 
-            $id = $request->input('id');
-            $usability_del=[
-                'active'=>'n'
-            ];
-            $usability = Usability::findById($id);
-            $usability->update($usability_del);
-            // กรณีที่ไม่มีการส่งค่า id มา
-            // คุณสามารถตัดสินใจปฏิเสธคำขอหรือดำเนินการอื่น ๆ ตามที่ต้องการได้
-            return response()->json(['success' => true]);
-        }else{
-            return redirect()->route('login.admin');
+            $usability->update(['active' => 'n']);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'ลบข้อมูลเรียบร้อยแล้ว'
+            ]);
         }
-    }  
+
+        return redirect()->route('login.admin');
+    }
     
 
     function reportproblem(){
@@ -4048,6 +4101,9 @@ class AdminController extends Controller
 
     public function asc(Request $request){
         if(AuthFacade::useradmin()){
+            $asc = ASC::where('active','y')->get();
+            $company = Company::get();
+            $position = Position::get();
             if($request->isMethod('post')){
                 $validator = Validator::make($request->all(), [
                     'title'=>'required|string',
@@ -4070,7 +4126,7 @@ class AdminController extends Controller
 
                 return redirect()->route('user_admin');
             }
-            return view("admin.user_admin.asc");
+            return view("admin.user_admin.asc",compact('asc','company','position'));
         }else{
             return redirect()->route('login.admin');
         }
@@ -4123,6 +4179,90 @@ class AdminController extends Controller
         }else{
             return redirect()->route('login.admin');
         }
+    }
+
+    public function company_delete($id)
+    {
+        if (AuthFacade::useradmin()) {
+            $company = Company::find($id);
+
+            if (!$company) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'ไม่พบบริษัทนี้'
+                ], 404);
+            }
+
+            $company->delete();
+
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'ลบบริษัทเรียบร้อยแล้ว'
+                ]);
+            }
+
+            return redirect()->route('asc')->with('success', 'Delete Successful');
+        }
+
+        return redirect()->route('login.admin');
+    }
+
+    public function asc_delete($id)
+    {
+        if (AuthFacade::useradmin()) {
+            $asc = ASC::find($id);
+
+            if (!$asc) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'ไม่พบข้อมูล ASC นี้'
+                ], 404);
+            }
+
+            $asc->active = 'n';
+            $asc->updated_by = Auth::user()->id;
+            $asc->updated_date = now();
+            $asc->save();
+
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'ปิดการใช้งาน ASC เรียบร้อยแล้ว'
+                ]);
+            }
+
+            return redirect()->route('asc')->with('success', 'Delete Successful');
+        }
+
+        return redirect()->route('login.admin');
+    }
+
+    public function position_delete($id)
+    {
+        if (AuthFacade::useradmin()) {
+            $position = Position::find($id);
+
+            if (!$position) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'ไม่พบข้อมูลตำแหน่งนี้'
+                ], 404);
+            }
+
+            $position->delete();
+
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'ลบข้อมูลตำแหน่งเรียบร้อยแล้ว'
+                ]);
+            }
+
+            return redirect()->route('asc')->with('success', 'Delete Successful');
+        }
+
+        return redirect()->route('login.admin');
     }
     //************************* */ import user by chockekr
     public function userExcel(){
