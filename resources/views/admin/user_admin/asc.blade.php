@@ -75,25 +75,31 @@ use App\Models\Company;
                         เพิ่มPosition
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin.position') }}" method="POST" enctype="multipart/form-data">
+                        <form id="positionForm" action="{{ route('admin.position') }}" method="POST" enctype="multipart/form-data">
                             @csrf
-							<div class="form-group">
-                                <label for="position_title">ชื่อCompany </label>
-                                <select name="company_id" id="company" class="form-control">
-									<option value="">---เลือก---</option>
-									@foreach ( $company as $com )
-										<option value="{{ $com->id }}">{{ $com->company_title }}</option>
-									@endforeach
-								</select>
-                            </div>
-
                             <div class="form-group">
-                                <label for="position_title">ชื่อposition </label>
+                                <label for="company">ชื่อ Company <span style="color:red">*</span></label>
+                                <br>
+                                @error('company_id')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                                <select name="company_id" id="company" class="form-control">
+                                    <option value="">---เลือก---</option>
+                                    @foreach ($company as $com)
+                                        <option value="{{ $com->id }}">{{ $com->company_title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="position_title">ชื่อ Position</label>
                                 <input type="text" name="position_title" class="form-control">
                             </div>
-							
+
                             <div class="card-footer">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save mr-1"></i> บันทึก
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -269,6 +275,7 @@ $(document).ready(function () {
     });
     @endif
 });
+
 </script>
 
 @endsection
