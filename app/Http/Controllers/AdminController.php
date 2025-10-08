@@ -1061,10 +1061,10 @@ class AdminController extends Controller
                 if ($request->hasFile('image')) {
                     $image = $request->file('image');
                     $imageName = time() . '_' . $image->getClientOriginalName(); // ตั้งชื่อไฟล์ใหม่ป้องกันซ้ำ
-                    $idFolder = public_path('images/uploads/category/' . $category_create->id . '/original');
+                    $idFolder = public_path('images/uploads/category/' . $category_create->cate_id . '/original');
             
                     if (!file_exists($idFolder)) {
-                        mkdir($idFolder, 0777, true); // ใช้ recursive และกำหนด permission
+                        mkdir($idFolder, 0775, true); // ใช้ recursive และกำหนด permission
                     }
             
                     $image->move($idFolder, $imageName); // ย้ายไฟล์ไปโฟลเดอร์
@@ -1090,58 +1090,56 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
-    function category_edit(Request $request,$id){
-        if(AuthFacade::useradmin()){
-            $category = Category::where('cate_id',$id)->first();
-            if ($request->isMethod('post')) { // ตรวจสอบว่าเป็นการร้องขอ POST หรือไม่
-                // dd($request->toArray());
-                $validator = Validator::make($request->all(), [
-                    'cate_title' => 'required|string', // ตัวอย่างกำหนดเงื่อนไขในการตรวจสอบข้อมูล
-                    'cate_short_detail' =>'required|string',
-                    'cate_detail' =>'required|string'
+    public function category_edit(Request $request, $id)
+    {
+        if (AuthFacade::useradmin()) {
+            $category = Category::where('cate_id', $id)->first();
 
+            if ($request->isMethod('post')) {
+                $validator = Validator::make($request->all(), [
+                    'cate_title' => 'required|string',
+                    'cate_short_detail' => 'required|string',
+                    'cate_detail' => 'required|string',
                 ]);
-                // dd($validator);
+
                 if ($validator->fails()) {
-                    
-                    return redirect()->back()->withErrors($validator)->withInput(); // ส่งกลับไปยังหน้าก่อนหน้าพร้อมกับข้อมูลที่ผู้ใช้ป้อนเพื่อแสดงข้อผิดพลาด
+                    return redirect()->back()->withErrors($validator)->withInput();
                 }
 
-                $category_update = Category::findById($id);
+                $category_update = Category::where('cate_id', $id)->first();
                 $category_update->cate_title = $request->input('cate_title');
                 $category_update->cate_short_detail = $request->input('cate_short_detail');
                 $category_update->cate_detail = htmlspecialchars($request->input('cate_detail'));
                 $category_update->update_by = Auth::user()->id;
-                if($request->file('image')){
+
+                if ($request->hasFile('image')) {
                     $image = $request->file('image');
 
                     $idFolder = public_path('images/uploads/category/'.$id);
-                    if (!file_exists($idFolder)) {
-                        mkdir($idFolder);
+                    $idFolder2 = public_path('images/uploads/category/'.$id.'/original');
 
-                        $idFolder2 = public_path('images/uploads/category/'.$id.'/orignal/');
-                        if (!file_exists($idFolder2)) {
-                            mkdir($idFolder2);
-                        }
+                    if (!file_exists($idFolder)) {
+                        mkdir($idFolder, 0775, true);
+                    }
+                    if (!file_exists($idFolder2)) {
+                        mkdir($idFolder2, 0775, true);
                     }
 
-                    // ย้ายไฟล์ภาพไปยังโฟลเดอร์ใหม่
-                    $imageName = $image->getClientOriginalName();
+                    $imageName = time().'_'.$image->getClientOriginalName();
                     $image->move($idFolder2, $imageName);
 
                     $category_update->cate_image = $imageName;
-                    
                 }
-                // เพิ่มข้อมูลอื่น ๆ ที่ต้องการอัปเดต
-        
+
                 $category_update->save();
-        
+
                 return redirect()->route('category')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
             }
-            return view("admin.category.category_edit",compact('category'));
-        }else{
-            return redirect()->route('login.admin');
+
+            return view('admin.category.category_edit', compact('category'));
         }
+
+        return redirect()->route('login.admin');
     }
     function category_openshow(Request $request,$id){
         if(AuthFacade::useradmin()){
@@ -5411,12 +5409,12 @@ class AdminController extends Controller
             $pageText = $page->text;
 
             $esClient = ClientBuilder::create()
-                        ->setHosts([env('ELASTICSEARCH_HOST', 'https://127.0.0.1:9200')])
+                        ->setHosts([env('ELASTICSEARCH_HOST', 'http://127.0.0.1:9200')])
                         ->setBasicAuthentication(
                             env('ELASTICSEARCH_USER', 'elastic'),
                             env('ELASTICSEARCH_PASS', '')
                         )
-                        ->setCABundle(env('ELASTICSEARCH_SSL_VERIFICATION'))
+                        // ->setCABundle(env('ELASTICSEARCH_SSL_VERIFICATION'))
                         ->build();
 
             $esClient->index([
