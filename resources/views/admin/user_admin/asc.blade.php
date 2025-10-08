@@ -172,7 +172,7 @@ use App\Models\Company;
                             <tbody>
                                 @foreach ($position as $data)
                                 <tr data-id="{{ $data->id }}">
-                                    <td>{{ $data->company->company_title }}</td>
+                                    <td>{{ $data->company->company_title ?? '-' }}</td>
                                     <td>{{ $data->position_title }}</td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-sm delete-button"
