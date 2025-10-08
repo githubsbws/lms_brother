@@ -841,44 +841,36 @@
                                                 @endphp
 
                                             </li>
-                                            <li class="list-group-item menu_li_padding"
-                                                style="font-size: 20px;font-weight: bold;">
+                                            <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
                                                 ผลการสอบก่อนเรียน<br>
                                                 @php
-                                                    $score = Score::where('lesson_id', $lesson_id)
+                                                    $pre_score = Score::where('lesson_id', $lesson_id)
                                                         ->where('user_id', Auth::user()->id)
+                                                        ->where('type', 'pre')
                                                         ->where('active', 'y')
                                                         ->orderBy('update_date', 'DESC')
                                                         ->first();
-                                                    if (!$score) {
-                                                        echo "<p style='font-weight: normal;color: #045BAB;'>- </p>";
-                                                    } else {
-                                                        if ($score->score_past == 'y') {
-                                                            echo "<p style='font-weight: normal;color: #045BAB;'>ผ่านแบบทดสอบ</p>";
-                                                        } else {
-                                                            echo "<p style='font-weight: normal;color: #045BAB;'>ไม่ผ่านแบบทดสอบ</p>";
-                                                        }
-                                                    }
                                                 @endphp
+
+                                                @if(!$pre_score)
+                                                    <p style="font-weight: normal;color: #045BAB;">-</p>
+                                                @else
+                                                    <p style="font-weight: normal;color: #045BAB;">
+                                                        {{ $pre_score->score_past == 'y' ? 'ผ่านแบบทดสอบ' : 'ไม่ผ่านแบบทดสอบ' }}
+                                                    </p>
+                                                @endif
+                                            </li>
+
+                                            <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
+                                                คะแนนที่ดีที่สุดก่อนเรียน<br>
+                                                <p style="font-weight: normal;color: #045BAB;">
+                                                    {{ $pre_score ? $pre_score->score_number.'/'.$pre_score->score_total : '0/0' }}
+                                                </p>
                                             </li>
                                             <li class="list-group-item menu_li_padding"
                                                 style="font-size: 20px;font-weight: bold;">สิทธิการทำแบบทดสอบ<br>
 
                                                 <p style="font-weight: normal;color: #045BAB;">-</p>
-                                            </li>
-                                            <li class="list-group-item menu_li_padding"
-                                                style="font-size: 20px;font-weight: bold;">คะแนนที่ดีที่สุด<br>
-                                                @php
-                                                    if (!$score) {
-                                                        echo "<p style='font-weight: normal;color: #045BAB;'>0/0</p>";
-                                                    } else {
-                                                        echo "<p style='font-weight: normal;color: #045BAB;'>" .
-                                                            $score->score_number .
-                                                            '/' .
-                                                            $score->score_total .
-                                                            '</p>';
-                                                    }
-                                                @endphp
                                             </li>
                                             <li class="list-group-item menu_li_padding">แบบสอบถาม<br>
                                                 @php
@@ -933,7 +925,7 @@
                                                     <p style="font-weight: normal;color: #045BAB;">-</p>
                                                 @endif
                                             </li>
-                                            <li class="list-group-item menu_li_padding">
+                                            {{-- <li class="list-group-item menu_li_padding">
                                                 <b>คะแนนผลการสอบ</b> <span style="color: #045BAB;">
                                                     @php
                                                         if (!$score) {
@@ -944,46 +936,48 @@
                                                         }
                                                     @endphp
                                                 </span>
-                                            </li>
+                                            </li> --}}
 
-                                            <li class="list-group-item menu_li_padding"
-                                                style="font-size: 20px;font-weight: bold;">
+                                            <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
                                                 ผลการสอบหลังเรียน<br>
                                                 @php
-                                                    $learn_chk = LearnFile::where('file_id', $file_id->id)
-                                                        ->where('learn_file_status', 's')
-                                                        ->where('user_id_file', Auth::user()->id)
+                                                    $lesson = Lesson::find($lesson_id);
+                                                    $max_attempt = $lesson->cate_amount ?? 1;
+
+                                                    $post_score_count = Score::where('lesson_id', $lesson_id)
+                                                        ->where('user_id', Auth::user()->id)
+                                                        ->where('type', 'post')
+                                                        ->where('active', 'y')
+                                                        ->count();
+
+                                                    $remaining = $max_attempt - $post_score_count;
+
+                                                    $post_score = Score::where('lesson_id', $lesson_id)
+                                                        ->where('user_id', Auth::user()->id)
+                                                        ->where('type', 'post')
+                                                        ->where('active', 'y')
+                                                        ->orderBy('score_number','DESC')
                                                         ->first();
-
-                                                    if ($learn_chk) {
-                                                        $ptest = Manage::where([
-                                                            'type' => 'post',
-                                                            'id' => $lesson_id,
-                                                            'active' => 'y',
-                                                        ])->first();
-                                                        if ($ptest) {
-                                                            $score_chk = Score::where('type', 'post')
-                                                                ->where('lesson_id', $lesson_id)
-                                                                ->where('user_id', Auth::user()->id)
-                                                                ->where('active', 'y')
-                                                                ->orderBy('update_date', 'DESC')
-                                                                ->first();
-
-                                                            if (!$score_chk) {
-                                                                echo '<p style="font-weight: normal;color: #045BAB;"><a href="' .
-                                                                    route('course.coursequestion', [
-                                                                        'course_id' => $course_id,
-                                                                        'id' => $lesson_id,
-                                                                    ]) .
-                                                                    '" style="cursor: pointer;">ทำแบบทดสอบหลังเรียน</a></p>';
-                                                            }
-                                                        }else{
-                                                            echo '<p style="font-weight: normal;color: #045BAB;">ไม่มีแบบทดสอบหลังเรียน</p>';
-                                                        }
-                                                    } else {
-                                                        echo '<p style="font-weight: normal;color: #045BAB;">-</p>';
-                                                    }
                                                 @endphp
+
+                                                @if($remaining > 0)
+                                                    <p style="font-weight: normal;color: #045BAB;">
+                                                        <a href="{{ route('course.coursequestion', ['course_id'=>$course_id,'id'=>$lesson_id]) }}" style="cursor: pointer;">
+                                                            ทำแบบทดสอบหลังเรียน
+                                                        </a> (เหลือ {{ $remaining }} ครั้ง)
+                                                    </p>
+                                                @elseif($post_score)
+                                                    <p style="font-weight: normal;color: #045BAB;">คุณทำแบบทดสอบครบจำนวนครั้งแล้ว</p>
+                                                @else
+                                                    <p style="font-weight: normal;color: #045BAB;">-</p>
+                                                @endif
+                                            </li>
+
+                                            <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
+                                                คะแนนที่ดีที่สุดหลังเรียน<br>
+                                                <p style="font-weight: normal;color: #045BAB;">
+                                                    {{ $post_score ? $post_score->score_number.'/'.$post_score->score_total : '0/0' }}
+                                                </p>
                                             </li>
                                         </ul>
                                     </div>
