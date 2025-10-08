@@ -107,6 +107,13 @@ class ReindexOcrPages extends Command
             'body'  => [
                 'settings' => [
                     'analysis' => [
+                        'analyzer' => [
+                            'thai' => [
+                                'type' => 'custom',
+                                'tokenizer' => 'thai',
+                                'filter' => ['lowercase']
+                            ]
+                        ],
                         'normalizer' => [
                             'lowercase_normalizer' => [
                                 'type' => 'custom',
@@ -179,7 +186,7 @@ class ReindexOcrPages extends Command
             'properties' => [
                 'ocr_file_id' => ['type' => 'integer'],
                 'page_number' => ['type' => 'integer'],
-                'text'        => ['type' => 'text'],
+                'text'        => ['type' => 'text','analyzer' => 'thai'],
                 'filename' => [
                     'type' => 'text',
                     'fields' => [

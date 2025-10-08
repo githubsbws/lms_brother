@@ -4159,8 +4159,12 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
             if($request->isMethod('post')){
                 $validator = Validator::make($request->all(), [
+                    'company_id' => 'required',
                     'position_title'=>'required|string',
 
+                ],[
+                    'company_id.required' => 'กรุณาเลือก Company',
+                    'position_title.required' => 'กรุณากรอกชื่อ Position',
                 ]);
                 // dd($validator);
                 if ($validator->fails()) {

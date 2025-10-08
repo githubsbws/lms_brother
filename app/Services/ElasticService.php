@@ -31,45 +31,62 @@ class ElasticService
      public function searchOcrPages(string $query, int $from = 0, int $limit = 10, ?string $fileId = null)
     {
         $terms = $this->parse_query_terms($query);
-        // $minimum_should_match = max(1, count($terms) > 2 ? 2 : count($terms));
-        $minimum_should_match = 1;
+        $minimum_should_match = max(1, count($terms) > 2 ? 2 : count($terms));
 
         $should = [];
+
+        // 1️⃣ exact phrase (คำที่ตรงเป๊ะ)
         $should[] = [
             'match_phrase' => [
                 'text' => [
                     'query' => $query,
-                    'boost' => 2.0,
+                    'boost' => 3.0,
                     'slop'  => 2
                 ]
             ]
         ];
+
+        // 2️⃣ flexible match (ยืดหยุ่น)
         $should[] = [
-            'wildcard' => [
-                'filename.keyword_lower' => [
-                    'value' => '*' . strtolower($query) . '*',
+            'match' => [
+                'text' => [
+                    'query' => $query,
+                    'operator' => 'and',
                     'boost' => 2.0
                 ]
             ]
         ];
+
+        // 3️⃣ wildcard สำหรับชื่อไฟล์
+        $should[] = [
+            'wildcard' => [
+                'filename.keyword_lower' => [
+                    'value' => '*' . strtolower($query) . '*',
+                    'boost' => 1.5
+                ]
+            ]
+        ];
+
+        // 4️⃣ match ทีละคำย่อย
         foreach ($terms as $term) {
             $should[] = [
                 'match_phrase' => [
                     'text' => [
                         'query' => $term,
-                        'boost' => 1.0,
-                        'slop'  => 2
+                        'boost' => 1.2,
+                        'slop'  => 3
                     ]
                 ]
             ];
             $should[] = [
-            'wildcard' => [
-                'filename.keyword_lower' => [
-                    'value' => '*' . strtolower($query) . '*',
-                    'boost' => 2.0
+                'match' => [
+                    'text' => [
+                        'query' => $term,
+                        'operator' => 'and',
+                        'boost' => 1.0
+                    ]
                 ]
-            ]
-        ];
+            ];
         }
 
         $params = [
