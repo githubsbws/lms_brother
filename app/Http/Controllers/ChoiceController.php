@@ -11,6 +11,8 @@ use App\Models\Manage;
 use App\Models\Learn;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Services\MailConfigService;
 
 class ChoiceController extends Controller
 {
@@ -106,6 +108,26 @@ class ChoiceController extends Controller
       //   dd($scores->toArray());
       
       // dd($scores->toArray());
+
+      try {
+            $to = $users->email;
+            $subject = "ผลการสอบของคุณในบทเรียน: " . $lesson->lesson_name;
+            $data = [
+               'name' => $users->name,
+               'lesson' => $lesson->lesson_name,
+               'score' => $score,
+               'total' => $score_tot,
+               'result' => $score_past == 'y' ? 'ผ่าน' : 'ไม่ผ่าน',
+            ];
+
+            Mail::send('emails.exam_result', $data, function($message) use ($to, $subject) {
+               $message->to($to)
+                        ->subject($subject);
+            });
+         } catch (\Exception $e) {
+            \Log::error("ส่งอีเมลแจ้งผลสอบไม่สำเร็จ: " . $e->getMessage());
+         }
+
       return redirect()->route('course.lesson',['course_id'=>$lesson->course_id,'id' =>$lesson->id]);
    }
 }

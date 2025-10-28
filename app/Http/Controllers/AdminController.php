@@ -4101,8 +4101,6 @@ class AdminController extends Controller
     public function asc(Request $request){
         if(AuthFacade::useradmin()){
             $asc = ASC::where('active','y')->get();
-            $company = Company::get();
-            $position = Position::get();
             if($request->isMethod('post')){
                 $validator = Validator::make($request->all(), [
                     'title'=>'required|string',
@@ -4125,7 +4123,16 @@ class AdminController extends Controller
 
                 return redirect()->route('user_admin');
             }
-            return view("admin.user_admin.asc",compact('asc','company','position'));
+            return view("admin.user_admin.asc",compact('asc'));
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    public function asc_del(Request $request){
+        if(AuthFacade::useradmin()){
+            $asc = ASC::where('active','y')->get();
+            
+            return view("admin.user_admin.asc_del",compact('asc'));
         }else{
             return redirect()->route('login.admin');
         }
@@ -4133,6 +4140,7 @@ class AdminController extends Controller
 
     public function company(Request $request){
         if(AuthFacade::useradmin()){
+            $company = Company::get();
             if($request->isMethod('post')){
                 $validator = Validator::make($request->all(), [
                     'company_title'=>'required|string',
@@ -4150,13 +4158,25 @@ class AdminController extends Controller
 
                 return redirect()->route('user_admin');
             }
+            return view("admin.user_admin.company",compact('company'));
         }else{
             return redirect()->route('login.admin');
         }
     }
+    public function company_del(Request $request){
+        if(AuthFacade::useradmin()){
+            $company = Company::get();
+
+            return view("admin.user_admin.company_del",compact('company'));
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    
 
     public function position(Request $request){
         if(AuthFacade::useradmin()){
+            $position = Position::get();
             if($request->isMethod('post')){
                 $validator = Validator::make($request->all(), [
                     'company_id' => 'required',
@@ -4179,6 +4199,16 @@ class AdminController extends Controller
 
                 return redirect()->route('user_admin');
             }
+            return view("admin.user_admin.position",compact('position'));
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    public function position_del(Request $request){
+        if(AuthFacade::useradmin()){
+            $position = Position::get();
+            
+            return view("admin.user_admin.position_del",compact('position'));
         }else{
             return redirect()->route('login.admin');
         }

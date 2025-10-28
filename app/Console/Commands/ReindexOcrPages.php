@@ -106,12 +106,25 @@ class ReindexOcrPages extends Command
             'index' => $this->index,
             'body'  => [
                 'settings' => [
+                    'index.max_ngram_diff' => 10, // เพื่อให้ใช้ ngram กว้างๆ ได้
                     'analysis' => [
                         'analyzer' => [
-                            'thai' => [
+                            'thai_ngram' => [
+                                'type' => 'custom',
+                                'tokenizer' => 'thai',
+                                'filter' => ['lowercase', 'my_edge_ngram']
+                            ],
+                            'thai_search' => [
                                 'type' => 'custom',
                                 'tokenizer' => 'thai',
                                 'filter' => ['lowercase']
+                            ]
+                        ],
+                        'filter' => [
+                            'my_edge_ngram' => [
+                                'type' => 'edge_ngram',
+                                'min_gram' => 2,
+                                'max_gram' => 10
                             ]
                         ],
                         'normalizer' => [
@@ -186,7 +199,11 @@ class ReindexOcrPages extends Command
             'properties' => [
                 'ocr_file_id' => ['type' => 'integer'],
                 'page_number' => ['type' => 'integer'],
-                'text'        => ['type' => 'text','analyzer' => 'thai'],
+                'text' => [
+                    'type' => 'text',
+                    'analyzer' => 'thai_ngram',      // ใช้สำหรับ index
+                    'search_analyzer' => 'thai_search' // ใช้สำหรับ search
+                ],
                 'filename' => [
                     'type' => 'text',
                     'fields' => [

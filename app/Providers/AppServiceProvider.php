@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Validator;
+use App\Services\MailConfigService;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -26,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
             // Return true if the validation passes, false otherwise
             return true;
         });
+
+        MailConfigService::apply();
     }
 }

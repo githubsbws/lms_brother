@@ -25,27 +25,34 @@ use App\Models\Company;
                 </div>
             </div>
 			<div class="container mt-5">
-				<div class="card">
-                    <div class="card-header bg-primary text-white">
-                        เพิ่มASC
-                    </div>
+                <div class="card m-0">
+                    <div class="card-header bg-primary text-white">ASC</div>
                     <div class="card-body">
-                        <form action="{{ route('asc.create') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label for="title">ชื่อบริษัท </label>
-                                <input type="text" name="title" class="form-control">
-                            </div>
-
-							<div class="form-group">
-                                <label for="asc_code">ASC_Code </label>
-                                <input type="text" name="asc_code" class="form-control">
-                            </div>
-							
-                            <div class="card-footer">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
-                            </div>
-                        </form>
+                        <table id="ascTable" class="table table-striped table-bordered nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ชื่อบริษัท</th>
+                                    <th>ASC_Code</th>
+                                    <th>จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($asc as $data)
+                                <tr data-id="{{ $data->id }}">
+                                    <td>{{ $data->name }}</td>
+                                    <td>{{ $data->asc_code }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm delete-button"
+                                            data-id="{{ $data->id }}"
+                                            data-name="{{ $data->name }}"
+                                            data-url="{{ route('asc.delete', $data->id) }}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -11,7 +11,7 @@ use App\Models\Company;
                 <div class="container-fluid">
                     <div class="d-flex align-items-center">
                         <div class="">
-                            <h4 class="m-0">ASC</h4>
+                            <h4 class="m-0">Company</h4>
                         </div>
                         <div class="ml-3">
                             <a href="{{route('admin')}}">
@@ -25,27 +25,32 @@ use App\Models\Company;
                 </div>
             </div>
 			<div class="container mt-5">
-				<div class="card">
-                    <div class="card-header bg-primary text-white">
-                        เพิ่มASC
-                    </div>
+                <div class="card m-0">
+                    <div class="card-header bg-primary text-white">Company</div>
                     <div class="card-body">
-                        <form action="{{ route('asc.create') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="form-group">
-                                <label for="title">ชื่อบริษัท </label>
-                                <input type="text" name="title" class="form-control">
-                            </div>
-
-							<div class="form-group">
-                                <label for="asc_code">ASC_Code </label>
-                                <input type="text" name="asc_code" class="form-control">
-                            </div>
-							
-                            <div class="card-footer">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
-                            </div>
-                        </form>
+                        <table id="companyTable" class="table table-striped table-bordered nowrap" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ชื่อ</th>
+                                    <th>จัดการ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($company as $data)
+                                <tr data-id="{{ $data->id }}">
+                                    <td>{{ $data->company_title }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger btn-sm delete-button"
+                                            data-id="{{ $data->id }}"
+                                            data-name="{{ $data->company_title }}"
+                                            data-url="{{ route('company.delete', $data->company_id) }}">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

@@ -416,32 +416,102 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ request()->is('user*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ request()->is('user*') ? 'active' : '' }}">
+                <li class="nav-item {{ request()->is(['company*','asc*','position*','user*']) ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ request()->is(['company*','asc*','position*','user*']) ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-plus"></i>
                         <p>
                             ระบบจัดการสมาชิก (สมาชิก)
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+
                     <ul class="nav nav-treeview">
+                        {{-- เพิ่มสมาชิก --}}
                         <li class="nav-item">
-                            <a href="{{url('/useradmin_create')}}" class="nav-link {{ request()->is('useradmin_create') ? 'active' : '' }}">
+                            <a href="{{ url('/useradmin_create') }}" class="nav-link {{ request()->is('useradmin_create') ? 'active' : '' }}">
                                 <p>เพิ่มสมาชิก</p>
                             </a>
                         </li>
+
+                        {{-- เพิ่มจาก Excel --}}
                         <li class="nav-item">
-                            <a href="{{url('/userexcel')}}" class="nav-link {{ request()->is('userexcel') ? 'active' : '' }}">
+                            <a href="{{ url('/userexcel') }}" class="nav-link {{ request()->is('userexcel') ? 'active' : '' }}">
                                 <p>เพิ่มสมาชิกจาก Excel</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{url('/asc')}}" class="nav-link {{ request()->is('asc') ? 'active' : '' }}">
-                                <p>เพิ่มCompany</p>
+
+                        {{-- Company / ASC / Position --}}
+                        <li class="nav-item {{ request()->is(['company*','asc*','position*']) ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link">
+                                <p>
+                                    Company / ASC / Position
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+
+                            <ul class="nav nav-treeview">
+                                {{-- Company --}}
+                                <li class="nav-item {{ request()->is('company*') ? 'menu-open' : '' }}">
+                                    <a href="#" class="nav-link">
+                                        <p>Company <i class="right fas fa-angle-left"></i></p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ url('/company') }}" class="nav-link {{ request()->is('company') ? 'active' : '' }}">
+                                                <p>เพิ่ม</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/company_del') }}" class="nav-link {{ request()->is('company_del') ? 'active' : '' }}">
+                                                <p>ลบ</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {{-- ASC --}}
+                                <li class="nav-item {{ request()->is('asc*') ? 'menu-open' : '' }}">
+                                    <a href="#" class="nav-link">
+                                        <p>ASC <i class="right fas fa-angle-left"></i></p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ url('/asc') }}" class="nav-link {{ request()->is('asc') ? 'active' : '' }}">
+                                                <p>เพิ่ม</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/asc_del') }}" class="nav-link {{ request()->is('asc_del') ? 'active' : '' }}">
+                                                <p>ลบ</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                {{-- Position --}}
+                                <li class="nav-item {{ request()->is('position*') ? 'menu-open' : '' }}">
+                                    <a href="#" class="nav-link">
+                                        <p>Position <i class="right fas fa-angle-left"></i></p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a href="{{ url('/position') }}" class="nav-link {{ request()->is('position') ? 'active' : '' }}">
+                                                <p>เพิ่ม</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="{{ url('/position_del') }}" class="nav-link {{ request()->is('position_del') ? 'active' : '' }}">
+                                                <p>ลบ</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
                         </li>
+
+                        {{-- รายชื่อสมาชิก --}}
                         <li class="nav-item">
-                            <a href="{{url('/user_admin')}}" class="nav-link {{ request()->is('user_admin') ? 'active' : '' }}">
+                            <a href="{{ url('/user_admin') }}" class="nav-link {{ request()->is('user_admin') ? 'active' : '' }}">
                                 <p>รายชื่อสมาชิก</p>
                             </a>
                         </li>

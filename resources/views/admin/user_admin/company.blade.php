@@ -11,7 +11,7 @@ use App\Models\Company;
                 <div class="container-fluid">
                     <div class="d-flex align-items-center">
                         <div class="">
-                            <h4 class="m-0">ASC</h4>
+                            <h4 class="m-0">Company</h4>
                         </div>
                         <div class="ml-3">
                             <a href="{{route('admin')}}">
@@ -25,23 +25,18 @@ use App\Models\Company;
                 </div>
             </div>
 			<div class="container mt-5">
-				<div class="card">
+                <div class="card">
                     <div class="card-header bg-primary text-white">
-                        เพิ่มASC
+                        เพิ่มCompany
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('asc.create') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.company') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="title">ชื่อบริษัท </label>
-                                <input type="text" name="title" class="form-control">
+                                <label for="company_title">ชื่อCompany </label>
+                                <input type="text" name="company_title" class="form-control">
                             </div>
 
-							<div class="form-group">
-                                <label for="asc_code">ASC_Code </label>
-                                <input type="text" name="asc_code" class="form-control">
-                            </div>
-							
                             <div class="card-footer">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
                             </div>

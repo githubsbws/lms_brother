@@ -495,10 +495,17 @@ Route::get('/export-user-admin', [AdminController::class, 'exportUseradmin'])->n
 
 Route::get('/asc',[AdminController::class,'asc'])->name('asc')->middleware('checkIdleTimeout');
 Route::post('/asc',[AdminController::class,'asc'])->name('asc.create')->middleware('checkIdleTimeout');
-Route::post('/company/delete/{id}', [AdminController::class, 'company_delete'])->name('company.delete');
+Route::get('/asc_del', [AdminController::class, 'asc_del'])->name('asc.del');
 Route::post('/asc/delete/{id}', [AdminController::class, 'asc_delete'])->name('asc.delete');
-Route::post('/position/delete/{id}', [AdminController::class, 'position_delete'])->name('position.delete');
+
+Route::get('/company',[AdminController::class,'company'])->name('company')->middleware('checkIdleTimeout');
 Route::post('/admin/company',[AdminController::class,'company'])->name('admin.company')->middleware('checkIdleTimeout');
+Route::get('/company_del',[AdminController::class,'company_del'])->name('company_del')->middleware('checkIdleTimeout');
+Route::post('/company/delete/{id}', [AdminController::class, 'company_delete'])->name('company.delete');
+
+Route::get('/position',[AdminController::class,'position'])->name('position')->middleware('checkIdleTimeout');
+Route::get('/position_del',[AdminController::class,'position_del'])->name('position_del')->middleware('checkIdleTimeout');
+Route::post('/position/delete/{id}', [AdminController::class, 'position_delete'])->name('position.delete');
 Route::post('/admin/position',[AdminController::class,'position'])->name('admin.position')->middleware('checkIdleTimeout');
 
 Route::get('/userexcel',[AdminController::class,'userExcel'])->name('user_excel')->middleware('checkIdleTimeout');
