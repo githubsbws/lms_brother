@@ -444,7 +444,7 @@
                         <li class="nav-item {{ request()->is(['company*','asc*','position*']) ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link">
                                 <p>
-                                    Company / ASC / Position
+                                    แก้ไขและจัดการข้อมูลสมาชิก
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>

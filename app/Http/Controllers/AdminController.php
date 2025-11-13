@@ -4180,7 +4180,7 @@ class AdminController extends Controller
             if($request->isMethod('post')){
                 $validator = Validator::make($request->all(), [
                     'company_id' => 'required',
-                    'position_title'=>'required|string',
+                    'position_title'=>'required',
 
                 ],[
                     'company_id.required' => 'กรุณาเลือก Company',

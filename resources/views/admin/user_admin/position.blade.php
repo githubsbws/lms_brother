@@ -44,7 +44,7 @@ use App\Models\Company;
                                 <select name="company_id" id="company" class="form-control">
                                     <option value="">---เลือก---</option>
                                     @foreach ($company as $com)
-                                        <option value="{{ $com->id }}">{{ $com->company_title }}</option>
+                                        <option value="{{ $com->company_id }}">{{ $com->company_title }}</option>
                                     @endforeach
                                 </select>
                             </div>

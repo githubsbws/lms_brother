@@ -25,14 +25,6 @@
 											@csrf
 											<div class="form-group mb-0">
 												<div class="form-group px-0 mr-3 w-100">
-													<label for="con_firstname">User Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label>
-													<input type="text" class="form-control"  name="email_room" value="{{ $setting->email_room}}">
-												</div>
-												<div class="form-group px-0 mr-3 w-100">
-													<label for="con_firstname">Pass Email ที่ใช้ในการส่งรหัสผ่านเข้าห้องเรียน</label>
-													<input type="text" class="form-control"  name="pass_email_room" value="{{ $setting->pass_email_room}}">
-												</div>
-												<div class="form-group px-0 mr-3 w-100">
 													<label for="con_firstname">User Email ที่ใช้ในการส่งข้อมูล</label>
 													<input type="text" class="form-control"  name="settings_user_email" value="{{ $setting->settings_user_email}}">
 												</div>
@@ -40,11 +32,6 @@
 													<label for="con_firstname">Pass Email ที่ใช้ในการส่งข้อมูล</label>
 													<input type="text" class="form-control"  name="settings_pass_email" value="{{ $setting->settings_pass_email}}">
 												</div>
-												<div class="form-group px-0 mr-3 w-100">
-													<label for="con_firstname">Pass Email ที่ใช้ในการส่งข้อมูล</label>
-													<input type="text" class="form-control"  name="settings_pass_email" value="{{ $setting->settings_pass_email}}">
-												</div>
-
 												<div class="form-group px-0 w-100">
 													<label for="con_lastname">เปิด-ปิด การเฉลยข้อสอบ</label>
 													<div>

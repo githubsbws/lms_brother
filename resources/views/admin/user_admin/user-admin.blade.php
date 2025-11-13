@@ -33,13 +33,12 @@ use App\Models\Users;
                                     <tr>
 										<th>username</th>
 										<th>ชื่อ นามสกุล</th>
-										<th>เลขบัตรประชาชน</th>
-										<th>email</th>
-										<th>advisor_email1</th>
-										<th>Online_Status</th>
+										<th>Position</th>
+										<th>Organize</th>
+										<th>ASC</th>
+										<th>Status</th>
 										<th>Create_at</th>
 										<th>Lastvisit_at</th>
-										<th>Status</th>
 										<th>Last_ip</th>
 										<th>Last_activity</th>
 										<th>จัดการสิทธิ์</th>
@@ -55,16 +54,16 @@ use App\Models\Users;
                                         <td class="text-center">
                                             {{ $data->Profiles->firstname ?? '-' }} {{ $data->Profiles->lastname ?? '-' }}
                                         </td>
-                                        <td class="text-center">
-                                            {{ $data->Profiles->identification ?? '-' }}
+										<td class="text-center">
+                                            {{ $data->Position->position_title ?? '-'}}
                                         </td>
 										<td class="text-center">
-                                            {{ $data->email ?? '-'}}
+                                            {{ $data->ASC->asc_title ?? '-' }}
                                         </td>
 										<td class="text-center">
-                                            {{ $data->Profiles->advisor_email1 ?? '-' }}
+                                            {{ $data->Company->company_title ?? '-' }}
                                         </td>
-										@if($data->online_status == 1)
+										@if($data->status == 1)
 										<td>
 											<a href="" class="btn btn-success">User Active</a>
 										</td>
@@ -75,11 +74,6 @@ use App\Models\Users;
 										@endif
 										<td> {{ $data->create_at}}</td>
 										<td> {{ $data->lastvisit_at}}</td>
-										@if($data->status == 1)
-										<td> เปิดการใช้งาน </td>
-										@else
-										<td> ปิดการใช้งาน </td>
-										@endif
 										<td> {{ $data->last_ip }}</td>
 										<td> {{ $data->last_activity }}</td>
                                         <td>

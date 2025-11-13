@@ -11,6 +11,7 @@ use App\Models\DownloadFile;
     position: relative;
     width: 100%;
     overflow: hidden;
+    margin-top: 80px;
 }
 
 .image-slider {
