@@ -3990,6 +3990,7 @@ class AdminController extends Controller
             ]);
             // ถ้า validation ไม่ผ่าน กลับไปยังหน้า login form พร้อมแสดง errors
             if ($validator->fails()) {
+                dd($validator->errors());
                 return back()->withErrors($validator)->withInput($request->only('username'));
             }
             $user = new Users();
@@ -3997,7 +3998,7 @@ class AdminController extends Controller
             $user->password = Hash::make($request->password);
             $user->email = $request->email ?? null;
             $user->company_id = $request->company ?? null;
-            $user->division_id = $request->division ?? null;
+            $user->asc_id = $request->asc ?? null;
             $user->position_id = $request->position ?? null;
             $user->department_id = '1';
             $user->activkey = md5(microtime().$request->password);

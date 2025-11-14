@@ -100,10 +100,12 @@ use App\Models\ASC;
                             </div>
 
                             <div class="form-group">
-                                <label for="">เลขบัตรประชาชน</label>
+                                <label for="">เลขบัตรประชาชน<span style="color:red">*</span></label>
                                 <input type="text"  class="form-control" name="identification">
                             </div>
-
+                            @error('identification')
+                                <span style="color:red">{{ $message }}</span>
+                            @enderror
                             <div class="form-group">
                                 <label for="">Email</label>
                                 <input type="email"  class="form-control" name="email">
