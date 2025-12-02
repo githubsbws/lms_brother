@@ -539,7 +539,7 @@ class AdminController extends Controller
                 'active'=>'y'                   //default
             ];
             DB::table('vdo')->insert($vdo_data);
-            return redirect()->route('video');
+            return redirect()->route('video')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
         }else{
             return redirect()->route('login.admin');
         }
@@ -569,7 +569,7 @@ class AdminController extends Controller
                 'active'=>'y'                   //default
             ];
             DB::table('vdo')->where('vdo_id',$vdo_id)->update($vdo_data);
-            return redirect()->route('video');
+            return redirect()->route('video')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
         }else{
             return redirect()->route('login.admin');
         }
@@ -580,7 +580,7 @@ class AdminController extends Controller
                 'active'=>'n'
             ];
             DB::table('vdo')->where('vdo_id',$vdo_id)->update($vdo_delete);
-            return redirect()->route('video');
+            return redirect()->route('video')->with('success', 'อัปเดตข้อมูลเรียบร้อยแล้ว');
         }else{
             return redirect()->route('login.admin');
         }
@@ -4131,7 +4131,7 @@ class AdminController extends Controller
                 $asc_create->active = 'y';
                 $asc_create->save();
 
-                return redirect()->route('user_admin');
+                return redirect()->route('asc_del')->with('success', 'Update Successful');
             }
             return view("admin.user_admin.asc",compact('asc'));
         }else{
@@ -4166,7 +4166,7 @@ class AdminController extends Controller
                 $company_create->create_date = now();
                 $company_create->save();
 
-                return redirect()->route('user_admin');
+                 return redirect()->route('company_del')->with('success', 'Update Successful');
             }
             return view("admin.user_admin.company",compact('company'));
         }else{
@@ -4207,7 +4207,7 @@ class AdminController extends Controller
                 $position_create->create_date = now();
                 $position_create->save();
 
-                return redirect()->route('user_admin');
+                return redirect()->route('position_del')->with('success', 'Update Successful');
             }
             return view("admin.user_admin.position",compact('position'));
         }else{

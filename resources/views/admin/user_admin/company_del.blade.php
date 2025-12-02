@@ -37,11 +37,11 @@ use App\Models\Company;
                             </thead>
                             <tbody>
                                 @foreach ($company as $data)
-                                <tr data-id="{{ $data->id }}">
+                                <tr data-id="{{ $data->company_id }}">
                                     <td>{{ $data->company_title }}</td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-sm delete-button"
-                                            data-id="{{ $data->id }}"
+                                            data-id="{{ $data->company_id }}"
                                             data-name="{{ $data->company_title }}"
                                             data-url="{{ route('company.delete', $data->company_id) }}">
                                             <i class="fas fa-trash"></i>
