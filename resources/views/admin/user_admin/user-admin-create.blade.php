@@ -117,7 +117,7 @@ use App\Models\ASC;
                             </div>
                             
                             <div class="form-group">
-                                <label for="">company</label>
+                                <label for="">Chanel</label>
                                 <select class="form-control" name="company" id="company">
                                     <option value="">---เลือก---</option>
                                     @foreach ( $company as $comp )
@@ -129,7 +129,7 @@ use App\Models\ASC;
                             $asc_all = ASC::where('active','y')->get();
                             @endphp
                             <div class="form-group">
-                                <label for="">ASC</label>
+                                <label for="">Company</label>
                                 <select class="form-control" name="asc" id="asc">
                                     <option value="">---เลือก---</option>
                                     @foreach ($asc_all as $as)

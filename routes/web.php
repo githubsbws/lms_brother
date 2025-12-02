@@ -517,6 +517,7 @@ Route::post('/useradmin_delete/{id}',[AdminController::class,'userAdminDelete'])
 Route::post('/useradmin_update',[AdminController::class,'userAdminUpdate'])->name('user_update')->middleware('checkIdleTimeout');
 Route::post('/useradmin_insert',[AdminController::class,'userAdminInsert'])->name('user_insert')->middleware('checkIdleTimeout');
 Route::post('/userexcel/import', [AdminController::class,'importExcel'])->name('import.excel')->middleware('checkIdleTimeout');
+Route::get('/user/toggle/{id}', [AdminController::class, 'toggleStatus'])->name('user.toggle');
 // js
 Route::get('/useradmin_create/company_selector/{id}', [AdminController::class,'companySelector'])->name('company_selector')->middleware('checkIdleTimeout');
 // chockker

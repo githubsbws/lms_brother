@@ -34,8 +34,8 @@ use App\Models\Users;
 										<th>username</th>
 										<th>ชื่อ นามสกุล</th>
 										<th>Position</th>
-										<th>Organize</th>
-										<th>ASC</th>
+										<th>Company</th>
+										<th>Chanel</th>
 										<th>Status</th>
 										<th>Create_at</th>
 										<th>Lastvisit_at</th>
@@ -58,18 +58,26 @@ use App\Models\Users;
                                             {{ $data->Position->position_title ?? '-'}}
                                         </td>
 										<td class="text-center">
-                                            {{ $data->ASC->asc_title ?? '-' }}
+                                            {{ $data->ASC->name ?? '-' }}
                                         </td>
 										<td class="text-center">
                                             {{ $data->Company->company_title ?? '-' }}
                                         </td>
 										@if($data->status == 1)
 										<td>
-											<a href="" class="btn btn-success">User Active</a>
+											<a href="{{ route('user.toggle', $data->id) }}" 
+											class="btn btn-success"
+											onclick="return confirm('ยืนยันเปลี่ยนเป็น Inactive ?')">
+												User Active
+											</a>
 										</td>
 										@else
 										<td>
-											<a href="" class="btn btn-danger">Inactive</a>
+											<a href="{{ route('user.toggle', $data->id) }}" 
+											class="btn btn-danger"
+											onclick="return confirm('ยืนยันเปลี่ยนเป็น Active ?')">
+												Inactive
+											</a>
 										</td>
 										@endif
 										<td> {{ $data->create_at}}</td>

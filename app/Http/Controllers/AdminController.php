@@ -3901,8 +3901,7 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
                 $company = Company::get();
                 $division = Division::get();
-                $query = Users::where('status', '1')
-                ->where('del_status', 0)
+                $query = Users::where('del_status', 0)
                 ->get();
                 // dd($query->toArray());
             return view("admin.user_admin.user-admin",['company' => $company,'division' => $division,'query' => $query]);
@@ -3990,7 +3989,6 @@ class AdminController extends Controller
             ]);
             // ถ้า validation ไม่ผ่าน กลับไปยังหน้า login form พร้อมแสดง errors
             if ($validator->fails()) {
-                dd($validator->errors());
                 return back()->withErrors($validator)->withInput($request->only('username'));
             }
             $user = new Users();
@@ -4097,6 +4095,17 @@ class AdminController extends Controller
         }else{
             return redirect()->route('login.admin');
         }
+    }
+
+    public function toggleStatus($id)
+    {
+        $user = Users::findOrFail($id);
+
+        // กลับค่า status (1 → 0, 0 → 1)
+        $user->status = $user->status == 1 ? 0 : 1;
+        $user->save();
+
+        return back()->with('success', 'เปลี่ยนสถานะสำเร็จ');
     }
 
     public function asc(Request $request){
