@@ -172,7 +172,7 @@ use App\Models\Course;
                                     @endphp
                                     @if($oc->order !== '1')
                                     <li class="dd-item" data-id="{{ $oc->id }}">
-                                        <div class="dd-handle">{{ $course->course_title }}</div>
+                                        <div class="dd-handle">{{ $course->course_title ?? '-' }}</div>
 
                                         @php $children = $sub_courses->where('parent_id', $oc->id); @endphp
                                         @if($children->isNotEmpty())
