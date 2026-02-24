@@ -12,7 +12,7 @@
                             <h4 class="m-0">ระบบการกำหนดสิทธิการใช้งาน</h4>
                         </div>
                         <div class="ml-3">
-                            <a href="{{route('pgroup')}}">
+                            <a href="{{route('adminmenu_p')}}">
                                 <button class="btn btn-warning d-flex align-items-center">
                                     <i class="fas fa-angle-left mr-2"></i>
                                     กลับหน้าหลัก
