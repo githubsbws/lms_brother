@@ -3627,6 +3627,66 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
+    function adminuser_p(){
+        if(AuthFacade::useradmin()){
+            $menuHead = AdminMenu::whereNull('parent_id')->get();
+
+            return view("admin.pgroup.admin_p",
+                compact('menuHead')
+            );
+
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    function adminmenu_edit($id){
+        if(AuthFacade::useradmin()){
+            $menu = AdminMenu::findOrFail($id);
+
+            return view('admin.pgroup.adminmenu_edit', compact('menu'));
+
+        }else{
+            return redirect()->route('login.admin');
+        }
+    }
+    public function adminmenu_update(Request $request, $id)
+    {
+        $menu = AdminMenu::findOrFail($id);
+
+        $menu->update([
+            'name' => $request->name
+        ]);
+
+        return back()->with('success','แก้ไขสำเร็จ');
+    }
+    public function adminmenu_destroy($id)
+    {
+        $menu = AdminMenu::find($id);
+
+        if (!$menu) {
+            return back()->with('error', 'ไม่พบเมนูที่ต้องการลบ');
+        }
+
+        // 🔒 กันลบถ้ามีเมนูย่อย
+        $hasChildren = AdminMenu::where('parent_id', $id)->exists();
+
+        if ($hasChildren) {
+            return back()->with('error', 'ไม่สามารถลบได้ เนื่องจากมีเมนูย่อยอยู่');
+        }
+
+        DB::transaction(function () use ($id, $menu) {
+
+            // ลบ permission ที่ผูกกับเมนูนี้
+            DB::table('tbl_permission')
+                ->where('group_parent_id', $id)
+                ->delete();
+
+            // ลบเมนู
+            $menu->delete();
+        });
+
+        return back()->with('success', 'ลบเมนูเรียบร้อยแล้ว');
+    }
     function adminuser_permission_add($id){
         if(AuthFacade::useradmin()){
             $user = Profiles::where('user_id',$id)->first();

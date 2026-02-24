@@ -25,24 +25,22 @@
                 <div class="container-fluid">
                     <div class="card m-0">
                         <div class="card-body">
-							<a class="btn btn-primary btn-icon glyphicons circle_plus" href="{{ url('/pgroup_create') }}"><i></i> เพิ่มกลุ่มผู้ใช้งาน</a>
-							<a class="btn btn-primary btn-icon glyphicons circle_plus" href="{{ url('/adminmenu_p') }}"><i></i> แก้ไขชื่อเมนู</a>
                             <table id="settingTable" class="table table-striped table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>
 										<th>No</th>
-										<th>รายชื่อกลุ่มผู้ใช้งาน</th>
+										<th>ชื่อเมนู</th>
 										<th>จัดการสิทธิ์</th>
 										<th>ลบ</th>
                                     </tr>
                                 </thead>
                                 <tbody id="sortable">
-                                    @foreach($p_group as $index => $item)
+                                    @foreach($menuHead as $index => $item)
                                     <tr>
 										<td>{{ $index + 1 }}</td>
-										<td>{{ $item->group_name }}</td>
+										<td>{{ $item->name }}</td>
                                         <td>
-											<a href="{{ route('pgroup_edit',['pgroup_id' => $item->id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
+											<a href="{{ route('adminmenu_edit',['id' => $item->id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
 										</td>
 										<td>
                                             <button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $item->id }}">
@@ -96,7 +94,7 @@
 			e.preventDefault();
 
 			var id = $(this).data("id");
-			var url = "/pgroup_delete/" + id;
+			var url = "/adminmenu_destroy/" + id;
 
 			console.log("Clicked delete button with ID:", id); // ตรวจสอบว่า ID ถูกต้องไหม
 
