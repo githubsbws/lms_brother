@@ -3627,7 +3627,7 @@ class AdminController extends Controller
             return redirect()->route('login.admin');
         }
     }
-    function adminuser_p(){
+    function adminmenu_p(){
         if(AuthFacade::useradmin()){
             $menuHead = AdminMenu::whereNull('parent_id')->get();
 
