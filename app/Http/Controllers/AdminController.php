@@ -3838,8 +3838,8 @@ class AdminController extends Controller
     }
     function pgroup_update(Request $request,$pgroup_id){
         if(AuthFacade::useradmin()){
-            $selected_menus = $request->input('menu');
-            $all_menus = $request->input('checkMenu');
+            $selected_menus = (array) $request->input('menu', []);
+            $all_menus = (array) $request->input('checkMenu', []);
             foreach ($all_menus as $menu) {
                 // ตรวจสอบว่า $menu อยู่ใน $selected_menus หรือไม่
                 if (in_array($menu, $selected_menus)) {
