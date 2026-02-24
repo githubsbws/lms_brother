@@ -8,7 +8,7 @@ use App\Helpers\PermissionHelper;
     <div class="sidebar">
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                @canmenu(20)
+                @canmenu(1)
                 <li class="nav-item">
                     <a href="{{route('admin')}}" class="nav-link {{ request()->routeIs('admin') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-home"></i>
@@ -16,7 +16,7 @@ use App\Helpers\PermissionHelper;
                     </a>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(2)
                 <li class="nav-item {{ request()->is('aboutus*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('aboutus*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-sliders-h"></i>
@@ -39,7 +39,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(3)
                 <li class="nav-item {{ request()->is('condition*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('condition*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -56,7 +56,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(4)
                 <li class="nav-item {{ request()->is('setting*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('setting*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -74,7 +74,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(5)
                 <li class="nav-item {{ request()->is('contactus*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('contactus*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-address-book"></i>
@@ -92,7 +92,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(6)
                 <li class="nav-item {{ request()->is('video*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('video*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -115,7 +115,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(7)
                 <li class="nav-item {{ request()->is('document*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('document*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -153,7 +153,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(8)
                 <li class="nav-item {{ request()->is('ocr*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('ocr*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -171,7 +171,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(9)
                 <li class="nav-item {{ request()->is('news*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('news*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -194,7 +194,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(10)
                 <li class="nav-item {{ request()->is('category*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('category*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -218,7 +218,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(11)
                 <li class="nav-item {{ request()->is('courseonline*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('courseonline*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-desktop"></i>
@@ -247,7 +247,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(12)
                 <li class="nav-item {{ request()->is('lesson*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('lesson*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-desktop"></i>
@@ -271,7 +271,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(13)
                 <li class="nav-item {{ request()->is('grouptesting*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('grouptesting*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-file-alt"></i>
@@ -305,7 +305,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(14)
                 <li class="nav-item {{ request()->is('questionnaireout*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('questionnaireout*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-file-alt"></i>
@@ -329,7 +329,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(15)
                 <li class="nav-item {{ request()->is('orgchart*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('orgchart*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-eye"></i>
@@ -354,7 +354,7 @@ use App\Helpers\PermissionHelper;
                         <p>จัดการใบประกาศนียบัตร</p>
                     </a>
                 </li> --}}
-                @canmenu(20)
+                @canmenu(16)
                 <li class="nav-item {{ request()->is('captcha*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('captcha*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
@@ -369,7 +369,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(17)
                 <li class="nav-item">
                     <a href="{{ url('learnreset')}}" class="nav-link {{ request()->is('learnreset') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-sync-alt"></i>
@@ -377,7 +377,7 @@ use App\Helpers\PermissionHelper;
                     </a>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(18)
                 <li class="nav-item {{ request()->is('usability*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('usability*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book"></i>
@@ -400,7 +400,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(19)
                 <li class="nav-item {{ request()->is('reportproblem*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('reportproblem*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bug"></i>
@@ -438,7 +438,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(21)
                 <li class="nav-item {{ request()->is('adminuser*') || request()->is('adminuser*')  ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('pgroup*') || request()->is('adminuser*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-cog"></i>
@@ -461,7 +461,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(22)
                 <li class="nav-item {{ request()->is(['company*','asc*','position*','user*']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is(['company*','asc*','position*','user*']) ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-plus"></i>
@@ -564,7 +564,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(23)
                 <li class="nav-item {{ request()->is('imgslide*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('imgslide*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bullhorn"></i>
@@ -587,7 +587,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(24)
                 <li class="nav-item {{ request()->is('report*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('report*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
@@ -610,7 +610,7 @@ use App\Helpers\PermissionHelper;
                     </ul>
                 </li>
                 @endcanmenu
-                @canmenu(20)
+                @canmenu(25)
                 <li class="nav-item {{ request()->is('log*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('log*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
