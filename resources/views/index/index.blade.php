@@ -194,7 +194,16 @@ use App\Models\DownloadFile;
                                   @endphp
                                   @foreach($dow_cate as $cate)
                                   @php
-                                  $file = DownloadFile::join('download_filedoc','download_filedoc.file_id','=','download_file.file_id')->where('download_file.download_id',$cate->download_id)->where('download_file.active','y')->get();
+                                  $file = DownloadFile::select(
+                                              'download_file.*',
+                                              'download_filedoc.filedoc_id',
+                                              'download_filedoc.filedoc_name'
+                                          )
+                                          ->join('download_filedoc','download_filedoc.file_id','=','download_file.file_id')
+                                          ->where('download_file.download_id',$cate->download_id)
+                                          ->where('download_file.active','y')
+                                          ->distinct()
+                                          ->get();
                                   @endphp
                                   <div class="panel panel-default" data-toggle="panel-collapse" data-open="false">
                                     <div class="panel-heading dowload-header panel-collapse-trigger collapse in" data-toggle="collapse" data-target="#{{$cate->download_id}}" aria-expanded="true" style="">

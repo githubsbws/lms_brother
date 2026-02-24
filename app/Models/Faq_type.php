@@ -15,7 +15,7 @@ class Faq_type extends Model
     
     protected $prefix = '';
 
-    protected $primarykey = 'faq_type_id';
+    protected $primaryKey = 'faq_type_id';
 
     const CREATED_AT = 'create_date'; // Custom created_at column
     const UPDATED_AT = 'update_date'; // Custom update_at column

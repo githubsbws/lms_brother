@@ -11,7 +11,7 @@ use App\Models\Company;
                 <div class="container-fluid">
                     <div class="d-flex align-items-center">
                         <div class="">
-                            <h4 class="m-0">Company</h4>
+                            <h4 class="m-0">Chanel</h4>
                         </div>
                         <div class="ml-3">
                             <a href="{{route('admin')}}">
@@ -27,13 +27,13 @@ use App\Models\Company;
 			<div class="container mt-5">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        เพิ่มCompany
+                        เพิ่มChanel
                     </div>
                     <div class="card-body">
                         <form action="{{ route('admin.company') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label for="company_title">ชื่อCompany </label>
+                                <label for="company_title">ชื่อChanel </label>
                                 <input type="text" name="company_title" class="form-control">
                             </div>
 

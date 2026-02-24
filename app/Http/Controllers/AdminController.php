@@ -3819,15 +3819,19 @@ class AdminController extends Controller
     }
     function pgroup_edit($pgroup_id){
         if(AuthFacade::useradmin()){
-            $group_id = Pgroup::get()->where('id',$pgroup_id)->first();
-            $menuHead = AdminMenu::whereNull('parent_id')->get();
-            $checkMenu = Permission::where('group_id',$pgroup_id)->where('active',1)->get();
-            foreach ($checkMenu as $data)
-            {
-                $checked[] = $data->group_parent_id;
-            }
 
-            return view("admin.pgroup.pgroup-edit",compact('group_id','menuHead','checked'));
+            $group_id = Pgroup::where('id',$pgroup_id)->first();
+            $menuHead = AdminMenu::whereNull('parent_id')->get();
+
+            $checked = Permission::where('group_id',$pgroup_id)
+                        ->where('active',1)
+                        ->pluck('group_parent_id')
+                        ->toArray();
+
+            return view("admin.pgroup.pgroup-edit",
+                compact('group_id','menuHead','checked')
+            );
+
         }else{
             return redirect()->route('login.admin');
         }
@@ -3901,7 +3905,7 @@ class AdminController extends Controller
         if(AuthFacade::useradmin()){
                 $company = Company::get();
                 $division = Division::get();
-                $query = Users::where('del_status', 0)
+                $query = Users::where('del_status', 0)->where('status', 1)
                 ->get();
                 // dd($query->toArray());
             return view("admin.user_admin.user-admin",['company' => $company,'division' => $division,'query' => $query]);
@@ -4131,7 +4135,7 @@ class AdminController extends Controller
                 $asc_create->active = 'y';
                 $asc_create->save();
 
-                return redirect()->route('asc_del')->with('success', 'Update Successful');
+                return redirect()->route('asc.del')->with('success', 'Update Successful');
             }
             return view("admin.user_admin.asc",compact('asc'));
         }else{

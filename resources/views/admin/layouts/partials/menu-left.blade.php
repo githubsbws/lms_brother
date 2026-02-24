@@ -453,7 +453,7 @@
                                 {{-- Company --}}
                                 <li class="nav-item {{ request()->is('company*') ? 'menu-open' : '' }}">
                                     <a href="#" class="nav-link">
-                                        <p>Company <i class="right fas fa-angle-left"></i></p>
+                                        <p>Chanel <i class="right fas fa-angle-left"></i></p>
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">
@@ -472,7 +472,7 @@
                                 {{-- ASC --}}
                                 <li class="nav-item {{ request()->is('asc*') ? 'menu-open' : '' }}">
                                     <a href="#" class="nav-link">
-                                        <p>ASC <i class="right fas fa-angle-left"></i></p>
+                                        <p>Company <i class="right fas fa-angle-left"></i></p>
                                     </a>
                                     <ul class="nav nav-treeview">
                                         <li class="nav-item">

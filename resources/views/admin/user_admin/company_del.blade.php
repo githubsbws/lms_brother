@@ -11,7 +11,7 @@ use App\Models\Company;
                 <div class="container-fluid">
                     <div class="d-flex align-items-center">
                         <div class="">
-                            <h4 class="m-0">Company</h4>
+                            <h4 class="m-0">Chanel</h4>
                         </div>
                         <div class="ml-3">
                             <a href="{{route('admin')}}">
@@ -26,7 +26,7 @@ use App\Models\Company;
             </div>
 			<div class="container mt-5">
                 <div class="card m-0">
-                    <div class="card-header bg-primary text-white">Company</div>
+                    <div class="card-header bg-primary text-white">Chanel</div>
                     <div class="card-body">
                         <table id="companyTable" class="table table-striped table-bordered nowrap" style="width:100%">
                             <thead>
