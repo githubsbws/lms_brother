@@ -45,20 +45,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($menuHead as $menuHeads )
-                                                <div class="menu">
-                                                    <tr>
-                                                        @if(!$checked)
-                                                            <td><input type="checkbox" id="{{ $menuHeads->id }}" name="menu[]" value="{{ $menuHeads->id }}"></td>
-                                                            <td><label for="">{{ $menuHeads->name }}</label></td>
+                                            @foreach ($menuHead as $menuHeads)
+                                                <tr>
+                                                    <td>
+                                                        <input type="checkbox"
+                                                            id="{{ $menuHeads->id }}"
+                                                            name="menu[]"
+                                                            value="{{ $menuHeads->id }}"
+                                                            {{ in_array($menuHeads->id, $checked ?? []) ? 'checked' : '' }}>
+                                                        
+                                                        <!-- ต้องมีทุกครั้ง -->
+                                                        <input type="hidden" name="checkMenu[]" value="{{ $menuHeads->id }}">
+                                                    </td>
 
-                                                        @else
-                                                            <td><input type="checkbox" id="{{ $menuHeads->id }}" name="menu[]" value="{{ $menuHeads->id }}"  {{ in_array($menuHeads->id, $checked) ? 'checked' : '' }}></td>
-                                                            <td><label for="">{{ $menuHeads->name }}</label></td>
-                                                            <input type="hidden" name="checkMenu[]" value="{{ $menuHeads->id }}">
-                                                        @endif
-                                                    </tr>
-                                                </div>
+                                                    <td>
+                                                        <label>{{ $menuHeads->name }}</label>
+                                                    </td>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
