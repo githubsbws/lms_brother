@@ -26,7 +26,7 @@
                     <div class="card m-0">
                         <div class="card-body">
 							<a class="btn btn-primary btn-icon glyphicons circle_plus" href="{{ url('/pgroup_create') }}"><i></i> เพิ่มกลุ่มผู้ใช้งาน</a>
-							<a class="btn btn-primary btn-icon glyphicons circle_plus" href="{{ url('/adminmenu_p') }}"><i></i> แก้ไขชื่อเมนู</a>
+							{{-- <a class="btn btn-primary btn-icon glyphicons circle_plus" href="{{ url('/adminmenu_p') }}"><i></i> แก้ไขชื่อเมนู</a> --}}
                             <table id="settingTable" class="table table-striped table-bordered nowrap" style="width:100%">
                                 <thead>
                                     <tr>

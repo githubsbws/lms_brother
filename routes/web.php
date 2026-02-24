@@ -461,10 +461,10 @@ Route::post('/faq_edit/{id}',[AdminController::class,'faq_edit'])->name('faq_edi
 Route::post('/faq_delete/{id}',[AdminController::class,'faq_delete'])->name('faq_delete')->middleware('checkIdleTimeout');
 // new p
 Route::get('/adminuser',[AdminController::class,'adminuser'])->name('adminuser')->middleware('checkIdleTimeout');
-Route::get('/adminmenu_p',[AdminController::class,'adminmenu_p'])->name('adminmenu_p')->middleware('checkIdleTimeout');
-Route::get('/adminmenu_edit/{id}',[AdminController::class,'adminmenu_edit'])->name('adminmenu_edit')->middleware('checkIdleTimeout');
-Route::put('/adminmenu_update/{id}',[AdminController::class,'adminmenu_update'])->name('adminmenu_update')->middleware('checkIdleTimeout');
-Route::post('/adminmenu_destroy/{id}',[AdminController::class,'adminmenu_destroy'])->name('adminmenu_destroy')->middleware('checkIdleTimeout');
+// Route::get('/adminmenu_p',[AdminController::class,'adminmenu_p'])->name('adminmenu_p')->middleware('checkIdleTimeout');
+// Route::get('/adminmenu_edit/{id}',[AdminController::class,'adminmenu_edit'])->name('adminmenu_edit')->middleware('checkIdleTimeout');
+// Route::put('/adminmenu_update/{id}',[AdminController::class,'adminmenu_update'])->name('adminmenu_update')->middleware('checkIdleTimeout');
+// Route::post('/adminmenu_destroy/{id}',[AdminController::class,'adminmenu_destroy'])->name('adminmenu_destroy')->middleware('checkIdleTimeout');
 Route::post('/adminuser_insert',[AdminController::class,'adminuser_insert'])->name('adminuser_insert')->middleware('checkIdleTimeout');
 Route::post('/adminuser_update/{id}',[AdminController::class,'adminuser_update'])->name('adminuser_update')->middleware('checkIdleTimeout');
 Route::post('/adminuser_delete/{id}',[AdminController::class,'adminuser_delete'])->name('adminuser_delete')->middleware('checkIdleTimeout');
