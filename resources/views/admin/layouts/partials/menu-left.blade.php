@@ -1,3 +1,6 @@
+@php
+use App\Helpers\PermissionHelper;
+@endphp
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <a href="{{route('admin')}}" class="brand-link">
         <p class="brand-text font-weight-border text-center mb-0">เมนูจัดการแอดมิน</p>
@@ -5,12 +8,15 @@
     <div class="sidebar">
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                @canmenu(20)
                 <li class="nav-item">
                     <a href="{{route('admin')}}" class="nav-link {{ request()->routeIs('admin') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-home"></i>
                         <p>ภาพรวม</p>
                     </a>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('aboutus*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('aboutus*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-sliders-h"></i>
@@ -32,6 +38,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('condition*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('condition*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -47,6 +55,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('setting*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('setting*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -63,6 +73,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('contactus*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('contactus*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-address-book"></i>
@@ -79,6 +91,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('video*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('video*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -100,6 +114,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('document*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('document*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -136,6 +152,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('ocr*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('ocr*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -152,6 +170,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('news*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('news*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -173,6 +193,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('category*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('category*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-cogs"></i>
@@ -195,6 +217,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('courseonline*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('courseonline*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-desktop"></i>
@@ -222,6 +246,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('lesson*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('lesson*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-desktop"></i>
@@ -244,6 +270,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('grouptesting*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('grouptesting*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-file-alt"></i>
@@ -276,6 +304,8 @@
                         </li> --}}
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('questionnaireout*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('questionnaireout*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-file-alt"></i>
@@ -298,6 +328,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('orgchart*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('orgchart*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-eye"></i>
@@ -315,12 +347,14 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
                 {{-- <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-print"></i>
                         <p>จัดการใบประกาศนียบัตร</p>
                     </a>
                 </li> --}}
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('captcha*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('captcha*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
@@ -334,12 +368,16 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item">
                     <a href="{{ url('learnreset')}}" class="nav-link {{ request()->is('learnreset') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-sync-alt"></i>
                         <p>ระบบรีเซ็ตผลการเรียนการสอบ</p>
                     </a>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('usability*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('usability*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book"></i>
@@ -361,6 +399,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('reportproblem*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('reportproblem*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bug"></i>
@@ -374,6 +414,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('faq*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('faq*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-question-circle"></i>
@@ -395,6 +437,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('adminuser*') || request()->is('adminuser*')  ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('pgroup*') || request()->is('adminuser*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-cog"></i>
@@ -416,6 +460,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is(['company*','asc*','position*','user*']) ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is(['company*','asc*','position*','user*']) ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user-plus"></i>
@@ -517,6 +563,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('imgslide*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('imgslide*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bullhorn"></i>
@@ -538,6 +586,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('report*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('report*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
@@ -559,6 +609,8 @@
                         </li>
                     </ul>
                 </li>
+                @endcanmenu
+                @canmenu(20)
                 <li class="nav-item {{ request()->is('log*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ request()->is('log*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-print"></i>
@@ -588,6 +640,7 @@
                         </a>
                     </li>
                 </li>
+                @endcanmenu
             </ul>
         </nav>
     </div>
