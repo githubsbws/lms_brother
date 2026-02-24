@@ -3677,7 +3677,7 @@ class AdminController extends Controller
         DB::transaction(function () use ($id, $menu) {
 
             // ลบ permission ที่ผูกกับเมนูนี้
-            DB::table('tbl_permission')
+            DB::table('permission')
                 ->where('group_parent_id', $id)
                 ->delete();
 
