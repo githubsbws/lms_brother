@@ -60,11 +60,15 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
         $scorePre = Score::where('user_id', $user->id)
                         ->where('course_id', $this->courseId)
                         ->where('type', 'pre')
+                        ->where('active', 'y')
+                        ->orderBy('score_number', 'DESC')
                         ->first();
         $scorePost = Score::where('user_id', $user->id)
-                         ->where('course_id', $this->courseId)
-                         ->where('type', 'post')
-                         ->first();
+                        ->where('course_id', $this->courseId)
+                        ->where('type', 'post')
+                        ->where('active', 'y')
+                        ->orderBy('score_number', 'DESC')
+                        ->first();
         $score = Score::where('user_id', $user->id)
                          ->where('course_id', $this->courseId)
                          ->latest('score_id')->first();
