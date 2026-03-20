@@ -97,7 +97,7 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-12 col-sm-12" style="margin-top: 20px;margin-bottom: 30px;text-align: center;">
-                            <img src="{{ asset('Adminkit/theme/images/head-subject/quiz.png') }}" alt="person" style="margin-top: -15px;" />
+                            <img src="{{ asset('Adminkit/theme/images/quiz.png') }}" alt="person" style="margin-top: -15px;" />
                             <span style="font-size: 50px;color: rgb(0, 183, 243);">แบบทดสอบ</span>
                             @if ($lesson->time_test != '' && $lesson->time_test != 0)
                                 <div class="alert alert-danger sticky"
