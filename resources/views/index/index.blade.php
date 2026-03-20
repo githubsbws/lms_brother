@@ -202,6 +202,7 @@ use App\Models\DownloadFile;
                                           ->join('download_filedoc','download_filedoc.file_id','=','download_file.file_id')
                                           ->where('download_file.download_id',$cate->download_id)
                                           ->where('download_file.active','y')
+                                          ->where('download_filedoc.active','y')
                                           ->distinct()
                                           ->get();
                                   @endphp
