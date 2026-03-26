@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Downloadtitle;
 use App\Models\Downloadcategoty;
 use App\Models\DownloadFileDoc;
+use App\Models\DownloadFile;
+use App\Helpers\DocumentPermissionHelper;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -18,10 +20,47 @@ class DownloadController extends Controller
 {
     function download(){
         if(Auth::check()){
+            $userId = auth()->id();
 
-            $download_title = Downloadtitle::where('active','y')->get();
+            $titles = Downloadtitle::where('active','y')->get();
+            $filteredTitles = [];
+
+            foreach ($titles as $title) {
+
+                $categories = Downloadcategoty::where('title_id', $title->title_id)
+                                ->where('active','y')
+                                ->get();
+
+                $titleHasPermission = false;
+
+                foreach ($categories as $cate) {
+
+                    if (!DocumentPermissionHelper::userHasCategoryPermission($cate->download_id, $userId)) {
+                        continue;
+                    }
+
+                    $files = DownloadFile::join('download_filedoc', 'download_filedoc.file_id', '=', 'download_file.file_id')
+                        ->where('download_file.download_id', $cate->download_id)
+                        ->where('download_file.active', 'y')
+                        ->where('download_filedoc.active', 'y')
+                        ->select('download_filedoc.filedoc_id')
+                        ->distinct()
+                        ->get();
+
+                    foreach ($files as $file) {
+                        if (DocumentPermissionHelper::userHasPermission($file->filedoc_id, $userId)) {
+                            $titleHasPermission = true;
+                            break 2; 
+                        }
+                    }
+                }
+
+                if ($titleHasPermission) {
+                    $filteredTitles[] = $title;
+                }
+            }
             
-            return view('download.download',['download_title' =>$download_title]);
+            return view('download.download',['download_title' =>$filteredTitles]);
         }
         return view('auth.login');
     }

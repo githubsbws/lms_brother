@@ -4,6 +4,8 @@
 @php
 use App\Models\Downloadcategoty;
 use App\Models\DownloadFile;
+use App\Helpers\OrgchartHelper;
+use App\Helpers\DocumentPermissionHelper;
 
 @endphp
 <style>
@@ -193,92 +195,84 @@ use App\Models\DownloadFile;
                                   $dow_cate = Downloadcategoty::where('title_id',$dow->title_id)->where('active','y')->paginate(3);
                                   @endphp
                                   @foreach($dow_cate as $cate)
+
                                   @php
-                                  $file = DownloadFile::select(
-                                              'download_file.*',
-                                              'download_filedoc.filedoc_id',
-                                              'download_filedoc.filedoc_name'
-                                          )
-                                          ->join('download_filedoc','download_filedoc.file_id','=','download_file.file_id')
-                                          ->where('download_file.download_id',$cate->download_id)
-                                          ->where('download_file.active','y')
-                                          ->where('download_filedoc.active','y')
-                                          ->distinct()
-                                          ->get();
+                                      $canViewCategory = DocumentPermissionHelper::userHasCategoryPermission(
+                                          $cate->download_id, 
+                                          auth()->id()
+                                      );
                                   @endphp
-                                  <div class="panel panel-default" data-toggle="panel-collapse" data-open="false">
-                                    <div class="panel-heading dowload-header panel-collapse-trigger collapse in" data-toggle="collapse" data-target="#{{$cate->download_id}}" aria-expanded="true" style="">
-                                      <h3 class="panel-title" style="font-size: 22px;">หมวดหมุ่ - {{$cate->download_name}}</h3>
-                                    </div>
-              
-                                    
-                                  <div id="{{$cate->download_id}}" class="collapse"><div class="panel-body list-group">
-              
+
+                                  @if ($canViewCategory)
+
+                                      @php
+                                          $files = DownloadFile::select(
+                                                      'download_file.*',
+                                                      'download_filedoc.filedoc_id',
+                                                      'download_filedoc.filedoc_name'
+                                                  )
+                                                  ->join('download_filedoc','download_filedoc.file_id','=','download_file.file_id')
+                                                  ->where('download_file.download_id',$cate->download_id)
+                                                  ->where('download_file.active','y')
+                                                  ->where('download_filedoc.active','y')
+                                                  ->distinct()
+                                                  ->get();
+
+                                          $collapseId = "collapse-" . $cate->download_id;
+
+                                          $downloadCount = 0;
+                                      @endphp
+
                                       <div class="panel panel-default">
-                                        <div class="panel-heading detail-change-icon">
-                                          <a data-toggle="collapse" class="download-change0" href="#collapse-0">
-                                            <h4 class="panel-title dowload-title">
-                                                                              <!-- <span class="pull-right"><i class="icon-change-2 fa fa-plus " aria-hidden="true"></i></span> -->
-                                            </h4>
-                                          </a>
-              
-              
-              
-                                        </div>
-                                        <div id="collapse-0" class="panel-collapse collapse in">
-                                          <ul class="list-group list-group-menu">
-                                            @foreach($file as $f)
-                                             <li class="list-group-item">
-                                              <!-- 
-                                                <a href="/index.php/site/download?file_id=1127"> -->
-                                                    <a href="{{ route('download.downloadfiles', ['id' => $f->filedoc_id]) }}">
-                                                      {{-- <a href="{{ route('index.downloadfile', ['id' => $f->filedoc_id]) }}" data-toggle="modal"> --}}
-              
-                                                  <img src="{{asset('themes/bws/images/icons8-pdf-48.png')}}" alt="person" style="width: 22px;">
-                                                  {{$f->filedoc_name}} <span class="pull-right"><i class="fa fa-download"></i> ดาวน์โหลด </span>
-                                                </a>
-                                              </li>
-                                            @endforeach
-              
-              
-                                            {{-- <div class="modal fade" id="modal-ckeck-key-filedow1127">
-                                                <div class="modal-dialog">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                      <h4 class="modal-title modalhead"><i class="fa fa-sign-in" aria-hidden="true"></i> ยืนยันรหัสผ่าน</h4>
-                                                    </div>
-                                                    <form action="/index.php/site/Chkkey" method="post" enctype="multipart/form-data">
-                                                      <div class="modal-body">
-                                                        <div class="row">
-                                                          <div class="col-sm-8 col-sm-offset-2 text-center">
-                                                            <h3 class="font-weight-bold">กรุณากรอกรหัส key เพื่่อยืนยันตัวตน</h3>
-                                                            <input type="hidden" name="id" class="form-control" value="filedow">
-                                                            <input type="hidden" name="valfile" class="form-control" value="1127">
-              
-                                                            <input type="password" name="check_key" class="form-control" autocomplete="off">
-              
-                                                          </div>
-                                                        </div>
-                                                      </div>
-                                                      <div class="modal-footer">
-                                                        <button type="submit" class="btn btn-success">ตกลง</button>
-                                                        <button class="btn btn-warning" href="#" data-dismiss="modal" aria-hidden="true">ยกเลิก</button>
-                                                      </div>
-                                                    </form>
-                                                  </div>
-                                                </div>
-                                              </div> --}}
-                                             </ul>
-                                        </div>
-              
-              
+                                          <div class="panel-heading dowload-header panel-collapse-trigger"
+                                              data-toggle="collapse"
+                                              data-target="#{{ $collapseId }}">
+                                              <h3 class="panel-title" style="font-size: 22px;">
+                                                  หมวดหมู่ - {{ $cate->download_name }}
+                                              </h3>
+                                          </div>
+
+                                          <div id="{{ $collapseId }}" class="collapse">
+                                              <div class="panel-body list-group">
+                                                  <ul class="list-group list-group-menu">
+
+                                                      @foreach($files as $f)
+
+                                                          @php
+                                                              $canDownload = DocumentPermissionHelper::userHasPermission(
+                                                                  $f->filedoc_id, 
+                                                                  auth()->id()
+                                                              );
+                                                          @endphp
+
+                                                          @if ($canDownload)
+                                                              @php $downloadCount++; @endphp
+
+                                                              <li class="list-group-item">
+                                                                  <a href="{{ route('download.downloadfiles', ['id' => $f->filedoc_id]) }}">
+                                                                      <img src="{{asset('themes/bws/images/icons8-pdf-48.png')}}" style="width: 22px;">
+                                                                      {{ $f->filedoc_name }}
+                                                                      <span class="pull-right"><i class="fa fa-download"></i> ดาวน์โหลด</span>
+                                                                  </a>
+                                                              </li>
+                                                          @endif
+
+                                                      @endforeach
+
+                                                      @if ($downloadCount === 0)
+                                                          <h5 class="text-danger">ไม่มีสิทธิ์ดาวน์โหลดเอกสารในหมวดนี้</h5>
+                                                      @endif
+
+                                                  </ul>
+                                              </div>
+                                          </div>
                                       </div>
-              
-                                      </div>
-                                    </div>
-                                  </div>
-                                  @endforeach
+
+                                  @else
+                                      
+                                  @endif
+
+                              @endforeach
               
                                 </li>
                                 @endforeach

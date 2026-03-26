@@ -22,8 +22,18 @@ class Orgchart extends Model
         return static::where('id', $id)->first();
     }
 
+    // public function users()
+    // {
+    //     return $this->belongsToMany(Users::class, 'orgchart_id', 'user_id');
+    // }
+
     public function users()
     {
-        return $this->belongsToMany(Users::class, 'orgchart_id', 'user_id');
+        return $this->belongsToMany(
+            Users::class,          
+            'orgchart_user',       
+            'orgchart_id',         
+            'user_id'              
+        );
     }
 }

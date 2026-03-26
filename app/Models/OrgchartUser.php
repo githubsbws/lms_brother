@@ -22,7 +22,7 @@ class OrgchartUser extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Users::class, 'user_id');
     }
 
     // ความสัมพันธ์ไปยัง Orgchart

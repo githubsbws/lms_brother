@@ -552,6 +552,10 @@ Route::get('/capture',[AdminController::class,'capture'])->name('capture')->midd
 
 Route::get('/document',[AdminController::class,'document'])->name('document')->middleware('checkIdleTimeout');
 
+Route::get('/document_permission/{id}',[AdminController::class,'document_permission'])->name('document.permission')->middleware('checkIdleTimeout');
+
+Route::post('/document_permission_save/{id}',[AdminController::class,'document_permission_save'])->name('document.permission.save')->middleware('checkIdleTimeout');
+
 Route::post('document/per_page',[AdminController::class,'document'])->middleware('checkIdleTimeout');
 
 Route::get('/document/document_type',[AdminController::class,'searchByDocumentType'])->name('document.search.type');

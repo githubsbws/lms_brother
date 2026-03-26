@@ -4,6 +4,7 @@
 use App\Models\Downloadcategoty;
 use App\Models\DownloadFile;
 use App\Models\DownloadFileDoc;
+use App\Helpers\DocumentPermissionHelper;
 @endphp
 <body>
     
@@ -33,59 +34,104 @@ use App\Models\DownloadFileDoc;
                   <div>
                     <div class="panel panel-default paper-shadow download-group" data-z="0.5" style="margin-bottom: 5px;">
                         <ul class=" list-group">
-                      @foreach($download_title as $down)
-                      @php
-                      $download_cate = Downloadcategoty::where('title_id',$down->title_id)->where('active','y')->get();
-                      @endphp
-                      <li class="list-group-item">
-                        <div class="media v-middle">
-                          <div class="media-body">
-                            <h4 class="text-headline margin-none" style="font-size: 26px;font-weight: bold;">
-                              {{$down->title_name}}</h4>
-                          </div>
-                          <div class="media-right">
-                          </div>
-                        </div>
-                      </li>
-                      <li class="list-group-item media v-middle">
-                        @foreach($download_cate as $cate)
-                        @php
-                        $file = DownloadFile::join('download_filedoc','download_filedoc.file_id','=','download_file.file_id')->where('download_file.download_id',$cate->download_id)->where('download_file.active','y')->get();
-                        @endphp
-                        <div class="panel panel-default" data-toggle="panel-collapse" data-open="true">
-                          <div class="panel-heading dowload-header panel-collapse-trigger " data-toggle="collapse" data-parent="#accordion" href="#collapse{{$cate->download_id}}">
-                            <h3 class="panel-title" style="font-size: 22px;">{{ $cate->download_name}}</h3>
-                          </div>
-    
-                          <div class="panel-body list-group">
-                            <div class="panel panel-default">
-                              
-    
-                              <div id="collapse{{$cate->download_id}}" class="panel-collapse collapse ">
-                                <ul class="list-group list-group-menu">
-                                  @foreach($file as $f)
-                        
-                                    <li class="list-group-item">
+                                  @foreach($download_title as $dow)
+                                <li class="list-group-item">
+                                  <div class="media v-middle">
+                                    <div class="media-body">
+                                      <h4 class="text-headline margin-none" style="font-size: 26px;font-weight: bold;">หัวข้อ - {{$dow->title_name}}</h4>
+                                    </div>
+                                    <div class="media-right">
+                                    </div>
+                                  </div>
+                                </li>
+              
+                                <li class="list-group-item media v-middle">
+                                  @php
+                                  $dow_cate = Downloadcategoty::where('title_id',$dow->title_id)->where('active','y')->paginate(3);
+                                  @endphp
+                                  @foreach($dow_cate as $cate)
+
+                                  @php
+                                      $canViewCategory = DocumentPermissionHelper::userHasCategoryPermission(
+                                          $cate->download_id, 
+                                          auth()->id()
+                                      );
+                                  @endphp
+
+                                  @if ($canViewCategory)
+
+                                      @php
+                                          $files = DownloadFile::select(
+                                                      'download_file.*',
+                                                      'download_filedoc.filedoc_id',
+                                                      'download_filedoc.filedoc_name'
+                                                  )
+                                                  ->join('download_filedoc','download_filedoc.file_id','=','download_file.file_id')
+                                                  ->where('download_file.download_id',$cate->download_id)
+                                                  ->where('download_file.active','y')
+                                                  ->where('download_filedoc.active','y')
+                                                  ->distinct()
+                                                  ->get();
+
+                                          $collapseId = "collapse-" . $cate->download_id;
+
+                                          $downloadCount = 0;
+                                      @endphp
+
+                                      <div class="panel panel-default">
+                                          <div class="panel-heading dowload-header panel-collapse-trigger"
+                                              data-toggle="collapse"
+                                              data-target="#{{ $collapseId }}">
+                                              <h3 class="panel-title" style="font-size: 22px;">
+                                                  หมวดหมู่ - {{ $cate->download_name }}
+                                              </h3>
+                                          </div>
+
+                                          <div id="{{ $collapseId }}" class="collapse">
+                                              <div class="panel-body list-group">
+                                                  <ul class="list-group list-group-menu">
+
+                                                      @foreach($files as $f)
+
+                                                          @php
+                                                              $canDownload = DocumentPermissionHelper::userHasPermission(
+                                                                  $f->filedoc_id, 
+                                                                  auth()->id()
+                                                              );
+                                                          @endphp
+
+                                                          @if ($canDownload)
+                                                              @php $downloadCount++; @endphp
+
+                                                              <li class="list-group-item">
+                                                                  <a href="{{ route('download.downloadfiles', ['id' => $f->filedoc_id]) }}">
+                                                                      <img src="{{asset('themes/bws/images/icons8-pdf-48.png')}}" style="width: 22px;">
+                                                                      {{ $f->filedoc_name }}
+                                                                      <span class="pull-right"><i class="fa fa-download"></i> ดาวน์โหลด</span>
+                                                                  </a>
+                                                              </li>
+                                                          @endif
+
+                                                      @endforeach
+
+                                                      @if ($downloadCount === 0)
+                                                          <h5 class="text-danger">ไม่มีสิทธิ์ดาวน์โหลดเอกสารในหมวดนี้</h5>
+                                                      @endif
+
+                                                  </ul>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                  @else
                                       
-                                      <a href="{{ route('download.downloadfiles', ['id' => $f->filedoc_id]) }}">
-                                        <img src="{{asset('images/icons8-pdf-48.png')}}" alt="" style="width: 22px;" />
-                                       {{ $f->filedoc_name }}<span class="pull-right"><i class="fa fa-download"></i> ดาวน์โหลด </span>
-                                      </a>
-                                      
-                                    </li>
-                                  @endforeach
-                                  
+                                  @endif
+
+                              @endforeach
+              
+                                </li>
+                                @endforeach
                                 </ul>
-                              </div>
-    
-                            </div>
-    
-                          </div>
-                        </div>
-                        @endforeach
-                      </li>
-                      @endforeach
-                      </ul>
                     </div>
     
     

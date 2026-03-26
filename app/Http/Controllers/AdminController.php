@@ -23,6 +23,7 @@ use App\Jobs\ProcessPdfJob;
 use App\Jobs\ProcessPdfPageJob;
 use Illuminate\Support\Facades\Cache;
 use Elastic\Elasticsearch\ClientBuilder;
+use App\Helpers\OrgchartHelper;
 
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
@@ -58,6 +59,8 @@ use App\Models\Downloadcategoty;
 use App\Models\DownloadFileDoc;
 use App\Models\DownloadFile;
 use App\Models\Downloadtitle;
+use App\Models\DocumentGroupPermission;
+use App\Models\DocumentUserPermission;
 use App\Models\Category;
 use App\Models\Teacher;
 use App\Models\Users;
@@ -607,6 +610,162 @@ class AdminController extends Controller
         } else {
             return redirect()->route('login.admin');
         }
+    }
+
+    // public function document_permission(Request $request,$id)
+    // {
+    //     if (!AuthFacade::useradmin()) {
+    //         return redirect()->route('login.admin');
+    //     }
+
+    //     $file = DownloadFileDoc::findOrFail($id);
+
+    //     // permission group
+    //     $group_permissions = DocumentGroupPermission::where('filedoc_id', $id)
+    //                             ->pluck('orgchart_id')->toArray();
+
+    //     // permission user
+    //     $user_permissions = DocumentUserPermission::where('filedoc_id', $id)
+    //                             ->pluck('user_id')->toArray();
+
+    //     // list groups
+    //     $groups = Orgchart::where('active','y')->get();
+
+    //     // list users
+    //     $users = Users::where('status', '1')->get();
+
+    //     return view('admin.document.permission', [
+    //         'file' => $file,
+    //         'groups' => $groups,
+    //         'users' => $users,
+    //         'group_permissions' => $group_permissions,
+    //         'user_permissions' => $user_permissions
+    //     ]);
+    // }
+    public function document_permission(Request $request,$id)
+    {
+        if (!AuthFacade::useradmin()) {
+            return redirect()->route('login.admin');
+        }
+
+        $file = DownloadFileDoc::findOrFail($id);
+
+        // orgchart ที่เลือกไว้
+        $group_permissions = DocumentGroupPermission::where('filedoc_id', $id)
+                            ->pluck('orgchart_id')->toArray();
+
+        // orgchart ทั้งหมดแบบ parent + child + grandchild
+        $expanded_groups = [];
+        foreach ($group_permissions as $g) {
+            $expanded_groups = array_merge(
+                $expanded_groups,
+                OrgchartHelper::getAllChildren($g)
+            );
+        }
+        $expanded_groups = array_unique($expanded_groups);
+
+        // user permission แบบรายบุคคล
+        $user_permissions = DocumentUserPermission::where('filedoc_id', $id)
+                            ->pluck('user_id')->toArray();
+
+        // list groups
+        $groups = Orgchart::where('active','y')->get();
+
+        // list users (ตรง orgchart + parent/child)
+        $users = Users::where('status', '1')->get();
+
+        return view('admin.document.permission', [
+            'file' => $file,
+            'groups' => $groups,
+            'users' => $users,
+            'group_permissions' => $group_permissions,
+            'expanded_groups' => $expanded_groups,
+            'user_permissions' => $user_permissions
+        ]);
+    }
+
+    // public function document_permission_save(Request $request, $id)
+    // {
+    //     // ล้างของเก่า
+    //     DocumentGroupPermission::where('filedoc_id', $id)->delete();
+    //     DocumentUserPermission::where('filedoc_id', $id)->delete();
+
+    //     // บันทึกกลุ่ม
+    //     if ($request->group_ids) {
+    //         foreach ($request->group_ids as $gid) {
+    //             DocumentGroupPermission::create([
+    //                 'filedoc_id' => $id,
+    //                 'orgchart_id' => $gid
+    //             ]);
+    //         }
+    //     }
+
+    //     // บันทึกรายบุคคล
+    //     if ($request->user_ids) {
+    //         foreach ($request->user_ids as $uid) {
+    //             DocumentUserPermission::create([
+    //                 'filedoc_id' => $id,
+    //                 'user_id' => $uid
+    //             ]);
+    //         }
+    //     }
+
+    //     return back()->with('success', true)->with('alert', "บันทึกสิทธิ์สำเร็จ");
+    // }
+
+    private function getAllChildOrgchartIds($orgchartId)
+    {
+        $ids = [$orgchartId];
+
+        $children = Orgchart::where('parent_id', $orgchartId)->pluck('id');
+
+        foreach ($children as $childId) {
+            $ids = array_merge($ids, $this->getAllChildOrgchartIds($childId));
+        }
+
+        return $ids;
+    }
+
+    public function document_permission_save(Request $request, $id)
+    {
+        // ลบก่อน
+        DocumentGroupPermission::where('filedoc_id', $id)->delete();
+        DocumentUserPermission::where('filedoc_id', $id)->delete();
+
+        $groupIds = $request->group_ids ?? [];
+        $userIds = $request->user_ids ?? [];
+
+        // ⬇ บันทึกสิทธิ์ตามกลุ่ม
+        foreach ($groupIds as $gid) {
+            DocumentGroupPermission::create([
+                'filedoc_id' => $id,
+                'orgchart_id' => $gid
+            ]);
+
+            // ดึงลูกทั้งหมดของ group นี้
+            $allGroupIds = $this->getAllChildOrgchartIds($gid);
+
+            // ดึง users ของทุก orgchart
+            $users = OrgchartUser::whereIn('orgchart_id', $allGroupIds)->pluck('user_id')->unique();
+
+            // บันทึก user permissions ด้วย
+            foreach ($users as $uid) {
+                DocumentUserPermission::firstOrCreate([
+                    'filedoc_id' => $id,
+                    'user_id' => $uid
+                ]);
+            }
+        }
+
+        // ⬇ บันทึกสิทธิ์รายบุคคลที่เลือกเอง
+        foreach ($userIds as $uid) {
+            DocumentUserPermission::firstOrCreate([
+                'filedoc_id' => $id,
+                'user_id' => $uid
+            ]);
+        }
+
+        return back()->with('success', 'บันทึกสำเร็จ');
     }
 
     function document_create(Request $request){

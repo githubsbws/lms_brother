@@ -81,6 +81,7 @@ use App\Models\DownloadFile;
 													<a href="{{ route('document.downloadfile', ['id' => $item->filedoc_id]) }}">{{ $item->filedocname }}</a>
 												</td>
 												<td>
+													<a href="{{ route('document.permission',['id'=> $item->filedoc_id]) }}" class="btn btn-info"><i class="fas fa-user"></i></a>
 													<a href="{{ route('document.detail', ['id' => $item->filedoc_id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-search"></i></a>
 													<a href="{{ route('document.edit', ['id' => $item->filedoc_id]) }}" class="btn btn-warning btn-sm"><i class="fas fa-pen"></i></a>
 													<button type="button" class="btn btn-danger btn-sm delete-button" data-id="{{ $item->filedoc_id }}">
