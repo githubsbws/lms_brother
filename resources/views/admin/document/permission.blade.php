@@ -59,7 +59,7 @@
                                                 class="form-check-input user-checkbox"
                                                 {{ in_array($u->id, $user_permissions) ? 'checked' : '' }}>
                                             <label class="form-check-label">
-                                                {{ $u->username }} ({{ $u->Position->position_title ?? '-' }})
+                                                {{ $u->username ?? '-' }} : {{$u->Profiles->firstname ?? '-'}} {{$u->Profiles->lastname ?? '-'}}
                                             </label>
                                         </div>
                                     @endforeach

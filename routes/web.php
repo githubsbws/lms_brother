@@ -554,6 +554,10 @@ Route::get('/capture',[AdminController::class,'capture'])->name('capture')->midd
 
 Route::get('/document',[AdminController::class,'document'])->name('document')->middleware('checkIdleTimeout');
 
+Route::get('/import_document',[AdminController::class,'import_document'])->name('import_doc.excel')->middleware('checkIdleTimeout');
+
+Route::post('/import-service-manual', [AdminController::class, 'importServiceManual'])->name('import-service.manual')->middleware('checkIdleTimeout');
+
 Route::get('/document_permission/{id}',[AdminController::class,'document_permission'])->name('document.permission')->middleware('checkIdleTimeout');
 
 Route::post('/document_permission_save/{id}',[AdminController::class,'document_permission_save'])->name('document.permission.save')->middleware('checkIdleTimeout');

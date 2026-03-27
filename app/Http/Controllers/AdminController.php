@@ -643,6 +643,26 @@ class AdminController extends Controller
     //         'user_permissions' => $user_permissions
     //     ]);
     // }
+    public function import_document()
+    {
+         if (!AuthFacade::useradmin()) {
+            return redirect()->route('login.admin');
+        }
+
+        return view('admin.document.excel');
+    }
+    public function importServiceManual(Request $request)
+    {
+        $request->validate([
+            'excel' => 'required|file|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new \App\Imports\ServiceManualPermissionImport, 
+                    $request->file('excel'));
+
+        return back()->with('success', 'อัปโหลดสิทธิ์สำเร็จ!');
+    }
+
     public function document_permission(Request $request,$id)
     {
         if (!AuthFacade::useradmin()) {

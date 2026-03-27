@@ -21,6 +21,14 @@ use App\Models\DownloadFile;
 									</button>
 								</a>
 							</div>
+							<div class="ml-3">
+								<a href="{{route('import_doc.excel')}}">
+									<button class="btn btn-success d-flex align-items-center">
+										<i class="fas fa-file mr-2"></i>
+										Import excel
+									</button>
+								</a>
+							</div>
 						</div>
 					</div>
 				</div>
