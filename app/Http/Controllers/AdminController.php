@@ -44,6 +44,7 @@ use App\Imports\QuestionnaireImport;
 use App\Exports\LessonsExport;
 use App\Exports\UsersExport;
 use App\Exports\UsersAdminExport;
+use App\Exports\UsersExcelExport;
 
 use App\Models\ASC;
 use App\Models\About;
@@ -4139,6 +4140,32 @@ class AdminController extends Controller
     
         // อาจจะ redirect ไปยังหน้าอื่นพร้อมกับข้อความยืนยัน
         return redirect()->route('user_admin')->with('status', 'ข้อมูลผู้ใช้ทั้งหมดถูกลบแล้ว');
+    }
+    public function ExportUserExcel()
+    {
+        $users = Users::with(['Profiles', 'Asc'])
+                        ->where('status', 1)
+                        ->orderBy('id', 'ASC')
+                        ->get()
+                        ->map(function ($user) {
+                            return [
+                                'id'            => $user->id,
+                                'username'      => $user->username,
+                                'fullname'      => $user->Profiles ? $user->Profiles->firstname . ' ' . $user->Profiles->lastname : '',
+                                'email'         => $user->email,
+                                'advisor_email1'=> $user->Profiles->advisor_email1 ?? '',
+                                'online_status' => $user->online_status == 1 ? 'User Active' : 'User Inactive',
+                                'create_at'     => $user->create_at,
+                                'lastvisit_at'  => $user->lastvisit_at,
+                                'status'        => $user->status == 1 ? 'เปิดการใช้งาน' : 'ปิดการใช้งาน',
+                                'last_ip'       => $user->last_ip,
+                                'last_activity' => $user->last_activity,
+                                'ASC_code'      => $user->Asc->asc_code ?? '',
+                                'ASC_name'      => $user->Asc->name ?? '',
+                            ];
+                        });
+
+            return Excel::download(new UsersExcelExport($users), 'users_admin_export.xlsx'); 
     }
 
     public function exportUseradmin()

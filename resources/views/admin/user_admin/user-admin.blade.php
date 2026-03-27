@@ -99,6 +99,9 @@ use App\Models\Users;
                                 </tbody>
                             </table>
                         </div>
+						<div class="card-footer">
+							<a class="btn btn-primary"   href="{{ route('export.users_excel') }}"><i></i> Export Excel</a>
+						</div>
                     </div>
                 </div>
             </div>

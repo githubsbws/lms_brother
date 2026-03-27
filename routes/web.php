@@ -497,6 +497,8 @@ Route::get('/user_admin_search',[AdminController::class,'user_admin'])->name('us
 Route::get('/update-user-status', [AdminController::class, 'updateUserStatus'])->name('update.user.status');
 Route::get('/export-user-admin', [AdminController::class, 'exportUseradmin'])->name('export.user.admin');
 
+Route::get('/export_user_excel',[AdminController::class,'ExportUserExcel'])->name('export.users_excel')->middleware('checkIdleTimeout');
+
 Route::get('/asc',[AdminController::class,'asc'])->name('asc')->middleware('checkIdleTimeout');
 Route::post('/asc',[AdminController::class,'asc'])->name('asc.create')->middleware('checkIdleTimeout');
 Route::get('/asc_del', [AdminController::class, 'asc_del'])->name('asc.del');
