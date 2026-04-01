@@ -5,7 +5,9 @@ namespace App\Helpers;
 use App\Models\DocumentUserPermission;
 use App\Models\OrgchartUser;
 use App\Models\DocumentGroupPermission;
+use App\Models\Downloadcategoty;
 use App\Models\DownloadFile;
+use App\Models\DownloadFileDoc;
 
 class DocumentPermissionHelper
 {
@@ -29,16 +31,17 @@ class DocumentPermissionHelper
 
     public static function userHasCategoryPermission($download_id, $user_id)
     {
-        $fileDocs = DownloadFile::select('download_filedoc.filedoc_id')
-            ->join('download_filedoc','download_filedoc.file_id','=','download_file.file_id')
-            ->where('download_file.download_id', $download_id)
-            ->where('download_file.active','y')
-            ->where('download_filedoc.active','y')
-            ->pluck('download_filedoc.filedoc_id');
+         $filedocIds = DownloadFileDoc::select('download_filedoc.filedoc_id')
+        ->join('download_file', 'download_file.file_id', '=', 'download_filedoc.file_id')
+        ->where('download_file.download_id', $download_id)  
+        ->where('download_file.active', 'y')
+        ->where('download_filedoc.active', 'y')
+        ->pluck('download_filedoc.filedoc_id');
 
-        foreach ($fileDocs as $filedoc_id) {
+
+        foreach ($filedocIds as $filedoc_id) {
             if (self::userHasPermission($filedoc_id, $user_id)) {
-                return true;
+                return true; 
             }
         }
 

@@ -47,7 +47,7 @@ use App\Helpers\DocumentPermissionHelper;
               
                                 <li class="list-group-item media v-middle">
                                   @php
-                                  $dow_cate = Downloadcategoty::where('title_id',$dow->title_id)->where('active','y')->paginate(3);
+                                  $dow_cate = Downloadcategoty::where('title_id',$dow->title_id)->where('active','y')->get();
                                   @endphp
                                   @foreach($dow_cate as $cate)
 
