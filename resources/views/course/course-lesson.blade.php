@@ -112,8 +112,14 @@
                     <div class="media v-middle media-overflow-visible">
                         <div class="media-left">
                             <span class="icon-block s30 bg-default"><img
-                                    src="{{ asset('themes/bws/images/logo_course2.png') }}" width="30"
-                                    class="img-responsive"></span>
+                                src="{{ asset(
+                                    $lesson->course->course_picture
+                                        ? 'images/uploads/courseonline/'.$lesson->course->course_id.'/original/'.$lesson->course->course_picture
+                                        : 'themes/bws/images/logo_course2.png'
+                                ) }}"
+                                width="30"
+                                class="img-responsive">
+                            </span>
                         </div>
                         <div class="media-body">
                             <div class="text-headline" style="font-size: 25px;">{{ $lesson->course_title }}</div>
@@ -147,7 +153,11 @@
                                             <div class="media-left">
                                                 <!-- <span class="icon-block half bg-blue-300 text-white">2</span> -->
                                                 <span class="icon-block half bg-default text-white"><img
-                                                        src="{{ asset('themes/bws/images/logo_course2.png') }}"
+                                                        src="{{ asset(
+                                                                $lesson->course->course_picture
+                                                                    ? 'images/uploads/courseonline/'.$lesson->course->course_id.'/original/'.$lesson->course->course_picture
+                                                                    : 'themes/bws/images/logo_course2.png'
+                                                            ) }}"
                                                         width="50" class="img-responsive"></span>
                                             </div>
                                             <div class="media-body">

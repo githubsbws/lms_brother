@@ -1,11 +1,6 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-@php
-use App\Models\Learn;
-use App\Models\Lesson;
-use App\Models\Course;
-@endphp
 <body class="">
 	<div id="wrapper">
 		<div class="content-wrapper">
@@ -39,12 +34,9 @@ use App\Models\Course;
 								</thead>
 								<tbody id="sortable">
 									@foreach ($course as $cs)
-										@php
-										$learn = Learn::where('course_id',$cs->course_id)->get();
-										@endphp
 									<tr>
 										<td><a href="{{ route('report.lesson',['id' => $cs->course_id])}}">{{ $cs->course_title }}</a></td>
-										<td>{{ count($learn) }}</td>
+										<td>{{ $learnCounts[$cs->course_id] ?? 0 }}</td>
 									</tr>
 									@endforeach
 								</tbody>

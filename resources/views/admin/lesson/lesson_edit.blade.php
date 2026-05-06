@@ -163,10 +163,10 @@
 								</div>
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <div id="picture_show" style="">
                                     ภาพประกอบ <br>
-                                    <img src="{{ asset('images/uploads/lesson/'.$lesson->id.'/original/'. $lesson->image) }}" name="course_picture"><br><br>
+                                    <img src="{{ asset('images/uploads/lesson/'.$lesson->course->course_id.'/original/'. $lesson->image) }}" name="course_picture"><br><br>
                                 </div>
                             </div>
 
@@ -186,7 +186,7 @@
                                 <font color="#990000">
                                     รูปภาพควรมีขนาด 250x180(แนวนอน) หรือ ขนาด 250x(xxx) (แนวยาว)
                                 </font>
-                            </div>
+                            </div> --}}
 
                             <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i>บันทึก</button>
                         </form>

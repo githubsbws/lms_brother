@@ -1837,7 +1837,7 @@ class AdminController extends Controller
                     'time_test'=>'nullable',
                     'content'=>'nullable',
                     'filename.*' => 'nullable|mimes:mp3,mp4', 
-                    'doc.*' => 'nullable|mimes:pdf,docx,pptx', 
+                    'doc' => 'nullable|mimes:pdf,docx,pptx', 
                     'image' => 'nullable|image|mimes:jpeg,png,jpg,gif'
 
                 ]);
@@ -1883,45 +1883,38 @@ class AdminController extends Controller
                     }
                 }
                 
-                if($request->hasFile('doc')){
+                if ($request->hasFile('doc')) {
+
                     $doc = $request->file('doc');
-                    $doc_name = $doc->getClientOriginalName();
-                    // dd($doc_name);
-                    if(!$doc_name){
-                        return redirect()->back()->withErrors($validator)->withInput(); 
-                    }
-                    $doc_update = FileDoc::where('lesson_id',$id)->first();
-                    // dd($doc_update->toArray());
-                    if($doc_update == null){
-                        $doc_new = new FileDoc;
-                        $doc_new->file_position = "1";
-                        $doc_new->file_name = $lesson->title;
-                        $doc_new->filename = $doc_name;
-                        $doc_new->length = '2.00';
-                        $doc_new->create_by = Auth::user()->id;
-                        $doc_new->update_by = Auth::user()->id;
-                        $doc_new->active = 'y';
-                        $doc_new->save();
 
-                        $idFolder = public_path('images/uploads/filedoc/');
-                        if (!file_exists($idFolder)) {
-                            mkdir($idFolder);
-                        }
-                        $doc->move($idFolder, $doc_name);
-                    }else{
-                        $doc_update->file_position = "1";
-                        $doc_update->filename = $doc_name;
-                        $doc_update->update_by = Auth::user()->id;
-                        $doc_update->save();
+                    $docName = time() . '_' . $doc->getClientOriginalName();
 
-                        $idFolder = public_path('images/uploads/filedoc/');
-                        if (!file_exists($idFolder)) {
-                            mkdir($idFolder);
-                        }
-                        $doc->move($idFolder, $doc_name);
+                    $idFolder = public_path('images/uploads/filedoc/');
+
+                    if (!file_exists($idFolder)) {
+                        mkdir($idFolder, 0777, true);
                     }
+
+                    $doc->move($idFolder, $docName);
+
+                    $docUpdate = FileDoc::where('lesson_id', $id)->first();
+
+                    if (!$docUpdate) {
+
+                        $docUpdate = new FileDoc();
+                        $docUpdate->lesson_id = $id;
+                        $docUpdate->create_by = Auth::id();
+                    }
+
+                    $docUpdate->file_position = "1";
+                    $docUpdate->file_name = $doc->getClientOriginalName();
+                    $docUpdate->filename = $docName;
+                    $docUpdate->length = '2.00';
+                    $docUpdate->update_by = Auth::id();
+                    $docUpdate->active = 'y';
+
+                    $docUpdate->save();
                 }
-                
                 if($request->file('image')){
                     $image = $request->file('image');
 
@@ -1975,7 +1968,6 @@ class AdminController extends Controller
                 'content' => 'required',
                 'filename.*' => 'nullable|mimes:mp3,mp4', 
                 'doc.*' => 'nullable|mimes:pdf,docx,pptx', 
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif' 
             ]);
 
             if ($validator->fails()) {
@@ -5332,36 +5324,122 @@ class AdminController extends Controller
     }
     function report_course(Request $request) {
         if(AuthFacade::useradmin()){
-            $course = Course::where('active', 'y')
-                            ->orderBy('course_id', 'DESC')
-                            ->get();
+           $courses = Course::where('active', 'y')
+                ->orderBy('course_id', 'DESC')
+                ->get();
 
-            return view("admin.report.report_course", ['course' => $course]);
+            $lessonMap = Lesson::where('active', 'y')
+                ->get()
+                ->groupBy('course_id');
+
+            $learnCounts = [];
+
+            foreach ($courses as $course) {
+
+                $lessonIds = collect($lessonMap[$course->course_id] ?? [])
+                            ->pluck('id')
+                            ->toArray();
+
+                $learnCounts[$course->course_id] = Learn::join('users', 'users.id', '=', 'learn.user_id')
+                            ->where('learn.course_id', $course->course_id)
+                            ->whereIn('learn.lesson_id', $lessonIds)
+                            ->where('users.status', '1')
+                            ->distinct('learn.user_id')
+                            ->count('learn.user_id');
+            }
+
+            return view("admin.report.report_course", ['course' => $courses,'learnCounts' =>$learnCounts]);
         }else{
             return redirect()->route('login.admin');
         } 
     }
-    function report_lesson($id) {
-        if(AuthFacade::useradmin()){
-            // $query = $request->input('cate');
-                $user = Users::join('profiles','profiles.user_id','=','users.id')
-                        ->where('status', '1')
-                        ->orderBy('id', 'DESC')
-                        ->get();
-                $lesson = Lesson::where('course_id',$id)
-                            ->where('active', 'y')
-                            ->orderBy('course_id', 'DESC')
-                            ->get();
+    // function report_lesson($id) {
+    //     if(AuthFacade::useradmin()){
+    //         // $query = $request->input('cate');
+    //             $user = Users::join('profiles','profiles.user_id','=','users.id')
+    //                     ->where('status', '1')
+    //                     ->orderBy('id', 'DESC')
+    //                     ->get();
+    //             $lesson = Lesson::where('course_id',$id)
+    //                         ->where('active', 'y')
+    //                         ->orderBy('course_id', 'DESC')
+    //                         ->get();
 
-                $course = Lesson::where('course_id',$id)
-                ->where('active', 'y')
-                ->orderBy('course_id', 'DESC')
-                ->first();
+    //             $course = Lesson::where('course_id',$id)
+    //             ->where('active', 'y')
+    //             ->orderBy('course_id', 'DESC')
+    //             ->first();
 
-            return view("admin.report.report_lesson", ['lesson' => $lesson,'user' => $user,'id' => $id, 'course' => $course]);
-        }else{
+    //         return view("admin.report.report_lesson", ['lesson' => $lesson,'user' => $user,'id' => $id, 'course' => $course]);
+    //     }else{
+    //         return redirect()->route('login.admin');
+    //     } 
+    // }
+    public function report_lesson($id)
+    {
+        if (!AuthFacade::useradmin()) {
             return redirect()->route('login.admin');
-        } 
+        }
+
+        // Users
+        $users = Users::with('profiles')
+            ->where('status', '1')
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        // Lessons
+        $lessons = Lesson::where('course_id', $id)
+            ->where('active', 'y')
+            ->orderBy('id', 'ASC')
+            ->get();
+        
+
+        // Course
+        $course = Lesson::where('course_id', $id)
+            ->where('active', 'y')
+            ->first();
+
+        // Company
+        $companies = Company::pluck('company_title', 'company_id');
+
+        // Learn ทั้งหมดของ course นี้
+        $lessonIds = $lessons->pluck('id');
+
+        $learns = Learn::whereIn('lesson_id', $lessonIds)
+            ->get()
+            ->keyBy(function ($item) {
+                return $item->user_id . '_' . $item->lesson_id;
+            });
+        
+        
+
+
+        // PRE SCORE
+        $preScores = Score::where('course_id', $id)
+            ->where('type', 'pre')
+            ->orderBy('score_id', 'DESC')
+            ->get()
+            ->unique('user_id')
+            ->keyBy('user_id');
+
+        // POST SCORE
+        $postScores = Score::where('course_id', $id)
+            ->where('type', 'post')
+            ->orderBy('score_id', 'DESC')
+            ->get()
+            ->unique('user_id')
+            ->keyBy('user_id');
+
+        return view('admin.report.report_lesson', [
+            'lesson' => $lessons,
+            'user' => $users,
+            'id' => $id,
+            'course' => $course,
+            'companies' => $companies,
+            'learns' => $learns,
+            'preScores' => $preScores,
+            'postScores' => $postScores,
+        ]);
     }
 
     public function exportUsers($id)

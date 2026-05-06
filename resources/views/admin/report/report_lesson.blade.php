@@ -1,11 +1,6 @@
 @extends('admin/layouts/mainlayout')
 @section('title', 'Admin')
 @section('content')
-@php
-use App\Models\Learn;
-use App\Models\Score;
-use App\Models\Company;
-@endphp
 <style>
 	.dataTables_wrapper {
     width: 100%;
@@ -22,7 +17,7 @@ use App\Models\Company;
 							<h4 class="m-0">ระบบReport</h4>
 						</div>
 						<div class="ml-3">
-							<a href="{{route('admin')}}">
+							<a href="{{route('report.course')}}">
 								<button class="btn btn-warning d-flex align-items-center">
 									<i class="fas fa-angle-left mr-2"></i>
 									หน้าหลัก
@@ -61,10 +56,10 @@ use App\Models\Company;
 								<tbody id="sortable">
 									@foreach ($user as $us)
 										@php
-										$com = Company::find($us->company_id);
-										$score_pre = Score::where('user_id',$us->id)->where('course_id',$id)->where('type','pre')->first();
-										$score_post = Score::where('user_id',$us->id)->where('course_id',$id)->where('type','post')->first();
-										$score = Score::where('user_id',$us->id)->where('course_id',$id)->latest('score_id')->first();
+										$companyName = $companies[$us->company_id] ?? '-';
+										$preScore = $preScores[$us->id] ?? null;
+										$postScore = $postScores[$us->id] ?? null;
+										$score = $postScore ?? $preScore;
 										@endphp
 									<tr>
 										@if($us != null)
@@ -73,20 +68,21 @@ use App\Models\Company;
 											<td> - </td>
 											@endif
 											@if($us != null)
-											<td>{{ $us->firstname }} {{ $us->lastname }}</td>
+											<td>{{ $us->Profiles->firstname ?? '-' }} {{ $us->Profiles->lastname ?? '-' }}</td>
 											@else
 											<td> - </td>
 											@endif
-											@if($com != null)
+											@if($companyName != null)
 											<td>
-												{{ $com->company_title }}
+												{{ $companyName }}
 											</td>
 											@else
 											<td> - </td>
 											@endif
 											@foreach($lesson as $l)
 												@php
-												$learn = Learn::where('lesson_id',$l->id)->where('user_id',$us->id)->first();
+												$key = $us->id . '_' . $l->id;
+												$learn = $learns[$key] ?? null;
 												@endphp
 												@if($learn != null)
 												<td>{{ $learn->learn_date}}</td>
@@ -94,13 +90,11 @@ use App\Models\Company;
 												<td></td>
 												@endif
 											@endforeach
-											@if($score_pre != null)
-											<td>{{ $score_pre->score_past === 'n' ? '' : 'pass'}}</td>
-											@elseif($score_post != null)
-											<td>{{ $score_post->score_past === 'n' ? '' : 'pass'}}</td>
-											@else
-											<td></td>
-											@endif
+											<td>
+												@if($postScore && strtolower($postScore->score_past) == 'y')
+													pass
+												@endif
+											</td>
 											<td>
 												{{ $score->score_number ?? ''}}
 											</td>

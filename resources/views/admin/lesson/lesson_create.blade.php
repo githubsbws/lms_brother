@@ -102,25 +102,7 @@
 								<div id="fileListDoc"></div>
 							</div>
 
-							<div class="form-group">
-								<label for="course_picture">ภาพประกอบ</label>
-								<div class="fileupload fileupload-new" data-provides="fileupload">
-									<div id="fileNameDisplay"></div>
-									<span class="btn btn-default btn-file">
-										<span class="fileupload-new">Select file</span>
-										<span class="fileupload-exists">Change</span>
-										<input type="file" name="image" id="imageInput" onchange="previewImageFile()">
-									</span>
-								</div>
-								{{-- <input type="file" name="image" id="imageInput" onchange="previewImageFile()"> --}}
-								<img id="previewImage" src="#" alt="Preview Image" style="display: none; width: 100px; margin-top: 10px;">
-							</div>
-
-                            <div class="form-group">
-                                <font color="#990000">
-                                    รูปภาพควรมีขนาด 250x180(แนวนอน) หรือ ขนาด 250x(xxx) (แนวยาว)
-                                </font>
-                            </div>
+							
 
                             <button id="submitBtn" type="submit" class="btn btn-primary">
 								<i class="fas fa-save mr-1"></i> บันทึก
