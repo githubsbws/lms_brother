@@ -5411,9 +5411,6 @@ class AdminController extends Controller
                 return $item->user_id . '_' . $item->lesson_id;
             });
         
-        
-
-
         // PRE SCORE
         $preScores = Score::where('course_id', $id)
             ->where('type', 'pre')
@@ -5430,6 +5427,59 @@ class AdminController extends Controller
             ->unique('user_id')
             ->keyBy('user_id');
 
+        // Setting
+        $setting = Setting::first();
+        $passScore = (int) $setting->settings_score;
+
+        // จำนวน lesson ทั้งหมด
+        $totalLessons = $lessons->count();
+
+        // เก็บผล pass/fail
+        $userResults = [];
+
+        foreach ($users as $u) {
+
+            // lessons ที่ user เรียนจบ
+            $completedLessons = Learn::where('user_id', $u->id)
+                ->whereIn('lesson_id', $lessonIds)
+                ->where('lesson_status', 'pass')
+                ->count();
+
+            // post score
+            $post = $postScores[$u->id] ?? null;
+
+            // คะแนนที่ได้
+            $score = (int) ($post->score_number ?? 0);
+
+            // คะแนนเต็ม
+            $total = (int) ($post->score_total ?? 0);
+
+            // คิด %
+            $scorePercent = 0;
+
+            if ($total > 0) {
+                $scorePercent = ($score / $total) * 100;
+            }
+
+            // เรียนครบไหม
+            $learnCompleted = $completedLessons >= $totalLessons;
+
+            // คะแนนผ่านไหม
+            $scorePassed = $scorePercent >= $passScore;
+
+            // สรุปผล
+            $userResults[$u->id] = [
+                'completed_lessons' => $completedLessons,
+                'total_lessons' => $totalLessons,
+                'score' => $score,
+                'score_total' => $total,
+                'score_percent' => round($scorePercent, 2),
+                'learn_completed' => $learnCompleted,
+                'score_passed' => $scorePassed,
+                'passed' => ($learnCompleted && $scorePassed),
+            ];
+        }
+
         return view('admin.report.report_lesson', [
             'lesson' => $lessons,
             'user' => $users,
@@ -5439,6 +5489,8 @@ class AdminController extends Controller
             'learns' => $learns,
             'preScores' => $preScores,
             'postScores' => $postScores,
+            'userResults' => $userResults,
+            'passScore' => $passScore,
         ]);
     }
 

@@ -10,6 +10,7 @@ use App\Models\Lesson;
 use App\Models\Manage;
 use App\Models\Learn;
 use App\Models\User;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Services\MailConfigService;
@@ -70,12 +71,19 @@ class ChoiceController extends Controller
       $ptest = Manage::where(['id' => $id, 'active' => 'y'])->first();
       $users = User::where(['id' => Auth::user()->id])->first();
       $lesson = Lesson::where(['id' => $id, 'active' => 'y'])->first();
-      $score_total = ($score_tot/2);
-      if($score>$score_total){
-         $score_past = 'y';
-      }else{
-         $score_past = 'n';
+      // ตั้งค่าคะแนนผ่าน (%)
+      $setting = Setting::first();
+      $passPercent = (int) ($setting->settings_score ?? 50);
+
+      // คิด %
+      $scorePercent = 0;
+
+      if ($score_tot > 0) {
+         $scorePercent = ($score / $score_tot) * 100;
       }
+
+      // ผ่าน / ไม่ผ่าน
+      $score_past = $scorePercent >= $passPercent ? 'y' : 'n';
       // dd($score_past);
       $scores = New Score;
       $scores->lesson_id = $lesson->id;

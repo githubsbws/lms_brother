@@ -52,12 +52,12 @@ use App\Http\Controllers\AdminController;
 |
 */
 Route::middleware([CheckTokenValidity::class])->group(function () {
-Route::get('/', [IndexController::class,'index'])->name('index')->middleware('checkIdleTimeout', 'single_login');
+Route::get('/', [IndexController::class,'index'])->name('index');
 
 
 Route::get('logins', [LoginController::class,'showLoginForm'])->name('login');
 
-    Route::post('logins', [LoginController::class,'login'])->name('logins')->middleware('single_login');
+    Route::post('logins', [LoginController::class,'login'])->name('logins');
     Route::post('logout', [LoginController::class,'logout'])->name('logout');
 
 

@@ -60,6 +60,7 @@
 										$preScore = $preScores[$us->id] ?? null;
 										$postScore = $postScores[$us->id] ?? null;
 										$score = $postScore ?? $preScore;
+										$result = $userResults[$us->id];
 										@endphp
 									<tr>
 										@if($us != null)
@@ -91,12 +92,25 @@
 												@endif
 											@endforeach
 											<td>
-												@if($postScore && strtolower($postScore->score_past) == 'y')
-													pass
+												@if($result['passed'])
+													<span class="badge bg-success">Pass</span>
+												@else
+
+													@if(!$result['learn_completed'])
+														{{-- <span class="badge bg-warning text-dark">
+															Incomplete Lesson
+														</span> --}}
+													@elseif(!$result['score_passed'])
+														<span class="badge bg-danger">
+															Not Pass
+														</span>
+													@endif
+
 												@endif
 											</td>
 											<td>
-												{{ $score->score_number ?? ''}}
+												{{ $result['score'] }}
+												({{ $result['score_percent'] }}%)
 											</td>
 									</tr>
 									@endforeach
