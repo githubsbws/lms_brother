@@ -6,7 +6,7 @@ use App\Models\Company;
 use App\Models\Score;
 use App\Models\Learn;
 use App\Models\Users;
-use App\Models\Lesson;
+use App\Models\Setting;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -81,9 +81,46 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
         $postScore = $scorePost ? $scorePost->score_number : '';
         $postTotal = $scorePost ? $scorePost->score_total : '';
 
-        $pass = $scorePre ? ($scorePre->score_past === 'y' ? 'pass' : '') : ($scorePost && $scorePost->score_past === 'y' ? 'pass' : '');
+        // setting %
+        $setting = Setting::first();
+        $passScore = (int) ($setting->settings_score ?? 50);
 
-        $lastScore = $score ? $score->score_number : '';
+        // จำนวน lesson ทั้งหมด
+        $totalLessons = $this->lessons->count();
+
+        // lesson ที่เรียนจบ
+        $completedLessons = Learn::whereIn('lesson_id', $this->lessons->pluck('id'))
+            ->where('user_id', $user->id)
+            ->where('learn_status', 'pass')
+            ->count();
+
+        // คะแนน post
+        $scoreNumber = (int) ($scorePost->score_number ?? 0);
+        $scoreTotal = (int) ($scorePost->score_total ?? 0);
+
+        // คิด %
+        $scorePercent = 0;
+
+        if ($scoreTotal > 0) {
+            $scorePercent = ($scoreNumber / $scoreTotal) * 100;
+        }
+
+        // เช็คเงื่อนไข
+        $learnCompleted = $completedLessons >= $totalLessons;
+        $scorePassed = $scorePercent >= $passScore;
+
+        // pass/fail
+        if ($learnCompleted && $scorePassed) {
+            $pass = 'Pass';
+        } elseif (!$learnCompleted) {
+            $pass = 'Incomplete Lesson';
+        } else {
+            $pass = 'Not Pass';
+        }
+
+        $lastScore = $score
+                    ? $score->score_number . ' (' . round($scorePercent, 2) . '%)'
+                    : '';
 
         $lessonData = $this->lessons->map(function($lesson) use ($user) {
             $learn = Learn::where('lesson_id', $lesson->id)
