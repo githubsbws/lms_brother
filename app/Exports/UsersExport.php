@@ -91,7 +91,7 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping
         // lesson ที่เรียนจบ
         $completedLessons = Learn::whereIn('lesson_id', $this->lessons->pluck('id'))
             ->where('user_id', $user->id)
-            ->where('learn_status', 'pass')
+            ->where('lesson_status', 'pass')
             ->count();
 
         // คะแนน post
