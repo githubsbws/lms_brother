@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\File;
 
 class LearnFile extends Model
 {
@@ -23,5 +24,10 @@ class LearnFile extends Model
     public static function findById($id)
     {
         return static::where('learn_file_id', $id)->first();
+    }
+
+     public function file()
+    {
+        return $this->belongsTo(File::class, 'file_id', 'id');
     }
 }

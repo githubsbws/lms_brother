@@ -11,6 +11,7 @@
         use App\Models\File;
         use App\Models\Teacher;
         use App\Models\Images;
+        use App\Helpers\Helper;
     @endphp
     <style type="text/css">
         .video-js {
@@ -190,7 +191,7 @@
                                     </div>
                                 </div>
                                 <div class="lessonContent">
-
+                                    @if($file_id)
                                     <div class="panel-group" id="accordion2" role="tablist" aria-multiselectable="true">
                                         @php
                                             if ($learn_id) {
@@ -479,9 +480,19 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
+                                        @elseif($groupTesting ?? false)
 
+                                           <div class="panel panel-default">
+                                                <div class="panel-body text-center" style="height:400px;">
+                                                    <div style="padding-top:150px;">
+                                                        <i class="fa fa-film fa-5x text-muted"></i>
+                                                        <h4>บทเรียนนี้ไม่มีวิดีโอ</h4>
+                                                        <p class="text-muted">กรุณาทำแบบทดสอบด้านล่าง</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
 
                                 </div>
                                 <script type="text/javascript">
@@ -669,50 +680,52 @@
                                     <!-- <span class="collapse-status collapse-open">Open</span> -->
                                     <!-- <span class="collapse-status collapse-close">Close</span> -->
                                 </div>
+                                @php 
+                                $canOpen = true;
+                                @endphp
                                 @foreach ($lesson_list as $list)
                                     @php
+                                        $locked = !$canOpen;
+                                        if ($canOpen) {
+                                            $canOpen = Helper::lessonCompleted(
+                                                $list->id,
+                                                Auth::id(),
+                                                $course_id
+                                            );
+                                        }
+
                                         $sta = Learn::where([
                                             'lesson_id' => $list->id,
                                             'user_id' => Auth::user()->id,
                                             'lesson_active' => 'y',
                                         ])->get();
-                                        $files = File::where(['lesson_id' => $list->id, 'active' => 'y'])
-                                            ->orderBy('id', 'ASC')
-                                            ->get();
+
+                                        $files = File::where([
+                                            'lesson_id' => $list->id,
+                                            'active' => 'y'
+                                        ])
+                                        ->orderBy('id', 'ASC')
+                                        ->get();
                                     @endphp
                                     <div class="list-group collapse in" id="curriculum-2">
-                                        @if (count($files) == 1)
-                                            <a
-                                                href="{{ route('course.lesson', ['course_id' => $list->course_id, 'id' => $list->id]) }}">
-
-                                                <div class="list-group-item media active"
-                                                    data-target="{{ route('course.lesson', ['course_id' => $list->course_id, 'id' => $list->id]) }}">
+                                        @if($locked)
+                                                <div class="list-group-item media disabled">
                                                     <div class="media-left">
-                                                        <li class="text-crt"></li>
+                                                        <i class="fa fa-lock"></i>
                                                     </div>
                                                     <div class="media-body">
-                                                        @php
-                                                            if ($sta->isEmpty()) {
-                                                                echo "<i class='fa fa-fw fa-circle text-grey-300'></i>";
-                                                            } else {
-                                                                foreach ($sta as $status) {
-                                                                    if ($status->lesson_status == 'pass') {
-                                                                        echo "<i class='fa fa-fw fa-circle text-green-300'></i>";
-                                                                    } else {
-                                                                        echo "<i class='fa fa-fw fa-circle text-orange-300'></i>";
-                                                                    }
-                                                                }
-                                                            }
-                                                        @endphp
                                                         {{ $list->title }}
                                                     </div>
+                                                </div>
                                                     <!-- <div class="media-right">
                                             <div class="width-100 text-right text-caption">10:00 min</div>
                                         </div> -->
                                                 </div>
                                             @else
-                                                <a href="#lesson{{ $list->id }}" class="list-group collapse in"
-                                                    data-toggle="collapse">
+                                                <a href="{{ route('course.lesson', [
+                                                        'course_id' => $list->course_id,
+                                                        'id' => $list->id
+                                                    ]) }}">
 
                                                     <div class="list-group-item media active"
                                                         data-target="{{ route('course.lesson', ['course_id' => $list->course_id, 'id' => $list->id]) }}">
@@ -739,8 +752,8 @@
                                                 <div class="width-100 text-right text-caption">10:00 min</div>
                                             </div> -->
                                                     </div>
+                                                </a>
                                         @endif
-                                        </a>
                                         <div id="lesson{{ $list->id }}" class="panel-collapse collapse">
                                             @if (count($files) > 1)
                                                 @foreach ($files as $fsa)
@@ -750,7 +763,7 @@
                                                             'user_id_file' => Auth::user()->id,
                                                         ])->first();
                                                     @endphp
-                                                    @if ($track->id == $fsa->id)
+                                                    @if (optional($track)->id == $fsa->id)
                                                     @else
                                                         <a
                                                             href="{{ route('course.lesson', ['course_id' => $list->course_id, 'id' => $list->id, 'files' => $fsa->id]) }}">
@@ -950,9 +963,16 @@
 
                                             <li class="list-group-item menu_li_padding" style="font-size: 20px;font-weight: bold;">
                                                 ผลการสอบหลังเรียน<br>
-                                                @php
+                                               @php
                                                     $lesson = Lesson::find($lesson_id);
+
                                                     $max_attempt = $lesson->cate_amount ?? 1;
+
+                                                    $hasPostTest = Manage::where([
+                                                        'id' => $lesson_id,
+                                                        'type' => 'post',
+                                                        'active' => 'y'
+                                                    ])->exists();
 
                                                     $post_score_count = Score::where('lesson_id', $lesson_id)
                                                         ->where('user_id', Auth::user()->id)
@@ -966,20 +986,30 @@
                                                         ->where('user_id', Auth::user()->id)
                                                         ->where('type', 'post')
                                                         ->where('active', 'y')
-                                                        ->orderBy('score_number','DESC')
+                                                        ->orderBy('score_number', 'DESC')
                                                         ->first();
                                                 @endphp
 
-                                                @if($remaining > 0)
-                                                    <p style="font-weight: normal;color: #045BAB;">
-                                                        <a href="{{ route('course.coursequestion', ['course_id'=>$course_id,'id'=>$lesson_id]) }}" style="cursor: pointer;">
-                                                            ทำแบบทดสอบหลังเรียน
-                                                        </a> (เหลือ {{ $remaining }} ครั้ง)
-                                                    </p>
-                                                @elseif($post_score)
-                                                    <p style="font-weight: normal;color: #045BAB;">คุณทำแบบทดสอบครบจำนวนครั้งแล้ว</p>
+                                                @if($hasPostTest)
+
+                                                    @if($remaining > 0)
+                                                        <p style="font-weight: normal;color: #045BAB;">
+                                                            <a href="{{ route('course.coursequestion', ['course_id'=>$course_id,'id'=>$lesson_id]) }}">
+                                                                ทำแบบทดสอบหลังเรียน
+                                                            </a> (เหลือ {{ $remaining }} ครั้ง)
+                                                        </p>
+                                                    @elseif($post_score)
+                                                        <p style="font-weight: normal;color: #045BAB;">
+                                                            คุณทำแบบทดสอบครบจำนวนครั้งแล้ว
+                                                        </p>
+                                                    @endif
+
                                                 @else
-                                                    <p style="font-weight: normal;color: #045BAB;">-</p>
+
+                                                    <p style="font-weight: normal;color: #045BAB;">
+                                                        ไม่มีแบบทดสอบหลังเรียน
+                                                    </p>
+
                                                 @endif
                                             </li>
 

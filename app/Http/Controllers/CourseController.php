@@ -105,11 +105,21 @@ class CourseController extends Controller
                 $file_id = File::where('id',$files)->where('active','y')->first();
                 // dd($file_id->toArray());
             }else{
-                $file_id = File::where('lesson_id',$id)->where('active','y')->first();
-                if(!$file_id){
-                    session()->flash('error', 'บทเรียนยังไม่เปิดให้เรียนตอนนี้');
-                    return redirect()->route('course');
-                }
+                    $file_id = File::where('lesson_id',$id)->where('active','y')->first();
+                    $postTest = Manage::where([
+                        'type' => 'post',
+                        'id' => $id,
+                        'active' => 'y'
+                    ])->exists();
+
+                    if(!$file_id && !$postTest){
+                        session()->flash('error', 'บทเรียนยังไม่เปิดให้เรียนตอนนี้');
+                        return redirect()->route('course');
+                        // dd([
+                        //     'manage' => Manage::where('id',$id)->get()->toArray(),
+                        //     'groupTesting' => GroupTesting::where('lesson_id',$id)->get()->toArray(),
+                        // ]);
+                    }
             }
             // dd($file_id->id);
         }
