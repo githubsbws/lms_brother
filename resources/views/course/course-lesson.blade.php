@@ -694,11 +694,17 @@
                                             );
                                         }
 
-                                        $sta = Learn::where([
+                                         $learnExists = Learn::where([
                                             'lesson_id' => $list->id,
-                                            'user_id' => Auth::user()->id,
+                                            'user_id' => Auth::id(),
                                             'lesson_active' => 'y',
-                                        ])->get();
+                                        ])->exists();
+
+                                        $completed = Helper::lessonCompleted(
+                                            $list->id,
+                                            Auth::id(),
+                                            $course_id
+                                        );
 
                                         $files = File::where([
                                             'lesson_id' => $list->id,
@@ -709,18 +715,28 @@
                                     @endphp
                                     <div class="list-group collapse in" id="curriculum-2">
                                         @if($locked)
-                                                <div class="list-group-item media disabled">
-                                                    <div class="media-left">
-                                                        <i class="fa fa-lock"></i>
+                                                <a href="#lesson{{ $list->id }}" class="list-group collapse in"
+                                                    data-toggle="collapse">
+
+                                                    <div class="list-group-item media active"
+                                                        data-target="{{ route('course.lesson', ['course_id' => $list->course_id, 'id' => $list->id]) }}">
+                                                        <div class="media-left">
+                                                            <li class="text-crt"></li>
+                                                        </div>
+                                                        <div class="media-body">
+                                                            @if($completed)
+                                                                <i class="fa fa-fw fa-circle text-green-300"></i>
+                                                            @elseif($learnExists)
+                                                                <i class="fa fa-fw fa-circle text-orange-300"></i>
+                                                            @else
+                                                                <i class="fa fa-fw fa-circle text-grey-300"></i>
+                                                            @endif
+                                                            {{ $list->title }}
+                                                        </div>
+                                                        <!-- <div class="media-right">
+                                                <div class="width-100 text-right text-caption">10:00 min</div>
+                                            </div> -->
                                                     </div>
-                                                    <div class="media-body">
-                                                        {{ $list->title }}
-                                                    </div>
-                                                </div>
-                                                    <!-- <div class="media-right">
-                                            <div class="width-100 text-right text-caption">10:00 min</div>
-                                        </div> -->
-                                                </div>
                                             @else
                                                 <a href="{{ route('course.lesson', [
                                                         'course_id' => $list->course_id,
@@ -733,19 +749,13 @@
                                                             <li class="text-crt"></li>
                                                         </div>
                                                         <div class="media-body">
-                                                            @php
-                                                                if ($sta->isEmpty()) {
-                                                                    echo "<i class='fa fa-fw fa-circle text-grey-300'></i>";
-                                                                } else {
-                                                                    foreach ($sta as $status) {
-                                                                        if ($status->lesson_status == 'pass') {
-                                                                            echo "<i class='fa fa-fw fa-circle text-green-300'></i>";
-                                                                        } else {
-                                                                            echo "<i class='fa fa-fw fa-circle text-orange-300'></i>";
-                                                                        }
-                                                                    }
-                                                                }
-                                                            @endphp
+                                                            @if($completed)
+                                                                <i class="fa fa-fw fa-circle text-green-300"></i>
+                                                            @elseif($learnExists)
+                                                                <i class="fa fa-fw fa-circle text-orange-300"></i>
+                                                            @else
+                                                                <i class="fa fa-fw fa-circle text-grey-300"></i>
+                                                            @endif
                                                             {{ $list->title }}
                                                         </div>
                                                         <!-- <div class="media-right">

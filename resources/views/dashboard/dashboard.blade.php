@@ -6,6 +6,7 @@ use App\Models\Lesson;
 use App\Models\Learn;
 use App\Models\Score;
 use App\Models\Ques_ans;
+use App\Helpers\Helper;
 ?>
 <body>
 
@@ -65,22 +66,41 @@ use App\Models\Ques_ans;
                                         $notlearn = 0;
                                         foreach ($lesson_c as $key ) {
                                            
-                                            $status =  Learn::join('lesson', 'lesson.id', '=', 'learn.lesson_id')
-                                                            ->where('learn.lesson_id', $key->id)
-                                                            ->where('learn.user_id', Auth::user()->id)
-                                                            ->where('lesson.active', 'y') 
-                                                            ->get();
-                                            foreach ($status as  $counts) {
-                                                if ($counts->lesson_status == "pass") {
-                                                    $pass = $pass + 1;
-                                                }
-                                                if ($counts->lesson_status == "learning") {
-                                                    $learning = $learning + 1;
-                                                }
-                                                if ($counts->lesson_status == "notLearn") {
-                                                    $notlearn = $notlearn + 1;
-                                                }
-                                                $i++;
+                                            // $status =  Learn::join('lesson', 'lesson.id', '=', 'learn.lesson_id')
+                                            //                 ->where('learn.lesson_id', $key->id)
+                                            //                 ->where('learn.user_id', Auth::user()->id)
+                                            //                 ->where('lesson.active', 'y') 
+                                            //                 ->get();
+                                            // foreach ($status as  $counts) {
+                                            //     if ($counts->lesson_status == "pass") {
+                                            //         $pass = $pass + 1;
+                                            //     }
+                                            //     if ($counts->lesson_status == "learning") {
+                                            //         $learning = $learning + 1;
+                                            //     }
+                                            //     if ($counts->lesson_status == "notLearn") {
+                                            //         $notlearn = $notlearn + 1;
+                                            //     }
+                                            //     $i++;
+                                            // }
+                                            $completed = Helper::lessonCompleted(
+                                                $key->id,
+                                                Auth::id(),
+                                                $cs->course_id
+                                            );
+
+                                            $learnExists = Learn::where([
+                                                'lesson_id' => $key->id,
+                                                'user_id' => Auth::id(),
+                                                'lesson_active' => 'y'
+                                            ])->exists();
+
+                                            if ($completed) {
+                                                $pass++;
+                                            } elseif ($learnExists) {
+                                                $learning++;
+                                            } else {
+                                                $notlearn++;
                                             }
                                             
                                         }
@@ -159,6 +179,30 @@ use App\Models\Ques_ans;
                                                     $score = Score::where('lesson_id',$les->id)->where('user_id',Auth::user()->id)->where('score_past','y')->where('active','y')->orderBy('update_date','DESC')->get();
                                                     
                                                     $quest = Ques_ans::where('user_id',Auth::user()->id)->first();
+
+                                                    $completed = Helper::lessonCompleted(
+                                                            $les->id,
+                                                            Auth::id(),
+                                                            $cos->course_id
+                                                        );
+
+                                                    $learnExists = Learn::where([
+                                                        'lesson_id' => $les->id,
+                                                        'user_id' => Auth::id(),
+                                                        'lesson_active' => 'y'
+                                                    ])->exists();
+
+                                                    $hasScore = Score::where([
+                                                        'lesson_id' => $les->id,
+                                                        'user_id' => Auth::id(),
+                                                        'active' => 'y'
+                                                    ])->exists();
+
+                                                    $bestScore = Score::where('lesson_id',$les->id)
+                                                        ->where('user_id',Auth::id())
+                                                        ->where('active','y')
+                                                        ->orderBy('score_number','DESC')
+                                                        ->first();
                                                     @endphp
                                                     
                                                     <tr>
@@ -167,45 +211,29 @@ use App\Models\Ques_ans;
                                                             <a href="{{ route('course.lesson', ['course_id' => $cos->course_id,'id' => $les->id]) }}">{{ $les->title}}</a>
                                                         </td>
                                                         <td class="text-center">
-                                                            @php
-                                                            
-                                                             if ($learn->isEmpty()) {
-                                                                echo "<a href='" . route('course.lesson', ['course_id' => $cos->course_id, 'id' => $les->id]) . "'><span style='color:red;''>ยังไม่เรียน</span></a>";
-                                                            } else {
-                                                                
-                                                                foreach ($learn as $lea) {
-                                                                    if($lea->lesson_status == 'pass'){
-                                                                        echo "<a href='" . route('course.lesson', ['course_id' => $cos->course_id, 'id' => $les->id]) . "'><span style='color:green;''>เรียนผ่าน</span></a>";
-                                                                    }elseif($lea->lesson_status == 'learning'){
-                                                                        echo "<a href='" . route('course.lesson', ['course_id' => $cos->course_id, 'id' => $les->id]) . "'><span style='color:orange;''>กำลังเรียน</span></a>";
-                                                                    }else{
-                                                                        echo "<a href='" . route('course.lesson', ['course_id' => $cos->course_id, 'id' => $les->id]) . "'><span style='color:red;''>ยังไม่เรียน</span></a>";
-                                                                    }
-                                                                }
-                                                            }
-                                                            @endphp
+                                                            @if($completed)
+                                                                <a href="{{ route('course.lesson', ['course_id' => $cos->course_id,'id' => $les->id]) }}">
+                                                                    <span style="color:green;">เรียนผ่าน</span>
+                                                                </a>
+                                                            @elseif($learnExists || $hasScore)
+                                                                <a href="{{ route('course.lesson', ['course_id' => $cos->course_id,'id' => $les->id]) }}">
+                                                                    <span style="color:orange;">กำลังเรียน</span>
+                                                                </a>
+                                                            @else
+                                                                <a href="{{ route('course.lesson', ['course_id' => $cos->course_id,'id' => $les->id]) }}">
+                                                                    <span style="color:red;">ยังไม่เรียน</span>
+                                                                </a>
+                                                            @endif
                                                         </td>
                                                         
                                                         <td class="text-center">
-                                                            @php
-                                                            if ($score->isEmpty()) {
-                                                                // กรณี $score เป็น null หรือ array เปล่า
-                                                                echo "ยังไม่ทำแบบทดสอบ";
-                                                                
-                                                            } else {
-                                                                foreach ($score as $sco) {
-                                                                    if($sco->score_past == 'y'){
-                                                                        echo "ทำแบบทดสอบผ่าน";
-                                                                    }
-                                                                    elseif($sco->score_past == 'n'){
-                                                                        echo "ทำแบบทดสอบไม่ผ่าน";
-                                                                    }
-                                                                    else{
-                                                                        echo "ยังไม่ทำแบบทดสอบ";
-                                                                    }  
-                                                                }
-                                                            }
-                                                            @endphp
+                                                            @if(!$bestScore)
+                                                                ยังไม่ทำแบบทดสอบ
+                                                            @elseif($bestScore->score_past == 'y')
+                                                                <span style="color:green;">ทำแบบทดสอบผ่าน</span>
+                                                            @else
+                                                                <span style="color:red;">ทำแบบทดสอบไม่ผ่าน</span>
+                                                            @endif
                                                         </td>
                                                         <td class="text-center">
                                                             -
@@ -228,23 +256,11 @@ use App\Models\Ques_ans;
                                                         </td>
 
                                                         <td class="text-center">
-                                                            @php
-                                                            
-                                                            if ($score->isEmpty()) {
-                                                                echo "0 / 0";
-                                                            } else {
-
-                                                                foreach ($score as $sco) {
-                                                                    if($sco->score_number !== null){
-                                                                        echo $sco->score_number."/".$sco->score_total;
-                                                                    }else{
-                                                                        echo "0/0";
-                                                                    }
-                                                                    
-                                                                     
-                                                                }
-                                                            }
-                                                            @endphp
+                                                            @if($bestScore)
+                                                                {{ $bestScore->score_number }}/{{ $bestScore->score_total }}
+                                                            @else
+                                                                0/0
+                                                            @endif
                                                         </td>
                                                         
                                                     </tr>
