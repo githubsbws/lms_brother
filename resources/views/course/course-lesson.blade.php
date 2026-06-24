@@ -976,7 +976,10 @@
                                                @php
                                                     $lesson = Lesson::find($lesson_id);
 
-                                                    $max_attempt = $lesson->cate_amount ?? 1;
+                                                    $max_attempt = is_numeric($lesson->cate_amount)
+                                                        ? (int)$lesson->cate_amount
+                                                        : 1;
+
 
                                                     $hasPostTest = Manage::where([
                                                         'id' => $lesson_id,
@@ -990,7 +993,7 @@
                                                         ->where('active', 'y')
                                                         ->count();
 
-                                                    $remaining = $max_attempt - $post_score_count;
+                                                    $remaining = max(0, $max_attempt - $post_score_count);
 
                                                     $post_score = Score::where('lesson_id', $lesson_id)
                                                         ->where('user_id', Auth::user()->id)
