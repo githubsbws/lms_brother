@@ -24,6 +24,7 @@ use App\Jobs\ProcessPdfPageJob;
 use Illuminate\Support\Facades\Cache;
 use Elastic\Elasticsearch\ClientBuilder;
 use App\Helpers\OrgchartHelper;
+use Throwable;
 
 // use Intervention\Image\Facades\Image;
 use App\Models\Questionnaireout;
@@ -4590,10 +4591,31 @@ class AdminController extends Controller
 
 
             ]);
-            // dd( $request->file('import_excel'));
-            Excel::import(new UsersImport, $request->file('import_excel'));
-            
-            return redirect()->back()->with('success', 'Excel imported successfully!');
+            try {
+                DB::transaction(function () use ($request) {
+                    Excel::import(
+                        new UsersImport,
+                        $request->file('import_excel')
+                    );
+                });
+
+                return redirect()->back()->with(
+                    'success',
+                    'นำเข้าข้อมูล Excel สำเร็จ'
+                );
+
+            } catch (Throwable $e) {
+                Log::error('Excel Import Error', [
+                    'message' => $e->getMessage(),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine(),
+                ]);
+
+                return redirect()->back()->with(
+                    'error',
+                    'นำเข้าข้อมูลไม่สำเร็จ: ' . $e->getMessage()
+                );
+            }
         }else{
             return redirect()->route('login.admin');
         }

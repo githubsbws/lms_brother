@@ -135,6 +135,38 @@ use App\Models\ASC;
 			</div>
 		</div>
 		<div class="clearfix"></div>
+        @if (session('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ!',
+                    text: @json(session('success')),
+                    confirmButtonText: 'ตกลง'
+                });
+            </script>
+        @endif
+
+        @if (session('error'))
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด!',
+                    text: @json(session('error')),
+                    confirmButtonText: 'ตกลง'
+                });
+            </script>
+        @endif
+
+        @if ($errors->any())
+            <script>
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ตรวจสอบข้อมูล',
+                    html: @json(implode('<br>', $errors->all())),
+                    confirmButtonText: 'ตกลง'
+                });
+            </script>
+        @endif
 <script>
     $(document).ready(function() {
         // Initialize DataTable
